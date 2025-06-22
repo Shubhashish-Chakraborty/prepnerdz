@@ -74,8 +74,10 @@ model Resource {
   id           String       @id @default(cuid())
   type         ResourceType // NOTES , MID_SEM_PAPER , END_SEM_PAPER
   title        String
+  year         Int?
+  month        String?
   description  String?
-  fileUrl      String // Google Drive URL
+  fileUrl      String // for example: Google Drive URL, etc
   fileSize     Float // in MB
   fileType     String // pdf, docx, etc.
   subjectId    String
