@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@theme {
+    --color-mainBgColor: #0a0a0c;
+}

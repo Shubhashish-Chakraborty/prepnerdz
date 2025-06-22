@@ -225,6 +225,7 @@ export const session = async (req: Request, res: Response) => {
             where: { id: decoded.id },
             select: {
                 id: true,
+                role: true,
                 email: true,
                 username: true,
                 isMailVerified: true,
