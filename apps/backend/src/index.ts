@@ -1,0 +1,1 @@
+console.log("BASE Database structure initialized!");

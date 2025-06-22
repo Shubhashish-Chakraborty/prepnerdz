@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String     @id @default(cuid())
+  username            String
+  email               String     @unique
+  contactNumber       String?    @default("NOT_PROVIDED")
+  password            String
+  role                Role       @default(STUDENT)
+  isMailVerified      Boolean    @default(false)
+  otpForVerification  String     @default("")
+  otpForResetPassword String     @default("")
+  provider            String     @default("email") // 'email', 'google', 'github'
+  providerId          String?
+  bookmarks           Bookmark[]
+  downloads           Download[]
+  uploads             Resource[]
+  UserAddedAt         DateTime   @default(now())
+  UserUpdatedAt       DateTime   @updatedAt
+}
+
+model Course {
+  id         String   @id @default(cuid())
+  courseName String // BTECH, DIPLOMA, etc...
+  branches   Branch[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Branch {
+  id         String     @id @default(cuid())
+  branchName String // CSE, IOT, etc..
+  courseId   String
+  course     Course     @relation(fields: [courseId], references: [id])
+  semesters  Semester[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Semester {
+  id        String    @id @default(cuid())
+  semNumber Int       @unique // 1, 2, 3, etc.
+  branchId  String
+  branch    Branch    @relation(fields: [branchId], references: [id])
+  subjects  Subject[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Subject {
+  id          String     @id @default(cuid())
+  subjectName String     @unique
+  subjectCode String     @unique
+  semesterId  String
+  semester    Semester   @relation(fields: [semesterId], references: [id])
+  resources   Resource[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Resource {
+  id           String       @id @default(cuid())
+  type         ResourceType // NOTES , MID_SEM_PAPER , END_SEM_PAPER
+  title        String
+  description  String?
+  fileUrl      String // Google Drive URL
+  fileSize     Float // in MB
+  fileType     String // pdf, docx, etc.
+  subjectId    String
+  subject      Subject      @relation(fields: [subjectId], references: [id])
+  uploadedById String
+  uploadedBy   User         @relation(fields: [uploadedById], references: [id])
+  bookmarks    Bookmark[]
+  downloads    Download[]
+  verified     Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Bookmark {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model Download {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  resourceId   String
+  resource     Resource @relation(fields: [resourceId], references: [id])
+  downloadedAt DateTime @default(now())
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum ResourceType {
+  NOTES
+  MID_SEM_PAPER
+  END_SEM_PAPER
+}
