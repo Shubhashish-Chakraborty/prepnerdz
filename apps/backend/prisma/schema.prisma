@@ -7,6 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model ApiRequest {
+  id        String @id @default(cuid())
+  apiSecret String
+}
+
 model User {
   id                  String     @id @default(cuid())
   username            String     @unique

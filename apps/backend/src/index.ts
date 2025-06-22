@@ -7,6 +7,7 @@ import cors from 'cors';
 import { PORT } from './config';
 import { UserRouter } from './routes/userRoutes';
 import { OauthRouter } from './oauth/main';
+import { requestValidation } from './middlewares/requestValidation';
 
 const app = express();
 
@@ -53,6 +54,13 @@ app.get("/", (req, res) => {
     res.send(`
         <h1 style="text-align: center;">GGITS RESOURCE's Server is up and running!!</h1>
     `)
+})
+
+app.get("/health" , requestValidation , (req , res) => { // for testing purpose!
+    res.json({
+        healthy: true,
+        message: "server is up!"
+    })
 })
 
 app.listen(PORT, () => {
