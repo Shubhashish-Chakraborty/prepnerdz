@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import GoogleAuthBtn from '../ui/buttons/GoogleAuth'
 import axios from 'axios'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 
 export const Landing = () => {
-    const [authStatus, setAuthStatus] = useState<'LOADING' | 'UNAUTHENTICATED' | 'ADMIN' | 'STUDENT'>('LOADING')
+    const [authStatus, setAuthStatus] = useState<'LOADING' | 'UNAUTHENTICATED' | 'ADMIN' | 'STUDENT'>('LOADING');
+    const router = useRouter();
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -83,6 +85,7 @@ export const Landing = () => {
                     {authStatus === 'ADMIN' && (
                         <div className='space-x-6'>
                             <button
+                                onClick={() => {router.push('/dashboard')}}
                                 className="bg-green-600 cursor-pointer hover:bg-green-700 px-4 py-2 rounded-xl text-white font-semibold"
                             >
                                 Go to Dashboard
