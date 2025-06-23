@@ -33,7 +33,7 @@ model User {
 
 model Course {
   id         String   @id @default(cuid())
-  courseName String // BTECH, DIPLOMA, etc...
+  courseName String   @unique // BTECH, DIPLOMA, etc...
   branches   Branch[]
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -41,8 +41,8 @@ model Course {
 
 model Branch {
   id         String     @id @default(cuid())
-  branchName String // CSE, IOT, etc..
-  courseId   String
+  branchName String @unique // CSE, IOT, etc..
+  courseId   String @unique
   course     Course     @relation(fields: [courseId], references: [id])
   semesters  Semester[]
   createdAt  DateTime   @default(now())

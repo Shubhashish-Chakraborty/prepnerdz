@@ -95,6 +95,15 @@ export default function DashboardLanding() {
                     </button>
                 </div>
             </div>
+
+            <div className="mt-20 flex justify-center items-center flex-col space-y-5">
+                <div className="text-3xl font-bold text-amber-300">
+                    Add Course:                    
+                </div>
+                <div>
+                    <input type="text" placeholder="Course Name (Btech, Diploma..)" className="border bg-white placeholder:text-gray-500 placeholder:font-extrabold font-bold text-black border-gray-300 p-2 w-72 text-center rounded-md" />
+                </div>
+            </div>
         </div>
     )
 }

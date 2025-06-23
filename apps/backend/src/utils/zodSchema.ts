@@ -10,3 +10,42 @@ export const signinValidationSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
 });
+
+export const courseValidationSchema = z.object({
+    courseName: z.string().min(1, "Course name is required"),
+});
+
+export const branchValidationSchema = z.object({
+    branchName: z.string().min(1, "Branch name is required"),
+    courseId: z.string().min(1, "Course id is required"),
+});
+
+export const semesterValidationSchema = z.object({
+    semNumber: z.number().int().min(1, "Semester number must be a positive integer"),
+    branchId: z.string().min(1, "Branch id is required"),
+});
+
+export const subjectValidationSchema = z.object({
+    subjectName: z.string().min(1, "Subject name is required"),
+    subjectCode: z.string().min(1, "Subject code is required"),
+    semesterId: z.string().min(1, "Semester id is required"),
+});
+
+enum ResourceType {
+  NOTES = "NOTES",
+  MID_SEM_PAPER = "MID_SEM_PAPER",
+  END_SEM_PAPER = "END_SEM_PAPER",
+}
+
+export const resourceValidationSchema = z.object({
+    subjectId: z.string().min(1, "Subject id is required"),
+    uploadedById: z.string().min(1, "Uploaded by id is required"),
+    type: z.nativeEnum(ResourceType),
+    title: z.string().min(1, "Resource title is required"),
+    year: z.number().int().min(2000, "Year must be a positive integer"),
+    month: z.string().min(1, "Month is required"),
+    description: z.string().min(1, "Description is required"),
+    fileUrl: z.string().min(1, "File url is required"),
+    fileSize: z.number().min(1, "File size is required"),
+    fileType: z.string().min(1, "File type is required"),
+});
