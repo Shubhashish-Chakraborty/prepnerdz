@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-    --color-mainBgColor: #0a0a0c;
+  --color-mainBgColor: #0a0a0c;
+}
+
+.input {
+  @apply border-4 bg-white placeholder:text-slate-600 placeholder:font-extrabold font-bold text-black border-blue-400 p-2 w-72 text-center rounded-md;
 }

@@ -7,7 +7,8 @@ export const requestValidation = async (
     next: NextFunction
 ) => {
     try {
-        const apiSecret = req.headers['x-api-request-secret'];
+        // const apiSecret = req.headers['x-api-request-secret'];
+        const apiSecret = process.env.API_REQUEST_SECRET as string;
 
         if (!apiSecret || typeof apiSecret !== 'string') {
             res.status(400).json({
