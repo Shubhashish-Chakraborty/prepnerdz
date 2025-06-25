@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 config();
 
-export const PORT = process.env.PORT || 3001;
+export const PORT = process.env.PORT || 3002;
 export const JWT_USER_SECRET = process.env.JWT_USER_SECRET as string;
 export const FRONTEND_URL = process.env.FRONTEND_URL as string;
 
