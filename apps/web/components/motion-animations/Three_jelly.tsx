@@ -9,7 +9,7 @@ interface AnimatedBackgroundProps {
 
 export default function AnimatedBackground({ children }: AnimatedBackgroundProps) {
     return (
-        <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+        <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br">
             {/* Animated Background Circles */}
             <div className="absolute inset-0">
                 {/* Blue Jelly Circle - LEFT ZONE ONLY (Far Left) */}
@@ -193,8 +193,8 @@ export default function AnimatedBackground({ children }: AnimatedBackgroundProps
                 />
             </div>
 
-            {/* Subtle overlay for content readability */}
-            <div className="absolute inset-0 bg-white/5 backdrop-blur-[0.5px]" />
+            {/* Subtle overlay for content readability - REMOVED BACKDROP-FILTER */}
+            <div className="absolute inset-0 bg-white/5" />
 
             {/* Main Content Area */}
             <div className="relative z-10 min-h-screen w-full">

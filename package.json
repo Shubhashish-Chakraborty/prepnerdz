@@ -1,5 +1,5 @@
 {
-  "name": "ggitswork",
+  "name": "prepnerdz",
   "private": true,
   "scripts": {
     "build": "turbo run build",

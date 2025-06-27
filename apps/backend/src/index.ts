@@ -64,7 +64,7 @@ app.use("/api/v1/resource", resourceRouter);
 
 app.get("/", (req, res) => {
     res.send(`
-        <h1 style="text-align: center;">GGITS RESOURCE's Server is up and running!!</h1>
+        <h1 style="text-align: center;">PrepNerdz's Server is up and running!!</h1>
     `)
 })
 

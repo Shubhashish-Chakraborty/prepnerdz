@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Main Frontend",
+  title: "Prepnerdz!!",
   description: "Developer: Shubhashish Chakraborty",
 };
 
