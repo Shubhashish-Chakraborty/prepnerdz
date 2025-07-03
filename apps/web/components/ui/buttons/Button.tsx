@@ -17,7 +17,8 @@ interface buttonProps {
     colorVariant: "yellow" | "black_yellow";
     sizeVariant: "small" | "medium" | "large";
     text: string;
-    onClick?: () => void;
+    // onClick?: () => void;
+    onClick?: (e: React.MouseEvent) => void
     startIcon?: ReactElement;
     endIcon?: ReactElement;
 }

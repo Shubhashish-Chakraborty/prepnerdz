@@ -8,6 +8,7 @@ import { Github } from "@/icons/Github"
 import { Down } from "@/icons/Down"
 import { MenuBars } from "@/icons/MenuBars"
 import { Close } from "@/icons/Close"
+import { LoginModal } from "../modals/Login"
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -15,6 +16,7 @@ export const Navbar = () => {
     const [isMobileStudyMaterialOpen, setIsMobileStudyMaterialOpen] = useState(false)
     const [isMobilePYQOpen, setIsMobilePYQOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
+    const [modalOpen, setModalOpen] = useState(false);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -63,6 +65,12 @@ export const Navbar = () => {
     return (
         <>
             <header className="sticky top-4 z-50 w-full px-4">
+                <div>
+                    <LoginModal
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                    />
+                </div>
                 <nav className="mx-auto max-w-7xl rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg">
                     <div className="flex h-20 items-center justify-between px-6">
                         {/* Logo */}
@@ -206,9 +214,7 @@ export const Navbar = () => {
                                 <Github className="size-8 hover:scale-110 transition-all duration-300" />
                                 <span className="sr-only">GitHub</span>
                             </Link>
-                            <Link href="/login">
-                                <Button text="Login" sizeVariant="medium" colorVariant="yellow" />
-                            </Link>
+                            <Button text="Login" sizeVariant="medium" colorVariant="yellow" onClick={() => setModalOpen(true)} />
                         </div>
 
                         {/* Mobile menu button */}
