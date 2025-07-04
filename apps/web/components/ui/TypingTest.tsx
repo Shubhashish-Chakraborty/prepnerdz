@@ -1,8 +1,9 @@
 import { Typewriter } from 'react-simple-typewriter';
 
-const TypingText = ( {text , loop}: {
+const TypingText = ( {text , loop, typeSpeed}: {
     text: string;
     loop?: number | 1;
+    typeSpeed?: number | 50;
 } ) => {
     return (
         <span>
@@ -11,7 +12,7 @@ const TypingText = ( {text , loop}: {
                 loop={loop} // 1 for Type once
                 cursor
                 cursorStyle=""
-                typeSpeed={50}
+                typeSpeed={typeSpeed}
                 deleteSpeed={0}
                 delaySpeed={1000}
             />

@@ -10,6 +10,7 @@ import { MenuBars } from "@/icons/MenuBars"
 import { Close } from "@/icons/Close"
 import { LoginModal } from "../modals/Login"
 import { SignupModal } from "../modals/Signup"
+import { EnterDoor } from "@/icons/EnterDoor"
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -229,7 +230,7 @@ export const Navbar = () => {
                                 <Github className="size-8 hover:scale-110 transition-all duration-300" />
                                 <span className="sr-only">GitHub</span>
                             </Link>
-                            <Button text="Login" sizeVariant="medium" colorVariant="yellow" onClick={() => setIsLoginOpen(true)} />
+                            <Button text="Login" endIcon={<EnterDoor className="size-6"/>} sizeVariant="medium" colorVariant="yellow" onClick={() => setIsLoginOpen(true)} />
                         </div>
 
                         {/* Mobile menu button */}
