@@ -9,6 +9,7 @@ import { Down } from "@/icons/Down"
 import { MenuBars } from "@/icons/MenuBars"
 import { Close } from "@/icons/Close"
 import { LoginModal } from "../modals/Login"
+import { SignupModal } from "../modals/Signup"
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -16,7 +17,8 @@ export const Navbar = () => {
     const [isMobileStudyMaterialOpen, setIsMobileStudyMaterialOpen] = useState(false)
     const [isMobilePYQOpen, setIsMobilePYQOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
-    const [modalOpen, setModalOpen] = useState(true);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isSignupOpen, setIsSignupOpen] = useState(false);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -67,8 +69,21 @@ export const Navbar = () => {
             <header className="sticky top-4 z-50 w-full px-4">
                 <div>
                     <LoginModal
-                        open={modalOpen}
-                        onClose={() => setModalOpen(false)}
+                        open={isLoginOpen}
+                        onClose={() => setIsLoginOpen(false)}
+                        onSwitchToSignup={() => {
+                            setIsLoginOpen(false);
+                            setIsSignupOpen(true);
+                        }}
+                    />
+
+                    <SignupModal
+                        open={isSignupOpen}
+                        onClose={() => setIsSignupOpen(false)}
+                        onSwitchToLogin={() => {
+                            setIsSignupOpen(false);
+                            setIsLoginOpen(true);
+                        }}
                     />
                 </div>
                 <nav className="mx-auto max-w-7xl rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg">
@@ -214,7 +229,7 @@ export const Navbar = () => {
                                 <Github className="size-8 hover:scale-110 transition-all duration-300" />
                                 <span className="sr-only">GitHub</span>
                             </Link>
-                            <Button text="Login" sizeVariant="medium" colorVariant="yellow" onClick={() => setModalOpen(true)} />
+                            <Button text="Login" sizeVariant="medium" colorVariant="yellow" onClick={() => setIsLoginOpen(true)} />
                         </div>
 
                         {/* Mobile menu button */}

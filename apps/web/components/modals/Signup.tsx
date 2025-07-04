@@ -7,16 +7,16 @@ import { Key } from "@/icons/Key";
 import { EnterDoor } from "@/icons/EnterDoor";
 import GoogleAuthBtn from "../ui/buttons/GoogleAuth";
 import GithubAuthBtn from "../ui/buttons/GithubAuth";
-import Link from "next/link";
+import { User } from "@/icons/User";
 
-interface LoginProps {
+
+interface SignupProps {
     open: boolean;
     onClose: () => void;
-    onSwitchToSignup: () => void;
+    onSwitchToLogin: () => void;
 }
 
-export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
-
+export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => {
     return (
         <>
             {open && (
@@ -29,12 +29,16 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </div>
                             </div>
                             <div className="flex justify-center">
-                                <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-blue-600 via-black-500 to-cyan-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
-                                    <TypingText text="Login to your PrepNerdz Account!" />
+                                <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black-500 to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                    <TypingText text="Create your PrepNerdz Account!!" />
                                 </span>
                             </div>
 
                             <div className="flex flex-col items-center space-y-8 justify-center mt-6">
+                                <div>
+                                    <InputBulged type="text" placeholder="Enter Username:" icon={<User className="size-5" />} />
+                                </div>
+
                                 <div>
                                     <InputBulged type="email" placeholder="Enter Email:" icon={<Email className="size-5" />} />
                                 </div>
@@ -44,7 +48,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </div>
                             </div>
                             <div className="flex justify-center mt-8">
-                                <Button colorVariant="black_green" endIcon={<EnterDoor className="size-6" />} sizeVariant="medium" text="Login" />
+                                <Button colorVariant="black_green" endIcon={<EnterDoor className="size-6" />} sizeVariant="medium" text="Register" />
                             </div>
 
                             <div className="flex justify-center mt-10 items-center">
@@ -54,7 +58,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
                                 </div>
                             </div>
-                            <div className="flex justify-center items-center flex-row space-x-8 mt-3">
+                            <div className="flex justify-center items-center flex-row space-x-10 mt-3">
                                 <div>
                                     <GoogleAuthBtn text="Google" />
                                 </div>
@@ -64,21 +68,15 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </div>
                             </div>
 
-                            <p className="text-black font-bold animate-bounce text-center text-2xl mt-10">
-                                Don&apos;t have an account?
-                                {" "}
+                            <p className="text-black animate-bounce text-2xl font-bold text-center mt-6">
+                                Already have an account?{" "}
                                 <span
-                                    onClick={onSwitchToSignup}
-                                    className="text-blue-600 font-extrabold cursor-pointer hover:underline"
+                                    onClick={onSwitchToLogin}
+                                    className="text-blue-700 font-extrabold cursor-pointer hover:underline"
                                 >
-                                    SignUp
+                                    Login
                                 </span>
                             </p>
-                            <div className="flex justify-center transition-all text-xl duration-500 hover:text-blue-600 font-bold">
-                                <Link href={"/forgot-password"}>
-                                    Forgot Password?
-                                </Link>
-                            </div>
                         </div>
                     </div>
                 </div>
