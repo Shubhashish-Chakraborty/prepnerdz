@@ -16,7 +16,7 @@ export const Navbar = () => {
     const [isMobileStudyMaterialOpen, setIsMobileStudyMaterialOpen] = useState(false)
     const [isMobilePYQOpen, setIsMobilePYQOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(true);
 
     // Close dropdown when clicking outside
     useEffect(() => {
