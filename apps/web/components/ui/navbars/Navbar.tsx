@@ -3,14 +3,14 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "./buttons/Button"
 import { Github } from "@/icons/Github"
 import { Down } from "@/icons/Down"
 import { MenuBars } from "@/icons/MenuBars"
 import { Close } from "@/icons/Close"
-import { LoginModal } from "../modals/Login"
-import { SignupModal } from "../modals/Signup"
 import { EnterDoor } from "@/icons/EnterDoor"
+import { LoginModal } from "@/components/modals/Login"
+import { SignupModal } from "@/components/modals/Signup"
+import { Button } from "../buttons/Button"
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)

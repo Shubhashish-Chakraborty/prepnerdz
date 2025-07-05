@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { logout, session, signin, signup, verify_email } from "../controllers/userControllers";
+import { logout, me, session, signin, signup, verify_email } from "../controllers/userControllers";
 import { UserAuth } from "../middlewares/userAuthentication";
 import { requestValidation } from "../middlewares/requestValidation";
 
@@ -10,3 +10,4 @@ UserRouter.post("/signin" , requestValidation , signin);
 UserRouter.post("/logout", logout)
 UserRouter.post("/verify-mail" , requestValidation , verify_email);
 UserRouter.get("/session", UserAuth, session);
+UserRouter.get("/me", UserAuth, me);

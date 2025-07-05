@@ -1,7 +1,7 @@
+import { DashboardLanding } from "@/components/pages/Dashboard";
+
 export default function DashboardPage() {
     return (
-        <>
-            Website under development!
-        </>
+        <DashboardLanding/>
     )
 }

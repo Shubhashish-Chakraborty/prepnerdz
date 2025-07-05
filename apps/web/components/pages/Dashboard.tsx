@@ -1,7 +1,7 @@
-'use client';
-import Navbar from "../ui/Navbar"
+'use client'
 import { motion } from "framer-motion";
-export const LoginLanding = () => {
+
+export const DashboardLanding = () => {
     return (
         <div className="relative min-h-screen bg-mainBgColor">
             {/* Background Animated Circles */}
@@ -28,11 +28,9 @@ export const LoginLanding = () => {
 
             {/* Main container */}
             <div className="relative z-10">
-                <Navbar />
-
+                
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    
                 </div>
             </div>
         </div>

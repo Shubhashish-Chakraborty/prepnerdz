@@ -2,6 +2,7 @@ import { ReactElement, MouseEvent } from "react";
 
 const colorVariants = {
     yellow: "bg-[#ffbf23] hover:bg-black hover:text-[#ffbf23] font-bold text-xl border border-black",
+    red: "bg-[#900603] text-white hover:bg-red-600 font-bold text-xl border border-black",
     black_yellow: "bg-black text-white text-xl font-bold hover:bg-[#ffbf23] hover:text-black border border-black",
     black_green: "bg-black text-white text-xl font-bold hover:bg-[#cef261] hover:text-black border border-black"
 }
@@ -17,7 +18,7 @@ const defaultButtonStyles = "cursor-pointer flex items-center justify-center spa
 const disabledStyles = "opacity-50 cursor-not-allowed";
 
 interface ButtonProps {
-    colorVariant: "yellow" | "black_yellow" | "black_green";
+    colorVariant: "yellow" | "red" | "black_yellow" | "black_green";
     sizeVariant: "small" | "medium" | "large";
     text: string;
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void;

@@ -1,5 +1,4 @@
 "use client";
-import { Navbar } from "../ui/Navbar"
 import { motion } from "framer-motion";
 import { useState } from "react";
 import TypingText from "../ui/TypingTest";
@@ -15,6 +14,7 @@ import { Bookmark } from "@/icons/Bookmark";
 import { Upload } from "@/icons/Upload";
 import { ShieldColored } from "@/icons/Shield";
 import ProfileCard from "../ui/cards/ProfileCard";
+import Navbar from "../ui/navbars/Navbar";
 
 
 export const HomeLanding = () => {
