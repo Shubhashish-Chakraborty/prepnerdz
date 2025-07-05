@@ -3,15 +3,31 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Sidebar from "../ui/sidebars/Sidebar";
+import Header from "../ui/DashboardHeader";
+import SearchPanel from "../ui/SearchPanels/DashboardSearch";
+
+// Navigation items configuration - easily extensible
+export const navigationItems = [
+    { id: "shivani-books", label: "Shivani Books", icon: "📚" },
+    { id: "midsem-papers", label: "Midsem Papers", icon: "📄" },
+    { id: "endsem-papers", label: "Endsem Papers", icon: "📋" },
+    // Add more navigation items here in the future
+    // { id: 'assignments', label: 'Assignments', icon: '✏️' },
+    // { id: 'notes', label: 'Notes', icon: '📝' },
+]
 
 export const DashboardLanding = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [authLoading, setAuthLoading] = useState(true);
     const router = useRouter();
 
+    const [activeNavItem, setActiveNavItem] = useState("shivani-books")
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
     useEffect(() => {
         console.log("Welcome to PrepNerdz!!")
-    } , [isAuthenticated, authLoading]);
+    }, [isAuthenticated, authLoading]);
 
     // Checking authentication status
     useEffect(() => {
@@ -61,6 +77,35 @@ export const DashboardLanding = () => {
 
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="min-h-screen bg-gray-50 flex">
+                        {/* Sidebar */}
+                        <Sidebar
+                            navigationItems={navigationItems}
+                            activeNavItem={activeNavItem}
+                            setActiveNavItem={setActiveNavItem}
+                            isSidebarOpen={isSidebarOpen}
+                            setIsSidebarOpen={setIsSidebarOpen}
+                        />
+
+                        {/* Main Content Area */}
+                        <div className="flex-1 flex flex-col lg:ml-64">
+                            {/* Header */}
+                            <Header userName="Shubh" setIsSidebarOpen={setIsSidebarOpen} />
+
+                            {/* Main Content */}
+                            <main className="flex-1 p-4 lg:p-8">
+                                <div className="max-w-6xl mx-auto">
+                                    {/* Search Panel - Different panel based on active navigation */}
+                                    <SearchPanel activeNavItem={activeNavItem} />
+                                </div>
+                            </main>
+                        </div>
+
+                        {/* Mobile Sidebar Overlay */}
+                        {isSidebarOpen && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
