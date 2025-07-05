@@ -1,5 +1,6 @@
 "use client"
 
+import axios from "axios";
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -11,6 +12,7 @@ import { EnterDoor } from "@/icons/EnterDoor"
 import { LoginModal } from "@/components/modals/Login"
 import { SignupModal } from "@/components/modals/Signup"
 import { Button } from "../buttons/Button"
+import { LoadingSpinner } from "@/icons/LoadingSpinner";
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -20,6 +22,29 @@ export const Navbar = () => {
     const dropdownRef = useRef<HTMLDivElement>(null)
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isSignupOpen, setIsSignupOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
+
+    // Check if user is authenticated
+    useEffect(() => {
+        const checkSession = async () => {
+            setAuthLoading(true);
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
+                    withCredentials: true,
+                });
+                if (response.data.message.isAuthenticated) {
+                    setIsAuthenticated(true);
+                }
+            } catch (error) {
+                console.error("Session check failed:", error);
+                setIsAuthenticated(false);
+            } finally {
+                setAuthLoading(false);
+            }
+        };
+        checkSession();
+    }, []);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -230,7 +255,32 @@ export const Navbar = () => {
                                 <Github className="size-8 hover:scale-110 transition-all duration-300" />
                                 <span className="sr-only">GitHub</span>
                             </Link>
-                            <Button text="Login" endIcon={<EnterDoor className="size-6"/>} sizeVariant="medium" colorVariant="yellow" onClick={() => setIsLoginOpen(true)} />
+                            {authLoading ? (
+                                <Button 
+                                    text="Loading"
+                                    sizeVariant="medium"
+                                    colorVariant="yellow"
+                                    endIcon={<LoadingSpinner className="size-6"/>}
+                                />
+                            ) : isAuthenticated ? (
+                                <Link href={"/dashboard"}>
+                                    <Button
+                                        text="Dashboard"
+                                        endIcon={<EnterDoor className="size-6" />}
+                                        sizeVariant="medium"
+                                        colorVariant="blue"
+                                    />
+                                </Link>
+                            ) : (
+                                <Button
+                                    text="Login"
+                                    endIcon={<EnterDoor className="size-6" />}
+                                    sizeVariant="medium"
+                                    colorVariant="yellow"
+                                    onClick={() => setIsLoginOpen(true)}
+                                />
+                            )}
+
                         </div>
 
                         {/* Mobile menu button */}

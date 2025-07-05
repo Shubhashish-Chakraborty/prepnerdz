@@ -1,7 +1,37 @@
 'use client'
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const DashboardLanding = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true);
+    const router = useRouter();
+
+    useEffect(() => {
+        console.log("Welcome to PrepNerdz!!")
+    } , [isAuthenticated, authLoading]);
+
+    // Checking authentication status
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
+                    withCredentials: true
+                });
+                setIsAuthenticated(response.status === 200);
+            } catch (error) {
+                console.error("Authentication check failed:", error);
+                setIsAuthenticated(false);
+                router.push("/");
+            } finally {
+                setAuthLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, [router]);
     return (
         <div className="relative min-h-screen bg-mainBgColor">
             {/* Background Animated Circles */}
@@ -28,7 +58,7 @@ export const DashboardLanding = () => {
 
             {/* Main container */}
             <div className="relative z-10">
-                
+
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 </div>
