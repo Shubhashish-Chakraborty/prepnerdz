@@ -31,10 +31,15 @@ export const subjectValidationSchema = z.object({
     semesterId: z.string().min(1, "Semester id is required"),
 });
 
+// current Available resources in prepnerdz!
 enum ResourceType {
-  NOTES = "NOTES",
-  MID_SEM_PAPER = "MID_SEM_PAPER",
-  END_SEM_PAPER = "END_SEM_PAPER",
+    SHIVANI_BOOKS = "SHIVANI_BOOKS",
+    MID_SEM_PAPER = "MID_SEM_PAPER",
+    END_SEM_PAPER = "END_SEM_PAPER",
+    IMP_QUESTION = "IMP_QUESTION",
+    NOTES = "NOTES",
+    LAB_MANUAL = "LAB_MANUAL",
+    SYLLABUS = "SYLLABUS",
 }
 
 export const resourceValidationSchema = z.object({
