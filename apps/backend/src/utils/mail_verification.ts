@@ -58,7 +58,8 @@ export const FINAL_MAIL_VERIFICATION = async (otpEntered: string, mail: string, 
                 }
             })
             res.status(200).json({
-                message: `${user.username}'s EMAIL VERIFIED SUCCESFULLY!!`
+                message: `${user.username}'s EMAIL VERIFIED SUCCESFULLY!!`,
+                success: true
             })
             return;
         }

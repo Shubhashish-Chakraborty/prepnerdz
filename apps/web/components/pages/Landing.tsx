@@ -345,7 +345,7 @@ const Star = ({ className = "h-6 w-6", filled = false }: { className?: string; f
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => (
     <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
         <CardContent className="p-6 text-center cursor-pointer">
-            <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+            <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg group-hover:bg-amber-400 group-hover:text-white transition-colors duration-300">
                 {icon}
             </div>
             <h3 className="text-lg font-semibold mb-2">{title}</h3>

@@ -45,7 +45,7 @@ OauthRouter.get(
             path: "/",
         });
 
-        const redirectUrl = new URL(`${FRONTEND_URL}/`);
+        const redirectUrl = new URL(`${FRONTEND_URL}/dashboard`);
 
         res.redirect(redirectUrl.toString());
     }

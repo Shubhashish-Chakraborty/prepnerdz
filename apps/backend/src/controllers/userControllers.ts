@@ -72,6 +72,7 @@ export const signup = async (req: Request, res: Response) => {
 
         res.status(201).json({
             message: `OTP Sent to ${USER.email} for verification!`,
+            success: true
         })
 
     } catch (error) {

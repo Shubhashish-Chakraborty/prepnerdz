@@ -2,11 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { ReactElement } from "react";
 
-const InputBulged = ( {placeholder, type, icon}: {
+const InputBulged = ({
+    placeholder,
+    type,
+    icon,
+    name,
+    onChange,
+    value
+}: {
     placeholder: string;
     type: string;
     icon: ReactElement;
-} ) => {
+    name?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    value?: string;
+}) => {
     return (
         <StyledWrapper>
             <div className="input__container">
@@ -17,7 +27,14 @@ const InputBulged = ( {placeholder, type, icon}: {
                         {icon}
                     </svg>
                 </button>
-                <input type={type} name="username" className="input__search" placeholder={placeholder} />
+                <input
+                    type={type}
+                    name={name}
+                    className="input__search"
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    value={value}
+                />
             </div>
         </StyledWrapper>
     );

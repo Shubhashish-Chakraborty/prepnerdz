@@ -8,6 +8,10 @@ import { EnterDoor } from "@/icons/EnterDoor";
 import GoogleAuthBtn from "../ui/buttons/GoogleAuth";
 import GithubAuthBtn from "../ui/buttons/GithubAuth";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 interface LoginProps {
     open: boolean;
@@ -16,6 +20,73 @@ interface LoginProps {
 }
 
 export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: ''
+    });
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setLoginData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            // Basic validation
+            if (!loginData.email || !loginData.password) {
+                toast.error('Please fill all fields');
+                setIsLoading(false);
+                return;
+            }
+
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/signin`,
+                loginData,
+                {
+                    withCredentials: true
+                }
+            );
+
+            // console.log('Login response:', response.data); // Debug log
+
+            if (response.data.success) {
+                toast.success('Login successful!');
+
+                // Store the token in localStorage or cookies
+                if (response.data.token) {
+                    localStorage.setItem('authToken', response.data.token);
+                }
+
+                // Store user data if available
+                if (response.data.user) {
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                }
+
+                // Redirect to dashboard
+                router.push('/dashboard');
+                onClose(); // Close the modal
+            } else {
+                toast.error(response.data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message || 'An error occurred during login');
+            } else {
+                toast.error('An unexpected error occurred');
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <>
@@ -34,18 +105,41 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </span>
                             </div>
 
-                            <div className="flex flex-col items-center space-y-8 justify-center mt-6">
-                                <div>
-                                    <InputBulged type="email" placeholder="Enter Email:" icon={<Email className="size-5" />} />
-                                </div>
+                            <form onSubmit={handleLogin}>
+                                <div className="flex flex-col items-center space-y-8 justify-center mt-6">
+                                    <div>
+                                        <InputBulged
+                                            type="email"
+                                            placeholder="Enter Email:"
+                                            icon={<Email className="size-5" />}
+                                            name="email"
+                                            onChange={handleInputChange}
+                                            value={loginData.email}
+                                        />
+                                    </div>
 
-                                <div>
-                                    <InputBulged type="password" placeholder="Enter Password:" icon={<Key className="size-5" />} />
+                                    <div>
+                                        <InputBulged
+                                            type="password"
+                                            placeholder="Enter Password:"
+                                            icon={<Key className="size-5" />}
+                                            name="password"
+                                            onChange={handleInputChange}
+                                            value={loginData.password}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex justify-center mt-8">
-                                <Button colorVariant="black_green" endIcon={<EnterDoor className="size-6" />} sizeVariant="medium" text="Login" />
-                            </div>
+                                <div className="flex justify-center mt-8">
+                                    <Button
+                                        colorVariant="black_green"
+                                        endIcon={<EnterDoor className="size-6" />}
+                                        sizeVariant="medium"
+                                        text={isLoading ? "Logging in..." : "Login"}
+                                        type="submit"
+                                        disabled={isLoading}
+                                    />
+                                </div>
+                            </form>
 
                             <div className="flex justify-center mt-10 items-center">
                                 <div className="flex justify-center items-center w-full cursor-default max-w-sm">
