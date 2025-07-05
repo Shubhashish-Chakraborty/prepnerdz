@@ -1,6 +1,9 @@
 "use client"
 
+import Image from "next/image"
+import Link from "next/link"
 import type { Dispatch, SetStateAction } from "react"
+import DateTimeCard from "../cards/DateTime"
 
 interface NavigationItem {
     id: string
@@ -34,25 +37,37 @@ export default function Sidebar({
             <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white border-r border-gray-200 shadow-sm">
                 <div className="flex flex-col flex-1">
                     {/* Logo/Brand Area */}
-                    <div className="flex items-center justify-center h-16 px-4 border-b border-gray-200">
-                        <h1 className="text-xl font-bold text-gray-800">Dashboard</h1>
+                    <div className="flex mt-4 items-center justify-center h-16 px-4">
+                        <Link href={"/"}>
+                            <Image
+                                src={"/prepnerdz-logo-with-code.png"}
+                                alt="logo"
+                                width={150}
+                                height={150}
+                                className="hover:scale-105 transition-all duration-500"
+                            />
+                        </Link>
+                    </div>
+
+                    <div className="mt-10">
+                        <DateTimeCard />
                     </div>
 
                     {/* Navigation Menu */}
-                    <nav className="flex-1 px-4 py-6 space-y-2">
+                    <nav className="mt-5 flex-1 px-4 py-6 space-y-2">
                         {navigationItems.map((item) => (
                             <button
                                 key={item.id}
                                 onClick={() => handleNavClick(item.id)}
-                                className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-gray-100 group ${activeNavItem === item.id
-                                        ? "bg-blue-50 text-blue-700 border-l-4 border-blue-500"
-                                        : "text-gray-700 hover:text-gray-900"
+                                className={`w-full cursor-pointer flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-amber-100 group ${activeNavItem === item.id
+                                    ? "bg-amber-50 text-yellow-600 border-l-4 border-red-500"
+                                    : "text-gray-700 hover:text-gray-900"
                                     }`}
                             >
                                 <span className="text-lg mr-3">{item.icon}</span>
                                 <span className="font-medium">{item.label}</span>
                                 {activeNavItem === item.id && (
-                                    <div className="ml-auto w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                                    <div className="ml-auto w-2 h-2 bg-red-500 rounded-full animate-pulse" />
                                 )}
                             </button>
                         ))}
@@ -60,7 +75,7 @@ export default function Sidebar({
 
                     {/* Footer */}
                     <div className="p-4 border-t border-gray-200">
-                        <div className="text-xs text-gray-500 text-center">© 2024 Dashboard Platform</div>
+                        <div className="text-xs text-gray-500 text-center">© {new Date().getFullYear()} PrepNerdz</div>
                     </div>
                 </div>
             </div>
@@ -91,8 +106,8 @@ export default function Sidebar({
                                 key={item.id}
                                 onClick={() => handleNavClick(item.id)}
                                 className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeNavItem === item.id
-                                        ? "bg-blue-50 text-blue-700 border-l-4 border-blue-500"
-                                        : "text-gray-700 hover:text-gray-900"
+                                    ? "bg-blue-50 text-blue-700 border-l-4 border-blue-500"
+                                    : "text-gray-700 hover:text-gray-900"
                                     }`}
                             >
                                 <span className="text-lg mr-3">{item.icon}</span>

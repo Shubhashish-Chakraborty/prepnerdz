@@ -12,6 +12,10 @@ export const navigationItems = [
     { id: "shivani-books", label: "Shivani Books", icon: "📚" },
     { id: "midsem-papers", label: "Midsem Papers", icon: "📄" },
     { id: "endsem-papers", label: "Endsem Papers", icon: "📋" },
+    { id: "imp-questions", label: "Important Questions", icon: "📋" },
+    { id: "acad-notes", label: "Best Notes", icon: "📋" },
+    { id: "syllabus", label: "Syllabus", icon: "📋" },
+    { id: "lab-manual", label: "Lab Manual", icon: "📋" },
     // Add more navigation items here in the future
     // { id: 'assignments', label: 'Assignments', icon: '✏️' },
     // { id: 'notes', label: 'Notes', icon: '📝' },
@@ -21,13 +25,15 @@ export const DashboardLanding = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [authLoading, setAuthLoading] = useState(true);
     const router = useRouter();
+    // const [username, setUsername] = useState<string | null>(null);
+    const [username, setUsername] = useState<string>("");
 
     const [activeNavItem, setActiveNavItem] = useState("shivani-books")
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
     useEffect(() => {
         console.log("Welcome to PrepNerdz!!")
-    }, [isAuthenticated, authLoading]);
+    }, [isAuthenticated, authLoading]); 
 
     // Checking authentication status
     useEffect(() => {
@@ -37,6 +43,7 @@ export const DashboardLanding = () => {
                     withCredentials: true
                 });
                 setIsAuthenticated(response.status === 200);
+                setUsername(response.data.message.user.username)
             } catch (error) {
                 console.error("Authentication check failed:", error);
                 setIsAuthenticated(false);
@@ -62,7 +69,7 @@ export const DashboardLanding = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1.2 }}
                     transition={{ duration: 2, delay: 0.5 }}
-                    className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-purple-500/40 blur-[60px] md:blur-[120px]"
+                    className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-cyan-500/40 blur-[60px] md:blur-[120px]"
                 />
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -76,8 +83,8 @@ export const DashboardLanding = () => {
             <div className="relative z-10">
 
                 {/* Main page content starts here in this div!!! */}
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="min-h-screen bg-gray-50 flex">
+                <div className=" px-4 sm:px-6 lg:px-8">
+                    <div className="min-h-screen flex">
                         {/* Sidebar */}
                         <Sidebar
                             navigationItems={navigationItems}
@@ -90,7 +97,7 @@ export const DashboardLanding = () => {
                         {/* Main Content Area */}
                         <div className="flex-1 flex flex-col lg:ml-64">
                             {/* Header */}
-                            <Header userName="Shubh" setIsSidebarOpen={setIsSidebarOpen} />
+                            <Header userName={username} setIsSidebarOpen={setIsSidebarOpen} />
 
                             {/* Main Content */}
                             <main className="flex-1 p-4 lg:p-8">
