@@ -8,7 +8,7 @@ import { EnterDoor } from "@/icons/EnterDoor";
 import GoogleAuthBtn from "../ui/buttons/GoogleAuth";
 import GithubAuthBtn from "../ui/buttons/GithubAuth";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -26,6 +26,29 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
     });
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+
+        const handleClickOutside = (e: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+                onClose();
+            }
+        };
+
+        if (open) {
+            document.addEventListener("keydown", handleKeyDown);
+            document.addEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [open, onClose]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

@@ -13,6 +13,8 @@ import { LoginModal } from "@/components/modals/Login"
 import { SignupModal } from "@/components/modals/Signup"
 import { Button } from "../buttons/Button"
 import { LoadingSpinner } from "@/icons/LoadingSpinner";
+import {toast} from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -24,6 +26,7 @@ export const Navbar = () => {
     const [isSignupOpen, setIsSignupOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [authLoading, setAuthLoading] = useState(true);
+    const router = useRouter();
 
     // Check if user is authenticated
     useEffect(() => {
@@ -90,6 +93,16 @@ export const Navbar = () => {
         setIsMobilePYQOpen(false)
     }
 
+    const handleLinkClick = () => {
+        closeAllDropdowns();
+        if (isAuthenticated) {
+            router.push('/dashboard');
+            toast.success("✅ Explore the resources here in Dashboard!");
+        } else {
+            toast.error("⚠️ You must login to access the resources!");
+        }
+    };
+
     return (
         <>
             <header className="sticky top-4 z-50 w-full px-4">
@@ -150,50 +163,47 @@ export const Navbar = () => {
                                         onClick={() => toggleDropdown("studymaterial")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
-                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> StudyMaterial </span>
+                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                            StudyMaterial
+                                        </span>
                                         <Down className="size-6" />
                                     </button>
 
                                     {activeDropdown === "studymaterial" && (
                                         <div className="absolute top-full left-0 mt-2 w-[300px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3">
-                                            <Link
-                                                href="/study-material/shivani-pdfs"
-                                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                                                onClick={closeAllDropdowns}
-                                            >
-                                                <div className="text-sm font-medium leading-none">Shivani PDFs</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                                                    Comprehensive study materials and notes
-                                                </p>
-                                            </Link>
-                                            <Link
-                                                href="/study-material/imp-questions"
-                                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                                                onClick={closeAllDropdowns}
-                                            >
-                                                <div className="text-sm font-medium leading-none">IMP Questions</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                                                    Important questions for exam preparation
-                                                </p>
-                                            </Link>
-                                            <Link
-                                                href="/study-material/academic-notes"
-                                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                                                onClick={closeAllDropdowns}
-                                            >
-                                                <div className="text-sm font-medium leading-none">Best Academic Notes</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                                                    High-quality academic notes and resources
-                                                </p>
-                                            </Link>
-                                            <Link
-                                                href="/study-material/manual-solutions"
-                                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                                                onClick={closeAllDropdowns}
-                                            >
-                                                <div className="text-sm font-medium leading-none">Manual Solutions</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-gray-600">Step-by-step manual solutions</p>
-                                            </Link>
+                                            {[
+                                                {
+                                                    title: "Shivani PDFs",
+                                                    description: "Comprehensive study materials and notes",
+                                                    href: "/study-material/shivani-pdfs",
+                                                },
+                                                {
+                                                    title: "IMP Questions",
+                                                    description: "Important questions for exam preparation",
+                                                    href: "/study-material/imp-questions",
+                                                },
+                                                {
+                                                    title: "Best Academic Notes",
+                                                    description: "High-quality academic notes and resources",
+                                                    href: "/study-material/academic-notes",
+                                                },
+                                                {
+                                                    title: "Manual Solutions",
+                                                    description: "Step-by-step manual solutions",
+                                                    href: "/study-material/manual-solutions",
+                                                },
+                                            ].map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                                    onClick={() => handleLinkClick()}
+                                                >
+                                                    <div className="text-sm font-medium">{item.title}</div>
+                                                    <p className="line-clamp-2 text-sm text-gray-600">
+                                                        {item.description}
+                                                    </p>
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
                                 </div>
@@ -204,32 +214,37 @@ export const Navbar = () => {
                                         onClick={() => toggleDropdown("pyqs")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
-                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> {"PYQ'S"} </span>
+                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                            {"PYQ'S"}
+                                        </span>
                                         <Down className="size-6" />
                                     </button>
 
                                     {activeDropdown === "pyqs" && (
                                         <div className="absolute top-full left-0 mt-2 w-[280px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3">
-                                            <Link
-                                                href="/pyqs/end-sem"
-                                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                                                onClick={closeAllDropdowns}
-                                            >
-                                                <div className="text-sm font-medium leading-none">End Sem {"PYQ'S"}</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                                                    Previous year end semester questions
-                                                </p>
-                                            </Link>
-                                            <Link
-                                                href="/pyqs/mid-term"
-                                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
-                                                onClick={closeAllDropdowns}
-                                            >
-                                                <div className="text-sm font-medium leading-none">Mid Term {"PYQ'S"}</div>
-                                                <p className="line-clamp-2 text-sm leading-snug text-gray-600">
-                                                    Previous year mid-term questions
-                                                </p>
-                                            </Link>
+                                            {[
+                                                {
+                                                    title: "End Sem PYQ'S",
+                                                    description: "Previous year end semester questions",
+                                                    href: "/pyqs/end-sem",
+                                                },
+                                                {
+                                                    title: "Mid Term PYQ'S",
+                                                    description: "Previous year mid-term questions",
+                                                    href: "/pyqs/mid-term",
+                                                },
+                                            ].map((item, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                                    onClick={() => handleLinkClick()}
+                                                >
+                                                    <div className="text-sm font-medium">{item.title}</div>
+                                                    <p className="line-clamp-2 text-sm text-gray-600">
+                                                        {item.description}
+                                                    </p>
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
                                 </div>
@@ -256,11 +271,11 @@ export const Navbar = () => {
                                 <span className="sr-only">GitHub</span>
                             </Link>
                             {authLoading ? (
-                                <Button 
+                                <Button
                                     text="Loading"
                                     sizeVariant="medium"
                                     colorVariant="yellow"
-                                    endIcon={<LoadingSpinner className="size-6"/>}
+                                    endIcon={<LoadingSpinner className="size-6" />}
                                 />
                             ) : isAuthenticated ? (
                                 <Link href={"/dashboard"}>

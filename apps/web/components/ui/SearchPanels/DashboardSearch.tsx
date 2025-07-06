@@ -317,7 +317,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         if (!initialLoad && currentPanel) {
             fetchInitialResources()
         }
-    }, [activeNavItem, initialLoad, currentPanel, fetchInitialResources])
+    }, [activeNavItem, initialLoad, currentPanel])
 
     if (!currentPanel) {
         return (
