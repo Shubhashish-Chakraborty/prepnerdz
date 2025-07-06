@@ -2,7 +2,7 @@ import { ReactElement, MouseEvent } from "react";
 
 const colorVariants = {
     yellow: "bg-[#ffbf23] hover:bg-black hover:text-[#ffbf23] font-bold text-xl border border-black",
-    red: "bg-[#900603] text-white hover:bg-red-600 font-bold text-xl border border-black",
+    red: "hover:bg-[#900603] text-white bg-red-600 font-bold text-xl border border-black",
     blue: "bg-[#1E90FF] text-white hover:bg-blue-600 font-bold text-xl border border-black",
     black_yellow: "bg-black text-white text-xl font-bold hover:bg-[#ffbf23] hover:text-black border border-black",
     black_green: "bg-black text-white text-xl font-bold hover:bg-[#cef261] hover:text-black border border-black"

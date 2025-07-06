@@ -1,12 +1,40 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
+import { toast } from "react-hot-toast"
+// import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime"
 
 interface SearchPanelProps {
     activeNavItem: string
 }
 
-// Configuration for different search panels - easily extensible
+interface Resource {
+    id: string
+    type: string
+    title: string
+    year: string
+    month: string
+    description: string
+    fileUrl: string
+    fileSize: number
+    fileType: string
+    subjectId: string
+    uploadedById: string
+    verified: boolean
+    createdAt: string
+    updatedAt: string
+}
+
+// Mapping from nav item to API type
+const typeMapping: Record<string, string> = {
+    "shivani-books": "SHIVANI_BOOKS",
+    "midsem-papers": "MIDSEM_PAPERS",
+    "endsem-papers": "ENDSEM_PAPERS",
+    // Add more mappings as needed
+}
+
+// Configuration for different search panels
 const searchPanelConfig = {
     "shivani-books": {
         title: "Search Shivani Books",
@@ -29,15 +57,6 @@ const searchPanelConfig = {
         branches: ["CSE", "AI", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
-    // Add more search panel configurations here
-    // 'assignments': {
-    //   title: 'Search Assignments',
-    //   description: 'Find assignments by branch and semester',
-    //   placeholder: 'Search for assignments...',
-    //   branches: ['CSE', 'AI', 'ECE', 'ME', 'CE'],
-    //   semesters: [1, 2, 3, 4, 5, 6, 7, 8],
-    //   additionalFilters: ['Due Date', 'Subject']
-    // }
 }
 
 export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
@@ -45,36 +64,260 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     const [selectedBranch, setSelectedBranch] = useState("")
     const [selectedSemester, setSelectedSemester] = useState("")
     const [isSearching, setIsSearching] = useState(false)
+    const [resources, setResources] = useState<Resource[]>([])
+    const [page, setPage] = useState(1)
+    const [hasMore, setHasMore] = useState(false)
+    const [initialLoad, setInitialLoad] = useState(false);
+    const [totalCount, setTotalCount] = useState(0);
 
+    useEffect(() => {
+        console.log("Welcome to PrepNerdz!");
+    } , [totalCount])
     // Get current panel configuration
     const currentPanel = searchPanelConfig[activeNavItem as keyof typeof searchPanelConfig]
 
+    useEffect(() => {
+        // Reset states when activeNavItem changes
+        setSearchQuery("")
+        setSelectedBranch("")
+        setSelectedSemester("")
+        setResources([])
+        setPage(1)
+        setHasMore(false)
+        setInitialLoad(false)
+    }, [activeNavItem])
+
+    const fetchInitialResources = async () => {
+        try {
+            const type = typeMapping[activeNavItem]
+            if (!type) return
+
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/resource`, {
+                params: { type }
+            })
+
+            setResources(response.data.slice(0, 5)) // Show first 5 items initially
+            setHasMore(response.data.length > 5)
+            setInitialLoad(true)
+        } catch (error) {
+            toast.error("Failed to fetch initial resources")
+            console.error("Error fetching initial resources:", error)
+        }
+    }
+
+    // const handleSearch = async () => {
+    //     if (!searchQuery.trim() || !selectedBranch || !selectedSemester) {
+    //         toast.error("Please fill in all fields")
+    //         return
+    //     }
+
+    //     setIsSearching(true)
+
+    //     try {
+    //         // First get branch ID
+    //         const branchResponse = await axios.get(
+    //             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
+    //             { params: { branchName: selectedBranch } }
+    //         )
+
+    //         // Then get semester ID
+    //         const semesterResponse = await axios.get(
+    //             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
+    //             { params: { semNumber: selectedSemester } }
+    //         )
+
+    //         const type = typeMapping[activeNavItem]
+    //         if (!type) {
+    //             toast.error("Invalid resource type")
+    //             return
+    //         }
+
+    //         // Now perform the search
+    //         const searchResponse = await axios.get(
+    //             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
+    //             {
+    //                 params: {
+    //                     type,
+    //                     branch: branchResponse.data.id,
+    //                     semester: semesterResponse.data.id,
+    //                     query: searchQuery,
+    //                     page: 1,
+    //                     limit: 5
+    //                 }
+    //             }
+    //         )
+
+    //         setResources(searchResponse.data.results)
+    //         setHasMore(searchResponse.data.hasMore)
+    //         setPage(1)
+    //     } catch (error) {
+    //         toast.error("Search failed. Please try again.")
+    //         console.error("Search error:", error)
+    //     } finally {
+    //         setIsSearching(false)
+    //     }
+    // }
+
     const handleSearch = async () => {
         if (!searchQuery.trim() || !selectedBranch || !selectedSemester) {
-            alert("Please fill in all fields")
-            return
+            toast.error("Please fill in all fields");
+            return;
         }
 
-        setIsSearching(true)
+        setIsSearching(true);
 
-        // Simulate API call
-        setTimeout(() => {
-            console.log("Search params:", {
-                query: searchQuery,
-                branch: selectedBranch,
-                semester: selectedSemester,
-                type: activeNavItem,
-            })
-            setIsSearching(false)
-            // Here you would typically make an API call and handle the results
-        }, 1500)
-    }
+        try {
+            // First get branch ID
+            const branchResponse = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
+                { params: { branchName: selectedBranch } }
+            );
+
+            // Then get semester ID
+            const semesterResponse = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
+                { params: { semNumber: selectedSemester } }
+            );
+            
+            // console.log(branchResponse.data);
+            // console.log(semesterResponse.data);
+            
+            const type = typeMapping[activeNavItem];
+            if (!type) {
+                toast.error("Invalid resource type");
+                return;
+            }
+
+            // Perform the search with pagination
+            const searchResponse = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
+                {
+                    params: {
+                        type,
+                        branch: branchResponse.data.branchId,
+                        semester: semesterResponse.data.semesterId,
+                        query: searchQuery,
+                        page: 1,  // First page
+                        limit: 5   // 5 items per page
+                    }
+                }
+            );
+
+            setResources(searchResponse.data.data);
+            setTotalCount(searchResponse.data.total);
+            setPage(1);
+            setHasMore(searchResponse.data.hasMore);
+        } catch (error) {
+            toast.error("Search failed. Please try again.");
+            console.error("Search error:", error);
+        } finally {
+            setIsSearching(false);
+        }
+    };
+
+    // const loadMoreResources = async () => {
+    //     try {
+    //         const nextPage = page + 1
+    //         let response
+
+    //         if (searchQuery && selectedBranch && selectedSemester) {
+    //             // Get IDs again in case they're needed
+    //             const branchResponse = await axios.get(
+    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
+    //                 { params: { branchName: selectedBranch } }
+    //             )
+
+    //             const semesterResponse = await axios.get(
+    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
+    //                 { params: { semesterName: selectedSemester } }
+    //             )
+
+    //             const type = typeMapping[activeNavItem]
+    //             response = await axios.get(
+    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
+    //                 {
+    //                     params: {
+    //                         type,
+    //                         branch: branchResponse.data.id,
+    //                         semester: semesterResponse.data.id,
+    //                         query: searchQuery,
+    //                         page: nextPage,
+    //                         limit: 5
+    //                     }
+    //                 }
+    //             )
+    //         } else {
+    //             const type = typeMapping[activeNavItem]
+    //             response = await axios.get(
+    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/resource`,
+    //                 { params: { type, page: nextPage, limit: 5 } }
+    //             )
+    //         }
+
+    //         setResources(prev => [...prev, ...response.data.results || response.data.slice((nextPage - 1) * 5, nextPage * 5)])
+    //         setHasMore(response.data.hasMore || response.data.length > nextPage * 5)
+    //         setPage(nextPage)
+    //     } catch (error) {
+    //         toast.error("Failed to load more resources")
+    //         console.error("Load more error:", error)
+    //     }
+    // }
+
+    const loadMoreResources = async () => {
+        try {
+            const nextPage = page + 1;
+
+            // Get IDs again in case they're needed
+            const branchResponse = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
+                { params: { branchName: selectedBranch } }
+            );
+
+            const semesterResponse = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
+                { params: { semNumber: selectedSemester } }
+            );
+
+            const type = typeMapping[activeNavItem];
+            const searchResponse = await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
+                {
+                    params: {
+                        type,
+                        branch: branchResponse.data.branchId,
+                        semester: semesterResponse.data.semesterId,
+                        query: searchQuery,
+                        page: nextPage,
+                        limit: 5
+                    }
+                }
+            );
+
+            setResources(prev => [...prev, ...searchResponse.data.data]);
+            setPage(nextPage);
+            setHasMore(searchResponse.data.hasMore);
+        } catch (error) {
+            toast.error("Failed to load more resources");
+            console.error("Load more error:", error);
+        }
+    };
 
     const resetForm = () => {
         setSearchQuery("")
         setSelectedBranch("")
         setSelectedSemester("")
+        setResources([])
+        setPage(1)
+        setHasMore(false)
+        setInitialLoad(false)
     }
+
+    // Load initial resources when panel is first rendered
+    useEffect(() => {
+        if (!initialLoad && currentPanel) {
+            fetchInitialResources()
+        }
+    }, [activeNavItem, initialLoad, currentPanel, fetchInitialResources])
 
     if (!currentPanel) {
         return (
@@ -236,32 +479,58 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                         </button>
                     </div>
 
-                    {/* Search Tips */}
-                    {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 animate-in slide-in-from-bottom-12 duration-1200">
-                        <div className="flex items-start">
-                            <svg
-                                className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                            <div>
-                                <h4 className="text-sm font-medium text-blue-800 mb-1">Search Tips</h4>
-                                <ul className="text-sm text-blue-700 space-y-1">
-                                    <li>• Use specific keywords for better results</li>
-                                    <li>• Select both branch and semester for accurate filtering</li>
-                                    <li>• Try different search terms if you don&apos;t find what you&apos;re looking for</li>
-                                </ul>
+                    {/* Results Section */}
+                    <div className="space-y-4 mt-8">
+                        {resources.length > 0 && (
+                            <div className="space-y-4">
+                                <h3 className="text-lg font-semibold text-gray-800">Results ({resources.length})</h3>
+                                {resources.map((resource) => (
+                                    <div key={resource.id} className="bg-white p-4 rounded-lg shadow border border-gray-200">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h4 className="font-medium text-lg text-blue-600">{resource.title}</h4>
+                                                <p className="text-gray-600 mt-1">{resource.description}</p>
+                                                <div className="flex items-center mt-2 text-sm text-gray-500">
+                                                    <span>{resource.fileType.toUpperCase()}</span>
+                                                    <span className="mx-2">•</span>
+                                                    <span>{(resource.fileSize / 1024).toFixed(1)} KB</span>
+                                                </div>
+                                            </div>
+                                            <a
+                                                href={resource.fileUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="px-3 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
+                                            >
+                                                View
+                                            </a>
+                                        </div>
+                                    </div>
+                                ))}
+                                {hasMore && (
+                                    <button
+                                        onClick={loadMoreResources}
+                                        className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors"
+                                    >
+                                        Show More
+                                    </button>
+                                )}
                             </div>
-                        </div>
-                    </div> */}
+                        )}
+                        {resources.length === 0 && initialLoad && (
+                            <div className="text-center py-8 text-gray-500">
+                                <svg className="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <p>No resources found. Try a different search.</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

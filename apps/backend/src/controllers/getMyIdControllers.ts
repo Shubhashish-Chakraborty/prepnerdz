@@ -20,6 +20,7 @@ export const getBranchId = async (req: Request, res: Response) => {
 
         if (!branch) {
             res.status(404).json({
+                success: false,
                 message: `Branch Not Found by the name ${branchName}`
             });
             return;
@@ -59,7 +60,8 @@ export const getSemesterId = async (req: Request, res: Response) => {
 
         if (!semester) {
             res.status(404).json({
-                message: `Branch Not Found by the name ${semNumber}`
+                success: false,
+                message: `Semester Not Found by the name ${semNumber}`
             });
             return;
         }
