@@ -133,7 +133,7 @@ export const Navbar = () => {
                                     className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     onClick={closeAllDropdowns}
                                 >
-                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:-translate-y-1"> Home </span>
+                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> Home </span>
                                 </Link>
 
                                 <Link
@@ -141,7 +141,7 @@ export const Navbar = () => {
                                     className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     onClick={closeAllDropdowns}
                                 >
-                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:-translate-y-1"> About </span>
+                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> About </span>
                                 </Link>
 
                                 {/* StudyMaterial Dropdown */}
@@ -150,7 +150,7 @@ export const Navbar = () => {
                                         onClick={() => toggleDropdown("studymaterial")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
-                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:-translate-y-1"> StudyMaterial </span>
+                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> StudyMaterial </span>
                                         <Down className="size-6" />
                                     </button>
 
@@ -204,7 +204,7 @@ export const Navbar = () => {
                                         onClick={() => toggleDropdown("pyqs")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
-                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:-translate-y-1"> {"PYQ'S"} </span>
+                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> {"PYQ'S"} </span>
                                         <Down className="size-6" />
                                     </button>
 
@@ -239,7 +239,7 @@ export const Navbar = () => {
                                     className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     onClick={closeAllDropdowns}
                                 >
-                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:-translate-y-1"> Contact us </span>
+                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110"> Contact us </span>
                                 </Link>
                             </div>
                         </div>
