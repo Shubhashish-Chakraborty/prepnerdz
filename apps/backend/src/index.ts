@@ -14,6 +14,7 @@ import { semesterRouter } from './routes/semesterRoutes';
 import { subjectRouter } from './routes/subjectRoutes';
 import { resourceRouter } from './routes/resourceRoutes';
 import { searchRouter } from './routes/searchRoutes';
+import { getMyIdRouter } from './routes/getMyIdRoutes';
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use("/api/v1/semester", semesterRouter);
 app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/resource", resourceRouter);
 app.use("/api/v1/search", searchRouter);
+app.use("/api/v1/getmyid" , getMyIdRouter);
 
 app.get("/", (req, res) => {
     res.send(`
