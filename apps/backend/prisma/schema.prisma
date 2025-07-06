@@ -27,8 +27,18 @@ model User {
   bookmarks           Bookmark[]
   downloads           Download[]
   uploads             Resource[]
+  avatar              Avatar[]
   UserAddedAt         DateTime   @default(now())
   UserUpdatedAt       DateTime   @updatedAt
+}
+
+model Avatar {
+  id        Int      @id @default(autoincrement())
+  publicId  String   @unique
+  url       String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String // Foreign key to User's Table
 }
 
 model Course {
@@ -41,8 +51,8 @@ model Course {
 
 model Branch {
   id         String     @id @default(cuid())
-  branchName String @unique // CSE, IOT, etc..
-  courseId   String @unique
+  branchName String     @unique // CSE, IOT, etc..
+  courseId   String     @unique
   course     Course     @relation(fields: [courseId], references: [id])
   semesters  Semester[]
   createdAt  DateTime   @default(now())

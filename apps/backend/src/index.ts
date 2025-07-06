@@ -15,6 +15,7 @@ import { subjectRouter } from './routes/subjectRoutes';
 import { resourceRouter } from './routes/resourceRoutes';
 import { searchRouter } from './routes/searchRoutes';
 import { getMyIdRouter } from './routes/getMyIdRoutes';
+import { AvatarRouter } from './routes/avatarRoutes';
 
 const app = express();
 
@@ -56,7 +57,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/v1/auth/user", UserRouter);
 app.use("/auth", OauthRouter);
-
+app.use("/api/v1/avatar", AvatarRouter);
 
 // ADMIN API ENDPOINTS!!!
 app.use("/api/v1/course", courseRouter);

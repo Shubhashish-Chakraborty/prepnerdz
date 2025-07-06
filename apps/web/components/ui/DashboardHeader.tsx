@@ -1,11 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Button } from "./buttons/Button";
 import { MenuDots } from "@/icons/MenuDots";
 import TypingText from "./TypingTest";
+import { User } from "@/icons/User";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 interface HeaderProps {
     userName: string
     setIsSidebarOpen: (open: boolean) => void
@@ -14,7 +17,29 @@ interface HeaderProps {
 export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
     const router = useRouter();
-    
+    const [avatar, setAvatar] = useState<string | null>(null);
+    const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
+    const avatarMenuRef = useRef<HTMLDivElement>(null);
+
+
+    // Fetch Avatar:
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/get-avatar`, {
+                    withCredentials: true,
+                });
+                if (response.data && response.data.url) {
+                    setAvatar(response.data.url);
+                }
+            } catch (err) {
+                console.error("Failed to fetch avatar:", err);
+            }
+        };
+
+        fetchAvatar();
+    }, []);
+
     // Dropdown menu items - easily extensible
     const dropdownItems = [
         { label: "Profile", icon: "👤", action: () => console.log("Profile clicked") },
@@ -36,7 +61,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
     return (
         <header className="bg-white border-b border-gray-200 shadow-sm sticky z-50 top-0 w-full">
-            <div className="flex items-center justify-between h-16 px-4 lg:px-8">
+            <div className="flex items-center justify-between h-24 px-4 lg:px-8">
                 {/* Mobile Menu Button */}
                 <button
                     onClick={() => setIsSidebarOpen(true)}
@@ -52,7 +77,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                     <div className="flex items-center">
                         <div className="hidden sm:block">
                             <h2 className="md:text-3xl text-lg transition-all duration-300 font-semibold text-gray-800">
-                                <TypingText text="Welcome Back,"/> <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
+                                <TypingText text="Welcome Back," /> <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
                             </h2>
                             {/* <p className="text-sm text-gray-600">
                                 {new Date().toLocaleDateString("en-US", {
@@ -69,8 +94,57 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                     </div>
                 </div>
 
+
+
                 {/* Right Side Actions */}
                 <div className="flex items-center space-x-4">
+                    {/* avatar section */}
+                    <div className="hidden md:block">
+                        <div className="relative" ref={avatarMenuRef}>
+                            <button
+                                onClick={() => setAvatarMenuOpen(!avatarMenuOpen)}
+                                className="flex cursor-pointer items-center justify-center w-20 h-20 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
+                            >
+                                {avatar ? (
+                                    <Image
+                                        src={avatar}
+                                        alt="User Avatar"
+                                        width={64}
+                                        height={64}
+                                        className="object-cover w-full h-full"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-amber-300 flex items-center justify-center">
+                                        <User className="size-6" />
+                                    </div>
+                                )}
+                            </button>
+
+                            <AnimatePresence>
+                                {avatarMenuOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute right-0 top-full mt-2 w-52 bg-emerald-400 hover:bg-emerald-200 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
+                                    >
+                                        <div className="py-1">
+                                            <button
+                                                onClick={() => {
+                                                    router.push("/upload-avatar");
+                                                    setAvatarMenuOpen(false);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold hover:bg-emerald-200 transition-colors"
+                                            >
+                                                Change Profile Image
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
                     {/* Dropdown Menu */}
                     <div className="relative">
                         <button
