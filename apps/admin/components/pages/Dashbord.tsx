@@ -32,7 +32,7 @@ export default function DashboardLanding() {
         month: '',
         description: '',
         fileUrl: '',
-        fileSize: '',
+        fileSize: 0,
         fileType: '',
     });
 
@@ -115,14 +115,14 @@ export default function DashboardLanding() {
                 <Section title="Add Branch">
                     <input type="text" value={branchName} onChange={e => setBranchName(e.target.value)} placeholder="Branch Name" className="input" />
                     <input type="text" value={courseId} onChange={e => setCourseId(e.target.value)} placeholder="Course ID" className="input" />
-                    <SubmitBtn onClick={() => submitData("api/v1/branch/add", { name: branchName, courseId })} />
+                    <SubmitBtn onClick={() => submitData("api/v1/branch/add", { branchName: branchName, courseId })} />
                 </Section>
 
                 {/* Add Semester */}
                 <Section title="Add Semester">
                     <input type="text" value={semesterNum} onChange={e => setSemesterNum(e.target.value)} placeholder="Semester Number" className="input" />
                     <input type="text" value={branchId} onChange={e => setBranchId(e.target.value)} placeholder="Branch ID" className="input" />
-                    <SubmitBtn onClick={() => submitData("api/v1/semester/add", { number: semesterNum, branchId })} />
+                    <SubmitBtn onClick={() => submitData("api/v1/semester/add", { semNumber: parseInt(semesterNum), branchId })} />
                 </Section>
 
                 {/* Add Subject */}
@@ -131,8 +131,8 @@ export default function DashboardLanding() {
                     <input type="text" value={subjectCode} onChange={e => setSubjectCode(e.target.value)} placeholder="Subject Code" className="input" />
                     <input type="text" value={semesterId} onChange={e => setSemesterId(e.target.value)} placeholder="Semester ID" className="input" />
                     <SubmitBtn onClick={() => submitData("api/v1/subject/add", {
-                        name: subjectName,
-                        code: subjectCode,
+                        subjectName: subjectName,
+                        subjectCode: subjectCode,
                         semesterId,
                     })} />
                 </Section>
@@ -143,16 +143,20 @@ export default function DashboardLanding() {
                     <input type="text" placeholder="Uploaded by ID" className="input" value={resource.uploadedById} onChange={e => setResource({ ...resource, uploadedById: e.target.value })} />
                     <select className="input" value={resource.type} onChange={e => setResource({ ...resource, type: e.target.value })}>
                         <option value="">Select Type</option>
-                        <option value="NOTES">NOTES</option>
+                        <option value="SHIVANI_BOOKS">SHIVANI_BOOKS</option>
                         <option value="MID_SEM_PAPER">MID_SEM_PAPER</option>
                         <option value="END_SEM_PAPER">END_SEM_PAPER</option>
+                        <option value="IMP_QUESTION">IMP_QUESTION</option>
+                        <option value="NOTES">NOTES</option>
+                        <option value="LAB_MANUAL">LAB_MANUAL</option>
+                        <option value="SYLLABUS">SYLLABUS</option>
                     </select>
                     <input type="text" placeholder="Title" className="input" value={resource.title} onChange={e => setResource({ ...resource, title: e.target.value })} />
-                    <input type="number" placeholder="Year" className="input" value={resource.year} onChange={e => setResource({ ...resource, year: e.target.value })} />
+                    <input type="text" placeholder="Year" className="input" value={resource.year} onChange={e => setResource({ ...resource, year: e.target.value })} />
                     <input type="text" placeholder="Month" className="input" value={resource.month} onChange={e => setResource({ ...resource, month: e.target.value })} />
                     <input type="text" placeholder="Description" className="input" value={resource.description} onChange={e => setResource({ ...resource, description: e.target.value })} />
                     <input type="text" placeholder="File URL" className="input" value={resource.fileUrl} onChange={e => setResource({ ...resource, fileUrl: e.target.value })} />
-                    <input type="number" placeholder="File Size (in MB)" className="input" value={resource.fileSize} onChange={e => setResource({ ...resource, fileSize: e.target.value })} />
+                    <input type="number" placeholder="File Size (in KB)" className="input" value={resource.fileSize} onChange={e => setResource({ ...resource, fileSize: parseInt(e.target.value) })} />
                     <input type="text" placeholder="File Type" className="input" value={resource.fileType} onChange={e => setResource({ ...resource, fileType: e.target.value })} />
                     <SubmitBtn onClick={() => submitData("api/v1/resource/add", resource)} />
                 </Section>

@@ -47,10 +47,10 @@ export const resourceValidationSchema = z.object({
     uploadedById: z.string().min(1, "Uploaded by id is required"),
     type: z.nativeEnum(ResourceType),
     title: z.string().min(1, "Resource title is required"),
-    year: z.number().int().min(2000, "Year must be a positive integer"),
-    month: z.string().min(1, "Month is required"),
+    year: z.string().optional(),
+    month: z.string().optional(),
     description: z.string().min(1, "Description is required"),
     fileUrl: z.string().min(1, "File url is required"),
-    fileSize: z.number().min(1, "File size is required"),
+    fileSize: z.number().min(1, "File size is required"), // Size in KB
     fileType: z.string().min(1, "File type is required"),
 });

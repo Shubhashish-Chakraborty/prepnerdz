@@ -74,7 +74,7 @@ model Resource {
   id           String       @id @default(cuid())
   type         ResourceType // Notes, Books, etc. see the resource type below
   title        String
-  year         Int?
+  year         String?
   month        String?
   description  String?
   fileUrl      String // for example: Google Drive URL, etc

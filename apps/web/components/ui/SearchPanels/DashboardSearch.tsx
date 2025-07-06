@@ -14,7 +14,6 @@ const searchPanelConfig = {
         placeholder: "Search for books...",
         branches: ["CSE", "AI", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
-        additionalFilters: ["Author", "Publication Year"],
     },
     "midsem-papers": {
         title: "Search Midsem Papers",
@@ -22,7 +21,6 @@ const searchPanelConfig = {
         placeholder: "Search for midsem papers...",
         branches: ["CSE", "AI", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
-        additionalFilters: ["Subject", "Year"],
     },
     "endsem-papers": {
         title: "Search Endsem Papers",
@@ -30,7 +28,6 @@ const searchPanelConfig = {
         placeholder: "Search for endsem papers...",
         branches: ["CSE", "AI", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
-        additionalFilters: ["Subject", "Year"],
     },
     // Add more search panel configurations here
     // 'assignments': {
@@ -185,23 +182,6 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                         </div>
                     </div>
 
-                    {/* Additional Filters (Future Enhancement) */}
-                    <div className="animate-in slide-in-from-bottom-8 duration-1000">
-                        <div className="bg-gray-50 rounded-lg p-4">
-                            <h3 className="text-sm font-medium text-gray-700 mb-3">Additional Filters</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {currentPanel.additionalFilters.map((filter) => (
-                                    <button
-                                        key={filter}
-                                        className="px-3 py-1 text-sm bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition-colors duration-200"
-                                    >
-                                        {filter}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-in slide-in-from-bottom-10 duration-1000">
                         <button
@@ -257,7 +237,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                     </div>
 
                     {/* Search Tips */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 animate-in slide-in-from-bottom-12 duration-1200">
+                    {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 animate-in slide-in-from-bottom-12 duration-1200">
                         <div className="flex items-start">
                             <svg
                                 className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0"
@@ -281,7 +261,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
