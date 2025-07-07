@@ -231,6 +231,7 @@ export const session = async (req: Request, res: Response) => {
                 email: true,
                 username: true,
                 isMailVerified: true,
+                UserAddedAt: true,
                 provider: true
             }
         });

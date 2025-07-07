@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { Button } from "../ui/buttons/Button";
 import { Footer } from "../ui/Footer";
+import { MessageSend } from "@/icons/MessageSend";
 
 export const ContactLanding = () => {
     const [formData, setFormData] = useState({
@@ -182,11 +183,11 @@ export const ContactLanding = () => {
                                     >
                                         {isSubmitting ? (
                                             <>
-                                                <Button text="Sending..." disabled={true} colorVariant="black_green" sizeVariant="medium" />
+                                                <Button text="Sending..." disabled={true} endIcon={<MessageSend/>} colorVariant="black_green" sizeVariant="medium" />
                                             </>
                                         ) : (
                                             <>
-                                                <Button text="Send Message" colorVariant="black_green" sizeVariant="medium" />
+                                                <Button text="Send Message" endIcon={<MessageSend/>} colorVariant="black_green" sizeVariant="medium" />
                                             </>
                                         )}
                                     </button>

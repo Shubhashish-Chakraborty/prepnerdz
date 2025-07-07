@@ -9,6 +9,12 @@ import TypingText from "./TypingTest";
 import { User } from "@/icons/User";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { Home } from "@/icons/Home";
+import { Download } from "@/icons/Download";
+import { Bookmark } from "@/icons/Bookmark";
+import { Settings } from "@/icons/Settings";
+import { Right } from "@/icons/Right";
+import { Question } from "@/icons/Question";
 interface HeaderProps {
     userName: string
     setIsSidebarOpen: (open: boolean) => void
@@ -20,6 +26,34 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
     const [avatar, setAvatar] = useState<string | null>(null);
     const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
     const avatarMenuRef = useRef<HTMLDivElement>(null);
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [joined, setJoined] = useState("");
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        console.log();
+    } , [loading]);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
+                    withCredentials: true,
+                });
+                setUsername(response.data.message.user.username);
+                setEmail(response.data.message.user.email);
+                setJoined(response.data.message.user.UserAddedAt.split("T")[0].split("-").reverse().join("-"));
+            } catch (err) {
+                console.error("Failed to fetch user data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        getUserData();
+    }, []);
 
 
     // Fetch Avatar:
@@ -41,13 +75,14 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
     }, []);
 
     // Dropdown menu items - easily extensible
-    const dropdownItems = [
-        { label: "Profile", icon: "👤", action: () => console.log("Profile clicked") },
-        { label: "Settings", icon: "⚙️", action: () => console.log("Settings clicked") },
-        { label: "Help", icon: "❓", action: () => console.log("Help clicked") },
-        // Add more dropdown items here
-        // { label: 'Notifications', icon: '🔔', action: () => console.log('Notifications clicked') },
-    ]
+    // const dropdownItems = [
+    //     { label: "Home", icon: <Home />, action: () => console.log("Profile clicked") },
+    //     { label: "Profile", icon: "👤", action: () => console.log("Profile clicked") },
+    //     { label: "Settings", icon: "⚙️", action: () => console.log("Settings clicked") },
+    //     { label: "Help", icon: "❓", action: () => console.log("Help clicked") },
+    //     // Add more dropdown items here
+    //     // { label: 'Notifications', icon: '🔔', action: () => console.log('Notifications clicked') },
+    // ]
 
     const handleLogout = async () => {
         try {
@@ -58,6 +93,14 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
             console.error("Logout failed:", error);
         }
     }
+
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+
+        if (hour < 12) return "Good Morning";
+        if (hour < 18) return "Good Afternoon";
+        return "Good Evening";
+    };
 
     return (
         <header className="bg-white border-b border-gray-200 shadow-sm sticky z-50 top-0 w-full">
@@ -77,16 +120,8 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                     <div className="flex items-center">
                         <div className="hidden sm:block">
                             <h2 className="md:text-3xl text-lg transition-all duration-300 font-semibold text-gray-800">
-                                <TypingText text="Welcome Back," /> <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
+                                <TypingText text={getGreeting()} /> <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
                             </h2>
-                            {/* <p className="text-sm text-gray-600">
-                                {new Date().toLocaleDateString("en-US", {
-                                    weekday: "long",
-                                    year: "numeric",
-                                    month: "long",
-                                    day: "numeric",
-                                })}
-                            </p> */}
                         </div>
                         <div className="sm:hidden">
                             <h2 className="text-lg font-semibold text-gray-800">Hi, {userName}! 👋</h2>
@@ -94,9 +129,8 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                     </div>
                 </div>
 
-
-
                 {/* Right Side Actions */}
+
                 <div className="flex items-center space-x-4">
                     {/* avatar section */}
                     <div className="hidden md:block">
@@ -145,6 +179,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                             </AnimatePresence>
                         </div>
                     </div>
+
                     {/* Dropdown Menu */}
                     <div className="relative">
                         <button
@@ -158,20 +193,119 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
                         {/* Dropdown Content */}
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
-                                {dropdownItems.map((item, index) => (
+                            <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
+                                {/* User info section */}
+                                <div className="px-4 py-3 border-b border-gray-100">
+                                    <p className="font-bold text-gray-900 truncate">{username}</p>
+                                    <p className="text-sm text-gray-500 truncate">{email}</p>
+                                </div>
+
+                                {/* Main menu items */}
+                                <div className="py-1">
                                     <button
-                                        key={index}
                                         onClick={() => {
-                                            item.action()
-                                            setIsDropdownOpen(false)
+                                            router.push("/");
+                                            setIsDropdownOpen(false);
                                         }}
                                         className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
-                                        <span className="mr-3">{item.icon}</span>
-                                        <span className="text-gray-700">{item.label}</span>
+                                        <span className="mr-3"><Home /></span>
+                                        <span className="text-gray-700">Home</span>
                                     </button>
-                                ))}
+
+                                    <button
+                                        onClick={() => {
+                                            router.push("/bookmarks");
+                                            setIsDropdownOpen(false);
+                                        }}
+                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                    >
+                                        <span className="mr-3"><Bookmark className="size-5" /></span>
+                                        <span className="text-gray-700">Bookmarks</span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => {
+                                            router.push("/downloads");
+                                            setIsDropdownOpen(false);
+                                        }}
+                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                    >
+                                        <span className="mr-3"><Download className="size-5" /></span>
+                                        <span className="text-gray-700">Downloads</span>
+                                    </button>
+
+                                    {/* Settings with nested panel */}
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => setSettingsOpen(!settingsOpen)}
+                                            className="w-full flex items-center justify-between px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                        >
+                                            <div className="flex items-center">
+                                                <span className="mr-3"><Settings /></span>
+                                                <span className="text-gray-700">Settings</span>
+                                            </div>
+                                            <Right className={`size-5 transition-transform ${settingsOpen ? 'transform rotate-90' : ''}`} />
+                                        </button>
+
+                                        {settingsOpen && (
+                                            <div className="ml-2 pl-2 border-l-2 border-gray-200">
+                                                <button
+                                                    onClick={() => {
+                                                        router.push("/change-username");
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                >
+                                                    <span className="text-gray-700">Change Username</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        router.push("/change-password");
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                >
+                                                    <span className="text-gray-700">Change Password</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        router.push("/change-contact");
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                >
+                                                    <span className="text-gray-700">Change Contact Number</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        router.push("/upload-avatar");
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                >
+                                                    <span className="text-gray-700">Change Profile Picture</span>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <button
+                                        onClick={() => {
+                                            router.push("/help");
+                                            setIsDropdownOpen(false);
+                                        }}
+                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                    >
+                                        <span className="mr-3"><Question className="size-5" /></span>
+                                        <span className="text-gray-700">Help</span>
+                                    </button>
+                                </div>
+
+                                {/* Footer section */}
+                                <div className="px-4 py-2 border-t border-gray-100 text-xs text-gray-500">
+                                    Member since: {joined}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -184,6 +318,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                         onClick={handleLogout}
                     />
                 </div>
+
             </div>
 
             {/* Close dropdown when clicking outside */}
