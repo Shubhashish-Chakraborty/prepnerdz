@@ -12,6 +12,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { Button } from "../ui/buttons/Button";
+import { Footer } from "../ui/Footer";
 
 export const ContactLanding = () => {
     const [formData, setFormData] = useState({
@@ -119,7 +120,7 @@ export const ContactLanding = () => {
                                     alt="Shubh"
                                     width={350}
                                     height={350}
-                                    className="hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                                    className="hover:scale-105 transition-all duration-300 cursor-pointer"
                                 />
 
                                 <div className="mt-6 text-lg font-bold">
@@ -194,6 +195,9 @@ export const ContactLanding = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="mt-20">
+                    <Footer/>
                 </div>
             </div>
         </div>
