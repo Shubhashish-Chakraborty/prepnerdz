@@ -250,7 +250,7 @@ export const Navbar = () => {
                                 </div>
 
                                 <Link
-                                    href="/contact"
+                                    href="/contact-us"
                                     className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     onClick={closeAllDropdowns}
                                 >
