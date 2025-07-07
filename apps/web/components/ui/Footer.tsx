@@ -1,7 +1,5 @@
 "use client"
 
-import { Github } from "@/icons/Github"
-import { Instagram } from "@/icons/Instagram"
 import { Linkedin } from "@/icons/Linkedin"
 import { X } from "@/icons/X"
 import Image from "next/image"
@@ -40,12 +38,7 @@ export const Footer = () => {
 
 
     const socialLinks = [
-        {
-            icon: Instagram,
-            url: "https://www.instagram.com/___shubhashish___",
-            color: "text-pink-600 hover:text-pink-700",
-            hoverBg: "hover:bg-pink-50",
-        },
+        
         {
             icon: X,
             url: "https://www.x.com/__Shubhashish__",
@@ -57,13 +50,7 @@ export const Footer = () => {
             url: "https://www.linkedin.com/in/Shubhashish-Chakraborty",
             color: "text-blue-600 hover:text-blue-700",
             hoverBg: "hover:bg-blue-50",
-        },
-        {
-            icon: Github,
-            url: "https://www.github.com/Shubhashish-Chakraborty",
-            color: "text-gray-800 hover:text-gray-900",
-            hoverBg: "hover:bg-gray-50",
-        },
+        }
     ]
 
     const quickLinks = [

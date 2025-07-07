@@ -6,16 +6,23 @@ import { useRouter } from "next/navigation";
 import Sidebar from "../ui/sidebars/Sidebar";
 import Header from "../ui/DashboardHeader";
 import SearchPanel from "../ui/SearchPanels/DashboardSearch";
+import { Star } from "@/icons/Star";
+import { BookClose } from "@/icons/BookClose";
+import { Paper } from "@/icons/Paper";
+import { Target } from "@/icons/Target";
+import { BookOpenReading } from "@/icons/BookOpenReading";
+import { Syllabus } from "@/icons/Syllabus";
+import { Flask } from "@/icons/Flask";
 
 // Navigation items configuration - easily extensible
 export const navigationItems = [
-    { id: "shivani-books", label: "Shivani Books", icon: "📚" },
-    { id: "midsem-papers", label: "Midsem Papers", icon: "📄" },
-    { id: "endsem-papers", label: "Endsem Papers", icon: "📋" },
-    { id: "imp-questions", label: "Important Questions", icon: "📋" },
-    { id: "acad-notes", label: "Best Notes", icon: "📋" },
-    { id: "syllabus", label: "Syllabus", icon: "📋" },
-    { id: "lab-manual", label: "Lab Manual", icon: "📋" },
+    { id: "shivani-books", label: "Shivani Books", icon: <BookClose className="size-5 text-black"/> },
+    { id: "midsem-papers", label: "Midsem Papers", icon: <Paper className="size-5 text-black"/> },
+    { id: "endsem-papers", label: "Endsem Papers", icon: <Target className="size-5 text-black"/> },
+    { id: "imp-questions", label: "Important Questions", icon: <Star className="size-5 text-black"/> },
+    { id: "acad-notes", label: "Best Notes", icon: <BookOpenReading className="size-5 text-black"/> },
+    { id: "syllabus", label: "Syllabus", icon: <Syllabus className="size-5 text-black"/> },
+    { id: "lab-manual", label: "Lab Manual", icon: <Flask className="size-5 text-black"/> },
     // Add more navigation items here in the future
     // { id: 'assignments', label: 'Assignments', icon: '✏️' },
     // { id: 'notes', label: 'Notes', icon: '📝' },

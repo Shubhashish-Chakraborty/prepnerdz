@@ -2,13 +2,13 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import type { Dispatch, SetStateAction } from "react"
+import type { Dispatch, ReactNode, SetStateAction } from "react"
 import DateTimeCard from "../cards/DateTime"
 
 interface NavigationItem {
     id: string
     label: string
-    icon: string
+    icon: ReactNode
 }
 
 interface SidebarProps {

@@ -1,15 +1,38 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import GoogleAuthBtn from '../ui/buttons/GoogleAuth'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-
+import Image from 'next/image'
+import { User } from '@/icons/User'
 
 export const Landing = () => {
     const [authStatus, setAuthStatus] = useState<'LOADING' | 'UNAUTHENTICATED' | 'ADMIN' | 'STUDENT'>('LOADING');
     const router = useRouter();
+    const [avatar, setAvatar] = useState<string | null>(null);
+    const avatarMenuRef = useRef<HTMLDivElement>(null);
+    const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
+
+
+    // Fetch Avatar:
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/get-avatar`, {
+                    withCredentials: true,
+                });
+                if (response.data && response.data.url) {
+                    setAvatar(response.data.url);
+                }
+            } catch (err) {
+                console.error("Failed to fetch avatar:", err);
+            }
+        };
+
+        fetchAvatar();
+    }, []);
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -53,9 +76,41 @@ export const Landing = () => {
     return (
         <div className="bg-mainBgColor text-white h-screen overflow-hidden">
             <div className="flex mt-30 flex-col justify-center items-center">
-                <div className="md:text-4xl text-2xl font-bold text-center">
-                    LogIn to your admin account
-                </div>
+
+                {authStatus !== "ADMIN" && (
+                    <div className="md:text-4xl text-2xl font-bold text-center">
+                        LogIn to your admin account
+                    </div>
+                )}
+
+                {/* avatar section */}
+                {authStatus !== "UNAUTHENTICATED" && (
+                    <div className="hidden md:block">
+                        <div className="relative" ref={avatarMenuRef}>
+                            <button
+                                onClick={() => setAvatarMenuOpen(!avatarMenuOpen)}
+                                className="flex cursor-pointer items-center justify-center w-20 h-20 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
+                            >
+                                {avatar ? (
+                                    <Image
+                                        src={avatar}
+                                        alt="User Avatar"
+                                        width={64}
+                                        height={64}
+                                        className="object-cover w-full h-full"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-amber-300 flex items-center justify-center">
+                                        <User className="size-6" />
+                                    </div>
+                                )}
+                            </button>
+
+                        </div>
+                    </div>
+                )}
+
+
 
                 <div className="mt-20">
                     {authStatus === 'LOADING' && <div>Loading...</div>}
@@ -85,7 +140,7 @@ export const Landing = () => {
                     {authStatus === 'ADMIN' && (
                         <div className='space-x-6'>
                             <button
-                                onClick={() => {router.push('/dashboard')}}
+                                onClick={() => { router.push('/dashboard') }}
                                 className="bg-green-600 cursor-pointer hover:bg-green-700 px-4 py-2 rounded-xl text-white font-semibold"
                             >
                                 Go to Dashboard
