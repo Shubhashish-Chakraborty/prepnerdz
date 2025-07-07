@@ -15,6 +15,7 @@ import { Upload } from "@/icons/Upload";
 import { ShieldColored } from "@/icons/Shield";
 import ProfileCard from "../ui/cards/ProfileCard";
 import Navbar from "../ui/navbars/Navbar";
+import { Footer } from "../ui/Footer";
 
 
 export const HomeLanding = () => {
@@ -85,7 +86,7 @@ export const HomeLanding = () => {
                                                 onChange={(e) => setSearchQuery(e.target.value)}
                                                 className="pl-10 pr-4 py-3 text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
                                             />
-                                            <Button sizeVariant="large" colorVariant="black_green" text="Search"/>
+                                            <Button sizeVariant="large" colorVariant="black_green" text="Search" />
                                         </div>
                                     </div>
 
@@ -93,7 +94,7 @@ export const HomeLanding = () => {
                                     <div className="flex flex-col sm:flex-row gap-4">
                                         <Button colorVariant="black_green" sizeVariant="medium" text="Get Started" />
                                         <Button colorVariant="yellow" sizeVariant="medium" text="Explore Features" />
-                                        
+
                                     </div>
 
                                     {/* Trust Indicators */}
@@ -151,7 +152,7 @@ export const HomeLanding = () => {
                                                     </select>
                                                 </div>
                                                 <div className="flex justify-center">
-                                                    <Button sizeVariant="small" colorVariant="black_green" text="Search Resources"/>
+                                                    <Button sizeVariant="small" colorVariant="black_green" text="Search Resources" />
                                                 </div>
                                             </div>
 
@@ -233,7 +234,7 @@ export const HomeLanding = () => {
                                 </div>
                                 <div className="flex justify-center">
                                     {/* <iframe width="660" height="415" src="https://www.youtube.com/embed/p5rl5JK8Z4Y?si=BPYArJllrLpdnlNd" title="YouTube video player" allowfullscreen></iframe> */}
-                                    <video width={600} height={600} controls/>
+                                    <video width={600} height={600} controls />
                                 </div>
                                 {/* <div className="grid md:grid-cols-3 gap-8">
                                     <StepCard
@@ -255,7 +256,7 @@ export const HomeLanding = () => {
                             </div>
                         </section>
 
-                        
+
                         <section id="resources" className="py-16">
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                                 <div className="text-center mb-12">
@@ -264,7 +265,7 @@ export const HomeLanding = () => {
                                 </div>
 
                                 <div className="flex justify-center">
-                                    <ProfileCard website="https://imshubh.site" mailid="shubhashish147@gmail.com" github="https://github.com/Shubhashish-Chakraborty" linkedin="https://linkedin.com/in/Shubhashish-Chakraborty" instagram="https://www.instagram.com/___shubhashish___" name="Shubhashish Chakraborty" about="Lead Developer" image="/developers/shubh.png"/>
+                                    <ProfileCard website="https://imshubh.site" mailid="shubhashish147@gmail.com" github="https://github.com/Shubhashish-Chakraborty" linkedin="https://linkedin.com/in/Shubhashish-Chakraborty" instagram="https://www.instagram.com/___shubhashish___" name="Shubhashish Chakraborty" about="Lead Developer" image="/developers/shubh.png" />
                                 </div>
                             </div>
                         </section>
@@ -295,7 +296,11 @@ export const HomeLanding = () => {
                         </section>
                     </div>
                 </div>
+                <div>
+                    <Footer />
+                </div>
             </div>
+
         </div>
 
     )

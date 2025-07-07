@@ -134,7 +134,7 @@ export const Navbar = () => {
                                 alt="logo"
                                 width={150}
                                 height={150}
-                                className="hover:scale-105 transition-all duration-500"
+                                className="hover:scale-105 transition-scale duration-500"
                             />
                         </Link>
 
