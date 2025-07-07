@@ -1,13 +1,15 @@
 import { Router } from "express";
-import { logout, me, session, signin, signup, verify_email } from "../controllers/userControllers";
+import { forgotPassword, logout, me, passwordReset, session, signin, signup, verify_email } from "../controllers/userControllers";
 import { UserAuth } from "../middlewares/userAuthentication";
 import { requestValidation } from "../middlewares/requestValidation";
 
 export const UserRouter = Router();
 
-UserRouter.post("/signup" , requestValidation , signup);
-UserRouter.post("/signin" , requestValidation , signin);
+UserRouter.post("/signup", requestValidation, signup);
+UserRouter.post("/signin", requestValidation, signin);
 UserRouter.post("/logout", logout)
-UserRouter.post("/verify-mail" , requestValidation , verify_email);
+UserRouter.post("/verify-mail", requestValidation, verify_email);
+UserRouter.post("/send-otp-for-forgot-password", requestValidation, forgotPassword);
+UserRouter.post("/reset-password", requestValidation, passwordReset);
 UserRouter.get("/session", UserAuth, session);
 UserRouter.get("/me", UserAuth, me);

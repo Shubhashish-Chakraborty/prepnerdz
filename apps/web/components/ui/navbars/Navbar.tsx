@@ -97,9 +97,9 @@ export const Navbar = () => {
         closeAllDropdowns();
         if (isAuthenticated) {
             router.push('/dashboard');
-            toast.success("✅ Explore the resources here in Dashboard!");
+            toast.success("Explore the resources here in Dashboard!");
         } else {
-            toast.error("⚠️ You must login to access the resources!");
+            toast.error("You must login to access the resources!");
         }
     };
 

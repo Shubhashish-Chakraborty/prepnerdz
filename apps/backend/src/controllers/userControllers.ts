@@ -5,6 +5,7 @@ import { JWT_USER_SECRET } from "../config";
 import { FINAL_MAIL_VERIFICATION, sendOtp } from "../utils/mail_verification";
 import { signinValidationSchema, signupValidationSchema } from "../utils/zodSchema";
 import prisma from "../db/prisma";
+import { resetPassword, sendOtp_forgotPassword } from "../utils/password_config";
 
 export const signup = async (req: Request, res: Response) => {
     try {
@@ -301,5 +302,66 @@ export const me = async (req: Request, res: Response) => {
             message: 'Something Went Wrong, Please Try Again Later',
             error
         });
+    }
+}
+
+export const forgotPassword = async (req: Request, res: Response) => {
+
+    try {
+        const { email } = req.body;
+
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        })
+
+        if (!user) {
+            res.status(400).json({
+                message: `User with email ${email} not found in Our Database!, Enter the correct email address, the email which you entered while SignUp!`
+            })
+            return
+        }
+
+        const otpGenerated = Math.floor(100000 + Math.random() * 900000).toString();
+
+        await sendOtp_forgotPassword(email, otpGenerated);
+
+        await prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                otpForResetPassword: otpGenerated
+            }
+        })
+
+        res.json({
+            message: `OTP Sent to ${user.email} For Password Reset!`,
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later"
+        });
+    }
+}
+
+export const passwordReset = async (req: Request, res: Response) => {
+    const { email, otpEntered, newPassword } = req.body;
+    const user = await prisma.user.findUnique({
+        where: {
+            email
+        }
+    });
+
+    if (user?.email === email) {
+        resetPassword(otpEntered, user?.email as string, newPassword, res);
+    }
+    else {
+        res.status(400).json({
+            message: "Enter the correct email address, the email which you entered while SignUp!"
+        });
+        return;
     }
 }
