@@ -36,9 +36,9 @@ export const ContactLanding = () => {
         setIsSubmitting(true);
 
         try {
-            const response = await axios.post(`http://localhost:3001/api/v1/contact/`, formData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/contact/`, formData);
             if (response.status === 200) {
-                toast.success("Thank you for contacting us! We'll get back to you soon.");
+                toast.success("Thank you, We'll get back to you within 24 hours!");
                 setFormData({
                     name: "",
                     email: "",
@@ -47,8 +47,7 @@ export const ContactLanding = () => {
                 });
             }
         } catch (error) {
-            // toast.error("Failed to submit form. Please try again.");
-            toast.error("Have to implement backend for this!");
+            toast.error("Failed to submit form. Please try again.");
             console.error("Submission error:", error);
         } finally {
             setIsSubmitting(false);
