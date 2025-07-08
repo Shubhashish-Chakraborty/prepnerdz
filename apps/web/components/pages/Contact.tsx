@@ -14,6 +14,7 @@ import axios from "axios";
 import { Button } from "../ui/buttons/Button";
 import { Footer } from "../ui/Footer";
 import { MessageSend } from "@/icons/MessageSend";
+import Link from "next/link";
 
 export const ContactLanding = () => {
     const [formData, setFormData] = useState({
@@ -115,22 +116,30 @@ export const ContactLanding = () => {
                                     </div>
                                 </div>
 
-                                <Image
-                                    src={"/developers/shubhFull3.png"}
-                                    alt="Shubh"
-                                    width={350}
-                                    height={350}
-                                    className="hover:scale-105 transition-all duration-300 cursor-pointer"
-                                />
+                                <Link href={"/contact-us"}>
+                                    <Image
+                                        src={"/founders/shubhFull3.png"}
+                                        alt="Shubh"
+                                        width={350}
+                                        height={350}
+                                        className="hover:scale-105 transition-all duration-300 cursor-pointer"
+                                    />
+                                </Link>
 
                                 <div className="mt-6 text-lg font-bold">
-                                    Or just reach out manually to <span className="text-blue-600 cursor-pointer hover:underline"> prepnerdz@gmail.com </span>
+                                    Or just reach out manually to <span onClick={() => {
+                                        navigator.clipboard.writeText("prepnerdz@gmail.com");
+                                        toast.success('Email copied to clipboard!');
+                                    }} className="text-blue-600 cursor-pointer hover:underline"> prepnerdz@gmail.com </span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right Side */}
                         <div>
+                            <div className="text-center text-3xl font-bold italic">
+                                <TypingText text="Have a message for us.? drop here!" />
+                            </div>
                             {/* form */}
                             <div>
                                 <form onSubmit={handleSubmit} className="space-y-6">

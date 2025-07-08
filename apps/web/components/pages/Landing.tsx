@@ -4,7 +4,7 @@ import { useState } from "react";
 import TypingText from "../ui/TypingTest";
 import { Button } from "../ui/buttons/Button";
 import { Input } from "../ui/inputs/InputSimple";
-import { Card, CardContent } from "../ui/cards/HeroCards";
+import { Card } from "../ui/cards/HeroCards";
 import { BookOpen } from "@/icons/BookOpen";
 import { Search } from "@/icons/Search";
 import { Users } from "@/icons/Users";
@@ -13,13 +13,24 @@ import { Download } from "@/icons/Download";
 import { Bookmark } from "@/icons/Bookmark";
 import { Upload } from "@/icons/Upload";
 import { ShieldColored } from "@/icons/Shield";
-import ProfileCard from "../ui/cards/ProfileCard";
 import Navbar from "../ui/navbars/Navbar";
 import { Footer } from "../ui/Footer";
+import ProfileSimple from "../ui/cards/ProfileSimple";
+import { LoginModal } from "../modals/Login";
+import { SignupModal } from "../modals/Signup";
+import Link from "next/link";
+import LandingHero from "../ui/cards/HeroCard";
+import { ThanksForVisit } from "../ui/ThanksForVisit";
+import { EnterDoor } from "@/icons/EnterDoor";
+import { Globe } from "@/icons/Globe";
 
 
 export const HomeLanding = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+
     return (
         <div className="relative min-h-screen bg-mainBgColor">
             {/* Background Animated Circles */}
@@ -48,6 +59,26 @@ export const HomeLanding = () => {
             <div className="relative z-10">
                 <Navbar />
 
+                <div>
+                    <LoginModal
+                        open={isLoginOpen}
+                        onClose={() => setIsLoginOpen(false)}
+                        onSwitchToSignup={() => {
+                            setIsLoginOpen(false);
+                            setIsSignupOpen(true);
+                        }}
+                    />
+
+                    <SignupModal
+                        open={isSignupOpen}
+                        onClose={() => setIsSignupOpen(false)}
+                        onSwitchToLogin={() => {
+                            setIsSignupOpen(false);
+                            setIsLoginOpen(true);
+                        }}
+                    />
+                </div>
+
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="min-h-screen bg-gradient-to-br">
@@ -70,8 +101,12 @@ export const HomeLanding = () => {
                                                 </span>
                                             </span>
                                         </h1>
-                                        <p className="text-lg md:text-xl text-gray-600 max-w-2xl">
-                                            {`"Discover, Download, Dominate - Your Ultimate Academic Companion"`}
+                                        <p className="text-lg md:text-xl text-black font-bold italic max-w-2xl">
+                                            {`
+                                                "No more "Does anyone have…?" messages.
+                                                No more dead-end Google searches.
+                                                Just the right resources, when you need them."
+                                            `}
                                         </p>
                                     </div>
 
@@ -92,8 +127,10 @@ export const HomeLanding = () => {
 
                                     {/* Action Buttons */}
                                     <div className="flex flex-col sm:flex-row gap-4">
-                                        <Button colorVariant="black_green" sizeVariant="medium" text="Get Started" />
-                                        <Button colorVariant="yellow" sizeVariant="medium" text="Explore Features" />
+                                        <Button colorVariant="black_green" sizeVariant="medium" text="Get Started" endIcon={<EnterDoor className="size-6"/>} onClick={() => setIsSignupOpen(true)} />
+                                        <Link href={"/about"}>
+                                            <Button colorVariant="yellow" sizeVariant="medium" endIcon={<Globe className="size-6"/>} text="Explore Features" />
+                                        </Link>
 
                                     </div>
 
@@ -104,10 +141,6 @@ export const HomeLanding = () => {
                                             <span className="text-sm text-gray-600">500+ Students</span>
                                         </div>
                                         <div className="flex items-center space-x-2">
-                                            <Star className="h-5 w-5 text-yellow-500" filled={true} />
-                                            <span className="text-sm text-gray-600">4.9/5 Rating</span>
-                                        </div>
-                                        <div className="flex items-center space-x-2">
                                             <ShieldColored className="size-6 text-green-500" />
                                             <span className="text-sm text-gray-600">Verified Content</span>
                                         </div>
@@ -116,6 +149,8 @@ export const HomeLanding = () => {
 
                                 {/* Right Column - Search Box Desktop */}
                                 <div className="hidden lg:block">
+
+
                                     <Card className="p-6 shadow-xl border-0 backdrop-blur-sm">
                                         <div className="space-y-4">
                                             <div className="text-center">
@@ -155,21 +190,6 @@ export const HomeLanding = () => {
                                                     <Button sizeVariant="small" colorVariant="black_green" text="Search Resources" />
                                                 </div>
                                             </div>
-
-                                            {/* <div className="pt-2">
-                                                <p className="text-xs text-gray-500 text-center">Popular searches:</p>
-                                                <div className="flex flex-wrap gap-1 mt-2">
-                                                    <Badge variant="secondary" className="text-xs">
-                                                        Data Structures
-                                                    </Badge>
-                                                    <Badge variant="secondary" className="text-xs">
-                                                        Physics Notes
-                                                    </Badge>
-                                                    <Badge variant="secondary" className="text-xs">
-                                                        Previous Papers
-                                                    </Badge>
-                                                </div>
-                                            </div> */}
                                         </div>
                                     </Card>
                                 </div>
@@ -185,41 +205,38 @@ export const HomeLanding = () => {
                                     <p className="text-black max-w-2xl mx-auto">
                                         Everything you need to excel in your academics
                                     </p>
-                                    <p className="text-black max-w-2xl mx-auto">
-                                        No more wasting time in scrolling WhatsApp, asking for resources , all your study resources in one place!
-                                    </p>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    <FeatureCard
+                                <div className="flex flex-row flex-wrap gap-10 items-center justify-center">
+                                    <LandingHero
                                         icon={<BookOpen className="size-6" />}
                                         title="Comprehensive Resources"
                                         description="Access previous year papers, notes, and syllabus all in one place."
                                     />
-                                    <FeatureCard
+                                    <LandingHero
                                         icon={<Target className="size-6" />}
                                         title="Organized by Semester"
                                         description="Find exactly what you need with our branch-wise, semester-wise organization."
                                     />
-                                    <FeatureCard
+                                    <LandingHero
                                         icon={<Download className="size-6" />}
                                         title="Easy Downloads"
                                         description="One-click downloads with no redirects or annoying popups."
                                     />
-                                    <FeatureCard
+                                    <LandingHero
                                         icon={<ShieldColored className="h-6 w-6" />}
                                         title="Verified Content"
                                         description="All resources are verified by faculty and top students."
                                     />
-                                    <FeatureCard
+                                    <LandingHero
                                         icon={<Bookmark className="size-6 ml-2" />}
                                         title="Bookmark & Save"
                                         description="Save your favorite resources for quick access later."
                                     />
-                                    <FeatureCard
+                                    <LandingHero
                                         icon={<Upload className="size-6 mr-2" />}
-                                        title="Contribute & Earn"
-                                        description="Upload useful resources and get recognized in the community."
+                                        title="Contribute and shine"
+                                        description="Add value to the platform and get recognized in the community."
                                     />
                                 </div>
                             </div>
@@ -232,15 +249,11 @@ export const HomeLanding = () => {
                                     <h2 className="text-3xl md:text-4xl font-bold mb-4">How to use PrepNerdz?</h2>
                                     <p className="text-gray-600 max-w-2xl mx-auto"> Get started in just 3 simple steps</p>
                                 </div>
-                                <div className="flex justify-center">
-                                    {/* <iframe width="660" height="415" src="https://www.youtube.com/embed/p5rl5JK8Z4Y?si=BPYArJllrLpdnlNd" title="YouTube video player" allowfullscreen></iframe> */}
-                                    <video width={600} height={600} controls />
-                                </div>
-                                {/* <div className="grid md:grid-cols-3 gap-8">
+                                <div className="grid md:grid-cols-3 gap-8">
                                     <StepCard
                                         step="1"
-                                        title="Select Your Course"
-                                        description="Choose your program (BTech, Diploma, etc.) and branch."
+                                        title="Select Your Course and Branch"
+                                        description="Choose your program (BTech, etc.) and branch."
                                     />
                                     <StepCard
                                         step="2"
@@ -252,7 +265,15 @@ export const HomeLanding = () => {
                                         title="Access Resources"
                                         description="Download notes, question papers, and study materials instantly."
                                     />
-                                </div> */}
+                                </div>
+
+                                <div className="text-center mt-8 text-black font-extrabold text-3xl mb-10 animate-bounce">
+                                    Watch the video below before getting started! and know how to use PrepNerdz Effectively!
+                                </div>
+                                <div className="flex justify-center">
+                                    {/* <iframe width="660" height="415" src="https://www.youtube.com/embed/p5rl5JK8Z4Y?si=BPYArJllrLpdnlNd" title="YouTube video player" allowfullscreen></iframe> */}
+                                    <video width={600} height={600} controls />
+                                </div>
                             </div>
                         </section>
 
@@ -264,36 +285,29 @@ export const HomeLanding = () => {
                                     <p className="text-gray-600">Developers</p>
                                 </div>
 
-                                <div className="flex justify-center">
-                                    <ProfileCard website="https://imshubh.site" mailid="shubhashish147@gmail.com" github="https://github.com/Shubhashish-Chakraborty" linkedin="https://linkedin.com/in/Shubhashish-Chakraborty" instagram="https://www.instagram.com/___shubhashish___" name="Shubhashish Chakraborty" about="Lead Developer" image="/developers/shubh.png" />
+                                <div className="flex items-center space-x-40 justify-center">
+                                    <div>
+                                        <ThanksForVisit />
+                                    </div>
+                                    <ProfileSimple x="https://x.com/__Shubhashish__" instagram="https://www.instagram.com/___shubhashish___" github="https://www.github.com/Shubhashish-Chakraborty" linkedin="https://www.linkedin.com/in/Shubhashish-Chakraborty" name="Shubhashish Chakraborty" image="/founders/shubh.png" mail="shubhashish147@gmail.com" />
+                                    <div>
+                                        <ThanksForVisit />
+                                    </div>
+                                </div>
+
+                                <div className="mt-10 space-x-10 flex flex-wrap items-center  justify-center">
+                                    <ThanksForVisit />
+                                    <div>
+                                        <ProfileSimple x="https://x.com/MokshMishra1111" instagram="https://www.instagram.com/iammokshmishra" github="https://github.com/MokshMishra" linkedin="https://www.linkedin.com/in/moksh-mishra-956868289/" name="Moksh Mishra" image="/founders/moksh.png" mail="mokshmishra1418@gmail.com" />
+                                    </div>
+                                    <div>
+                                        <ProfileSimple x="https://x.com/yadav_nihalll" instagram="https://www.instagram.com/Nihaaalll_29" linkedin="https://www.linkedin.com/in/Nihal-yadav2" name="Nihal Yadav" image="/founders/nihal.png" mail="yadavnihal544@gmail.com" />
+                                    </div>
+                                    <ThanksForVisit />
                                 </div>
                             </div>
                         </section>
 
-                        {/* Testimonials */}
-                        <section id="testimonials" className="py-16">
-                            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                                <div className="text-center mb-12">
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">What Students Say</h2>
-                                    <p className="text-gray-600">Join thousands of successful students</p>
-                                </div>
-
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                                    <TestimonialCard
-                                        quote="PrepNerdz saved me during exams! Found all previous year papers in one place."
-                                        author="Rahul, CSE 3rd Year"
-                                    />
-                                    <TestimonialCard
-                                        quote="The organized notes helped me understand concepts better than my textbooks."
-                                        author="Priya, ECE 2nd Year"
-                                    />
-                                    <TestimonialCard
-                                        quote="Amazing platform! The search feature makes finding resources so easy."
-                                        author="Amit, Mechanical 4th Year"
-                                    />
-                                </div>
-                            </div>
-                        </section>
                     </div>
                 </div>
                 <div>
@@ -307,106 +321,13 @@ export const HomeLanding = () => {
 }
 
 
-// Custom Badge Component
-// const Badge = ({
-//     children,
-//     variant = "default",
-//     className = "",
-//     ...props
-// }: {
-//     children: React.ReactNode
-//     variant?: "default" | "secondary"
-//     className?: string
-//     // [key: string]: any
-// }) => {
-//     const variants = {
-//         default: "bg-indigo-100 text-indigo-800",
-//         secondary: "bg-gray-100 text-gray-800",
-//     }
-
-//     return (
-//         <span
-//             className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${variants[variant]} ${className}`}
-//             {...props}
-//         >
-//             {children}
-//         </span>
-//     )
-// }
-
-
-const Star = ({ className = "h-6 w-6", filled = false }: { className?: string; filled?: boolean }) => (
-    <svg className={className} fill={filled ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
-        <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-        />
-    </svg>
-)
-
-// Feature Card Component
-const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => (
-    <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
-        <CardContent className="p-6 text-center cursor-pointer">
-            <div className="mb-4 inline-flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg group-hover:bg-amber-400 group-hover:text-white transition-colors duration-300">
-                {icon}
-            </div>
-            <h3 className="text-lg font-semibold mb-2">{title}</h3>
-            <p className="text-gray-600 text-sm">{description}</p>
-        </CardContent>
-    </Card>
-)
-
 // Step Card Component
-// const StepCard = ({ step, title, description }: { step: string; title: string; description: string }) => (
-//     <div className="text-center group">
-//         <div className="mb-4 inline-flex items-center justify-center w-16 h-16 bg-indigo-600 text-white rounded-full text-xl font-bold group-hover:scale-110 transition-transform duration-300">
-//             {step}
-//         </div>
-//         <h3 className="text-xl font-semibold mb-2">{title}</h3>
-//         <p className="text-gray-600">{description}</p>
-//     </div>
-// )
-
-// Testimonial Card Component
-const TestimonialCard = ({ quote, author }: { quote: string; author: string }) => (
-    <Card className="hover:shadow-lg transition-shadow duration-300">
-        <CardContent className="p-6">
-            <div className="flex mb-4">
-                {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-400" filled={true} />
-                ))}
-            </div>
-            <p className="text-gray-700 mb-4 italic">&apos;{quote}&apos;</p>
-            <p className="font-semibold text-indigo-600">- {author}</p>
-        </CardContent>
-    </Card>
+const StepCard = ({ step, title, description }: { step: string; title: string; description: string }) => (
+    <div className="text-center group">
+        <div className="mb-4 inline-flex items-center justify-center w-16 h-16 bg-amber-300 text-black rounded-full text-xl font-bold group-hover:scale-110 transition-transform duration-300">
+            {step}
+        </div>
+        <h3 className="text-xl font-semibold mb-2">{title}</h3>
+        <p className="text-gray-600">{description}</p>
+    </div>
 )
-
-// Stat Card Component
-// const StatCard = ({ number, label }: { number: string; label: string }) => (
-//     <div className="text-center">
-//         <div className="text-3xl md:text-4xl font-bold text-indigo-600 mb-2">{number}</div>
-//         <div className="text-gray-600">{label}</div>
-//     </div>
-// )
-
-// // Resource Card Component
-// const ResourceCard = ({ title, downloads, type }: { title: string; downloads: string; type: string }) => (
-//     <Card className="hover:shadow-md transition-shadow duration-300">
-//         <CardContent className="p-4">
-//             <div className="flex items-start justify-between mb-2">
-//                 <h4 className="font-medium text-sm">{title}</h4>
-//                 <Badge variant="secondary" className="text-xs">
-//                     {type}
-//                 </Badge>
-//             </div>
-//             <div className="flex items-center text-xs text-gray-500">
-//                 <Download className="h-3 w-3 mr-1" />
-//                 {downloads} downloads
-//             </div>
-//         </CardContent>
-//     </Card>
-// )

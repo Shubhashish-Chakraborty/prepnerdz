@@ -5,6 +5,7 @@ import { X } from "@/icons/X"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { toast } from "react-hot-toast";
 
 export const Footer = () => {
     const [isVisible, setIsVisible] = useState(false)
@@ -38,7 +39,7 @@ export const Footer = () => {
 
 
     const socialLinks = [
-        
+
         {
             icon: X,
             url: "https://www.x.com/__Shubhashish__",
@@ -133,12 +134,15 @@ export const Footer = () => {
                             {/* Contact */}
                             <div className="text-sm md:text-base">
                                 <span className="text-gray-700 font-medium">Having issues? Write us at </span>
-                                <a
-                                    href="mailto:prepnerdz@gmail.com"
+                                <span
+                                    onClick={() => {
+                                        navigator.clipboard.writeText("prepnerdz@gmail.com");
+                                        toast.success('Email copied to clipboard!');
+                                    }}
                                     className="text-blue-600 hover:text-blue-700 cursor-pointer hover:underline font-bold transition-colors duration-300"
                                 >
                                     prepnerdz@gmail.com
-                                </a>
+                                </span>
                             </div>
                         </div>
 

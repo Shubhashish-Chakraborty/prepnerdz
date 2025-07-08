@@ -188,8 +188,13 @@ export const Navbar = () => {
                                                     href: "/study-material/academic-notes",
                                                 },
                                                 {
-                                                    title: "Manual Solutions",
+                                                    title: "Syllabus",
                                                     description: "Step-by-step manual solutions",
+                                                    href: "/study-material/manual-solutions",
+                                                },
+                                                {
+                                                    title: "Lab Manual",
+                                                    description: "All Lab manual and there solutions", 
                                                     href: "/study-material/manual-solutions",
                                                 },
                                             ].map((item, index) => (

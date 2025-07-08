@@ -137,3 +137,17 @@
 .scroller li {
   flex-shrink: 0;
 }
+
+@keyframes slow-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.animate-slow-spin {
+    animation: slow-spin 10s linear infinite;
+}

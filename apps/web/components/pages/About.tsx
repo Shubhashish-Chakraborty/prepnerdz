@@ -106,7 +106,7 @@ export const AboutLanding = () => {
                                 <TypingText text="Why PrepNerdz exists?" />
                             </span>
                             <p className="text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
-                                College students waste countless hours scouring WhatsApp groups, begging seniors, or digging through disorganized drives for study materials. PrepNerdz solves this chaos by providing a centralized, semester-wise repository of:
+                                College students waste countless hours wandering WhatsApp groups, requesting seniors, or digging through disorganized drives for study materials. PrepNerdz solves this chaos by providing a centralized and organized repository of:
                             </p>
 
                             <InfiniteMovingCards
