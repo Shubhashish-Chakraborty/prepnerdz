@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast";
+import GithubStar from "./buttons/GithubStar"
 
 export const Footer = () => {
     const [isVisible, setIsVisible] = useState(false)
@@ -184,6 +185,11 @@ export const Footer = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className="flex justify-start mt-5 md:mt-0 md:justify-end">                        
+                        <GithubStar/>
+                    </div>
+                    
 
                     {/* Bottom Border */}
                     <div

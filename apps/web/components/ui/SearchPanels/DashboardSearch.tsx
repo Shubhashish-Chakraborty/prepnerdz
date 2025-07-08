@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import Image from "next/image"
+import Link from "next/link"
 // import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime"
 
 interface SearchPanelProps {
@@ -29,8 +31,8 @@ interface Resource {
 // Mapping from nav item to API type
 const typeMapping: Record<string, string> = {
     "shivani-books": "SHIVANI_BOOKS",
-    "midsem-papers": "MIDSEM_PAPERS",
-    "endsem-papers": "ENDSEM_PAPERS",
+    "midsem-papers": "MID_SEM_PAPER",
+    "endsem-papers": "END_SEM_PAPER",
     // Add more mappings as needed
 }
 
@@ -40,21 +42,21 @@ const searchPanelConfig = {
         title: "Search Shivani Books",
         description: "Find books by branch and semester",
         placeholder: "Search for books...",
-        branches: ["CSE", "AI", "ECE", "ME", "CE"],
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
-    "midsem-papers": {
-        title: "Search Midsem Papers",
-        description: "Find previous midsem papers by branch and semester",
-        placeholder: "Search for midsem papers...",
-        branches: ["CSE", "AI", "ECE", "ME", "CE"],
-        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
-    },
+    // "midsem-papers": {
+    //     title: "Search Midsem Papers",
+    //     description: "Find previous midsem papers by branch and semester",
+    //     placeholder: "Search for midsem papers...",
+    //     branches: ["CSE", "AI", "ECE", "ME", "CE"],
+    //     semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    // },
     "endsem-papers": {
         title: "Search Endsem Papers",
         description: "Find previous endsem papers by branch and semester",
         placeholder: "Search for endsem papers...",
-        branches: ["CSE", "AI", "ECE", "ME", "CE"],
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
 }
@@ -72,7 +74,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
 
     useEffect(() => {
         console.log("Welcome to PrepNerdz!");
-    } , [totalCount])
+    }, [totalCount])
     // Get current panel configuration
     const currentPanel = searchPanelConfig[activeNavItem as keyof typeof searchPanelConfig]
 
@@ -178,10 +180,10 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
                 { params: { semNumber: selectedSemester } }
             );
-            
+
             // console.log(branchResponse.data);
             // console.log(semesterResponse.data);
-            
+
             const type = typeMapping[activeNavItem];
             if (!type) {
                 toast.error("Invalid resource type");
@@ -332,6 +334,17 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                         />
                     </svg>
                     <p className="text-lg">Coming Soon, Stay Tuned!</p>
+                    <div className="flex justify-center">
+                        <Link href={"/dashboard"}> 
+                            <Image
+                                className="hover:rotate-15 cursor-pointer transition-all duration-500"
+                                src={"/comingsoon.png"}
+                                alt="coming soon"
+                                width={200}
+                                height={200}
+                            />
+                        </Link>
+                    </div>
                 </div>
             </div>
         )

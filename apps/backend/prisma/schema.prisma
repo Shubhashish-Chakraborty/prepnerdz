@@ -44,7 +44,7 @@ model Avatar {
 model Course {
   id         String   @id @default(cuid())
   courseName String   @unique // BTECH, DIPLOMA, etc...
-  branches   Branch[]
+  branches   Branch[] // this is one to many
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -52,7 +52,7 @@ model Course {
 model Branch {
   id         String     @id @default(cuid())
   branchName String     @unique // CSE, IOT, etc..
-  courseId   String     @unique
+  courseId   String
   course     Course     @relation(fields: [courseId], references: [id])
   semesters  Semester[]
   createdAt  DateTime   @default(now())

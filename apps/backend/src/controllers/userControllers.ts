@@ -230,6 +230,7 @@ export const session = async (req: Request, res: Response) => {
                 role: true,
                 email: true,
                 username: true,
+                contactNumber: true,
                 isMailVerified: true,
                 UserAddedAt: true,
                 provider: true

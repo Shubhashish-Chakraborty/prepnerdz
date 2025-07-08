@@ -16,6 +16,9 @@ import { Download } from "@/icons/Download";
 import Link from "next/link";
 import { Button } from "../ui/buttons/Button";
 import { Footer } from "../ui/Footer";
+import { useState } from "react";
+import { LoginModal } from "../modals/Login";
+import { SignupModal } from "../modals/Signup";
 
 const features = [
     {
@@ -69,6 +72,9 @@ const features2 = [
 ]
 
 export const AboutLanding = () => {
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isSignupOpen, setIsSignupOpen] = useState(false);
+
     return (
         <div className="relative min-h-screen bg-mainBgColor">
             {/* Background Animated Circles */}
@@ -96,6 +102,26 @@ export const AboutLanding = () => {
             {/* Main container */}
             <div className="relative z-10">
                 <Navbar />
+
+                <div>
+                    <LoginModal
+                        open={isLoginOpen}
+                        onClose={() => setIsLoginOpen(false)}
+                        onSwitchToSignup={() => {
+                            setIsLoginOpen(false);
+                            setIsSignupOpen(true);
+                        }}
+                    />
+
+                    <SignupModal
+                        open={isSignupOpen}
+                        onClose={() => setIsSignupOpen(false)}
+                        onSwitchToLogin={() => {
+                            setIsSignupOpen(false);
+                            setIsLoginOpen(true);
+                        }}
+                    />
+                </div>
 
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -170,7 +196,7 @@ export const AboutLanding = () => {
                                 Join thousands of students who are already acing their exams with PrepNerdz
                             </p>
                             <div className="flex justify-center">
-                                <Button text="Get Started Now" endIcon={<Rocket className="size-6" />} sizeVariant="medium" colorVariant="black_green" />
+                                <Button text="Get Started Now" onClick={() => setIsSignupOpen(true)} endIcon={<Rocket className="size-6" />} sizeVariant="medium" colorVariant="black_green" />
                             </div>
                         </div>
                     </div>

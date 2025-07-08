@@ -34,10 +34,10 @@ const ProfileSimple = ({ name, image, mail, github, linkedin, instagram, x }: {
                 </div>
                 <div className="social-media">
                     <div className='flex justify-center'>
-                        {x && (
-                            <Link target='_blank' href={x}>
-                                <X className="size-5" />
-                                <span className="tooltip-social">Twitter</span>
+                        {linkedin && (
+                            <Link target='_blank' href={linkedin}>
+                                <Linkedin className="size-5" />
+                                <span className="tooltip-social">LinkedIn</span>
                             </Link>
                         )}
                         {instagram && (
@@ -52,10 +52,10 @@ const ProfileSimple = ({ name, image, mail, github, linkedin, instagram, x }: {
                                 <span className="tooltip-social">Github</span>
                             </Link>
                         )}
-                        {linkedin && (
-                            <Link target='_blank' href={linkedin}>
-                                <Linkedin className="size-5" />
-                                <span className="tooltip-social">LinkedIn</span>
+                        {x && (
+                            <Link target='_blank' href={x}>
+                                <X className="size-5" />
+                                <span className="tooltip-social">Twitter</span>
                             </Link>
                         )}
                     </div>

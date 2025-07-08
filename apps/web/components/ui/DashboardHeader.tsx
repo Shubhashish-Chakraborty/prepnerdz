@@ -31,10 +31,11 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
     const [joined, setJoined] = useState("");
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [contactProvided, setContactProvided] = useState(false);
 
     useEffect(() => {
         console.log();
-    } , [loading]);
+    }, [loading]);
 
     useEffect(() => {
         const getUserData = async () => {
@@ -46,6 +47,10 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                 setUsername(response.data.message.user.username);
                 setEmail(response.data.message.user.email);
                 setJoined(response.data.message.user.UserAddedAt.split("T")[0].split("-").reverse().join("-"));
+                
+                if (response.data.message.user.contactNumber !== "NOT_PROVIDED") {
+                    setContactProvided(true);
+                }
             } catch (err) {
                 console.error("Failed to fetch user data:", err);
             } finally {
@@ -255,7 +260,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                                         router.push("/change-username");
                                                         setIsDropdownOpen(false);
                                                     }}
-                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
                                                 >
                                                     <span className="text-gray-700">Change Username</span>
                                                 </button>
@@ -264,7 +269,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                                         router.push("/change-password");
                                                         setIsDropdownOpen(false);
                                                     }}
-                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
                                                 >
                                                     <span className="text-gray-700">Change Password</span>
                                                 </button>
@@ -273,16 +278,21 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                                         router.push("/change-contact");
                                                         setIsDropdownOpen(false);
                                                     }}
-                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
                                                 >
-                                                    <span className="text-gray-700">Change Contact Number</span>
+                                                    <span
+                                                        className={`text-gray-700 ${!contactProvided ? "bg-red-100 text-red-700 px-2 py-1 rounded" : ""
+                                                            }`}
+                                                    >
+                                                        {contactProvided ? "Change Contact Number" : "Contact Number (required)"}
+                                                    </span>
                                                 </button>
                                                 <button
                                                     onClick={() => {
                                                         router.push("/upload-avatar");
                                                         setIsDropdownOpen(false);
                                                     }}
-                                                    className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
                                                 >
                                                     <span className="text-gray-700">Change Profile Picture</span>
                                                 </button>
