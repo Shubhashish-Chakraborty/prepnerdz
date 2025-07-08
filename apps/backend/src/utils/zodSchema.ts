@@ -21,7 +21,7 @@ export const branchValidationSchema = z.object({
 });
 
 export const semesterValidationSchema = z.object({
-    semNumber: z.number().int().min(1, "Semester number must be a positive integer"),
+    semNumber: z.number().int(),
     branchId: z.string().min(1, "Branch id is required"),
 });
 
