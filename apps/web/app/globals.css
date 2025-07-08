@@ -67,7 +67,7 @@
 }
 
 .slide-in-from-bottom-10 {
-  animation: slide-in-from-bottom 1.0s ease-out;
+  animation: slide-in-from-bottom 1s ease-out;
 }
 
 .slide-in-from-bottom-12 {
@@ -92,10 +92,48 @@
   background: #a8a8a8;
 }
 
-/* Smooth transitions for all interactive elements */
-/* * {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
-    transform, filter, backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-} */
+/* Left and right animations */
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 1rem));
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(calc(-100% - 1rem));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Animation classes */
+.animate-scroll-left {
+  animation: scroll-left var(--animation-duration, 40s) linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right var(--animation-duration, 40s) linear infinite;
+}
+
+/* Speed classes */
+.duration-20s {
+  --animation-duration: 20s;
+}
+
+.duration-40s {
+  --animation-duration: 40s;
+}
+
+.duration-60s {
+  --animation-duration: 60s;
+}
+
+/* Ensure scroller children don't break layout */
+.scroller li {
+  flex-shrink: 0;
+}

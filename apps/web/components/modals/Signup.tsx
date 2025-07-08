@@ -156,7 +156,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                             {!showOtpInput ? (
                                 <>
                                     <div className="flex justify-center">
-                                        <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black-500 to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                        <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
                                             <TypingText text="Create your PrepNerdz Account!!" />
                                         </span>
                                     </div>

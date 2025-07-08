@@ -48,7 +48,7 @@ export const ContactLanding = () => {
                 });
             }
         } catch (error) {
-            toast.error("Failed to submit form. Please try again.");
+            toast.error("Server is down for now. Please try again.");
             console.error("Submission error:", error);
         } finally {
             setIsSubmitting(false);
@@ -114,7 +114,7 @@ export const ContactLanding = () => {
                                         <Github className="size-8" />
                                     </div>
                                 </div>
-                            
+
                                 <Image
                                     src={"/developers/shubhFull3.png"}
                                     alt="Shubh"
@@ -183,11 +183,11 @@ export const ContactLanding = () => {
                                     >
                                         {isSubmitting ? (
                                             <>
-                                                <Button text="Sending..." disabled={true} endIcon={<MessageSend/>} colorVariant="black_green" sizeVariant="medium" />
+                                                <Button text="Sending..." disabled={true} endIcon={<MessageSend />} colorVariant="black_green" sizeVariant="medium" />
                                             </>
                                         ) : (
                                             <>
-                                                <Button text="Send Message" endIcon={<MessageSend/>} colorVariant="black_green" sizeVariant="medium" />
+                                                <Button text="Send Message" endIcon={<MessageSend />} colorVariant="black_green" sizeVariant="medium" />
                                             </>
                                         )}
                                     </button>
@@ -197,7 +197,7 @@ export const ContactLanding = () => {
                     </div>
                 </div>
                 <div className="mt-20">
-                    <Footer/>
+                    <Footer />
                 </div>
             </div>
         </div>

@@ -3,7 +3,70 @@ import { Github } from "@/icons/Github";
 import Navbar from "../ui/navbars/Navbar"
 import { motion } from "framer-motion";
 import { BookOpen } from "@/icons/BookOpen";
+import TypingText from "../ui/TypingTest";
+import { InfiniteMovingCards } from "../ui/cards/InfiniteMoving";
+import { BookClose } from "@/icons/BookClose";
+import { Flask } from "@/icons/Flask";
+import { Star } from "@/icons/Star";
+import { Rocket } from "@/icons/Rocket";
+import { User } from "@/icons/User";
+import { Database } from "@/icons/Database";
+import { Paper } from "@/icons/Paper";
+import { Download } from "@/icons/Download";
+import Link from "next/link";
+import { Button } from "../ui/buttons/Button";
+import { Footer } from "../ui/Footer";
 
+const features = [
+    {
+        text: "Previous year papers (Mid-Sem & End-Sem)",
+        icon: <BookClose className="size-6" />,
+        onClick: () => console.log("Courses clicked")
+    },
+    {
+        text: "Subject notes (Faculty & Topper-curated)",
+        icon: <BookOpen className="size-6" />,
+        className: "bg-blue-50 border-blue-200"
+    },
+    {
+        text: "Lab manuals",
+        icon: <Flask className="size-6" />,
+        className: "bg-green-50 border-green-200"
+    },
+    {
+        text: "Important questions & reference books",
+        icon: <Star className="size-6" />,
+        className: "bg-purple-50 border-purple-200"
+    },
+    {
+        text: "Career Advancement",
+        icon: <Rocket className="size-6" />,
+        className: "bg-orange-50 border-orange-200"
+    },
+];
+
+const features2 = [
+    {
+        text: "Student/faculty accounts with role-based access",
+        icon: <User className="size-6" />,
+        className: "bg-black border-cyan-200 text-amber-400"
+    },
+    {
+        text: "Courses → Branches → Semesters → Subjects: Hierarchical organization",
+        icon: <Database className="size-6" />,
+        className: "bg-black border-cyan-200 text-amber-400"
+    },
+    {
+        text: "Files (PDFs/DOCs) with metadata (type, year, uploader)",
+        icon: <Paper className="size-6" />,
+        className: "bg-black border-cyan-200 text-amber-400"
+    },
+    {
+        text: "Bookmarks/Downloads for Tracking student activity",
+        icon: <Download className="size-6" />,
+        className: "bg-black border-cyan-200 text-amber-400"
+    },
+]
 
 export const AboutLanding = () => {
     return (
@@ -36,84 +99,84 @@ export const AboutLanding = () => {
 
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                     <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-      {/* Hero Section */}
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-indigo-600 mb-4">About PrepNerdz</h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          The ultimate academic companion for college students - where finding study materials stops being a struggle!
-        </p>
-      </div>
+                    <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+                        {/* Hero Section */}
+                        <div className="text-center mb-16">
+                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                <TypingText text="Why PrepNerdz exists?" />
+                            </span>
+                            <p className="text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
+                                College students waste countless hours scouring WhatsApp groups, begging seniors, or digging through disorganized drives for study materials. PrepNerdz solves this chaos by providing a centralized, semester-wise repository of:
+                            </p>
 
-      {/* What We Do Section */}
-      <div className="mb-16">
-        <h2 className="text-3xl font-bold text-center mb-12">What We Do</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-            <Github className="h-10 w-10 text-indigo-600 mb-4" />
-            <h3 className="text-xl font-semibold mb-3">Centralized Academic Resources</h3>
-            <p className="text-gray-600">
-              PrepNerdz brings together all your study materials - previous year papers, subject notes, lab manuals, and syllabus - 
-              in one organized platform. No more scavenging through WhatsApp groups or begging seniors for files!
-            </p>
-          </div>
-          
-          <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-            <BookOpen className="h-10 w-10 text-indigo-600 mb-4" />
-            <h3 className="text-xl font-semibold mb-3">Semester-Wise Organization</h3>
-            <p className="text-gray-600">
-              Everything is neatly categorized by course, branch, and semester. Whether you&apos;re in CSE Semester 3 or Mechanical Semester 5, 
-              you&apos;ll find exactly what you need in seconds.
-            </p>
-          </div>
-        </div>
-      </div>
+                            <InfiniteMovingCards
+                                items={features}
+                                direction="left"
+                                speed="slow"
+                                pauseOnHover={true}
+                                className="my-12"
+                            />
 
-      {/* Key Features */}
-      {/* <div className="mb-16">
-        <h2 className="text-3xl font-bold text-center mb-12">Why Students Love PrepNerdz</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-                <feature.icon className="h-6 w-6 text-indigo-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-600 text-sm">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </div> */}
 
-      {/* How It Works */}
-      {/* <div className="mb-16">
-        <h2 className="text-3xl font-bold text-center mb-12">How PrepNerdz Works</h2>
-        <div className="space-y-8 max-w-3xl mx-auto">
-          {steps.map((step, index) => (
-            <div key={index} className="flex items-start">
-              <div className="flex-shrink-0 bg-indigo-100 rounded-full h-10 w-10 flex items-center justify-center mr-4">
-                <span className="text-indigo-600 font-bold">{index + 1}</span>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">{step.title}</h3>
-                <p className="text-gray-600">{step.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
+                        </div>
 
-      {/* Call to Action */}
-      <div className="bg-indigo-50 rounded-xl p-8 text-center">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-4">Ready to boost your grades?</h2>
-        <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-          Join thousands of students who are already acing their exams with PrepNerdz
-        </p>
-        <button className="bg-indigo-600 text-white px-6 py-3 rounded-md font-medium hover:bg-indigo-700 transition">
-          Get Started Now
-        </button>
-      </div>
-    </div>
+                        {/* What We Do Section */}
+                        <div className="mb-16 text-center">
+                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                What we do .?
+                            </span>
+                            <div className="grid mt-5 md:grid-cols-2 gap-8">
+                                <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                                    <div className="flex justify-center">
+                                        <Github className="size-10 text-indigo-600 mb-4" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold mb-3">Centralized Academic Resources</h3>
+                                    <p className="text-black">
+                                        PrepNerdz brings together all your study materials - previous year papers, subject notes, lab manuals, and syllabus -
+                                        in one organized platform. No more scavenging through WhatsApp groups or begging seniors for files!
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+                                    <div className="flex justify-center">
+                                        <BookOpen className="size-10 text-indigo-600 mb-4" />
+                                    </div>
+                                    <h3 className="text-xl font-semibold mb-3">Semester-Wise Organization</h3>
+                                    <p className="text-black">
+                                        Everything is neatly categorized by course, branch, and semester. Whether you&apos;re in CSE Semester 3 or Mechanical Semester 4,
+                                        you&apos;ll find exactly what you need in seconds.
+                                    </p>
+                                </div>
+                            </div>
+                            <InfiniteMovingCards
+                                items={features2}
+                                direction="left"
+                                speed="slow"
+                                pauseOnHover={true}
+                                className="my-12"
+                            />
+
+                            <div className="text-2xl font-black">
+                                Wanna Know more? <Link target="_blank" href={"https://github.com/Shubhashish-Chakraborty/prepnerdz/blob/main/apps/backend/prisma/schema.prisma"}> <span className="font-bold text-blue-600 hover:underline" > Check out the Database Structure/Schema </span> </Link>
+                            </div>
+                        </div>
+
+
+
+                        {/* Call to Action */}
+                        <div className="bg-cyan-200 rounded-xl p-8 text-center">
+                            <h2 className="text-2xl font-bold text-black mb-4">Ready to boost your grades?</h2>
+                            <p className="text-black mb-6 max-w-2xl mx-auto">
+                                Join thousands of students who are already acing their exams with PrepNerdz
+                            </p>
+                            <div className="flex justify-center">
+                                <Button text="Get Started Now" endIcon={<Rocket className="size-6" />} sizeVariant="medium" colorVariant="black_green" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="">
+                    <Footer />
                 </div>
             </div>
         </div>

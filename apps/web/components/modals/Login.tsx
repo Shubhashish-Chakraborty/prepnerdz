@@ -123,7 +123,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </div>
                             </div>
                             <div className="flex justify-center">
-                                <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-blue-600 via-black-500 to-cyan-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-blue-600 to-cyan-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
                                     <TypingText text="Login to your PrepNerdz Account!" />
                                 </span>
                             </div>
