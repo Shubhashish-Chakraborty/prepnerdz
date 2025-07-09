@@ -367,3 +367,78 @@ export const passwordReset = async (req: Request, res: Response) => {
         return;
     }
 }
+
+
+// Dashboard Settings Controllers:
+
+export const updateUsername = async (req: Request, res: Response) => {
+    try {
+        const { username } = req.body;
+        const userId = (req as any).user.id;
+
+        if (!username) {
+            res.status(400).json({
+                message: "Please Enter a Username"
+            })
+            return;
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                username: username
+            }
+        })
+
+        res.status(200).json({
+            message: "Username Updated Successfully!",
+            success: true,
+            data: updatedUser
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later"
+        });
+    }
+}
+
+export const updateContact = async (req: Request, res: Response) => {
+    try {
+        const { contact } = req.body;
+
+        if (!contact) {
+            res.status(400).json({
+                message: "Please Enter a Contact Number"
+            })
+            return;
+        }
+
+        const userId = (req as any).user.id;
+
+        const updatedUser = await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                contactNumber: contact
+            }
+        })
+
+        res.status(200).json({
+            message: "Contact Number Updated Successfully!",
+            success: true,
+            data: updatedUser
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later"
+        });
+        return;
+    }
+}

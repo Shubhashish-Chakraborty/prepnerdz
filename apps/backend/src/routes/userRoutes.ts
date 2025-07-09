@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { forgotPassword, logout, me, passwordReset, session, signin, signup, verify_email } from "../controllers/userControllers";
+import { forgotPassword, logout, me, passwordReset, session, signin, signup, updateContact, updateUsername, verify_email } from "../controllers/userControllers";
 import { UserAuth } from "../middlewares/userAuthentication";
 import { requestValidation } from "../middlewares/requestValidation";
 
@@ -13,3 +13,8 @@ UserRouter.post("/send-otp-for-forgot-password", requestValidation, forgotPasswo
 UserRouter.post("/reset-password", requestValidation, passwordReset);
 UserRouter.get("/session", UserAuth, session);
 UserRouter.get("/me", UserAuth, me);
+
+// Dashboard Settings Routes:
+
+UserRouter.put("/update-username", UserAuth, requestValidation, updateUsername);
+UserRouter.put("/update-contact", UserAuth, requestValidation, updateContact);

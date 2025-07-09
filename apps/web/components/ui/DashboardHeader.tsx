@@ -198,7 +198,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
                         {/* Dropdown Content */}
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
+                            <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                                 {/* User info section */}
                                 <div className="px-4 py-3 border-b border-gray-100">
                                     <p className="font-bold text-gray-900 truncate">{username}</p>
@@ -266,7 +266,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                                 </button>
                                                 <button
                                                     onClick={() => {
-                                                        router.push("/change-password");
+                                                        router.push("/forgot-password");
                                                         setIsDropdownOpen(false);
                                                     }}
                                                     className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
