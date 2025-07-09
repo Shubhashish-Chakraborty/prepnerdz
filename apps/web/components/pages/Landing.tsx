@@ -58,6 +58,7 @@ export const HomeLanding = () => {
     const [results, setResults] = useState<ResourceResult[]>([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false);
 
     const handleSearch = async () => {
         if (!searchQuery || !semester || !resourceType) {
@@ -65,8 +66,14 @@ export const HomeLanding = () => {
             return;
         }
 
+
         // Adjust semester before sending
         const adjustedSemester = (semester === '1' || semester === '2') ? '0' : semester;
+
+        setLoading(true);
+        setHasSearched(true); // markingg that user has searched
+        setResults([]); // clearing old results
+        setHasMore(false); // reseting pagination flag
 
         setLoading(true);
         try {
@@ -289,13 +296,13 @@ export const HomeLanding = () => {
                                                 {results.length > 0 && (
                                                     <div className="bg-white p-6 rounded-xl shadow-md">
                                                         {/* Login Prompt */}
-                                                        {hasMore && (
+                                                        {hasSearched && results.length > 0 && hasMore && (
                                                             <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
                                                                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                                                                     <p className="text-blue-800 text-center md:text-left">
                                                                         To access all resources, please login to your PrepNerdz account
                                                                     </p>
-                                                                    <Button 
+                                                                    <Button
                                                                         colorVariant="blue"
                                                                         text="Login Now"
                                                                         sizeVariant="small"
@@ -343,12 +350,12 @@ export const HomeLanding = () => {
                                                             ))}
                                                         </div>
 
-                                                        
+
                                                     </div>
                                                 )}
 
                                                 {/* Empty State */}
-                                                {results.length === 0 && !loading && (
+                                                {hasSearched && results.length === 0 && !loading && (
                                                     <div className="bg-white p-8 rounded-xl shadow-md text-center">
                                                         <div className="mx-auto h-16 w-16 text-gray-400">
                                                             <BookOpen className="h-full w-full" />
