@@ -169,16 +169,21 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         setIsSearching(true);
 
         try {
+
+            // Handle COMMON branch case
+            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch;
+            const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester;
+
             // First get branch ID
             const branchResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
-                { params: { branchName: selectedBranch } }
+                { params: { branchName: branchToUse } }
             );
 
             // Then get semester ID
             const semesterResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
-                { params: { semNumber: selectedSemester } }
+                { params: { semNumber: semesterToUse } }
             );
 
             // console.log(branchResponse.data);
@@ -269,16 +274,22 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         try {
             const nextPage = page + 1;
 
+            // Handle COMMON branch case
+            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch;
+            const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester;
+
             // Get IDs again in case they're needed
             const branchResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
-                { params: { branchName: selectedBranch } }
+                { params: { branchName: branchToUse } }
             );
 
             const semesterResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
-                { params: { semNumber: selectedSemester } }
+                { params: { semNumber: semesterToUse } }
             );
+
+
 
             const type = typeMapping[activeNavItem];
             const searchResponse = await axios.get(
@@ -335,7 +346,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                     </svg>
                     <p className="text-lg">Coming Soon, Stay Tuned!</p>
                     <div className="flex justify-center">
-                        <Link href={"/dashboard"}> 
+                        <Link href={"/dashboard"}>
                             <Image
                                 className="hover:rotate-15 cursor-pointer transition-all duration-500"
                                 src={"/comingsoon.png"}

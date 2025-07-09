@@ -99,3 +99,29 @@ export const getAllResourcesByType = async (req: Request, res: Response) => {
     }
 }
 
+// get some resources by type!
+export const getSomeResources = async (req: Request, res: Response) => {
+    const { type } = req.query;
+
+    // Check if the type is one of the enum values
+    if (!Object.values(ResourceType).includes(type as ResourceType)) {
+        res.status(400).json({ error: "Invalid resource type" });
+        return;
+    }
+
+    try {
+        const resources = await prisma.resource.findMany({
+            where: {
+                type: type as ResourceType
+            }
+        })
+
+        res.status(200).json(resources)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later"
+        });
+        return;
+    }
+}

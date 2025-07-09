@@ -23,13 +23,85 @@ import LandingHero from "../ui/cards/HeroCard";
 import { ThanksForVisit } from "../ui/ThanksForVisit";
 import { EnterDoor } from "@/icons/EnterDoor";
 import { Globe } from "@/icons/Globe";
+import axios from "axios";
+import { Paper } from "@/icons/Paper";
+import { toast } from "react-hot-toast";
+
+interface ResourceResult {
+    id: string;
+    title: string;
+    type: string; // extend as needed
+    fileUrl: string;
+    createdAt: string; // ISO date string
+    uploadedBy?: {
+        username?: string;
+    };
+    subject?: {
+        semester?: {
+            semNumber: number;
+            branch?: {
+                name: string;
+            };
+        };
+    };
+}
 
 
 export const HomeLanding = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isSignupOpen, setIsSignupOpen] = useState(false);
+    // const [subjects, setSubjects] = useState<string[]>([]);
 
+    const [semester, setSemester] = useState('');
+    const [resourceType, setResourceType] = useState('');
+    const [results, setResults] = useState<ResourceResult[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(false);
+
+    const handleSearch = async () => {
+        if (!searchQuery || !semester || !resourceType) {
+            toast.error('Please fill in all search fields');
+            return;
+        }
+
+        // Adjust semester before sending
+        const adjustedSemester = (semester === '1' || semester === '2') ? '0' : semester;
+
+        setLoading(true);
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search/landing`, {
+                params: {
+                    subject: searchQuery,
+                    semester: adjustedSemester,
+                    landingResourceType: resourceType
+                }
+            });
+
+            setResults(response.data.data);
+            setHasMore(response.data.hasMore);
+        } catch (error) {
+            console.error('Search failed:', error);
+            toast.error('Search failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    // Fetch all subjects from db for dropdown
+    // useEffect(() => {
+    //     const fetchSubjects = async () => {
+    //         try {
+    //             const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/subject/all`);
+    //             setSubjects(res.data); // expecting ["Math", "Physics", ...]
+    //         } catch (err) {
+    //             console.error("Failed to fetch subjects", err);
+    //         }
+    //     };
+
+    //     fetchSubjects();
+    // }, []);
 
     return (
         <div className="relative min-h-screen bg-mainBgColor">
@@ -127,9 +199,9 @@ export const HomeLanding = () => {
 
                                     {/* Action Buttons */}
                                     <div className="flex flex-col sm:flex-row gap-4">
-                                        <Button colorVariant="black_green" sizeVariant="medium" text="Get Started" endIcon={<EnterDoor className="size-6"/>} onClick={() => setIsSignupOpen(true)} />
+                                        <Button colorVariant="black_green" sizeVariant="medium" text="Get Started" endIcon={<EnterDoor className="size-6" />} onClick={() => setIsSignupOpen(true)} />
                                         <Link href={"/about"}>
-                                            <Button colorVariant="yellow" sizeVariant="medium" endIcon={<Globe className="size-6"/>} text="Explore Features" />
+                                            <Button colorVariant="yellow" sizeVariant="medium" endIcon={<Globe className="size-6" />} text="Explore Features" />
                                         </Link>
 
                                     </div>
@@ -159,36 +231,134 @@ export const HomeLanding = () => {
                                             </div>
 
                                             <div className="space-y-3">
-                                                <div className="relative">
+                                                <div className="relative mb-6">
                                                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                                                    <Input
+                                                    <input
                                                         type="text"
                                                         placeholder="Search for notes, papers, syllabus..."
                                                         value={searchQuery}
                                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                                        className="pl-10 pr-4 py-3 text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
+                                                        className="w-full pl-10 pr-4 py-3 text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
                                                     />
                                                 </div>
 
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <select className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:outline-none">
-                                                        <option>Select Branch</option>
-                                                        <option>Computer Science</option>
-                                                        <option>Electronics</option>
-                                                        <option>Mechanical</option>
-                                                        <option>Civil</option>
+                                                {/* Filter Dropdowns */}
+
+                                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                    {/* Semester Dropdown */}
+                                                    <select
+                                                        value={semester}
+                                                        onChange={(e) => setSemester(e.target.value)}
+                                                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                    >
+                                                        <option value="">Select Semester</option>
+                                                        <option value="1">1st Semester</option>
+                                                        <option value="2">2nd Semester</option>
+                                                        <option value="3">3rd Semester</option>
+                                                        <option value="4">4th Semester</option>
                                                     </select>
-                                                    <select className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:outline-none">
-                                                        <option>Semester</option>
-                                                        <option>1st Semester</option>
-                                                        <option>2nd Semester</option>
-                                                        <option>3rd Semester</option>
-                                                        <option>4th Semester</option>
+
+                                                    {/* Resources Dropdown */}
+                                                    <select
+                                                        value={resourceType}
+                                                        onChange={(e) => setResourceType(e.target.value)}
+                                                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                    >
+                                                        <option value="">Resource Type</option>
+                                                        <option value="SHIVANI_BOOKS">Shivani Books</option>
+                                                        <option value="MID_SEM_PAPER">Mid Sem Papers</option>
+                                                        <option value="END_SEM_PAPER">End Sem Papers</option>
+                                                        <option value="NOTES">Notes</option>
+                                                        <option value="LAB_MANUAL">Lab Manuals</option>
+                                                        <option value="SYLLABUS">Syllabus</option>
                                                     </select>
                                                 </div>
+
                                                 <div className="flex justify-center">
-                                                    <Button sizeVariant="small" colorVariant="black_green" text="Search Resources" />
+                                                    <Button
+                                                        sizeVariant="small"
+                                                        colorVariant="yellow"
+                                                        onClick={handleSearch}
+                                                        disabled={loading}
+                                                        // className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-400"
+                                                        text={loading ? "Searching..." : "Search Resources"}
+                                                    />
                                                 </div>
+
+                                                {/* Results Section */}
+                                                {results.length > 0 && (
+                                                    <div className="bg-white p-6 rounded-xl shadow-md">
+                                                        {/* Login Prompt */}
+                                                        {hasMore && (
+                                                            <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                                                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                                                    <p className="text-blue-800 text-center md:text-left">
+                                                                        To access all resources, please login to your PrepNerdz account
+                                                                    </p>
+                                                                    <Button 
+                                                                        colorVariant="blue"
+                                                                        text="Login Now"
+                                                                        sizeVariant="small"
+                                                                        onClick={() => setIsLoginOpen(true)}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                        <h3 className="text-xl font-semibold mb-6 text-gray-800">Search Results</h3>
+                                                        <div className="space-y-6">
+                                                            {results.map((resource, index) => (
+                                                                <div key={index} className="border-b border-gray-200 pb-6 last:border-0">
+                                                                    <div className="flex flex-col md:flex-row gap-4">
+                                                                        <div className="bg-indigo-100 p-3 rounded-lg w-fit">
+                                                                            {resource.type === 'NOTES' ? (
+                                                                                <Paper className="size-6 text-indigo-600" />
+                                                                            ) : (
+                                                                                <BookOpen className="size-6 text-indigo-600" />
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="flex-1">
+                                                                            <h4 className="font-medium text-lg text-gray-900">{resource.title}</h4>
+                                                                            <p className="text-sm text-gray-600 mt-2">
+                                                                                {resource.subject?.semester?.branch?.name || 'General'} • Semester {resource.subject?.semester?.semNumber}
+                                                                            </p>
+                                                                            <div className="flex flex-wrap items-center mt-3 gap-2 text-sm text-gray-500">
+                                                                                <span>Type: {resource.type.replace(/_/g, ' ')}</span>
+                                                                                <span>•</span>
+                                                                                <span>Uploaded by {resource.uploadedBy?.username || 'System'}</span>
+                                                                                <span>•</span>
+                                                                                <span>{new Date(resource.createdAt).toLocaleDateString()}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <a
+                                                                            href={resource.fileUrl}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg flex items-center gap-2 self-start md:self-center"
+                                                                        >
+                                                                            <Download className="h-4 w-4" />
+                                                                            Download
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+
+                                                        
+                                                    </div>
+                                                )}
+
+                                                {/* Empty State */}
+                                                {results.length === 0 && !loading && (
+                                                    <div className="bg-white p-8 rounded-xl shadow-md text-center">
+                                                        <div className="mx-auto h-16 w-16 text-gray-400">
+                                                            <BookOpen className="h-full w-full" />
+                                                        </div>
+                                                        <h3 className="mt-4 text-lg font-medium text-gray-900">No resources found</h3>
+                                                        <p className="mt-2 text-gray-500">
+                                                            Try different search terms or filters
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </Card>

@@ -50,3 +50,24 @@ export const addSubject = async (req: Request, res: Response) => {
         return;
     }
 }
+
+export const getAllSubjects = async (req: Request, res: Response) => {
+    try {
+        const subjects = await prisma.subject.findMany({
+            select: {
+                subjectName: true,
+            },
+        });
+
+        // Returning only array of subject names!!
+        const subjectNames = subjects.map(subject => subject.subjectName);
+
+        res.status(200).json(subjectNames);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later",
+        });
+        return
+    }
+};

@@ -108,3 +108,89 @@ export const handleSearch = async (req: Request, res: Response) => {
         return
     }
 };
+interface LandingSearchQuery {
+    subject?: string;
+    semester?: string;
+    landingResourceType?: 'SHIVANI_BOOKS' | 'MID_SEM_PAPER' | 'END_SEM_PAPER' | 'IMP_QUESTION' | 'NOTES' | 'LAB_MANUAL' | 'SYLLABUS';
+}
+
+export const handleLandingSearch = async (req: Request, res: Response) => {
+    try {
+        const { subject, semester, landingResourceType }: LandingSearchQuery = req.query;
+        const limit = 5; // Limit results to 5 for landing page
+
+        // Validate required parameters
+        if (!subject || !semester || !landingResourceType) {
+            res.status(400).json({
+                success: false,
+                message: 'Subject, semester and resource type are required'
+            });
+            return
+        }
+
+        // Convert semester to number and validate
+        const semesterNumber = parseInt(semester);
+        if (isNaN(semesterNumber)) {
+            res.status(400).json({
+                success: false,
+                message: 'Semester must be a valid number'
+            });
+            return
+        }
+
+        // Find matching resources
+        const resources = await prisma.resource.findMany({
+            where: {
+                type: landingResourceType,
+                subject: {
+                    subjectName: {
+                        contains: subject,
+                        mode: 'insensitive'
+                    },
+                    semester: {
+                        semNumber: semesterNumber
+                    }
+                }
+            },
+            take: limit,
+            include: {
+                subject: {
+                    include: {
+                        semester: {
+                            include: {
+                                branch: true
+                            }
+                        }
+                    }
+                },
+                uploadedBy: {
+                    select: {
+                        username: true
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+
+        res.status(200).json({
+            success: true,
+            data: resources,
+            hasMore: resources.length >= limit,
+            message: resources.length > 0
+                ? 'Resources found successfully'
+                : 'No resources found matching your criteria'
+        });
+        return
+
+    } catch (error: any) {
+        console.error('Search error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+        return
+    }
+};
