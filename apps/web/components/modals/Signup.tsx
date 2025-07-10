@@ -144,26 +144,30 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
     return (
         <>
             {open && (
-                <div className="flex justify-center items-center h-screen w-screen bg-black/50 fixed top-0 left-0 z-50">
-                    <div className="flex flex-col justify-center">
-                        <div className="bg-white p-4 rounded-2xl w-[800px] h-[850px]">
-                            <div className="flex justify-end cursor-pointer">
-                                <div onClick={onClose}>
-                                    <CloseCircle className="md:size-10 size-6 hover:text-red-500 transition-all duration-300" />
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-y-auto py-4">
+                    {/* Modal Container - properly centered */}
+                    <div className="mx-auto w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-[800px] px-4">
+                        <div className="bg-white p-4 rounded-2xl w-full max-h-[95vh] h-auto md:h-[850px] overflow-y-auto">
+                            {/* Close Button - Adjusted for mobile */}
+                            <div className="flex justify-end cursor-pointer sticky top-0 bg-white pb-2">
+                                <div onClick={onClose} className="p-1">
+                                    <CloseCircle className="size-6 md:size-10 hover:text-red-500 transition-all duration-300" />
                                 </div>
                             </div>
 
                             {!showOtpInput ? (
                                 <>
-                                    <div className="flex justify-center">
-                                        <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                    {/* Signup Title */}
+                                    <div className="flex justify-center mt-2 md:mt-0">
+                                        <span className="bg-gradient-to-r text-xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
                                             <TypingText text="Create your PrepNerdz Account!!" />
                                         </span>
                                     </div>
 
+                                    {/* Signup Form */}
                                     <form onSubmit={handleSignup}>
-                                        <div className="flex flex-col items-center space-y-8 justify-center mt-6">
-                                            <div>
+                                        <div className="flex flex-col items-center space-y-4 md:space-y-8 justify-center mt-4 md:mt-6">
+                                            <div className="w-full max-w-xs md:max-w-md">
                                                 <InputBulged
                                                     type="text"
                                                     placeholder="Enter Username:"
@@ -174,7 +178,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 />
                                             </div>
 
-                                            <div>
+                                            <div className="w-full max-w-xs md:max-w-md">
                                                 <InputBulged
                                                     type="email"
                                                     placeholder="Enter Email:"
@@ -185,7 +189,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 />
                                             </div>
 
-                                            <div>
+                                            <div className="w-full max-w-xs md:max-w-md">
                                                 <InputBulged
                                                     type="password"
                                                     placeholder="Enter Password:"
@@ -196,7 +200,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex justify-center mt-8">
+                                        <div className="flex justify-center mt-6 md:mt-8">
                                             <Button
                                                 colorVariant="black_green"
                                                 endIcon={<EnterDoor className="size-6" />}
@@ -208,14 +212,17 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                         </div>
                                     </form>
 
-                                    <div className="flex justify-center mt-10 items-center">
+                                    {/* Social Auth Divider */}
+                                    <div className="flex justify-center mt-6 md:mt-10 items-center">
                                         <div className="flex justify-center items-center w-full cursor-default max-w-sm">
                                             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
                                             <span className="px-4 text-sm font-medium text-black">OR CONTINUE WITH</span>
                                             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
                                         </div>
                                     </div>
-                                    <div className="flex justify-center items-center flex-row space-x-10 mt-3">
+
+                                    {/* Social Auth Buttons */}
+                                    <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 md:space-x-10 mt-3">
                                         <div>
                                             <GoogleAuthBtn text="Google" />
                                         </div>
@@ -224,7 +231,8 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                         </div>
                                     </div>
 
-                                    <p className="text-black animate-bounce text-2xl font-bold text-center mt-6">
+                                    {/* Login Prompt */}
+                                    <p className="text-black text-lg md:text-2xl font-bold text-center mt-6 px-2">
                                         Already have an account?{" "}
                                         <span
                                             onClick={onSwitchToLogin}
@@ -236,15 +244,17 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                 </>
                             ) : (
                                 <>
-                                    <div className="flex justify-center">
-                                        <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black-500 to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                    {/* OTP Verification Title */}
+                                    <div className="flex justify-center mt-2 md:mt-0">
+                                        <span className="bg-gradient-to-r text-xl md:text-4xl text-center font-extrabold from-red-600 via-black-500 to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
                                             Verify Your Email
                                         </span>
                                     </div>
 
+                                    {/* OTP Form */}
                                     <form onSubmit={handleOtpVerification}>
-                                        <div className="flex flex-col items-center space-y-8 justify-center mt-16">
-                                            <div>
+                                        <div className="flex flex-col items-center space-y-4 md:space-y-8 justify-center mt-8 md:mt-16">
+                                            <div className="w-full max-w-xs md:max-w-md">
                                                 <InputBulged
                                                     type="text"
                                                     placeholder="Enter OTP:"
@@ -255,7 +265,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex justify-center mt-8">
+                                        <div className="flex justify-center mt-6 md:mt-8">
                                             <Button
                                                 colorVariant="black_green"
                                                 endIcon={<EnterDoor className="size-6" />}
@@ -267,6 +277,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                         </div>
                                     </form>
 
+                                    {/* Resend OTP */}
                                     <p className="text-center mt-4 text-sm text-gray-600">
                                         Didn&apos;t receive OTP?{" "}
                                         <button

@@ -491,24 +491,28 @@ export const HomeLanding = () => {
                                 </div>
 
                                 <div className="flex items-center space-x-40 justify-center">
-                                    <div>
+                                    <div className="md:block hidden">
                                         <ThanksForVisit />
                                     </div>
                                     <ProfileSimple x="https://x.com/__Shubhashish__" instagram="https://www.instagram.com/___shubhashish___" github="https://www.github.com/Shubhashish-Chakraborty" linkedin="https://www.linkedin.com/in/Shubhashish-Chakraborty" name="Shubhashish Chakraborty" image="/founders/shubh.png" mail="shubhashish147@gmail.com" />
-                                    <div>
+                                    <div className="md:block hidden">
                                         <ThanksForVisit />
                                     </div>
                                 </div>
 
                                 <div className="mt-10 space-x-10 flex flex-wrap items-center  justify-center">
-                                    <ThanksForVisit />
+                                    <div className="md:block hidden">
+                                        <ThanksForVisit />
+                                    </div>
                                     <div>
                                         <ProfileSimple x="https://x.com/MokshMishra1111" instagram="https://www.instagram.com/iammokshmishra" github="https://github.com/MokshMishra" linkedin="https://www.linkedin.com/in/moksh-mishra-956868289/" name="Moksh Mishra" image="/founders/moksh.png" mail="mokshmishra1418@gmail.com" />
                                     </div>
                                     <div>
                                         <ProfileSimple x="https://x.com/yadav_nihalll" instagram="https://www.instagram.com/Nihaaalll_29" linkedin="https://www.linkedin.com/in/Nihal-yadav2" name="Nihal Yadav" image="/founders/nihal.png" mail="yadavnihal544@gmail.com" />
                                     </div>
-                                    <ThanksForVisit />
+                                    <div className="md:block hidden">
+                                        <ThanksForVisit />
+                                    </div>
                                 </div>
                             </div>
                         </section>

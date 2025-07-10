@@ -114,23 +114,28 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
     return (
         <>
             {open && (
-                <div className="flex justify-center items-center h-screen w-screen bg-black/50 fixed top-0 left-0 z-50">
-                    <div className="flex flex-col justify-center">
-                        <div className="bg-white p-4 rounded-2xl w-[800px] h-[850px]">
-                            <div className="flex justify-end cursor-pointer">
-                                <div onClick={onClose}>
-                                    <CloseCircle className="md:size-10 size-6 hover:text-red-500 transition-all duration-300" />
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-y-auto py-4">
+                    {/* Modal Container - now properly centered */}
+                    <div className="mx-auto w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-[800px] px-4">
+                        <div className="bg-white p-4 rounded-2xl w-full max-h-[90vh] h-auto md:h-[850px] overflow-y-auto">
+                            {/* Close Button - Adjusted for mobile */}
+                            <div className="flex justify-end cursor-pointer sticky top-0 bg-white pb-2">
+                                <div onClick={onClose} className="p-1">
+                                    <CloseCircle className="size-6 md:size-10 hover:text-red-500 transition-all duration-300" />
                                 </div>
                             </div>
-                            <div className="flex justify-center">
-                                <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-blue-600 to-cyan-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+
+                            {/* Title */}
+                            <div className="flex justify-center mt-2 md:mt-0">
+                                <span className="bg-gradient-to-r text-xl md:text-4xl text-center font-extrabold from-blue-600 to-cyan-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
                                     <TypingText text="Login to your PrepNerdz Account!" />
                                 </span>
                             </div>
 
+                            {/* Form */}
                             <form onSubmit={handleLogin}>
-                                <div className="flex flex-col items-center space-y-8 justify-center mt-6">
-                                    <div>
+                                <div className="flex flex-col items-center space-y-4 md:space-y-8 justify-center mt-4 md:mt-6">
+                                    <div className="w-full max-w-xs md:max-w-md">
                                         <InputBulged
                                             type="email"
                                             placeholder="Enter Email:"
@@ -141,7 +146,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="w-full max-w-xs md:max-w-md">
                                         <InputBulged
                                             type="password"
                                             placeholder="Enter Password:"
@@ -152,7 +157,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex justify-center mt-8">
+                                <div className="flex justify-center mt-6 md:mt-8">
                                     <Button
                                         colorVariant="black_green"
                                         endIcon={<EnterDoor className="size-6" />}
@@ -164,14 +169,17 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </div>
                             </form>
 
-                            <div className="flex justify-center mt-10 items-center">
+                            {/* OR Divider */}
+                            <div className="flex justify-center mt-6 md:mt-10 items-center">
                                 <div className="flex justify-center items-center w-full cursor-default max-w-sm">
                                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
                                     <span className="px-4 text-sm font-medium text-black">OR CONTINUE WITH</span>
                                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent"></div>
                                 </div>
                             </div>
-                            <div className="flex justify-center items-center flex-row space-x-8 mt-3">
+
+                            {/* Social Auth Buttons */}
+                            <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mt-3 md:mt-3">
                                 <div>
                                     <GoogleAuthBtn text="Google" />
                                 </div>
@@ -181,7 +189,8 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                 </div>
                             </div>
 
-                            <p className="text-black font-bold animate-bounce text-center text-2xl mt-10">
+                            {/* Signup Prompt */}
+                            <p className="text-black font-bold text-center text-lg md:text-2xl mt-6 md:mt-10 px-2">
                                 Don&apos;t have an account?
                                 {" "}
                                 <span
@@ -191,7 +200,9 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                     SignUp
                                 </span>
                             </p>
-                            <div className="flex justify-center transition-all text-xl duration-500 hover:text-blue-600 font-bold">
+
+                            {/* Forgot Password */}
+                            <div className="flex justify-center transition-all text-base md:text-xl duration-500 hover:text-blue-600 font-bold mt-2 md:mt-0">
                                 <Link href={"/forgot-password"}>
                                     Forgot Password?
                                 </Link>

@@ -90,11 +90,11 @@ export const Footer = () => {
                     }`}
             >
                 <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 lg:gap-12">
+                    <div className="flex flex-col lg:flex-row justify-center items-center md:justify-between md:items-start lg:items-center gap-8 lg:gap-12">
                         {/* Left Section */}
                         <div className="flex-1 max-w-md">
                             {/* Logo */}
-                            <div className="mb-6">
+                            <div className="mb-6 flex md:justify-start justify-center">
                                 <Link href="/" className="inline-block">
                                     <div className="relative group">
                                         <Image
@@ -111,7 +111,7 @@ export const Footer = () => {
 
                             {/* Description */}
                             <div className="mb-8">
-                                <p className="text-gray-700 leading-relaxed text-sm md:text-base font-medium">
+                                <p className="text-gray-700 md:text-left text-center leading-relaxed text-sm md:text-base font-medium">
                                     {
                                         "We're just getting started! Join us on our journey to build something that the community will love."
                                     }
@@ -119,7 +119,7 @@ export const Footer = () => {
                             </div>
 
                             {/* Social Links */}
-                            <div className="flex gap-4 mb-8">
+                            <div className="flex justify-center md:justify-start gap-4 mb-8">
                                 {socialLinks.map((social, index) => (
                                     <Link href={social.url} key={index} target="_blank" rel="noopener noreferrer">
                                         <button
@@ -133,7 +133,7 @@ export const Footer = () => {
                             </div>
 
                             {/* Contact */}
-                            <div className="text-sm md:text-base">
+                            <div className="text-sm md:text-base text-center md:text-start">
                                 <span className="text-gray-700 font-medium">Having issues? Write us at </span>
                                 <span
                                     onClick={() => {
@@ -186,7 +186,7 @@ export const Footer = () => {
                         </div>
                     </div>
 
-                    <div className="flex justify-start mt-5 md:mt-0 md:justify-end">                        
+                    <div className="flex justify-center mt-5 md:mt-0 md:justify-end">                        
                         <GithubStar/>
                     </div>
                     

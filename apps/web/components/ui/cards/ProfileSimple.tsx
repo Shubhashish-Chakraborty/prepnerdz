@@ -33,7 +33,7 @@ const ProfileSimple = ({ name, image, mail, github, linkedin, instagram, x }: {
                     {mail}
                 </div>
                 <div className="social-media">
-                    <div className='flex justify-center'>
+                    <div className='flex justify-center gap-10 md:gap-5'>
                         {linkedin && (
                             <Link target='_blank' href={linkedin}>
                                 <Linkedin className="size-5" />
