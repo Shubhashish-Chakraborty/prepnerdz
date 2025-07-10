@@ -1,5 +1,5 @@
 'use client';
-import { Github } from "@/icons/Github";
+
 import Navbar from "../ui/navbars/Navbar"
 import { motion } from "framer-motion";
 import { BookOpen } from "@/icons/BookOpen";
@@ -22,8 +22,9 @@ import { SignupModal } from "../modals/Signup";
 
 const features = [
     {
-        text: "Previous year papers (Mid-Sem & End-Sem)",
-        icon: <BookClose className="size-6" />,
+        text: "Important questions, Important Topics & reference books",
+        icon: <Star className="size-6" />,
+        className: "bg-purple-50 border-purple-200"
     },
     {
         text: "Subject notes (Faculty & Topper-curated)",
@@ -31,14 +32,13 @@ const features = [
         className: "bg-blue-50 border-blue-200"
     },
     {
+        text: "RGPV Previous year papers (Mid-Sem & End-Sem)",
+        icon: <BookClose className="size-6" />,
+    },
+    {
         text: "Lab manuals",
         icon: <Flask className="size-6" />,
         className: "bg-green-50 border-green-200"
-    },
-    {
-        text: "Important questions, Important Topics & reference books",
-        icon: <Star className="size-6" />,
-        className: "bg-purple-50 border-purple-200"
     },
     {
         text: "Career Advancement",
@@ -54,7 +54,7 @@ const features2 = [
         className: "bg-black border-cyan-200 text-amber-400"
     },
     {
-        text: "Courses → Branches → Semesters → Subjects: Hierarchical organization",
+        text: "Branches → Semesters → Subjects: Hierarchical organization",
         icon: <Database className="size-6" />,
         className: "bg-black border-cyan-200 text-amber-400"
     },
@@ -153,7 +153,7 @@ export const AboutLanding = () => {
                             <div className="grid mt-5 md:grid-cols-2 gap-8">
                                 <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
                                     <div className="flex justify-center">
-                                        <Github className="size-10 text-indigo-600 mb-4" />
+                                        <Database className="size-10 text-indigo-600 mb-4" />
                                     </div>
                                     <h3 className="text-xl font-semibold mb-3">Centralized Academic Resources</h3>
                                     <p className="text-black">

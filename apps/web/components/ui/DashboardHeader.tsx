@@ -15,6 +15,7 @@ import { Bookmark } from "@/icons/Bookmark";
 import { Settings } from "@/icons/Settings";
 import { Right } from "@/icons/Right";
 import { Question } from "@/icons/Question";
+
 interface HeaderProps {
     userName: string
     setIsSidebarOpen: (open: boolean) => void
@@ -307,7 +308,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
                                     <button
                                         onClick={() => {
-                                            router.push("/help");
+                                            router.push("/?scrollTo=guide");
                                             setIsDropdownOpen(false);
                                         }}
                                         className="w-full flex cursor-pointer items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"

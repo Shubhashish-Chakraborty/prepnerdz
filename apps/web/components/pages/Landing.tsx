@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TypingText from "../ui/TypingTest";
 import { Button } from "../ui/buttons/Button";
 import { Input } from "../ui/inputs/InputSimple";
@@ -65,6 +65,16 @@ export const HomeLanding = () => {
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
+
+    const guideRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("scrollTo") === "guide" && guideRef.current) {
+            guideRef.current.scrollIntoView({ behavior: "smooth" });
+            toast.success("Watch the PrepNerdz Guide Tutorial");
+        }
+    }, []);
 
     const handleSearch = async () => {
         if (!searchQuery || !semester || !resourceType) {
@@ -444,7 +454,7 @@ export const HomeLanding = () => {
                                     <h2 className="text-3xl md:text-4xl font-bold mb-4">How to use PrepNerdz?</h2>
                                     <p className="text-gray-600 max-w-2xl mx-auto"> Get started in just 3 simple steps</p>
                                 </div>
-                                <div className="grid md:grid-cols-3 gap-8">
+                                <div ref={guideRef} className="grid md:grid-cols-3 gap-8">
                                     <StepCard
                                         step="1"
                                         title="Select Your Course and Branch"
