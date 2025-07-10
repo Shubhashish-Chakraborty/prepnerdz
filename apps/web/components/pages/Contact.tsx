@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Instagram } from "@/icons/Instagram";
 import { X } from "@/icons/X";
 import { Linkedin } from "@/icons/Linkedin";
-import { Github } from "@/icons/Github";
 import InputStraightLine from "../ui/inputs/InputStarightLine";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -110,10 +109,10 @@ export const ContactLanding = () => {
                                         <Linkedin className="size-8 text-blue-600" />
                                     </div>
 
-                                    <div onClick={() => { window.open("https://www.github.com/Shubhashish-Chakraborty") }} className="flex flex-col items-center cursor-pointer font-bold hover:underline">
+                                    {/* <div onClick={() => { window.open("https://www.github.com/Shubhashish-Chakraborty") }} className="flex flex-col items-center cursor-pointer font-bold hover:underline">
                                         Github
                                         <Github className="size-8" />
-                                    </div>
+                                    </div> */}
                                 </div>
 
                                 <Link href={"/contact-us"}>
@@ -122,7 +121,7 @@ export const ContactLanding = () => {
                                         alt="Shubh"
                                         width={350}
                                         height={350}
-                                        className="hover:scale-105 transition-all duration-300 cursor-pointer"
+                                        className="hover:rotate-10 transition-all duration-300 cursor-pointer"
                                     />
                                 </Link>
 

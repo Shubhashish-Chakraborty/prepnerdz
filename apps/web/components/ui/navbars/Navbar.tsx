@@ -99,6 +99,7 @@ export const Navbar = () => {
             router.push('/dashboard');
             toast.success("Explore the resources here in Dashboard!");
         } else {
+            setIsLoginOpen(true);
             toast.error("You must login to access the resources!");
         }
     };
@@ -164,7 +165,7 @@ export const Navbar = () => {
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
                                         <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                            StudyMaterial
+                                            Study Material
                                         </span>
                                         <Down className="size-6" />
                                     </button>
@@ -175,27 +176,26 @@ export const Navbar = () => {
                                                 {
                                                     title: "Shivani PDFs",
                                                     description: "Comprehensive study materials and notes",
-                                                    href: "/study-material/shivani-pdfs",
                                                 },
                                                 {
                                                     title: "IMP Questions",
                                                     description: "Important questions for exam preparation",
-                                                    href: "/study-material/imp-questions",
+                                                },
+                                                {
+                                                    title: "IMP Topics",
+                                                    description: "Get the most important topics unit wise",
                                                 },
                                                 {
                                                     title: "Best Academic Notes",
                                                     description: "High-quality academic notes and resources",
-                                                    href: "/study-material/academic-notes",
                                                 },
                                                 {
                                                     title: "Syllabus",
                                                     description: "Step-by-step manual solutions",
-                                                    href: "/study-material/manual-solutions",
                                                 },
                                                 {
                                                     title: "Lab Manual",
                                                     description: "All Lab manual and there solutions", 
-                                                    href: "/study-material/manual-solutions",
                                                 },
                                             ].map((item, index) => (
                                                 <div
@@ -229,14 +229,12 @@ export const Navbar = () => {
                                         <div className="absolute top-full left-0 mt-2 w-[280px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3">
                                             {[
                                                 {
-                                                    title: "End Sem PYQ'S",
-                                                    description: "Previous year end semester questions",
-                                                    href: "/pyqs/end-sem",
-                                                },
-                                                {
                                                     title: "Mid Term PYQ'S",
                                                     description: "Previous year mid-term questions",
-                                                    href: "/pyqs/mid-term",
+                                                },
+                                                {
+                                                    title: "End Sem PYQ'S",
+                                                    description: "Previous year end semester questions",
                                                 },
                                             ].map((item, index) => (
                                                 <div

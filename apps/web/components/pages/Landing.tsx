@@ -26,6 +26,7 @@ import { Globe } from "@/icons/Globe";
 import axios from "axios";
 import { Paper } from "@/icons/Paper";
 import { toast } from "react-hot-toast";
+import FloatingFeatures from "../ui/cards/FloatingSimple";
 
 interface ResourceResult {
     id: string;
@@ -46,6 +47,11 @@ interface ResourceResult {
     };
 }
 
+const features = [
+    "Complete BTECH Study Materials",
+    "RGPV Previous year papers (Mid-Sem & End-Sem)",
+    "Study Materials (Shivani Books, IMP Questions, Best Academic Notes, Lab Manual & etc.)",
+]
 
 export const HomeLanding = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -377,6 +383,18 @@ export const HomeLanding = () => {
                         {/* Features Section */}
                         <section id="features" className="py-16">
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+
+                                <div className="text-center mb-10">
+                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                                        What PrepNerdz Provides?
+                                    </h2>
+
+                                    <FloatingFeatures features={features} />
+
+
+                                </div>
+
+
                                 <div className="text-center mb-12">
                                     <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose PrepNerdz?</h2>
                                     <p className="text-black max-w-2xl mx-auto">
@@ -388,18 +406,18 @@ export const HomeLanding = () => {
                                     <LandingHero
                                         icon={<BookOpen className="size-6" />}
                                         title="Comprehensive Resources"
-                                        description="Access previous year papers, notes, and syllabus all in one place."
+                                        description="Access previous year RGPV papers, notes, and syllabus all in one place."
                                     />
                                     <LandingHero
                                         icon={<Target className="size-6" />}
                                         title="Organized by Semester"
                                         description="Find exactly what you need with our branch-wise, semester-wise organization."
                                     />
-                                    <LandingHero
+                                    {/* <LandingHero
                                         icon={<Download className="size-6" />}
                                         title="Easy Downloads"
                                         description="One-click downloads with no redirects or annoying popups."
-                                    />
+                                    /> */}
                                     <LandingHero
                                         icon={<ShieldColored className="h-6 w-6" />}
                                         title="Verified Content"

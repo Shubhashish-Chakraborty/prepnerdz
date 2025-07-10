@@ -135,7 +135,7 @@ export default function ChangeUsernamPage() {
                                 onChange={(e) => setUsername(e.target.value)}
                                 placeholder="Enter new username"
                             />
-                            <div className="flex space-x-5">
+                            <div className="flex justify-center space-x-5">
                                 <Button
                                     onClick={handleUpdateUsername}
                                     disabled={loading}

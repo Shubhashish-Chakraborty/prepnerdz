@@ -206,6 +206,7 @@ export default function UploadAvatar() {
                         <Button
                             text={loading ? "Uploading..." : "Upload Image"}
                             colorVariant="blue"
+                            disabled={loading}
                             sizeVariant="medium"
                             onClick={uploadImage}
                             startIcon={<ArrowUp />}

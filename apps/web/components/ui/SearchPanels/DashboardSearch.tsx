@@ -3,9 +3,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
-import Image from "next/image"
-import Link from "next/link"
-// import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime"
 
 interface SearchPanelProps {
     activeNavItem: string
@@ -344,18 +341,8 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                             d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                         />
                     </svg>
-                    <p className="text-lg">Coming Soon, Stay Tuned!</p>
-                    <div className="flex justify-center">
-                        <Link href={"/dashboard"}>
-                            <Image
-                                className="hover:rotate-15 cursor-pointer transition-all duration-500"
-                                src={"/comingsoon.png"}
-                                alt="coming soon"
-                                width={200}
-                                height={200}
-                            />
-                        </Link>
-                    </div>
+                    <p className="text-lg">Its on the Way, Stay Tuned!</p>
+                    <p className="text-lg">You will be notified!!</p>
                 </div>
             </div>
         )

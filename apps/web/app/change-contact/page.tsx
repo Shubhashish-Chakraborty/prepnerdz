@@ -134,7 +134,7 @@ export default function ChangeContactPage() {
                                 onChange={(e) => setContact(e.target.value)}
                                 placeholder="Enter new Number"
                             />
-                            <div className="flex space-x-5">
+                            <div className="flex justify-center space-x-5">
                                 <Button
                                     onClick={handleUpdateContact}
                                     disabled={loading}

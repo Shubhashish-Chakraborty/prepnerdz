@@ -24,7 +24,6 @@ const features = [
     {
         text: "Previous year papers (Mid-Sem & End-Sem)",
         icon: <BookClose className="size-6" />,
-        onClick: () => console.log("Courses clicked")
     },
     {
         text: "Subject notes (Faculty & Topper-curated)",
@@ -37,7 +36,7 @@ const features = [
         className: "bg-green-50 border-green-200"
     },
     {
-        text: "Important questions & reference books",
+        text: "Important questions, Important Topics & reference books",
         icon: <Star className="size-6" />,
         className: "bg-purple-50 border-purple-200"
     },
@@ -132,7 +131,7 @@ export const AboutLanding = () => {
                                 <TypingText text="Why PrepNerdz exists?" />
                             </span>
                             <p className="text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
-                                College students waste countless hours wandering WhatsApp groups, requesting seniors, or digging through disorganized drives for study materials. PrepNerdz solves this chaos by providing a centralized and organized repository of:
+                                College students waste countless hours wandering WhatsApp groups, requesting seniors, or digging through disorganized drives for study materials and all. PrepNerdz solves this chaos by providing a centralized and organized repository of:
                             </p>
 
                             <InfiniteMovingCards

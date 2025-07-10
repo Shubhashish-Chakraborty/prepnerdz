@@ -126,7 +126,7 @@ export default function ForgotPassword() {
             <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
                 <Navbar />
                 <div className="mt-10">
-                    <Button text="Back" colorVariant="black_green" sizeVariant="small" startIcon={<Back />} onClick={() => router.push("/")} />
+                    <Button text="Back" colorVariant="black_green" sizeVariant="small" startIcon={<Back className="size-6"/>} onClick={() => router.push("/")} />
                 </div>
                 <div className="flex flex-col justify-center mt-10 space-y-10 items-center">
 
@@ -146,7 +146,7 @@ export default function ForgotPassword() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter Your Email"
                                 />
-                                <div className="flex space-x-5">
+                                <div className="flex justify-center space-x-5">
                                     <Button
                                         onClick={handleSendOtp}
                                         disabled={loading}

@@ -27,6 +27,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
     const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
     const avatarMenuRef = useRef<HTMLDivElement>(null);
     const [username, setUsername] = useState("");
+    const [contact, setContact] = useState("");
     const [email, setEmail] = useState("");
     const [joined, setJoined] = useState("");
     const [settingsOpen, setSettingsOpen] = useState(false);
@@ -46,8 +47,9 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                 });
                 setUsername(response.data.message.user.username);
                 setEmail(response.data.message.user.email);
+                setContact(response.data.message.user.contactNumber);
                 setJoined(response.data.message.user.UserAddedAt.split("T")[0].split("-").reverse().join("-"));
-                
+
                 if (response.data.message.user.contactNumber !== "NOT_PROVIDED") {
                     setContactProvided(true);
                 }
@@ -198,11 +200,14 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
                         {/* Dropdown Content */}
                         {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
+                            <div className="absolute right-0 mt-2 w-72 cursor-pointer bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                                 {/* User info section */}
-                                <div className="px-4 py-3 border-b border-gray-100">
-                                    <p className="font-bold text-gray-900 truncate">{username}</p>
-                                    <p className="text-sm text-gray-500 truncate">{email}</p>
+                                <div className="px-4 py-3 border-b text-center border-gray-100">
+                                    <p className="font-bold text-lg text-gray-900 truncate">{username}</p>
+                                    <p className="text-sm truncate text-blue-500 font-bold">{email}</p>
+                                    {contact !== "NOT_PROVIDED" && (
+                                        <p className="text-sm truncate">{contact}</p>
+                                    )}
                                 </div>
 
                                 {/* Main menu items */}
@@ -212,7 +217,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                             router.push("/");
                                             setIsDropdownOpen(false);
                                         }}
-                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                        className="w-full flex cursor-pointer items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
                                         <span className="mr-3"><Home /></span>
                                         <span className="text-gray-700">Home</span>
@@ -223,7 +228,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                             router.push("/bookmarks");
                                             setIsDropdownOpen(false);
                                         }}
-                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                        className="w-full flex items-center cursor-pointer px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
                                         <span className="mr-3"><Bookmark className="size-5" /></span>
                                         <span className="text-gray-700">Bookmarks</span>
@@ -234,7 +239,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                             router.push("/downloads");
                                             setIsDropdownOpen(false);
                                         }}
-                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                        className="w-full flex items-center cursor-pointer px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
                                         <span className="mr-3"><Download className="size-5" /></span>
                                         <span className="text-gray-700">Downloads</span>
@@ -244,7 +249,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                     <div className="relative">
                                         <button
                                             onClick={() => setSettingsOpen(!settingsOpen)}
-                                            className="w-full flex items-center justify-between px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                            className="w-full flex items-center cursor-pointer justify-between px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                         >
                                             <div className="flex items-center">
                                                 <span className="mr-3"><Settings /></span>
@@ -305,7 +310,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                             router.push("/help");
                                             setIsDropdownOpen(false);
                                         }}
-                                        className="w-full flex items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                                        className="w-full flex cursor-pointer items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
                                         <span className="mr-3"><Question className="size-5" /></span>
                                         <span className="text-gray-700">Help</span>
@@ -313,7 +318,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                 </div>
 
                                 {/* Footer section */}
-                                <div className="px-4 py-2 border-t border-gray-100 text-xs text-gray-500">
+                                <div className="px-4 text-center py-2 border-t border-gray-100 text-sm font-bold">
                                     Member since: {joined}
                                 </div>
                             </div>
