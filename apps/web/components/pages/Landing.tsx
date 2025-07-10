@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import TypingText from "../ui/TypingTest";
 import { Button } from "../ui/buttons/Button";
-import { Input } from "../ui/inputs/InputSimple";
 import { Card } from "../ui/cards/HeroCards";
 import { BookOpen } from "@/icons/BookOpen";
 import { Search } from "@/icons/Search";
@@ -31,9 +30,9 @@ import FloatingFeatures from "../ui/cards/FloatingSimple";
 interface ResourceResult {
     id: string;
     title: string;
-    type: string; // extend as needed
+    type: string;
     fileUrl: string;
-    createdAt: string; // ISO date string
+    createdAt: string;
     uploadedBy?: {
         username?: string;
     };
@@ -57,8 +56,6 @@ export const HomeLanding = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [isSignupOpen, setIsSignupOpen] = useState(false);
-    // const [subjects, setSubjects] = useState<string[]>([]);
-
     const [semester, setSemester] = useState('');
     const [resourceType, setResourceType] = useState('');
     const [results, setResults] = useState<ResourceResult[]>([]);
@@ -82,16 +79,13 @@ export const HomeLanding = () => {
             return;
         }
 
-
-        // Adjust semester before sending
         const adjustedSemester = (semester === '1' || semester === '2') ? '0' : semester;
 
         setLoading(true);
-        setHasSearched(true); // markingg that user has searched
-        setResults([]); // clearing old results
-        setHasMore(false); // reseting pagination flag
+        setHasSearched(true);
+        setResults([]);
+        setHasMore(false);
 
-        setLoading(true);
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search/landing`, {
                 params: {
@@ -110,21 +104,6 @@ export const HomeLanding = () => {
             setLoading(false);
         }
     };
-
-
-    // Fetch all subjects from db for dropdown
-    // useEffect(() => {
-    //     const fetchSubjects = async () => {
-    //         try {
-    //             const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/subject/all`);
-    //             setSubjects(res.data); // expecting ["Math", "Physics", ...]
-    //         } catch (err) {
-    //             console.error("Failed to fetch subjects", err);
-    //         }
-    //     };
-
-    //     fetchSubjects();
-    // }, []);
 
     return (
         <div className="relative min-h-screen bg-mainBgColor">
@@ -174,105 +153,96 @@ export const HomeLanding = () => {
                     />
                 </div>
 
-                {/* Main page content starts here in this div!!! */}
+                {/* Main page content */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="min-h-screen bg-gradient-to-br">
-
                         {/* Hero Section */}
-                        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-                            <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-20">
+                            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
                                 {/* Left Column - Text Content */}
-                                <div className="space-y-6 animate-fade-in-up">
+                                <div className="space-y-6 animate-fade-in-up order-2 lg:order-1 w-full lg:w-1/2">
                                     <div className="space-y-4">
-                                        <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold leading-tight">
-                                            <span className="text-[#ffbf23] backdrop-blur-md cursor-pointer bg-black rounded-3xl p-2">
+                                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                                            <span className="text-[#ffbf23] flex md:inline-block justify-center backdrop-blur-md cursor-pointer bg-black rounded-3xl p-2">
                                                 <TypingText text="Notes? Papers? Materials?" typeSpeed={100} />
                                             </span>
                                             <br />
-                                            <span className="text-gray-900">
+                                            <span className="text-gray-900 flex md:justify-start justify-center">
                                                 Welcome to {' '}
-                                                <span className="font-bold bg-gradient-to-r from-red-600 via-black-500 to-purple-900 bg-clip-text text-transparent">
+                                                <span className="font-bold ml-2 bg-gradient-to-r from-red-600 via-black-500 to-purple-900 bg-clip-text text-transparent">
                                                     PrepNerdz
                                                 </span>
                                             </span>
                                         </h1>
-                                        <p className="text-lg md:text-xl text-black font-bold italic max-w-2xl">
-                                            {`
-                                                "No more "Does anyone have…?" messages.
-                                                No more dead-end Google searches.
-                                                Just the right resources, when you need them."
-                                            `}
+                                        <p className="text-base md:text-lg text-black md:text-start text-center font-bold italic max-w-2xl">
+                                            &apos;No more &apos;Does anyone have...?&apos; messages. No more dead-end Google searches. Just the right resources, when you need them.&apos;
                                         </p>
                                     </div>
 
-                                    {/* Search Box - Mobile */}
-                                    <div className="lg:hidden">
-                                        <div className="relative">
-                                            <Search className="size-6" />
-                                            <Input
-                                                type="text"
-                                                placeholder="Search for notes, papers, syllabus..."
-                                                value={searchQuery}
-                                                onChange={(e) => setSearchQuery(e.target.value)}
-                                                className="pl-10 pr-4 py-3 text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
-                                            />
-                                            <Button sizeVariant="large" colorVariant="black_green" text="Search" />
-                                        </div>
-                                    </div>
-
                                     {/* Action Buttons */}
-                                    <div className="flex flex-col sm:flex-row gap-4">
-                                        <Button colorVariant="black_green" sizeVariant="medium" text="Get Started" endIcon={<EnterDoor className="size-6" />} onClick={() => setIsSignupOpen(true)} />
-                                        <Link href={"/about"}>
-                                            <Button colorVariant="yellow" sizeVariant="medium" endIcon={<Globe className="size-6" />} text="Explore Features" />
-                                        </Link>
-
+                                    <div className="flex md:justify-start justify-center gap-4">
+                                        <div>
+                                            <Button
+                                                colorVariant="black_green"
+                                                sizeVariant="medium"
+                                                text="Get Started"
+                                                endIcon={<EnterDoor className="size-6" />}
+                                                onClick={() => setIsSignupOpen(true)}
+                                            />
+                                        </div>
+                                        <div>
+                                            <Link href={"/about"}>
+                                                <Button
+                                                    colorVariant="yellow"
+                                                    sizeVariant="medium"
+                                                    endIcon={<Globe className="size-6" />}
+                                                    text="Explore Features"
+                                                />
+                                            </Link>
+                                        </div>
                                     </div>
 
                                     {/* Trust Indicators */}
-                                    <div className="flex items-center space-x-6 pt-4">
-                                        <div className="flex items-center space-x-2">
-                                            <Users className="size-6" />
+                                    <div className="flex flex-wrap md:justify-start justify-center items-center gap-4 md:gap-6 pt-4">
+                                        <div className="flex items-center gap-2">
+                                            <Users className="size-5 md:size-6" />
                                             <span className="text-sm text-gray-600">500+ Students</span>
                                         </div>
-                                        <div className="flex items-center space-x-2">
-                                            <ShieldColored className="size-6 text-green-500" />
+                                        <div className="flex items-center gap-2">
+                                            <ShieldColored className="size-5 md:size-6 text-green-500" />
                                             <span className="text-sm text-gray-600">Verified Content</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Right Column - Search Box Desktop */}
-                                <div className="hidden lg:block">
-
-
-                                    <Card className="p-6 shadow-xl border-0 backdrop-blur-sm">
+                                {/* Right Column - Search Box (now shown on all devices) */}
+                                <div className="order-1 lg:order-2 w-full lg:w-1/2">
+                                    <Card className="p-4 md:p-6 shadow-xl border-0 backdrop-blur-sm">
                                         <div className="space-y-4">
                                             <div className="text-center">
-                                                <h3 className="text-xl font-semibold mb-2">Find Your Resources</h3>
+                                                <h3 className="text-lg md:text-xl font-semibold mb-2">Find Your Resources</h3>
                                                 <p className="text-gray-600 text-sm">Search from thousands of verified academic materials</p>
                                             </div>
 
                                             <div className="space-y-3">
-                                                <div className="relative mb-6">
-                                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                                                <div className="relative">
+                                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 md:h-5 md:w-5" />
                                                     <input
                                                         type="text"
                                                         placeholder="Search for notes, papers, syllabus..."
                                                         value={searchQuery}
                                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                                        className="w-full pl-10 pr-4 py-3 text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
+                                                        className="w-full pl-9 pr-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
                                                     />
                                                 </div>
 
                                                 {/* Filter Dropdowns */}
-
-                                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                <div className="grid grid-cols-2 gap-2 md:gap-4">
                                                     {/* Semester Dropdown */}
                                                     <select
                                                         value={semester}
                                                         onChange={(e) => setSemester(e.target.value)}
-                                                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                        className="px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-xs md:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                                     >
                                                         <option value="">Select Semester</option>
                                                         <option value="1">1st Semester</option>
@@ -285,7 +255,7 @@ export const HomeLanding = () => {
                                                     <select
                                                         value={resourceType}
                                                         onChange={(e) => setResourceType(e.target.value)}
-                                                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                        className="px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-xs md:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                                     >
                                                         <option value="">Resource Type</option>
                                                         <option value="SHIVANI_BOOKS">Shivani Books</option>
@@ -303,48 +273,47 @@ export const HomeLanding = () => {
                                                         colorVariant="yellow"
                                                         onClick={handleSearch}
                                                         disabled={loading}
-                                                        // className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-indigo-400"
                                                         text={loading ? "Searching..." : "Search Resources"}
                                                     />
                                                 </div>
 
                                                 {/* Results Section */}
                                                 {results.length > 0 && (
-                                                    <div className="bg-white p-6 rounded-xl shadow-md">
+                                                    <div className="bg-white p-4 md:p-6 rounded-xl shadow-md mt-4">
                                                         {/* Login Prompt */}
                                                         {hasSearched && results.length > 0 && hasMore && (
-                                                            <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                                                                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                                                                    <p className="text-blue-800 text-center md:text-left">
+                                                            <div className="mt-4 p-3 md:p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                                                <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
+                                                                    <p className="text-blue-800 text-sm md:text-base text-center md:text-left">
                                                                         To access all resources, please login to your PrepNerdz account
                                                                     </p>
                                                                     <Button
                                                                         colorVariant="blue"
                                                                         text="Login Now"
-                                                                        sizeVariant="small"
+                                                                        sizeVariant="medium"
                                                                         onClick={() => setIsLoginOpen(true)}
                                                                     />
                                                                 </div>
                                                             </div>
                                                         )}
-                                                        <h3 className="text-xl font-semibold mb-6 text-gray-800">Search Results</h3>
-                                                        <div className="space-y-6">
+                                                        <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-gray-800">Search Results</h3>
+                                                        <div className="space-y-4 md:space-y-6">
                                                             {results.map((resource, index) => (
-                                                                <div key={index} className="border-b border-gray-200 pb-6 last:border-0">
-                                                                    <div className="flex flex-col md:flex-row gap-4">
-                                                                        <div className="bg-indigo-100 p-3 rounded-lg w-fit">
+                                                                <div key={index} className="border-b border-gray-200 pb-4 md:pb-6 last:border-0">
+                                                                    <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+                                                                        <div className="bg-indigo-100 p-2 md:p-3 rounded-lg w-fit">
                                                                             {resource.type === 'NOTES' ? (
-                                                                                <Paper className="size-6 text-indigo-600" />
+                                                                                <Paper className="size-4 md:size-6 text-indigo-600" />
                                                                             ) : (
-                                                                                <BookOpen className="size-6 text-indigo-600" />
+                                                                                <BookOpen className="size-4 md:size-6 text-indigo-600" />
                                                                             )}
                                                                         </div>
                                                                         <div className="flex-1">
-                                                                            <h4 className="font-medium text-lg text-gray-900">{resource.title}</h4>
-                                                                            <p className="text-sm text-gray-600 mt-2">
+                                                                            <h4 className="font-medium text-base md:text-lg text-gray-900">{resource.title}</h4>
+                                                                            <p className="text-xs md:text-sm text-gray-600 mt-1 md:mt-2">
                                                                                 {resource.subject?.semester?.branch?.name || 'General'} • Semester {resource.subject?.semester?.semNumber}
                                                                             </p>
-                                                                            <div className="flex flex-wrap items-center mt-3 gap-2 text-sm text-gray-500">
+                                                                            <div className="flex flex-wrap items-center mt-2 gap-1 md:gap-2 text-xs md:text-sm text-gray-500">
                                                                                 <span>Type: {resource.type.replace(/_/g, ' ')}</span>
                                                                                 <span>•</span>
                                                                                 <span>Uploaded by {resource.uploadedBy?.username || 'System'}</span>
@@ -356,28 +325,26 @@ export const HomeLanding = () => {
                                                                             href={resource.fileUrl}
                                                                             target="_blank"
                                                                             rel="noopener noreferrer"
-                                                                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg flex items-center gap-2 self-start md:self-center"
+                                                                            className="px-3 py-1 md:px-4 md:py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg flex items-center gap-1 md:gap-2 self-start md:self-center text-xs md:text-sm"
                                                                         >
-                                                                            <Download className="h-4 w-4" />
+                                                                            <Download className="h-3 w-3 md:h-4 md:w-4" />
                                                                             Download
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             ))}
                                                         </div>
-
-
                                                     </div>
                                                 )}
 
                                                 {/* Empty State */}
                                                 {hasSearched && results.length === 0 && !loading && (
-                                                    <div className="bg-white p-8 rounded-xl shadow-md text-center">
-                                                        <div className="mx-auto h-16 w-16 text-gray-400">
+                                                    <div className="bg-white p-4 md:p-8 rounded-xl shadow-md text-center mt-4">
+                                                        <div className="mx-auto h-12 w-12 md:h-16 md:w-16 text-gray-400">
                                                             <BookOpen className="h-full w-full" />
                                                         </div>
-                                                        <h3 className="mt-4 text-lg font-medium text-gray-900">No resources found</h3>
-                                                        <p className="mt-2 text-gray-500">
+                                                        <h3 className="mt-2 md:mt-4 text-base md:text-lg font-medium text-gray-900">No resources found</h3>
+                                                        <p className="mt-1 md:mt-2 text-xs md:text-sm text-gray-500">
                                                             Try different search terms or filters
                                                         </p>
                                                     </div>
@@ -389,57 +356,46 @@ export const HomeLanding = () => {
                             </div>
                         </section>
 
-
                         {/* Features Section */}
-                        <section id="features" className="py-16">
+                        <section id="features" className="py-12 md:py-16">
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-
-                                <div className="text-center mb-10">
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                                <div className="text-center mb-8 md:mb-10">
+                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
                                         What PrepNerdz Provides?
                                     </h2>
-
                                     <FloatingFeatures features={features} />
-
-
                                 </div>
 
-
-                                <div className="text-center mb-12">
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose PrepNerdz?</h2>
-                                    <p className="text-black max-w-2xl mx-auto">
+                                <div className="text-center mb-8 md:mb-12">
+                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Why Choose PrepNerdz?</h2>
+                                    <p className="text-black max-w-2xl mx-auto text-sm md:text-base">
                                         Everything you need to excel in your academics
                                     </p>
                                 </div>
 
-                                <div className="flex flex-row flex-wrap gap-10 items-center justify-center">
+                                <div className="flex flex-row flex-wrap gap-4 md:gap-6 lg:gap-10 items-center justify-center">
                                     <LandingHero
-                                        icon={<BookOpen className="size-6" />}
+                                        icon={<BookOpen className="size-5 md:size-6" />}
                                         title="Comprehensive Resources"
                                         description="Access previous year RGPV papers, notes, and syllabus all in one place."
                                     />
                                     <LandingHero
-                                        icon={<Target className="size-6" />}
+                                        icon={<Target className="size-5 md:size-6" />}
                                         title="Organized by Semester"
                                         description="Find exactly what you need with our branch-wise, semester-wise organization."
                                     />
-                                    {/* <LandingHero
-                                        icon={<Download className="size-6" />}
-                                        title="Easy Downloads"
-                                        description="One-click downloads with no redirects or annoying popups."
-                                    /> */}
                                     <LandingHero
-                                        icon={<ShieldColored className="h-6 w-6" />}
+                                        icon={<ShieldColored className="size-5 md:size-6" />}
                                         title="Verified Content"
                                         description="All resources are verified by faculty and top students."
                                     />
                                     <LandingHero
-                                        icon={<Bookmark className="size-6 ml-2" />}
+                                        icon={<Bookmark className="size-5 md:size-6" />}
                                         title="Bookmark & Save"
                                         description="Save your favorite resources for quick access later."
                                     />
                                     <LandingHero
-                                        icon={<Upload className="size-6 mr-2" />}
+                                        icon={<Upload className="size-5 md:size-6" />}
                                         title="Contribute and shine"
                                         description="Add value to the platform and get recognized in the community."
                                     />
@@ -448,13 +404,13 @@ export const HomeLanding = () => {
                         </section>
 
                         {/* How It Works Section */}
-                        <section id="how-it-works" className="py-16">
+                        <section id="how-it-works" ref={guideRef} className="py-12 md:py-16">
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                                <div className="text-center mb-12">
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">How to use PrepNerdz?</h2>
-                                    <p className="text-gray-600 max-w-2xl mx-auto"> Get started in just 3 simple steps</p>
+                                <div className="text-center mb-8 md:mb-12">
+                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">How to use PrepNerdz?</h2>
+                                    <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Get started in just 3 simple steps</p>
                                 </div>
-                                <div ref={guideRef} className="grid md:grid-cols-3 gap-8">
+                                {/* <div ref={guideRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                                     <StepCard
                                         step="1"
                                         title="Select Your Course and Branch"
@@ -470,73 +426,89 @@ export const HomeLanding = () => {
                                         title="Access Resources"
                                         description="Download notes, question papers, and study materials instantly."
                                     />
-                                </div>
+                                </div> */}
 
-                                <div className="text-center mt-8 text-black font-extrabold text-3xl mb-10 animate-bounce">
+                                <div className="text-center mt-6 md:mt-8 text-black font-extrabold text-lg md:text-2xl lg:text-3xl mb-6 md:mb-10 animate-bounce">
                                     Watch the video below before getting started! and know how to use PrepNerdz Effectively!
                                 </div>
                                 <div className="flex justify-center">
-                                    {/* <iframe width="660" height="415" src="https://www.youtube.com/embed/p5rl5JK8Z4Y?si=BPYArJllrLpdnlNd" title="YouTube video player" allowfullscreen></iframe> */}
-                                    <video width={600} height={600} controls />
+                                    <div className="w-full max-w-2xl">
+                                        <div className="aspect-w-16 aspect-h-9">
+                                            <video className="w-full h-auto rounded-lg shadow-lg" controls />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
 
-
-                        <section id="resources" className="py-16">
+                        {/* Team Section */}
+                        <section id="resources" className="py-12 md:py-16">
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                                <div className="text-center mb-12">
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet the founders and Developers</h2>
-                                    <p className="text-gray-600">Developers</p>
+                                <div className="text-center mb-8 md:mb-12">
+                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Meet the founders and Developers</h2>
+                                    <p className="text-gray-600 text-sm md:text-base">Developers</p>
                                 </div>
 
-                                <div className="flex items-center space-x-40 justify-center">
-                                    <div className="md:block hidden">
+                                <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 lg:space-x-40">
+                                    <div className="hidden md:block">
                                         <ThanksForVisit />
                                     </div>
-                                    <ProfileSimple x="https://x.com/__Shubhashish__" instagram="https://www.instagram.com/___shubhashish___" github="https://www.github.com/Shubhashish-Chakraborty" linkedin="https://www.linkedin.com/in/Shubhashish-Chakraborty" name="Shubhashish Chakraborty" image="/founders/shubh.png" mail="shubhashish147@gmail.com" />
-                                    <div className="md:block hidden">
+                                    <ProfileSimple
+                                        x="https://x.com/__Shubhashish__"
+                                        instagram="https://www.instagram.com/___shubhashish___"
+                                        github="https://www.github.com/Shubhashish-Chakraborty"
+                                        linkedin="https://www.linkedin.com/in/Shubhashish-Chakraborty"
+                                        name="Shubhashish Chakraborty"
+                                        image="/founders/shubh.png"
+                                        mail="shubhashish147@gmail.com"
+                                    />
+                                    <div className="hidden md:block">
                                         <ThanksForVisit />
                                     </div>
                                 </div>
 
-                                <div className="mt-10 space-x-10 flex flex-wrap items-center  justify-center">
-                                    <div className="md:block hidden">
+                                <div className="mt-8 md:mt-10 flex flex-col md:flex-row flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
+                                    <div className="hidden md:block">
                                         <ThanksForVisit />
                                     </div>
-                                    <div>
-                                        <ProfileSimple x="https://x.com/MokshMishra1111" instagram="https://www.instagram.com/iammokshmishra" github="https://github.com/MokshMishra" linkedin="https://www.linkedin.com/in/moksh-mishra-956868289/" name="Moksh Mishra" image="/founders/moksh.png" mail="mokshmishra1418@gmail.com" />
-                                    </div>
-                                    <div>
-                                        <ProfileSimple x="https://x.com/yadav_nihalll" instagram="https://www.instagram.com/Nihaaalll_29" linkedin="https://www.linkedin.com/in/Nihal-yadav2" name="Nihal Yadav" image="/founders/nihal.png" mail="yadavnihal544@gmail.com" />
-                                    </div>
-                                    <div className="md:block hidden">
+                                    <ProfileSimple
+                                        x="https://x.com/MokshMishra1111"
+                                        instagram="https://www.instagram.com/iammokshmishra"
+                                        github="https://github.com/MokshMishra"
+                                        linkedin="https://www.linkedin.com/in/moksh-mishra-956868289/"
+                                        name="Moksh Mishra"
+                                        image="/founders/moksh.png"
+                                        mail="mokshmishra1418@gmail.com"
+                                    />
+                                    <ProfileSimple
+                                        x="https://x.com/yadav_nihalll"
+                                        instagram="https://www.instagram.com/Nihaaalll_29"
+                                        linkedin="https://www.linkedin.com/in/Nihal-yadav2"
+                                        name="Nihal Yadav"
+                                        image="/founders/nihal.png"
+                                        mail="yadavnihal544@gmail.com"
+                                    />
+                                    <div className="hidden md:block">
                                         <ThanksForVisit />
                                     </div>
                                 </div>
                             </div>
                         </section>
-
                     </div>
                 </div>
-                <div>
-                    <Footer />
-                </div>
+                <Footer />
             </div>
-
         </div>
-
     )
 }
 
-
 // Step Card Component
-const StepCard = ({ step, title, description }: { step: string; title: string; description: string }) => (
-    <div className="text-center group">
-        <div className="mb-4 inline-flex items-center justify-center w-16 h-16 bg-amber-300 text-black rounded-full text-xl font-bold group-hover:scale-110 transition-transform duration-300">
-            {step}
-        </div>
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600">{description}</p>
-    </div>
-)
+// const StepCard = ({ step, title, description }: { step: string; title: string; description: string }) => (
+//     <div className="text-center group p-4 md:p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+//         <div className="mb-3 md:mb-4 inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-amber-300 text-black rounded-full text-lg md:text-xl font-bold group-hover:scale-110 transition-transform duration-300">
+//             {step}
+//         </div>
+//         <h3 className="text-lg md:text-xl font-semibold mb-2">{title}</h3>
+//         <p className="text-gray-600 text-sm md:text-base">{description}</p>
+//     </div>
+// )

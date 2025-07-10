@@ -137,12 +137,12 @@ export const Footer = () => {
                                 <span className="text-gray-700 font-medium">Having issues? Write us at </span>
                                 <span
                                     onClick={() => {
-                                        navigator.clipboard.writeText("prepnerdz@gmail.com");
+                                        navigator.clipboard.writeText("business.prepnerdz@gmail.com");
                                         toast.success('Email copied to clipboard!');
                                     }}
                                     className="text-blue-600 hover:text-blue-700 cursor-pointer hover:underline font-bold transition-colors duration-300"
                                 >
-                                    prepnerdz@gmail.com
+                                    business.prepnerdz@gmail.com
                                 </span>
                             </div>
                         </div>

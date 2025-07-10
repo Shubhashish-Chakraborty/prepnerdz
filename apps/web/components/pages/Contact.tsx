@@ -84,35 +84,38 @@ export const ContactLanding = () => {
 
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="mt-20 flex justify-around">
-                        {/* Left Side */}
-                        <div>
-                            <div className="md:text-5xl font-extrabold">
+                    <div className="mt-10 md:mt-20 flex flex-col md:flex-row justify-center md:justify-around items-center md:items-start gap-10">
+                        {/* Left Side - Contact Info */}
+                        <div className="w-full md:w-auto flex flex-col items-center md:items-start">
+                            <div className="text-3xl md:text-5xl font-extrabold text-center md:text-left">
                                 <TypingText text="Lets Get In Touch!" />
                             </div>
 
-                            <div className="mt-5">
-
-                                <div className="mt-5 mb-8 flex space-x-8">
-                                    <div onClick={() => { window.open("https://www.instagram.com/___shubhashish___") }} className="flex flex-col items-center cursor-pointer font-bold hover:underline">
+                            <div className="mt-5 flex flex-col items-center md:items-start">
+                                <div className="mt-5 mb-8 flex flex-wrap justify-center gap-4 md:gap-8 md:justify-start">
+                                    <div
+                                        onClick={() => { window.open("https://www.instagram.com/___shubhashish___") }}
+                                        className="flex flex-col items-center cursor-pointer font-bold hover:underline"
+                                    >
                                         Instagram
                                         <Instagram className="size-8 text-pink-600" />
                                     </div>
 
-                                    <div onClick={() => { window.open("https://www.x.com/__Shubhashish__") }} className="flex flex-col items-center cursor-pointer font-bold hover:underline">
+                                    <div
+                                        onClick={() => { window.open("https://www.x.com/__Shubhashish__") }}
+                                        className="flex flex-col items-center cursor-pointer font-bold hover:underline"
+                                    >
                                         X(Twitter)
                                         <X className="size-8" />
                                     </div>
 
-                                    <div onClick={() => { window.open("https://www.linkedin.com/in/Shubhashish-Chakraborty") }} className="flex flex-col items-center cursor-pointer font-bold hover:underline">
+                                    <div
+                                        onClick={() => { window.open("https://www.linkedin.com/in/Shubhashish-Chakraborty") }}
+                                        className="flex flex-col items-center cursor-pointer font-bold hover:underline"
+                                    >
                                         LinkedIn
                                         <Linkedin className="size-8 text-blue-600" />
                                     </div>
-
-                                    {/* <div onClick={() => { window.open("https://www.github.com/Shubhashish-Chakraborty") }} className="flex flex-col items-center cursor-pointer font-bold hover:underline">
-                                        Github
-                                        <Github className="size-8" />
-                                    </div> */}
                                 </div>
 
                                 <Link href={"/contact-us"}>
@@ -121,89 +124,101 @@ export const ContactLanding = () => {
                                         alt="Shubh"
                                         width={350}
                                         height={350}
-                                        className="hover:rotate-10 transition-all duration-300 cursor-pointer"
+                                        className="hover:rotate-10 transition-all duration-300 cursor-pointer w-[250px] md:w-[350px]"
                                     />
                                 </Link>
 
-                                <div className="mt-6 text-lg font-bold">
-                                    Or just reach out manually to <span onClick={() => {
-                                        navigator.clipboard.writeText("prepnerdz@gmail.com");
-                                        toast.success('Email copied to clipboard!');
-                                    }} className="text-blue-600 cursor-pointer hover:underline"> prepnerdz@gmail.com </span>
+                                <div className="mt-6 text-base md:text-lg font-bold text-center md:text-left">
+                                    Or just reach out manually to{' '}
+                                    <span
+                                        onClick={() => {
+                                            navigator.clipboard.writeText("business.prepnerdz@gmail.com");
+                                            toast.success('Email copied to clipboard!');
+                                        }}
+                                        className="text-blue-600 cursor-pointer hover:underline"
+                                    >
+                                        business.prepnerdz@gmail.com
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Side */}
-                        <div>
-                            <div className="text-center text-3xl font-bold italic">
-                                <TypingText text="Have a message for us.? drop here!" />
+                        {/* Right Side - Contact Form */}
+                        <div className="w-full md:w-auto">
+                            <div className="text-center text-xl md:text-2xl lg:text-3xl font-bold italic mb-6">
+                                <TypingText text="Have a message for us? drop here!" />
                             </div>
-                            {/* form */}
-                            <div>
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="flex space-x-20">
-                                        <InputStraightLine
-                                            id="name"
-                                            label="Full Name *"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        <InputStraightLine
-                                            type="email"
-                                            id="email"
-                                            label="Email Address *"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                    </div>
 
-                                    <div className="flex flex-col">
-                                        <InputStraightLine
-                                            type="tel"
-                                            id="phone"
-                                            label="Phone Number"
-                                            value={formData.phone}
-                                            onChange={handleChange}
+                            {/* Form */}
+                            <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md mx-auto md:mx-0">
+                                <div className="flex flex-col md:flex-row gap-6 md:gap-20">
+                                    <InputStraightLine
+                                        id="name"
+                                        label="Full Name *"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+
+                                    />
+                                    <InputStraightLine
+                                        type="email"
+                                        id="email"
+                                        label="Email Address *"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-6">
+                                    <InputStraightLine
+                                        type="tel"
+                                        id="phone"
+                                        label="Phone Number"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+
+                                    />
+
+                                    <InputStraightLine
+                                        id="message"
+                                        label="Message *"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        textarea
+                                        rows={5}
+                                        required
+
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="w-full flex items-center justify-center"
+                                >
+                                    {isSubmitting ? (
+                                        <Button
+                                            text="Sending..."
+                                            disabled={true}
+                                            endIcon={<MessageSend />}
+                                            colorVariant="black_green"
+                                            sizeVariant="medium"
                                         />
-
-                                        <InputStraightLine
-                                            id="message"
-                                            label="Message *"
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            textarea
-                                            rows={5}
-                                            required
+                                    ) : (
+                                        <Button
+                                            text="Send Message"
+                                            endIcon={<MessageSend />}
+                                            colorVariant="black_green"
+                                            sizeVariant="medium"
                                         />
-                                    </div>
-
-
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className={`w-full flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium transition-all ${isSubmitting
-                                            ? 'cursor-not-allowed'
-                                            : ''
-                                            }`}
-                                    >
-                                        {isSubmitting ? (
-                                            <>
-                                                <Button text="Sending..." disabled={true} endIcon={<MessageSend />} colorVariant="black_green" sizeVariant="medium" />
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Button text="Send Message" endIcon={<MessageSend />} colorVariant="black_green" sizeVariant="medium" />
-                                            </>
-                                        )}
-                                    </button>
-                                </form>
-                            </div>
+                                    )}
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
+
                 <div className="mt-20">
                     <Footer />
                 </div>

@@ -130,7 +130,7 @@ export const AboutLanding = () => {
                             <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
                                 <TypingText text="Why PrepNerdz exists?" />
                             </span>
-                            <p className="text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
+                            <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
                                 College students waste countless hours wandering WhatsApp groups, requesting seniors, or digging through disorganized drives for study materials and all. PrepNerdz solves this chaos by providing a centralized and organized repository of:
                             </p>
 
@@ -181,7 +181,7 @@ export const AboutLanding = () => {
                                 className="my-12"
                             />
 
-                            <div className="text-2xl font-black">
+                            <div className="text-xl md:text-2xl font-black">
                                 Wanna Know more? <Link target="_blank" href={"https://github.com/Shubhashish-Chakraborty/prepnerdz/blob/main/apps/backend/prisma/schema.prisma"}> <span className="font-bold text-blue-600 hover:underline" > Check out the Database Structure/Schema </span> </Link>
                             </div>
                         </div>
