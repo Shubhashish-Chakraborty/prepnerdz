@@ -51,7 +51,8 @@ const corsOptions = {
         'http://localhost:3001',
         'https://prepnerdz.vercel.app',
         'https://prepnerdz.tech',
-        'https://www.prepnerdz.tech'
+        'https://www.prepnerdz.tech',
+        'https://prepnerdz-admin.vercel.app'
     ],
     credentials: true,
     optionsSuccessStatus: 200
