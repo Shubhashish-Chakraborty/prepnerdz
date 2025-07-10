@@ -1,6 +1,11 @@
-# PrepNerdz 📚🚀
+<h1 align="center">
+   PrepNerdz📚
+</h1>
 
-![PrepNerdz Banner]()
+<div align="center">
+   <img src="https://github.com/user-attachments/assets/0f1fdfb2-e473-4a1f-9efb-618dc4f382c9" width="280" style="border-radius: 10px; margin: 10px;" />
+</div>
+
 
 ### The ultimate academic resource platform for BTECH students - where finding study materials stops being a struggle!
 
