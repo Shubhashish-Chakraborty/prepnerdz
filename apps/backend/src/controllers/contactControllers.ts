@@ -17,15 +17,15 @@ export const sendMessageToMail = async (req: Request, res: Response) => {
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-                user: "studywithshubh88@gmail.com", // replace with your email
+                user: "business.prepnerdz@gmail.com", // replace with your email
                 pass: OTP_MAIL_PASSWORD,
             },
         });
 
         // Compose the email
         const mailOptions = {
-            from: "studywithshubh88@gmail.com",
-            to: "studywithshubh88@gmail.com",
+            from: "business.prepnerdz@gmail.com",
+            to: "business.prepnerdz@gmail.com",
             replyTo: email,
             subject: "New Message from Contact Form",
             html: `

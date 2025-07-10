@@ -15,12 +15,36 @@ const transporter = nodemailer.createTransport({
 export const sendOtp_forgotPassword = async (to: string, otpGenerated: string) => {
     const inServerGeneratedOtp = otpGenerated;
 
+    // const mailOptions = {
+    //     from: OTP_SENDERMAIL,
+    //     to,
+    //     subject: "Otp For Password Reset for PrepNerdz",
+    //     text: `HERE IS YOUR OTP: ${inServerGeneratedOtp} FOR Password Reset FOR PrepNerdz`,
+    // };
+
     const mailOptions = {
         from: OTP_SENDERMAIL,
         to,
-        subject: "Otp For Password Reset for SWS",
-        text: `HERE IS YOUR OTP: ${inServerGeneratedOtp} FOR Password Reset FOR STUDYWITHSHUBH`,
+        subject: "PrepNerdz | Password Reset OTP",
+        text: `Dear User,
+
+            We received a request to reset your password for your PrepNerdz account.
+
+            Your One-Time Password (OTP) for password reset is:
+
+            ${inServerGeneratedOtp}
+
+            Please enter this OTP on the password reset page to proceed.
+
+            Note: This OTP is valid for a limited time and should not be shared with anyone.
+
+            If you did not request a password reset, please ignore this email or contact our support team.
+
+            Best regards,  
+            Team PrepNerdz  
+            business.prepnerdz@gmail.com`
     };
+
 
     await transporter.sendMail(mailOptions);
 };

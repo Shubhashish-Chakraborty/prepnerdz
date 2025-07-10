@@ -14,11 +14,34 @@ const transporter = nodemailer.createTransport({
 export const sendOtp = async (to: string, otpGenerated: string) => {
     const inServerGeneratedOtp = otpGenerated;
 
+    // const mailOptions = {
+    //     from: OTP_SENDERMAIL,
+    //     to,
+    //     subject: "PrepNerdz Email Verification",
+    //     text: `HERE IS YOUR OTP: ${inServerGeneratedOtp} FOR PREPNERDZ ACCOUNT VERIFICATION`,
+    // };
+
     const mailOptions = {
         from: OTP_SENDERMAIL,
         to,
-        subject: "GGITS RESOURCES Email Verification",
-        text: `HERE IS YOUR OTP: ${inServerGeneratedOtp} FOR GGITS RESOURCES MADE BY SHUBHASHISH ACCOUNT VERIFICATION`,
+        subject: "PrepNerdz | Email Verification OTP",
+        text: `Dear User,
+
+            Thank you for signing up with PrepNerdz!
+
+            Your One-Time Password (OTP) for verifying your email address is:
+
+            ${inServerGeneratedOtp}
+
+            Please enter this OTP on the verification screen to complete your registration. 
+
+            Note: This OTP is valid for a limited time and should not be shared with anyone.
+
+            If you did not request this, please ignore this email.
+
+            Best regards,  
+            Team PrepNerdz  
+            business.prepnerdz@gmail.com`
     };
 
     await transporter.sendMail(mailOptions);

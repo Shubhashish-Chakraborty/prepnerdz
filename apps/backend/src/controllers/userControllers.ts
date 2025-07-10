@@ -166,7 +166,6 @@ export const signin = async (req: Request, res: Response) => {
                 secure: process.env.NODE_ENV !== "development", // Secure in production
                 sameSite: process.env.NODE_ENV === "development" ? "lax" : "none", // Allow cross-site cookies
                 maxAge: 4 * 24 * 60 * 60 * 1000, // 4 days
-                // domain: process.env.NODE_ENV === "production" ? "studywithshubh.tech" : undefined, // Explicitly set domain in production
                 path: "/"
             })
             .json({
