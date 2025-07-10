@@ -36,7 +36,7 @@ export const uploadAvatar = [
 
             // Upload to Cloudinary
             const cloudinaryResponse = await cloudinary.uploader.upload(dataURI, {
-                folder: 'prepnerdz_test_avatar_uploads'
+                folder: 'prepnerdz_prod_avatar_uploads'
             });
 
             // First, deleting any existing avatar for this user 
