@@ -3,6 +3,11 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
+import { Download } from "@/icons/Download"
+import { Eye } from "@/icons/Eye"
+import { Bookmark } from "@/icons/Bookmark"
+import { CloseCircle } from "@/icons/CloseCircle"
+// import { FiBookmark, FiDownload, FiEye, FiX } from "react-icons/fi"
 
 interface SearchPanelProps {
     activeNavItem: string
@@ -23,6 +28,24 @@ interface Resource {
     verified: boolean
     createdAt: string
     updatedAt: string
+    subject?: {
+        id: string
+        subjectName: string
+        subjectCode: string
+        semesterId: string
+        semester?: {
+            id: string
+            semNumber: number
+            branchId: string
+            branch?: {
+                id: string
+                branchName: string
+            }
+        }
+    }
+    uploadedBy?: {
+        username: string
+    }
 }
 
 // Mapping from nav item to API type
@@ -30,7 +53,6 @@ const typeMapping: Record<string, string> = {
     "shivani-books": "SHIVANI_BOOKS",
     "midsem-papers": "MID_SEM_PAPER",
     "endsem-papers": "END_SEM_PAPER",
-    // Add more mappings as needed
 }
 
 // Configuration for different search panels
@@ -42,13 +64,6 @@ const searchPanelConfig = {
         branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
-    // "midsem-papers": {
-    //     title: "Search Midsem Papers",
-    //     description: "Find previous midsem papers by branch and semester",
-    //     placeholder: "Search for midsem papers...",
-    //     branches: ["CSE", "AI", "ECE", "ME", "CE"],
-    //     semesters: [1, 2, 3, 4, 5, 6, 7, 8],
-    // },
     "endsem-papers": {
         title: "Search Endsem Papers",
         description: "Find previous endsem papers by branch and semester",
@@ -66,12 +81,15 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     const [resources, setResources] = useState<Resource[]>([])
     const [page, setPage] = useState(1)
     const [hasMore, setHasMore] = useState(false)
-    const [initialLoad, setInitialLoad] = useState(false);
-    const [totalCount, setTotalCount] = useState(0);
+    const [initialLoad, setInitialLoad] = useState(false)
+    const [totalCount, setTotalCount] = useState(0)
+    const [selectedResource, setSelectedResource] = useState<Resource | null>(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
-        console.log("Welcome to PrepNerdz!");
+        console.log("Welcome to PrepNerdz!")
     }, [totalCount])
+
     // Get current panel configuration
     const currentPanel = searchPanelConfig[activeNavItem as keyof typeof searchPanelConfig]
 
@@ -104,92 +122,35 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         }
     }
 
-    // const handleSearch = async () => {
-    //     if (!searchQuery.trim() || !selectedBranch || !selectedSemester) {
-    //         toast.error("Please fill in all fields")
-    //         return
-    //     }
-
-    //     setIsSearching(true)
-
-    //     try {
-    //         // First get branch ID
-    //         const branchResponse = await axios.get(
-    //             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
-    //             { params: { branchName: selectedBranch } }
-    //         )
-
-    //         // Then get semester ID
-    //         const semesterResponse = await axios.get(
-    //             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
-    //             { params: { semNumber: selectedSemester } }
-    //         )
-
-    //         const type = typeMapping[activeNavItem]
-    //         if (!type) {
-    //             toast.error("Invalid resource type")
-    //             return
-    //         }
-
-    //         // Now perform the search
-    //         const searchResponse = await axios.get(
-    //             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
-    //             {
-    //                 params: {
-    //                     type,
-    //                     branch: branchResponse.data.id,
-    //                     semester: semesterResponse.data.id,
-    //                     query: searchQuery,
-    //                     page: 1,
-    //                     limit: 5
-    //                 }
-    //             }
-    //         )
-
-    //         setResources(searchResponse.data.results)
-    //         setHasMore(searchResponse.data.hasMore)
-    //         setPage(1)
-    //     } catch (error) {
-    //         toast.error("Search failed. Please try again.")
-    //         console.error("Search error:", error)
-    //     } finally {
-    //         setIsSearching(false)
-    //     }
-    // }
-
     const handleSearch = async () => {
         if (!searchQuery.trim() || !selectedBranch || !selectedSemester) {
-            toast.error("Please fill in all fields");
-            return;
+            toast.error("Please fill in all fields")
+            return
         }
 
-        setIsSearching(true);
+        setIsSearching(true)
 
         try {
-
             // Handle COMMON branch case
-            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch;
-            const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester;
+            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch
+            const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester
 
             // First get branch ID
             const branchResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
                 { params: { branchName: branchToUse } }
-            );
+            )
 
             // Then get semester ID
             const semesterResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
                 { params: { semNumber: semesterToUse } }
-            );
+            )
 
-            // console.log(branchResponse.data);
-            // console.log(semesterResponse.data);
-
-            const type = typeMapping[activeNavItem];
+            const type = typeMapping[activeNavItem]
             if (!type) {
-                toast.error("Invalid resource type");
-                return;
+                toast.error("Invalid resource type")
+                return
             }
 
             // Perform the search with pagination
@@ -205,90 +166,40 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                         limit: 5   // 5 items per page
                     }
                 }
-            );
+            )
 
-            setResources(searchResponse.data.data);
-            setTotalCount(searchResponse.data.total);
-            setPage(1);
-            setHasMore(searchResponse.data.hasMore);
+            setResources(searchResponse.data.data)
+            setTotalCount(searchResponse.data.total)
+            setPage(1)
+            setHasMore(searchResponse.data.hasMore)
         } catch (error) {
-            toast.error("Search failed. Please try again.");
-            console.error("Search error:", error);
+            toast.error("Search failed. Please try again.")
+            console.error("Search error:", error)
         } finally {
-            setIsSearching(false);
+            setIsSearching(false)
         }
-    };
-
-    // const loadMoreResources = async () => {
-    //     try {
-    //         const nextPage = page + 1
-    //         let response
-
-    //         if (searchQuery && selectedBranch && selectedSemester) {
-    //             // Get IDs again in case they're needed
-    //             const branchResponse = await axios.get(
-    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
-    //                 { params: { branchName: selectedBranch } }
-    //             )
-
-    //             const semesterResponse = await axios.get(
-    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
-    //                 { params: { semesterName: selectedSemester } }
-    //             )
-
-    //             const type = typeMapping[activeNavItem]
-    //             response = await axios.get(
-    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
-    //                 {
-    //                     params: {
-    //                         type,
-    //                         branch: branchResponse.data.id,
-    //                         semester: semesterResponse.data.id,
-    //                         query: searchQuery,
-    //                         page: nextPage,
-    //                         limit: 5
-    //                     }
-    //                 }
-    //             )
-    //         } else {
-    //             const type = typeMapping[activeNavItem]
-    //             response = await axios.get(
-    //                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/resource`,
-    //                 { params: { type, page: nextPage, limit: 5 } }
-    //             )
-    //         }
-
-    //         setResources(prev => [...prev, ...response.data.results || response.data.slice((nextPage - 1) * 5, nextPage * 5)])
-    //         setHasMore(response.data.hasMore || response.data.length > nextPage * 5)
-    //         setPage(nextPage)
-    //     } catch (error) {
-    //         toast.error("Failed to load more resources")
-    //         console.error("Load more error:", error)
-    //     }
-    // }
+    }
 
     const loadMoreResources = async () => {
         try {
-            const nextPage = page + 1;
+            const nextPage = page + 1
 
             // Handle COMMON branch case
-            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch;
-            const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester;
+            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch
+            const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester
 
             // Get IDs again in case they're needed
             const branchResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/branchid`,
                 { params: { branchName: branchToUse } }
-            );
+            )
 
             const semesterResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
                 { params: { semNumber: semesterToUse } }
-            );
+            )
 
-
-
-            const type = typeMapping[activeNavItem];
+            const type = typeMapping[activeNavItem]
             const searchResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search`,
                 {
@@ -301,16 +212,16 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                         limit: 5
                     }
                 }
-            );
+            )
 
-            setResources(prev => [...prev, ...searchResponse.data.data]);
-            setPage(nextPage);
-            setHasMore(searchResponse.data.hasMore);
+            setResources(prev => [...prev, ...searchResponse.data.data])
+            setPage(nextPage)
+            setHasMore(searchResponse.data.hasMore)
         } catch (error) {
-            toast.error("Failed to load more resources");
-            console.error("Load more error:", error);
+            toast.error("Failed to load more resources")
+            console.error("Load more error:", error)
         }
-    };
+    }
 
     const resetForm = () => {
         setSearchQuery("")
@@ -320,6 +231,38 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         setPage(1)
         setHasMore(false)
         setInitialLoad(false)
+    }
+
+    const openModal = (resource: Resource) => {
+        setSelectedResource(resource)
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        setSelectedResource(null)
+    }
+
+    const handleDownload = (url: string, title: string) => {
+        const link = document.createElement('a')
+        link.href = url
+        link.download = title
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
+    const handleBookmark = (resourceId: string) => {
+        // Implement bookmark functionality here
+        toast.success("Bookmarked successfully!")
+        console.log(resourceId);
+    }
+
+    const formatFileSize = (sizeInKb: number) => {
+        if (sizeInKb < 1024) {
+            return `${sizeInKb.toFixed(1)} KB`
+        }
+        return `${(sizeInKb / 1024).toFixed(1)} MB`
     }
 
     // Load initial resources when panel is first rendered
@@ -494,36 +437,69 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                     <div className="space-y-4 mt-8">
                         {resources.length > 0 && (
                             <div className="space-y-4">
-                                <h3 className="text-lg font-semibold text-gray-800">Results ({resources.length})</h3>
+                                <h3 className="text-lg font-semibold text-gray-800">Results ({totalCount})</h3>
                                 {resources.map((resource) => (
-                                    <div key={resource.id} className="bg-white p-4 rounded-lg shadow border border-gray-200">
-                                        <div className="flex justify-between items-start">
-                                            <div>
+                                    <div key={resource.id} className="bg-white p-4 rounded-lg shadow border border-gray-200 hover:shadow-md transition-shadow">
+                                        <div className="flex justify-between items-start gap-4">
+                                            <div className="flex-1">
                                                 <h4 className="font-medium text-lg text-blue-600">{resource.title}</h4>
                                                 <p className="text-gray-600 mt-1">{resource.description}</p>
-                                                <div className="flex items-center mt-2 text-sm text-gray-500">
-                                                    <span>{resource.fileType.toUpperCase()}</span>
-                                                    <span className="mx-2">•</span>
-                                                    <span>{(resource.fileSize / 1024).toFixed(1)} KB</span>
+                                                <div className="flex flex-wrap items-center mt-2 text-sm text-gray-500 gap-2">
+                                                    {resource.subject?.subjectName && (
+                                                        <span className="bg-gray-100 px-2 py-1 rounded">
+                                                            {resource.subject.subjectName}
+                                                        </span>
+                                                    )}
+                                                    {resource.subject?.subjectCode && (
+                                                        <span className="bg-gray-100 px-2 py-1 rounded">
+                                                            {resource.subject.subjectCode}
+                                                        </span>
+                                                    )}
+                                                    <span className="bg-gray-100 px-2 py-1 rounded">
+                                                        {formatFileSize(resource.fileSize)}
+                                                    </span>
+                                                    {resource.uploadedBy?.username && (
+                                                        <span className="bg-gray-100 px-2 py-1 rounded">
+                                                            Uploaded by: {resource.uploadedBy.username}
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </div>
-                                            <a
-                                                href={resource.fileUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="px-3 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 transition-colors"
-                                            >
-                                                View
-                                            </a>
+                                            <div className="flex items-center gap-2">
+                                                <button
+                                                    onClick={() => handleBookmark(resource.id)}
+                                                    className="p-2 text-gray-500 hover:text-amber-500 transition-colors"
+                                                    aria-label="Bookmark"
+                                                >
+                                                    <Bookmark className="size-5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDownload(resource.fileUrl, resource.title)}
+                                                    className="p-2 text-gray-500 hover:text-green-600 transition-colors"
+                                                    aria-label="Download"
+                                                >
+                                                    <Download className="size-5" />
+                                                </button>
+                                                <button
+                                                    onClick={() => openModal(resource)}
+                                                    className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
+                                                    aria-label="View"
+                                                >
+                                                    <Eye className="size-5" /> 
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                                 {hasMore && (
                                     <button
                                         onClick={loadMoreResources}
-                                        className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors"
+                                        className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors flex items-center justify-center gap-2"
                                     >
-                                        Show More
+                                        <span>Show More</span>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
                                     </button>
                                 )}
                             </div>
@@ -544,6 +520,82 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                     </div>
                 </div>
             </div>
+
+            {/* PDF Viewer Modal */}
+            {isModalOpen && selectedResource && (
+                <div className="fixed inset-0 z-50 overflow-y-auto">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        {/* Background overlay */}
+                        <div
+                            className="fixed inset-0 transition-opacity"
+                            aria-hidden="true"
+                            onClick={closeModal}
+                        >
+                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+                        </div>
+
+                        {/* Modal container */}
+                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div className="flex justify-between items-start">
+                                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                        {selectedResource.title}
+                                    </h3>
+                                    <button
+                                        onClick={closeModal}
+                                        className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                                    >
+                                        <CloseCircle className="size-5" />
+                                    </button>
+                                </div>
+                                <div className="mt-4">
+                                    <div className="h-[70vh] w-full">
+                                        {selectedResource.fileType === 'pdf' ? (
+                                            <iframe
+                                                src={selectedResource.fileUrl}
+                                                className="w-full h-full border border-gray-200 rounded"
+                                                title={selectedResource.title}
+                                            />
+                                        ) : (
+                                            <div className="flex items-center justify-center h-full bg-gray-100 rounded">
+                                                <p className="text-gray-500">
+                                                    Preview not available for {selectedResource.fileType.toUpperCase()} files.
+                                                    <br />
+                                                    <a
+                                                        href={selectedResource.fileUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-blue-600 hover:underline"
+                                                    >
+                                                        Open in new tab
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button
+                                    type="button"
+                                    onClick={() => handleDownload(selectedResource.fileUrl, selectedResource.title)}
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                >
+                                    <Download className="size-5" />
+                                    Download
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={closeModal}
+                                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
