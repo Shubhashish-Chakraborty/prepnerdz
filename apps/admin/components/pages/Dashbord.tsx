@@ -147,6 +147,7 @@ export default function DashboardLanding() {
                         <option value="MID_SEM_PAPER">MID_SEM_PAPER</option>
                         <option value="END_SEM_PAPER">END_SEM_PAPER</option>
                         <option value="IMP_QUESTION">IMP_QUESTION</option>
+                        <option value="IMP_TOPIC">IMP_TOPIC</option>
                         <option value="NOTES">NOTES</option>
                         <option value="LAB_MANUAL">LAB_MANUAL</option>
                         <option value="SYLLABUS">SYLLABUS</option>
