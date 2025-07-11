@@ -5,8 +5,9 @@ import axios from "axios"
 import { toast } from "react-hot-toast"
 import { Download } from "@/icons/Download"
 import { Eye } from "@/icons/Eye"
-import { Bookmark } from "@/icons/Bookmark"
 import { CloseCircle } from "@/icons/CloseCircle"
+import { ResourceModal } from "@/components/modals/ResourcePreview"
+import { Button } from "../buttons/Button"
 // import { FiBookmark, FiDownload, FiEye, FiX } from "react-icons/fi"
 
 interface SearchPanelProps {
@@ -57,7 +58,7 @@ const typeMapping: Record<string, string> = {
     "imp-topics": "IMP_TOPIC",
     "best-notes": "NOTES",
     "syllabus": "NOTES",
-    "labmanual": "LAB_MANUAL", 
+    "labmanual": "LAB_MANUAL",
 }
 
 // Configuration for different search panels
@@ -113,7 +114,7 @@ const searchPanelConfig = {
     },
     "labmanual": {
         title: "Search Lab Manuals",
-        description: "Find LabManuals and reading by subjects, units!", 
+        description: "Find LabManuals and reading by subjects, units!",
         placeholder: "Search for labmanuals and its readings...",
         branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
@@ -131,7 +132,9 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     const [initialLoad, setInitialLoad] = useState(false)
     const [totalCount, setTotalCount] = useState(0)
     const [selectedResource, setSelectedResource] = useState<Resource | null>(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
 
     useEffect(() => {
         console.log("Welcome to PrepNerdz!")
@@ -281,9 +284,9 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     }
 
     const openModal = (resource: Resource) => {
-        setSelectedResource(resource)
-        setIsModalOpen(true)
-    }
+        setSelectedResource(resource);
+        setIsResourceModalOpen(true);
+    };
 
     const closeModal = () => {
         setIsModalOpen(false)
@@ -299,17 +302,19 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         document.body.removeChild(link)
     }
 
-    const handleBookmark = (resourceId: string) => {
-        // Implement bookmark functionality here
-        toast.success("Bookmarked successfully!")
-        console.log(resourceId);
-    }
+    // const handleBookmark = (resourceId: string) => {
+    //     // Implement bookmark functionality here
+    //     toast.success("Bookmarked successfully!")
+    //     console.log(resourceId);
+    // }
 
     const formatFileSize = (sizeInKb: number) => {
-        if (sizeInKb < 1024) {
-            return `${sizeInKb.toFixed(1)} KB`
-        }
-        return `${(sizeInKb / 1024).toFixed(1)} MB`
+        const sizeInMb = sizeInKb / 1000; // OnPurpose im dividing it by 1000 instead of 1024!
+        return `${sizeInMb.toFixed(2)} MB`;
+        // if (sizeInKb < 1024) {
+        //     return `${sizeInKb.toFixed(1)} KB`
+        // }
+        // return `${(sizeInKb / 1024).toFixed(1)} MB`
     }
 
     // Load initial resources when panel is first rendered
@@ -340,6 +345,18 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
 
     return (
         <div className="bg-amber-50 rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <div>
+                <ResourceModal
+                    open={isResourceModalOpen}
+                    onClose={() => setIsResourceModalOpen(false)}
+                    resource={selectedResource}
+                />
+                {/* <ResourceModal
+                    open={isResourceModalOpen}
+                    onClose={() => setIsResourceModalOpen(false)}
+                /> */}
+            </div>
+
             {/* Panel Header */}
             <div className="bg-gradient-to-r from-amber-500 to-emerald-700 px-6 py-8 text-white">
                 <div className="max-w-3xl mx-auto text-center">
@@ -505,35 +522,39 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                                     <span className="bg-gray-100 px-2 py-1 rounded">
                                                         {formatFileSize(resource.fileSize)}
                                                     </span>
-                                                    {resource.uploadedBy?.username && (
-                                                        <span className="bg-gray-100 px-2 py-1 rounded">
-                                                            Uploaded by: {resource.uploadedBy.username}
-                                                        </span>
-                                                    )}
+
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2">
-                                                <button
+                                                {/* <button
                                                     onClick={() => handleBookmark(resource.id)}
-                                                    className="p-2 text-gray-500 hover:text-amber-500 transition-colors"
+                                                    className="p-2 cursor-pointer text-gray-500 hover:text-amber-500 transition-colors"
                                                     aria-label="Bookmark"
                                                 >
                                                     <Bookmark className="size-5" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDownload(resource.fileUrl, resource.title)}
-                                                    className="p-2 text-gray-500 hover:text-green-600 transition-colors"
+                                                    className="p-2 cursor-pointer text-gray-500 hover:text-green-600 transition-colors"
                                                     aria-label="Download"
                                                 >
                                                     <Download className="size-5" />
-                                                </button>
-                                                <button
+                                                </button> */}
+                                                <Button
+                                                    colorVariant="black_green"
+                                                    sizeVariant="small"
+                                                    text="View"
+                                                    startIcon={<Eye className="size-5" />}
                                                     onClick={() => openModal(resource)}
-                                                    className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
+                                                />
+
+                                                {/* <button
+                                                    onClick={() => setIsResourceModalOpen(true)}
+                                                    className="p-2 cursor-pointer text-gray-500 hover:text-blue-600 transition-colors"
                                                     aria-label="View"
                                                 >
                                                     <Eye className="size-5" />
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     </div>
@@ -599,6 +620,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                     <div className="h-[70vh] w-full">
                                         {selectedResource.fileType === 'pdf' ? (
                                             <iframe
+                                                sandbox="allow-same-origin allow-scripts"
                                                 src={selectedResource.fileUrl}
                                                 className="w-full h-full border border-gray-200 rounded"
                                                 title={selectedResource.title}

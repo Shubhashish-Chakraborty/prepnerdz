@@ -26,6 +26,7 @@ import axios from "axios";
 import { Paper } from "@/icons/Paper";
 import { toast } from "react-hot-toast";
 import FloatingFeatures from "../ui/cards/FloatingSimple";
+import { Question } from "@/icons/Question";
 
 interface ResourceResult {
     id: string;
@@ -200,6 +201,30 @@ export const HomeLanding = () => {
                                                 />
                                             </Link>
                                         </div>
+                                        <div className="md:block hidden">
+                                            <Button
+                                                colorVariant="blue"
+                                                sizeVariant="small"
+                                                text="How to use"
+                                                endIcon={<Question className="size-6" />}
+                                                onClick={() => {
+                                                    guideRef.current?.scrollIntoView({ behavior: "smooth" });
+                                                    toast.success("Watch the PrepNerdz Guide Tutorial");
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex md:hidden justify-center">
+                                        <Button
+                                            colorVariant="blue"
+                                            sizeVariant="small"
+                                            text="How to use"
+                                            endIcon={<Question className="size-6" />}
+                                            onClick={() => {
+                                                guideRef.current?.scrollIntoView({ behavior: "smooth" });
+                                                toast.success("Watch the PrepNerdz Guide Tutorial");
+                                            }}
+                                        />
                                     </div>
 
                                     {/* Trust Indicators */}

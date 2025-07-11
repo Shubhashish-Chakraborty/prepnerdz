@@ -126,14 +126,14 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                 {/* Welcome Message */}
                 <div className="flex-1 lg:flex-none">
                     <div className="flex items-center">
-                        <div className="hidden sm:block">
-                            <h2 className="md:text-3xl text-lg transition-all duration-300 font-semibold text-gray-800">
+                        <div className="md:block hidden">
+                            <h2 className="md:text-3xl text-lg  transition-all duration-300 font-semibold text-gray-800">
                                 <TypingText text={getGreeting()} /> <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
                             </h2>
                         </div>
-                        <div className="sm:hidden">
+                        {/* <div className="sm:hidden">
                             <h2 className="text-lg font-semibold text-gray-800">Hi, {userName}! 👋</h2>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -141,7 +141,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
                 <div className="flex items-center space-x-4">
                     {/* avatar section */}
-                    <div className="hidden md:block">
+                    <div className="">
                         <div className="relative" ref={avatarMenuRef}>
                             <button
                                 onClick={() => setAvatarMenuOpen(!avatarMenuOpen)}
