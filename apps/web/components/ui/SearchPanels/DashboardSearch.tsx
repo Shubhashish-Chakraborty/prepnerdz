@@ -54,7 +54,10 @@ const typeMapping: Record<string, string> = {
     "midsem-papers": "MID_SEM_PAPER",
     "endsem-papers": "END_SEM_PAPER",
     "imp-questions": "IMP_QUESTION",
+    "imp-topics": "IMP_TOPIC",
     "best-notes": "NOTES",
+    "syllabus": "NOTES",
+    "labmanual": "LAB_MANUAL", 
 }
 
 // Configuration for different search panels
@@ -63,6 +66,13 @@ const searchPanelConfig = {
         title: "Search Shivani Books",
         description: "Find books by branch and semester",
         placeholder: "Search for books...",
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
+        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
+    "midsem-papers": {
+        title: "Search Midsem Papers",
+        description: "Find previous midsem papers by branch and semester",
+        placeholder: "Search for midsem papers...",
         branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
@@ -80,10 +90,31 @@ const searchPanelConfig = {
         branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
+    "imp-topics": {
+        title: "Search Important Topics",
+        description: "Find important topics by branch and semester, subjects, units!",
+        placeholder: "Search for important topics...",
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
+        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
     "best-notes": {
         title: "Search Best Academic Notes",
         description: "Find best notes by subjects, units!",
         placeholder: "Search for notes...",
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
+        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
+    "syllabus": {
+        title: "Search Syllabus",
+        description: "Find Branch Syllabus",
+        placeholder: "Search for Syllabus...",
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
+        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
+    "labmanual": {
+        title: "Search Lab Manuals",
+        description: "Find LabManuals and reading by subjects, units!", 
+        placeholder: "Search for labmanuals and its readings...",
         branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
@@ -501,7 +532,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                                     className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
                                                     aria-label="View"
                                                 >
-                                                    <Eye className="size-5" /> 
+                                                    <Eye className="size-5" />
                                                 </button>
                                             </div>
                                         </div>

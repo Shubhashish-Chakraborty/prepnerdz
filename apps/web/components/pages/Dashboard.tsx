@@ -20,9 +20,10 @@ export const navigationItems = [
     { id: "midsem-papers", label: "Midsem Papers", icon: <Paper className="size-5 text-black"/> },
     { id: "endsem-papers", label: "Endsem Papers", icon: <Target className="size-5 text-black"/> },
     { id: "imp-questions", label: "Important Questions", icon: <Star className="size-5 text-black"/> },
-    { id: "acad-notes", label: "Best Notes", icon: <BookOpenReading className="size-5 text-black"/> },
+    { id: "imp-topics", label: "Important Topics", icon: <Star className="size-5 text-black"/> },
+    { id: "best-notes", label: "Best Notes", icon: <BookOpenReading className="size-5 text-black"/> },
     { id: "syllabus", label: "Syllabus", icon: <Syllabus className="size-5 text-black"/> },
-    { id: "lab-manual", label: "Lab Manual", icon: <Flask className="size-5 text-black"/> },
+    { id: "labmanual", label: "Lab Manual", icon: <Flask className="size-5 text-black"/> },
     // Add more navigation items here in the future
     // { id: 'assignments', label: 'Assignments', icon: '✏️' },
     // { id: 'notes', label: 'Notes', icon: '📝' },
