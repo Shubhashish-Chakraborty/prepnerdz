@@ -454,14 +454,18 @@ export const HomeLanding = () => {
                                 </div> */}
 
                                 <div className="text-center mt-6 md:mt-8 text-black font-extrabold text-lg md:text-2xl lg:text-3xl mb-6 md:mb-10 animate-bounce">
-                                    Watch the video below before getting started! and know how to use PrepNerdz Effectively!
+                                    Watch this 20 Minute video before getting started! and know how to use PrepNerdz Effectively!
+                                </div>
+                                <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-pulse">
+                                    if you want to skip the Pages part!, start watching from <span className="text-red-500 font-extrabold hover:underline"> 13:00 minutes </span>
                                 </div>
                                 <div className="flex justify-center">
-                                    <div className="w-full max-w-2xl">
-                                        <div className="aspect-w-16 aspect-h-9">
-                                            <video className="w-full h-auto rounded-lg shadow-lg" controls />
-                                        </div>
-                                    </div>
+                                    <iframe 
+                                        src="https://drive.google.com/file/d/1rd6ywRPagV8D0fph0vY9XRdeek8YNBEY/preview" 
+                                        className="w-full md:w-[60vw] h-[20vh] md:h-[60vh] rounded-lg shadow-2xl hover:shadow-cyan-700 cursor-pointer transition-all duration-500 shadow-amber-300" 
+                                        allowFullScreen
+                                    ></iframe>
+                                    
                                 </div>
                             </div>
                         </section>
