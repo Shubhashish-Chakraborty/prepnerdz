@@ -162,7 +162,7 @@ export const HomeLanding = () => {
                                 {/* Left Column - Text Content */}
                                 <div className="space-y-6 animate-fade-in-up order-2 lg:order-1 w-full lg:w-1/2">
                                     <div className="space-y-4">
-                                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+                                        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
                                             <span className="text-[#ffbf23] flex md:inline-block justify-center backdrop-blur-md cursor-pointer bg-black rounded-3xl p-2">
                                                 <TypingText text="Notes? Papers? Materials?" typeSpeed={100} />
                                             </span>
@@ -184,7 +184,7 @@ export const HomeLanding = () => {
                                         <div>
                                             <Button
                                                 colorVariant="black_green"
-                                                sizeVariant="medium"
+                                                sizeVariant="small"
                                                 text="Get Started"
                                                 endIcon={<EnterDoor className="size-6" />}
                                                 onClick={() => setIsSignupOpen(true)}
@@ -194,7 +194,7 @@ export const HomeLanding = () => {
                                             <Link href={"/about"}>
                                                 <Button
                                                     colorVariant="yellow"
-                                                    sizeVariant="medium"
+                                                    sizeVariant="small"
                                                     endIcon={<Globe className="size-6" />}
                                                     text="Explore Features"
                                                 />
