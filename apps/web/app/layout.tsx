@@ -59,6 +59,9 @@ export const metadata = {
     icons: {
         icon: "/favicon.ico",
     },
+    other: {
+        "google-site-verification": "pbq2rU_s7burZieDaz5NbKU-YLZvO-qj0eTNWOYNlqs",
+    }
 };
 
 
