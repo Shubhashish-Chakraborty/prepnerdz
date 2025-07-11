@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://prepnerdz.tech
+
+# Sitemaps
+Sitemap: https://prepnerdz.tech/sitemap.xml
