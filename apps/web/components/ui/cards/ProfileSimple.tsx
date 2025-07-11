@@ -5,10 +5,17 @@ import { X } from '@/icons/X';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import styled from 'styled-components';
 import { toast } from 'react-hot-toast';
 
-const ProfileSimple = ({ name, image, mail, github, linkedin, instagram, x }: {
+const ProfileSimple = ({
+    name,
+    image,
+    mail,
+    github,
+    linkedin,
+    instagram,
+    x,
+}: {
     name: string;
     image: string;
     mail: string;
@@ -18,167 +25,61 @@ const ProfileSimple = ({ name, image, mail, github, linkedin, instagram, x }: {
     x?: string;
 }) => {
     return (
-        <StyledWrapper>
-            <div className="card-client">
-                <div className="user-picture">
-                    <Image src={image} alt="profile" width={200} height={200} />
+        <div className="bg-[#555] w-[20rem] sm:w-[22rem] md:w-[25rem] px-4 sm:px-5 py-5 sm:py-6 border-4 border-white shadow-md rounded-lg text-center text-white font-poppins transition-all duration-300 hover:-translate-y-2">
+            <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 border-4 border-white rounded-full overflow-hidden mx-auto flex items-center justify-center">
+                <Image src={image} alt="profile" width={200} height={200} />
+            </div>
 
-                </div>
-                <p className="name-client"> {name}
-                </p>
-                <div onClick={() => {
+            <p className="mt-4 sm:mt-5 font-semibold text-base sm:text-lg">{name}</p>
+
+            <div
+                onClick={() => {
                     navigator.clipboard.writeText(mail);
                     toast.success('Email copied to clipboard!');
-                }} className='text-amber-300 font-bold cursor-pointer hover:underline'>
-                    {mail}
-                </div>
-                <div className="social-media">
-                    <div className='flex justify-center gap-10 md:gap-5'>
-                        {linkedin && (
-                            <Link target='_blank' href={linkedin}>
-                                <Linkedin className="size-5" />
-                                <span className="tooltip-social">LinkedIn</span>
-                            </Link>
-                        )}
-                        {instagram && (
-                            <Link target='_blank' href={instagram}>
-                                <Instagram className="size-5" />
-                                <span className="tooltip-social">Instagram</span>
-                            </Link>
-                        )}
-                        {github && (
-                            <Link target='_blank' href={github}>
-                                <Github className="size-5" />
-                                <span className="tooltip-social">Github</span>
-                            </Link>
-                        )}
-                        {x && (
-                            <Link target='_blank' href={x}>
-                                <X className="size-5" />
-                                <span className="tooltip-social">Twitter</span>
-                            </Link>
-                        )}
-                    </div>
-                </div>
+                }}
+                className="text-amber-300 font-bold cursor-pointer hover:underline text-sm sm:text-base"
+            >
+                {mail}
             </div>
-        </StyledWrapper>
+
+            <div className="w-full h-[2px] bg-white my-4 sm:my-5" />
+
+            <div className="flex justify-center gap-6 sm:gap-10 md:gap-5">
+                {linkedin && (
+                    <Link target="_blank" href={linkedin} className="relative text-white group">
+                        <Linkedin className="w-5 h-5" />
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full bg-[#262626] text-xs font-semibold px-2 py-1 rounded opacity-0 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-2 z-10">
+                            LinkedIn
+                        </span>
+                    </Link>
+                )}
+                {instagram && (
+                    <Link target="_blank" href={instagram} className="relative text-white group">
+                        <Instagram className="w-5 h-5" />
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full bg-[#262626] text-xs font-semibold px-2 py-1 rounded opacity-0 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-2 z-10">
+                            Instagram
+                        </span>
+                    </Link>
+                )}
+                {github && (
+                    <Link target="_blank" href={github} className="relative text-white group">
+                        <Github className="w-5 h-5" />
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full bg-[#262626] text-xs font-semibold px-2 py-1 rounded opacity-0 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-2 z-10">
+                            Github
+                        </span>
+                    </Link>
+                )}
+                {x && (
+                    <Link target="_blank" href={x} className="relative text-white group">
+                        <X className="w-5 h-5" />
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full bg-[#262626] text-xs font-semibold px-2 py-1 rounded opacity-0 pointer-events-none transition-all duration-200 group-hover:opacity-100 group-hover:-translate-y-2 z-10">
+                            Twitter
+                        </span>
+                    </Link>
+                )}
+            </div>
+        </div>
     );
-}
-
-const StyledWrapper = styled.div`
-  .card-client {
-    background: #555;
-    width: 25rem;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border: 4px solid #fff;
-    box-shadow: 0 6px 10px #212121;
-    border-radius: 10px;
-    text-align: center;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    transition: all 0.3s ease;
-  }
-
-  .card-client:hover {
-    transform: translateY(-10px);
-  }
-
-  .user-picture {
-    overflow: hidden;
-    object-fit: cover;
-    width: 10rem;
-    height: 10rem;
-    border: 4px solid #fff;
-    border-radius: 999px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-  }
-
-  .user-picture svg {
-    width: 2.5rem;
-    fill: currentColor;
-  }
-
-  .name-client {
-    margin: 0;
-    margin-top: 20px;
-    font-weight: 600;
-    font-size: 18px;
-  }
-
-  .name-client span {
-    display: block;
-    font-weight: 200;
-    font-size: 16px;
-  }
-
-    
-  .social-media:before {
-    content: " ";
-    display: block;
-    width: 100%;
-    height: 2px;
-    margin: 20px 0;
-    background: #fff;
-  }
-
-  .social-media a {
-    position: relative;
-    margin-right: 15px;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .social-media a:last-child {
-    margin-right: 0;
-  }
-
-  .social-media a svg {
-    width: 1.1rem;
-    fill: currentColor;
-  }
-
-  /*-- Tooltip Social Media --*/
-  .tooltip-social {
-    background: #262626;
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    padding: 0.5rem 0.4rem;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -90%);
-    transition: all 0.2s ease;
-    z-index: 1;
-  }
-
-  .tooltip-social:after {
-    content: " ";
-    position: absolute;
-    bottom: 1px;
-    left: 50%;
-    border: solid;
-    border-width: 10px 10px 0 10px;
-    border-color: transparent;
-    transform: translate(-50%, 100%);
-  }
-
-  .social-media a .tooltip-social:after {
-    border-top-color: #262626;
-  }
-
-  .social-media a:hover .tooltip-social {
-    opacity: 1;
-    transform: translate(-50%, -130%);
-  }`;
+};
 
 export default ProfileSimple;
