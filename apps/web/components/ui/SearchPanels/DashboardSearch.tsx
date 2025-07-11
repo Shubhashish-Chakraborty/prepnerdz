@@ -53,6 +53,8 @@ const typeMapping: Record<string, string> = {
     "shivani-books": "SHIVANI_BOOKS",
     "midsem-papers": "MID_SEM_PAPER",
     "endsem-papers": "END_SEM_PAPER",
+    "imp-questions": "IMP_QUESTION",
+    "best-notes": "NOTES",
 }
 
 // Configuration for different search panels
@@ -68,6 +70,20 @@ const searchPanelConfig = {
         title: "Search Endsem Papers",
         description: "Find previous endsem papers by branch and semester",
         placeholder: "Search for endsem papers...",
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
+        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
+    "imp-questions": {
+        title: "Search Important Questions",
+        description: "Find important questions by branch and semester, subjects, units!",
+        placeholder: "Search for important questions...",
+        branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
+        semesters: [1, 2, 3, 4, 5, 6, 7, 8],
+    },
+    "best-notes": {
+        title: "Search Best Academic Notes",
+        description: "Find best notes by subjects, units!",
+        placeholder: "Search for notes...",
         branches: ["CSE", "CSE-IOT", "ECE", "ME", "CE"],
         semesters: [1, 2, 3, 4, 5, 6, 7, 8],
     },
