@@ -17,9 +17,9 @@ import Link from "next/link";
 
 export const ContactLanding = () => {
     const [formData, setFormData] = useState({
-        name: '',
+        fullName: '',
         email: '',
-        phone: '',
+        contactNumber: '',
         message: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,13 +37,13 @@ export const ContactLanding = () => {
         setIsSubmitting(true);
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/contact/`, formData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/contact/to-db`, formData);
             if (response.status === 200) {
-                toast.success("Thank you, We'll get back to you within 24 hours!");
+                toast.success("Thankss!, We'll get back to you within 24 hours!");
                 setFormData({
-                    name: "",
+                    fullName: "",
                     email: "",
-                    phone: "",
+                    contactNumber: "",
                     message: ""
                 });
             }
@@ -153,9 +153,9 @@ export const ContactLanding = () => {
                             <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md mx-auto md:mx-0">
                                 <div className="flex flex-col md:flex-row gap-6 md:gap-20">
                                     <InputStraightLine
-                                        id="name"
+                                        id="fullName"
                                         label="Full Name *"
-                                        value={formData.name}
+                                        value={formData.fullName}
                                         onChange={handleChange}
                                         required
 
@@ -173,9 +173,9 @@ export const ContactLanding = () => {
                                 <div className="flex flex-col gap-6">
                                     <InputStraightLine
                                         type="tel"
-                                        id="phone"
+                                        id="contactNumber"
                                         label="Phone Number"
-                                        value={formData.phone}
+                                        value={formData.contactNumber}
                                         onChange={handleChange}
 
                                     />

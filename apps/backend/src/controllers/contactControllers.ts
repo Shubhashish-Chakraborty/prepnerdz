@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import { OTP_MAIL_PASSWORD } from "../config";
+import prisma from "../db/prisma";
 
 export const sendMessageToMail = async (req: Request, res: Response) => {
     try {
@@ -49,3 +50,33 @@ export const sendMessageToMail = async (req: Request, res: Response) => {
         });
     }
 };
+
+export const sendMessageToDB = async (req: Request, res: Response) => {
+    try {
+        const { fullName, email, contactNumber, message } = req.body;
+
+        // adding data to database!!
+        const getInTouch = await prisma.contactUsResponse.create({
+            data: {
+                fullName,
+                email,
+                contactNumber,
+                message
+            }
+        });
+
+        // res.status(200).json({
+        //     message: `successfully ${getInTouch.firstName}'s Get in Touch Data Recorded!!`,
+        //     fullName: `${firstName} ${lastName}`,
+        // })
+
+        res.status(200).json({ message: "Message sent successfully!" });
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later"
+        });
+    }
+}

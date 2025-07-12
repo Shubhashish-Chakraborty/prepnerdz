@@ -41,6 +41,15 @@ model Avatar {
   userId    String // Foreign key to User's Table
 }
 
+model ContactUsResponse {
+  id            Int      @id @default(autoincrement())
+  fullName      String
+  email         String
+  contactNumber String
+  message       String
+  createdAt     DateTime @default(now())
+}
+
 model Course {
   id         String   @id @default(cuid())
   courseName String   @unique // BTECH, DIPLOMA, etc...
