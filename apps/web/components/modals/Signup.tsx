@@ -160,7 +160,8 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                 {
                     email: formData.email,
                     contact: formData.contact // You'll need to add contact to your formData state
-                }
+                },
+                { withCredentials: true }
             );
 
             if (response.data.success) {
@@ -249,6 +250,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 text={isLoading ? "Processing..." : "Register"}
                                                 type="submit"
                                                 disabled={isLoading}
+                                                onClick={handleSignup}
                                             />
                                         </div>
                                     </form>

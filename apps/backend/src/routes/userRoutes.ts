@@ -19,4 +19,4 @@ UserRouter.get("/me", UserAuth, me);
 UserRouter.put("/update-username", UserAuth, requestValidation, updateUsername);
 UserRouter.put("/update-contact", UserAuth, requestValidation, updateContact);
 
-UserRouter.put("/direct-otp-verification", requestValidation, directOtpVerification);
+UserRouter.put("/direct-otp-verification", directOtpVerification);
