@@ -231,6 +231,27 @@ export const HomeLanding = () => {
         }
     }, []);
 
+    // Safari detection and alert
+    useEffect(() => {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari) {
+            const safariAlert = document.createElement("div");
+            safariAlert.innerHTML = `
+      <div style="..."> <!-- Same style as Brave one -->
+        <strong>Safari Cookie Warning</strong>
+        <p>For login to work correctly, please:</p>
+        <ol>
+          <li>Ensure “Prevent cross-site tracking” is <strong>disabled</strong> in Safari settings</li>
+          <li>Use the latest version of Safari</li>
+          <li>Login must be initiated via direct user action (click)</li>
+        </ol>
+      </div>`;
+            document.body.appendChild(safariAlert);
+            setTimeout(() => safariAlert.remove(), 20000);
+        }
+    }, []);
+
+
     return (
         <div className="relative min-h-screen bg-mainBgColor">
             {/* Background Animated Circles */}
