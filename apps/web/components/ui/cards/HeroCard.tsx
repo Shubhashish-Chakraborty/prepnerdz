@@ -6,7 +6,7 @@ const LandingHero = ({ icon, title, description }: {
   description: string;
 }) => {
   return (
-    <div className="relative w-[400px] h-[250px] text-white transition duration-500 cursor-pointer group hover:-translate-y-5">
+    <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[250px] text-white transition duration-500 cursor-pointer group hover:-translate-y-5">
       {/* ::before gradient background */}
       <div className="absolute inset-0 rounded-[1.2em] bg-gradient-to-br from-[#ffbc00] to-[#ff0058]" />
 

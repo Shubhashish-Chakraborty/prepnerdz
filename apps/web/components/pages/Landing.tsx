@@ -27,6 +27,7 @@ import { Paper } from "@/icons/Paper";
 import { toast } from "react-hot-toast";
 import FloatingFeatures from "../ui/cards/FloatingSimple";
 import { Question } from "@/icons/Question";
+import { Carousel } from "../carousel/LandingCarousle";
 
 // Type augmentation for Navigator
 declare global {
@@ -36,6 +37,63 @@ declare global {
         };
     }
 }
+
+const featureItems = [
+    {
+        icon: <BookOpen className="size-5 md:size-6" />,
+        title: "Comprehensive Resources",
+        description: "Access previous year RGPV papers, notes, and syllabus all in one place.",
+    },
+    {
+        icon: <Target className="size-5 md:size-6" />,
+        title: "Organized by Semester",
+        description: "Find exactly what you need with our branch-wise, semester-wise organization.",
+    },
+    {
+        icon: <ShieldColored className="size-5 md:size-6" />,
+        title: "Verified Content",
+        description: "All resources are verified by faculty and top students.",
+    },
+    {
+        icon: <Bookmark className="size-5 md:size-6" />,
+        title: "Bookmark & Save",
+        description: "Save your favorite resources for quick access later.",
+    },
+    {
+        icon: <Upload className="size-5 md:size-6" />,
+        title: "Contribute and shine",
+        description: "Add value to the platform and get recognized in the community.",
+    },
+]
+
+const teamMembers = [
+    {
+        x: "https://x.com/__Shubhashish__",
+        instagram: "https://www.instagram.com/___shubhashish___",
+        github: "https://www.github.com/Shubhashish-Chakraborty",
+        linkedin: "https://www.linkedin.com/in/Shubhashish-Chakraborty",
+        name: "Shubhashish Chakraborty",
+        image: "/founders/shubh.png",
+        mail: "shubhashish147@gmail.com",
+    },
+    {
+        x: "https://x.com/MokshMishra1111",
+        instagram: "https://www.instagram.com/iammokshmishra",
+        github: "https://github.com/MokshMishra",
+        linkedin: "https://www.linkedin.com/in/moksh-mishra-956868289/",
+        name: "Moksh Mishra",
+        image: "/founders/moksh.png",
+        mail: "mokshmishra1418@gmail.com",
+    },
+    {
+        x: "https://x.com/yadav_nihalll",
+        instagram: "https://www.instagram.com/Nihaaalll_29",
+        linkedin: "https://www.linkedin.com/in/Nihal-yadav2",
+        name: "Nihal Yadav",
+        image: "/founders/nihal.png",
+        mail: "yadavnihal544@gmail.com",
+    },
+]
 
 interface ResourceResult {
     id: string;
@@ -452,12 +510,9 @@ export const HomeLanding = () => {
                         <section id="features" className="py-12 md:py-16">
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                                 <div className="text-center mb-8 md:mb-10">
-                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
-                                        What PrepNerdz Provides?
-                                    </h2>
+                                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">What PrepNerdz Provides?</h2>
                                     <FloatingFeatures features={features} />
                                 </div>
-
                                 <div className="text-center mb-8 md:mb-12">
                                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Why Choose PrepNerdz?</h2>
                                     <p className="text-black max-w-2xl mx-auto text-sm md:text-base">
@@ -465,32 +520,20 @@ export const HomeLanding = () => {
                                     </p>
                                 </div>
 
-                                <div className="flex flex-row flex-wrap gap-4 md:gap-6 lg:gap-10 items-center justify-center">
-                                    <LandingHero
-                                        icon={<BookOpen className="size-5 md:size-6" />}
-                                        title="Comprehensive Resources"
-                                        description="Access previous year RGPV papers, notes, and syllabus all in one place."
-                                    />
-                                    <LandingHero
-                                        icon={<Target className="size-5 md:size-6" />}
-                                        title="Organized by Semester"
-                                        description="Find exactly what you need with our branch-wise, semester-wise organization."
-                                    />
-                                    <LandingHero
-                                        icon={<ShieldColored className="size-5 md:size-6" />}
-                                        title="Verified Content"
-                                        description="All resources are verified by faculty and top students."
-                                    />
-                                    <LandingHero
-                                        icon={<Bookmark className="size-5 md:size-6" />}
-                                        title="Bookmark & Save"
-                                        description="Save your favorite resources for quick access later."
-                                    />
-                                    <LandingHero
-                                        icon={<Upload className="size-5 md:size-6" />}
-                                        title="Contribute and shine"
-                                        description="Add value to the platform and get recognized in the community."
-                                    />
+                                {/* Desktop Grid */}
+                                <div className="hidden md:flex flex-row flex-wrap gap-4 md:gap-6 lg:gap-10 items-center justify-center">
+                                    {featureItems.map((item, index) => (
+                                        <LandingHero key={index} icon={item.icon} title={item.title} description={item.description} />
+                                    ))}
+                                </div>
+
+                                {/* Mobile Carousel */}
+                                <div className="md:hidden">
+                                    <Carousel autoSlide={true} autoSlideInterval={2000}>
+                                        {featureItems.map((item, index) => (
+                                            <LandingHero key={index} icon={item.icon} title={item.title} description={item.description} />
+                                        ))}
+                                    </Carousel>
                                 </div>
                             </div>
                         </section>
@@ -502,29 +545,13 @@ export const HomeLanding = () => {
                                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">How to use PrepNerdz?</h2>
                                     <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Get started in just 3 simple steps</p>
                                 </div>
-                                {/* <div ref={guideRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                                    <StepCard
-                                        step="1"
-                                        title="Select Your Course and Branch"
-                                        description="Choose your program (BTech, etc.) and branch."
-                                    />
-                                    <StepCard
-                                        step="2"
-                                        title="Pick Your Semester"
-                                        description="Navigate to your current semester and find relevant subjects."
-                                    />
-                                    <StepCard
-                                        step="3"
-                                        title="Access Resources"
-                                        description="Download notes, question papers, and study materials instantly."
-                                    />
-                                </div> */}
 
                                 <div className="text-center mt-6 md:mt-8 text-black font-extrabold text-lg md:text-2xl lg:text-3xl mb-6 md:mb-10 animate-bounce">
                                     Watch this 20 Minute video before getting started! and know how to use PrepNerdz Effectively!
                                 </div>
                                 <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-pulse">
-                                    if you want to skip the Pages part!, start watching from <span className="text-red-500 font-extrabold hover:underline"> 13:00 minutes </span>
+                                    if you want to skip the Pages part!, start watching from{" "}
+                                    <span className="text-red-500 font-extrabold hover:underline"> 13:00 minutes </span>
                                 </div>
                                 <div className="flex justify-center">
                                     <iframe
@@ -532,7 +559,6 @@ export const HomeLanding = () => {
                                         className="w-full md:w-[60vw] h-[20vh] md:h-[60vh] rounded-lg shadow-2xl hover:shadow-cyan-700 cursor-pointer transition-all duration-500 shadow-amber-300"
                                         allowFullScreen
                                     ></iframe>
-
                                 </div>
                             </div>
                         </section>
@@ -545,51 +571,33 @@ export const HomeLanding = () => {
                                     <p className="text-gray-600 text-sm md:text-base">Developers</p>
                                 </div>
 
-                                <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 lg:space-x-40">
-                                    <div className="hidden md:block">
+                                {/* Desktop Layout */}
+                                <div className="hidden md:block">
+                                    <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 lg:space-x-40 mb-8">
+                                        <ThanksForVisit />
+                                        <ProfileSimple {...teamMembers[0]} />
                                         <ThanksForVisit />
                                     </div>
-                                    <ProfileSimple
-                                        x="https://x.com/__Shubhashish__"
-                                        instagram="https://www.instagram.com/___shubhashish___"
-                                        github="https://www.github.com/Shubhashish-Chakraborty"
-                                        linkedin="https://www.linkedin.com/in/Shubhashish-Chakraborty"
-                                        name="Shubhashish Chakraborty"
-                                        image="/founders/shubh.png"
-                                        mail="shubhashish147@gmail.com"
-                                    />
-                                    <div className="hidden md:block">
+                                    <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
+                                        <ThanksForVisit />
+                                        <ProfileSimple {...teamMembers[1]} />
+                                        <ProfileSimple {...teamMembers[2]} />
                                         <ThanksForVisit />
                                     </div>
                                 </div>
 
-                                <div className="mt-8 md:mt-10 flex flex-col md:flex-row flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
-                                    <div className="hidden md:block">
-                                        <ThanksForVisit />
-                                    </div>
-                                    <ProfileSimple
-                                        x="https://x.com/MokshMishra1111"
-                                        instagram="https://www.instagram.com/iammokshmishra"
-                                        github="https://github.com/MokshMishra"
-                                        linkedin="https://www.linkedin.com/in/moksh-mishra-956868289/"
-                                        name="Moksh Mishra"
-                                        image="/founders/moksh.png"
-                                        mail="mokshmishra1418@gmail.com"
-                                    />
-                                    <ProfileSimple
-                                        x="https://x.com/yadav_nihalll"
-                                        instagram="https://www.instagram.com/Nihaaalll_29"
-                                        linkedin="https://www.linkedin.com/in/Nihal-yadav2"
-                                        name="Nihal Yadav"
-                                        image="/founders/nihal.png"
-                                        mail="yadavnihal544@gmail.com"
-                                    />
-                                    <div className="hidden md:block">
-                                        <ThanksForVisit />
-                                    </div>
+                                {/* Mobile Carousel */}
+                                <div className="md:hidden">
+                                    <Carousel autoSlide={true} autoSlideInterval={3000}>
+                                        {teamMembers.map((member, index) => (
+                                            <ProfileSimple key={index} {...member} />
+                                        ))}
+                                    </Carousel>
                                 </div>
                             </div>
                         </section>
+
+
                     </div>
                 </div>
                 <Footer />
