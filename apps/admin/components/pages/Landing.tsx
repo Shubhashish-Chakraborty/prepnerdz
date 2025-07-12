@@ -85,7 +85,7 @@ export const Landing = () => {
 
                 {/* avatar section */}
                 {authStatus !== "UNAUTHENTICATED" && (
-                    <div className="hidden md:block">
+                    <div className="mt-5">
                         <div className="relative" ref={avatarMenuRef}>
                             <button
                                 onClick={() => setAvatarMenuOpen(!avatarMenuOpen)}
@@ -143,7 +143,7 @@ export const Landing = () => {
                                 onClick={() => { router.push('/dashboard') }}
                                 className="bg-green-600 cursor-pointer hover:bg-green-700 px-4 py-2 rounded-xl text-white font-semibold"
                             >
-                                Go to Dashboard
+                                Go to Admin Dashboard
                             </button>
 
                             <button
@@ -153,7 +153,17 @@ export const Landing = () => {
                                 Logout
                             </button>
                         </div>
+                    )}
 
+                    {authStatus === 'ADMIN' && (
+                        <div className='mt-5 flex justify-center'>
+                            <button
+                                onClick={() => {window.location.href = "https://prepnerdz.tech/dashboard"}}
+                                className="bg-blue-600 cursor-pointer hover:bg-blue-700 px-4 py-2 rounded-xl text-white font-semibold"
+                            >
+                                Go to PrepNerdz Dashboard
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
