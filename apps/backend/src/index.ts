@@ -17,6 +17,7 @@ import { searchRouter } from './routes/searchRoutes';
 import { getMyIdRouter } from './routes/getMyIdRoutes';
 import { AvatarRouter } from './routes/avatarRoutes';
 import { ContactRouter } from './routes/contactRoutes';
+import prisma from './db/prisma';
 
 const app = express();
 
@@ -78,6 +79,21 @@ app.get("/", (req, res) => {
     res.send(`
         <h1 style="text-align: center;">PrepNerdz's Server is up and running!!</h1>
     `)
+})
+
+app.get("/users", async (req, res) => {
+    // // can also pass conditions like:
+    // const users = await prisma.user.count({
+    //     where: {
+    //         isActive: true
+    //     }
+    // });
+
+    const userCount = await prisma.user.count();
+
+    res.json({
+        totalUsers: userCount
+    });
 })
 
 app.get("/health", requestValidation, (req, res) => { // for testing purpose!
