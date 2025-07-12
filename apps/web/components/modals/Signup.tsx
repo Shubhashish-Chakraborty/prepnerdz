@@ -148,21 +148,33 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
         setIsLoading(true);
 
         try {
-            // Basic validation
-            if (!formData.email) {
-                toast.error('Email is required');
+            // Enhanced validation
+            if (!formData.email || !formData.contact) {
+                toast.error('Both email and contact number are required');
                 setIsLoading(false);
                 return;
             }
+
+            console.log('Sending verification request with:', {
+                email: formData.email,
+                contact: formData.contact
+            });
 
             const response = await axios.put(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/direct-otp-verification`,
                 {
                     email: formData.email,
-                    contact: formData.contact // You'll need to add contact to your formData state
+                    contact: formData.contact
                 },
-                { withCredentials: true }
+                {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
             );
+
+            console.log('Verification response:', response.data);
 
             if (response.data.success) {
                 toast.success('Email verified successfully! Please login');
@@ -174,6 +186,11 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
         } catch (error) {
             console.error('Direct verification error:', error);
             if (axios.isAxiosError(error)) {
+                console.error('Error details:', {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    config: error.config
+                });
                 toast.error(error.response?.data?.message || 'An error occurred during verification');
             } else {
                 toast.error('An unexpected error occurred');
@@ -250,7 +267,6 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 text={isLoading ? "Processing..." : "Register"}
                                                 type="submit"
                                                 disabled={isLoading}
-                                                onClick={handleSignup}
                                             />
                                         </div>
                                     </form>
