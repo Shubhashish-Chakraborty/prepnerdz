@@ -441,3 +441,52 @@ export const updateContact = async (req: Request, res: Response) => {
         return;
     }
 }
+
+export const directOtpVerification = async (req: Request, res: Response) => {
+    try {
+        const { email, contact } = req.body;
+
+        if (!contact || !email) {
+            res.status(400).json({
+                message: "Please Enter a Contact Number"
+            })
+            return;
+        }
+        const user = await prisma.user.findUnique({
+            where: {
+                email
+            }
+        });
+
+        if (!user) {
+            res.status(400).json({
+                message: "User Not Found, please enter valid email address!"
+            })
+            return;
+        }
+
+        const verifyAccount = await prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                isMailVerified: true,
+                contactNumber: contact,
+                otpForVerification: "MAIL_VERIFICATION_DONE"
+            }
+        })
+
+        res.status(200).json({
+            message: "Account Verification Successfully!",
+            success: true,
+            data: verifyAccount
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something Went Wrong, Please Try Again Later"
+        });
+        return;
+    }
+}

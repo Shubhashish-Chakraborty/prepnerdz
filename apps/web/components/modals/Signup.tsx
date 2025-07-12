@@ -13,6 +13,8 @@ import { Email } from '@/icons/Email';
 import { Key } from '@/icons/Key';
 import { EnterDoor } from '@/icons/EnterDoor';
 import { OtpDot } from '@/icons/OtpDot';
+import { Tick } from '@/icons/Tick';
+import { Phone } from '@/icons/Phone';
 
 interface SignupProps {
     open: boolean;
@@ -24,7 +26,8 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        contact: ''
     });
     const [otp, setOtp] = useState('');
     const [showOtpInput, setShowOtpInput] = useState(false);
@@ -131,6 +134,44 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
             }
         } catch (error) {
             console.error('Verification error:', error); // Debug log
+            if (axios.isAxiosError(error)) {
+                toast.error(error.response?.data?.message || 'An error occurred during verification');
+            } else {
+                toast.error('An unexpected error occurred');
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleDirectMailVerification = async () => {
+        setIsLoading(true);
+
+        try {
+            // Basic validation
+            if (!formData.email) {
+                toast.error('Email is required');
+                setIsLoading(false);
+                return;
+            }
+
+            const response = await axios.put(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/direct-otp-verification`,
+                {
+                    email: formData.email,
+                    contact: formData.contact // You'll need to add contact to your formData state
+                }
+            );
+
+            if (response.data.success) {
+                toast.success('Email verified successfully! Please login');
+                onClose();
+                onSwitchToLogin();
+            } else {
+                toast.error(response.data.message || 'Verification failed');
+            }
+        } catch (error) {
+            console.error('Direct verification error:', error);
             if (axios.isAxiosError(error)) {
                 toast.error(error.response?.data?.message || 'An error occurred during verification');
             } else {
@@ -277,17 +318,33 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                         </div>
                                     </form>
 
-                                    {/* Resend OTP */}
-                                    <p className="text-center mt-4 text-sm text-gray-600">
-                                        Didn&apos;t receive OTP?{" "}
-                                        <button
-                                            className="text-blue-600 hover:underline"
-                                            onClick={handleSignup}
-                                            disabled={isLoading}
-                                        >
-                                            Resend OTP
-                                        </button>
-                                    </p>
+                                    {/* Verify directly if facing otp issue! */}
+                                    <div className="text-center mt-8">
+                                        <div className="text-xl md:text-2xl text-red-600 font-bold animate-bounce"> If you didn&apos;t received the OTP:</div>
+                                        <div className="text-lg md:text-xl text-blue-600 font-bold"> Enter your contact number & click to verify your email directly!</div>
+
+                                        <div className='flex justify-center mt-6'>
+                                            <InputBulged
+                                                type="text"
+                                                placeholder="Contact Number:"
+                                                icon={<Phone className="size-5" />}
+                                                name="contact"
+                                                onChange={handleInputChange} // This will now update formData.contact
+                                                value={formData.contact}
+                                            />
+                                        </div>
+
+                                        <div className='flex justify-center mt-10'>
+                                            <Button
+                                                colorVariant="black_green"
+                                                endIcon={<Tick className="size-6" />}
+                                                sizeVariant="small"
+                                                text={isLoading ? "Verifying..." : "VERIFY MAIL"}
+                                                onClick={handleDirectMailVerification}
+                                                disabled={isLoading}
+                                            />
+                                        </div>
+                                    </div>
                                 </>
                             )}
                         </div>

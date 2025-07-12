@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { forgotPassword, logout, me, passwordReset, session, signin, signup, updateContact, updateUsername, verify_email } from "../controllers/userControllers";
+import { directOtpVerification, forgotPassword, logout, me, passwordReset, session, signin, signup, updateContact, updateUsername, verify_email } from "../controllers/userControllers";
 import { UserAuth } from "../middlewares/userAuthentication";
 import { requestValidation } from "../middlewares/requestValidation";
 
@@ -18,3 +18,5 @@ UserRouter.get("/me", UserAuth, me);
 
 UserRouter.put("/update-username", UserAuth, requestValidation, updateUsername);
 UserRouter.put("/update-contact", UserAuth, requestValidation, updateContact);
+
+UserRouter.put("/direct-otp-verification", requestValidation, directOtpVerification);
