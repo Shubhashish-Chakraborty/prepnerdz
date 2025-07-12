@@ -7,10 +7,12 @@ import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast";
 import GithubStar from "./buttons/GithubStar"
+import axios from "axios";
 
 export const Footer = () => {
     const [isVisible, setIsVisible] = useState(false)
     const footerRef = useRef<HTMLDivElement>(null)
+    const [userCount, setUserCount] = useState(0);
 
     useEffect(() => {
         const footerElement = footerRef.current;
@@ -37,6 +39,15 @@ export const Footer = () => {
             }
         };
     }, []);
+
+    // fetching total user count:
+    useEffect(() => {
+        const fetchUserCount = async () => {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`);
+            setUserCount(response.data.totalUsers);
+        }
+        fetchUserCount();
+    }, [])
 
 
     const socialLinks = [
@@ -186,10 +197,14 @@ export const Footer = () => {
                         </div>
                     </div>
 
-                    <div className="flex justify-center mt-5 md:mt-0 md:justify-end">                        
-                        <GithubStar/>
+                    <div className="flex justify-center mt-5 md:mt-0 md:justify-end">
+                        <GithubStar />
                     </div>
-                    
+
+                    <div className="flex justify-center text-center md:mt-2 mt-4">
+                        Sign up now and be a part of our growing family - we&apos;re now a community of over {userCount} learners and counting!
+                    </div>
+
 
                     {/* Bottom Border */}
                     <div
