@@ -11,41 +11,71 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-export const sendOtp = async (to: string, otpGenerated: string) => {
-    const inServerGeneratedOtp = otpGenerated;
+export const sendOtp = async (to: string, otpGenerated: string): Promise<boolean> => {
+    try {
+        const mailOptions = {
+            from: OTP_SENDERMAIL,
+            to,
+            subject: "PrepNerdz | Email Verification OTP",
+            text: `Dear User,
 
-    // const mailOptions = {
-    //     from: OTP_SENDERMAIL,
-    //     to,
-    //     subject: "PrepNerdz Email Verification",
-    //     text: `HERE IS YOUR OTP: ${inServerGeneratedOtp} FOR PREPNERDZ ACCOUNT VERIFICATION`,
-    // };
+                Thank you for signing up with PrepNerdz!
 
-    const mailOptions = {
-        from: OTP_SENDERMAIL,
-        to,
-        subject: "PrepNerdz | Email Verification OTP",
-        text: `Dear User,
+                Your One-Time Password (OTP) for verifying your email address is:
 
-            Thank you for signing up with PrepNerdz!
+                ${otpGenerated}
 
-            Your One-Time Password (OTP) for verifying your email address is:
+                Please enter this OTP on the verification screen to complete your registration. 
 
-            ${inServerGeneratedOtp}
+                Note: This OTP is valid for a limited time and should not be shared with anyone.
 
-            Please enter this OTP on the verification screen to complete your registration. 
+                Best regards,  
+                Team PrepNerdz`
+        };
 
-            Note: This OTP is valid for a limited time and should not be shared with anyone.
-
-            If you did not request this, please ignore this email.
-
-            Best regards,  
-            Team PrepNerdz  
-            business.prepnerdz@gmail.com`
-    };
-
-    await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions);
+        return true;
+    } catch (error) {
+        console.error('Email sending error:', error);
+        return false;
+    }
 };
+
+// export const sendOtp = async (to: string, otpGenerated: string) => {
+//     const inServerGeneratedOtp = otpGenerated;
+
+//     // const mailOptions = {
+//     //     from: OTP_SENDERMAIL,
+//     //     to,
+//     //     subject: "PrepNerdz Email Verification",
+//     //     text: `HERE IS YOUR OTP: ${inServerGeneratedOtp} FOR PREPNERDZ ACCOUNT VERIFICATION`,
+//     // };
+
+//     const mailOptions = {
+//         from: OTP_SENDERMAIL,
+//         to,
+//         subject: "PrepNerdz | Email Verification OTP",
+//         text: `Dear User,
+
+//             Thank you for signing up with PrepNerdz!
+
+//             Your One-Time Password (OTP) for verifying your email address is:
+
+//             ${inServerGeneratedOtp}
+
+//             Please enter this OTP on the verification screen to complete your registration. 
+
+//             Note: This OTP is valid for a limited time and should not be shared with anyone.
+
+//             If you did not request this, please ignore this email.
+
+//             Best regards,  
+//             Team PrepNerdz  
+//             business.prepnerdz@gmail.com`
+//     };
+
+//     await transporter.sendMail(mailOptions);
+// };
 
 
 export const FINAL_MAIL_VERIFICATION = async (otpEntered: string, mail: string, res: Response) => {
