@@ -235,7 +235,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
             const nextPage = page + 1
 
             // Handle COMMON branch case
-            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch
+            const branchToUse = (selectedSemester === '1' || selectedSemester === '2' || selectedSemester === '4') ? "COMMON" : selectedBranch
             const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester
 
             // Get IDs again in case they're needed
