@@ -92,7 +92,7 @@ OauthRouter.get(
         });
 
 
-        const redirectUrl = new URL(`${FRONTEND_URL}/`); // initially redirecting to signin page!
+        const redirectUrl = new URL(`${FRONTEND_URL}/dashboard`); // initially redirecting to signin page!
 
         res.redirect(redirectUrl.toString());
     }
