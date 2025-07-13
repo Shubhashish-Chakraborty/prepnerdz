@@ -182,7 +182,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
 
         try {
             // Handle COMMON branch case
-            const branchToUse = (selectedSemester === '1' || selectedSemester === '2') ? "COMMON" : selectedBranch
+            const branchToUse = (selectedSemester === '1' || selectedSemester === '2' || selectedSemester === '4') ? "COMMON" : selectedBranch
             const semesterToUse = (selectedSemester === '1' || selectedSemester === '2') ? "0" : selectedSemester
 
             // First get branch ID
