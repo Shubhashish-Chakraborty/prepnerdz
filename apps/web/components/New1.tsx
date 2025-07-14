@@ -34,7 +34,7 @@ export default function HeroSectionPrepNerdz() {
       {/* Category Tag */}
       <div className="w-full flex justify-center items-center">
         <h1 className="uppercase py-1 px-4 border-2 border-white text-white text-[12px] rounded-4xl font-medium  bg-white/10  backdrop-blur-md shadow-lg  ">
-          <span className="text-[#2A2A2A]">notes</span> / papers / study
+          <span className="">notes</span> / papers / study
           materials
         </h1>
       </div>
@@ -62,7 +62,7 @@ export default function HeroSectionPrepNerdz() {
 
       {/* CTA Buttons */}
       <div className="w-full flex justify-center items-center text-lg gap-5 mt-10">
-        <button className="bg-[#111111] text-white rounded-full p-3 px-10 font-medium">
+        <button className="bg-[#1B1B1B] text-white rounded-full p-3 px-10 font-medium">
           {heroData.ctaButtons.main}
         </button>
         <button className="border-[1.9px] rounded-full px-10 p-3 flex justify-center items-center gap-2 italic text-white  placeholder:text-white  bg-white/10 backdrop-blur-md shadow-lg   ">
