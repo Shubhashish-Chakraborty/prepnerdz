@@ -19,7 +19,7 @@ interface LoginProps {
     onSwitchToSignup: () => void;
 }
 
-export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
+export const    LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
     const [loginData, setLoginData] = useState({
         email: '',
         password: ''
