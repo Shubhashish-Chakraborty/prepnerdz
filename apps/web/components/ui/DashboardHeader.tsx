@@ -220,7 +220,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                         }}
                                         className="w-full flex cursor-pointer items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
-                                        <span className="mr-3"><Home /></span>
+                                        <span className="mr-3"><Home className="size-5" /></span>
                                         <span className="text-gray-700">Home</span>
                                     </button>
 

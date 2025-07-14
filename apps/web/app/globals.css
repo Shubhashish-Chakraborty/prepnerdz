@@ -181,3 +181,38 @@
     animation: none;
   }
 }
+
+/* for not found wink component */
+
+@keyframes wink {
+  0% {
+    width: 48px;
+    height: 10px;
+    rotate: -25deg;
+    margin-top: 10px;
+  }
+  12.5% {
+    width: 48px;
+    height: 10px;
+    rotate: -45deg;
+    margin-top: 5px;
+  }
+  25%,
+  37.5%,
+  50%,
+  62.5%,
+  75%,
+  87.5% {
+    width: 48px;
+    height: 48px;
+  }
+  100% {
+    width: 48px;
+    height: 48px;
+    rotate: 0deg;
+  }
+}
+
+.animate-wink {
+  animation: wink 1.8s infinite;
+}
