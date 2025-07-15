@@ -22,7 +22,7 @@ model User {
   isMailVerified      Boolean    @default(false)
   otpForVerification  String     @default("")
   otpForResetPassword String     @default("")
-  provider            String     @default("email") // 'email', 'google', 'github'
+  provider            String     @default("email") // 'email', 'phone', 'google', 'github'
   providerId          String?
   bookmarks           Bookmark[]
   downloads           Download[]

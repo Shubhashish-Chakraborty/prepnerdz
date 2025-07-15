@@ -472,7 +472,8 @@ export const directOtpVerification = async (req: Request, res: Response) => {
             data: {
                 isMailVerified: true,
                 contactNumber: contact,
-                otpForVerification: "MAIL_VERIFICATION_DONE"
+                otpForVerification: "MAIL_VERIFICATION_DONE",
+                provider: "phone"
             }
         })
 
