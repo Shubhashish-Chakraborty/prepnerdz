@@ -19,6 +19,7 @@ import { AvatarRouter } from './routes/avatarRoutes';
 import { ContactRouter } from './routes/contactRoutes';
 import prisma from './db/prisma';
 import { dataRouter } from './routes/dataRoutes';
+import { bookmarkRouter } from './routes/bookmarkRoutes';
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use("/api/v1/auth/user", UserRouter);
 app.use("/auth", OauthRouter);
 app.use("/api/v1/avatar", AvatarRouter);
 app.use("/api/v1/contact", ContactRouter);
+app.use("api/v1/bookmark" , bookmarkRouter);
 
 // ADMIN API ENDPOINTS!!!
 app.use("/api/v1/course", courseRouter);
