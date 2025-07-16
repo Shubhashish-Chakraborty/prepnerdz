@@ -564,19 +564,18 @@ export const HomeLanding = () => {
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                                 <div className="text-center mb-8 md:mb-12">
                                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">How to use PrepNerdz?</h2>
-                                    <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">Get started in just 3 simple steps</p>
                                 </div>
-
-                                <div className="text-center mt-6 md:mt-8 text-black font-extrabold text-lg md:text-2xl lg:text-3xl mb-6 md:mb-10 animate-bounce">
+                                {/* <div className="text-center mt-6 md:mt-8 text-black font-extrabold text-lg md:text-2xl lg:text-3xl mb-6 md:mb-10 animate-bounce">
                                     Watch this 20 Minute video before getting started! and know how to use PrepNerdz Effectively!
-                                </div>
-                                <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-pulse">
-                                    if you want to skip the Pages part!, start watching from{" "}
-                                    <span className="text-red-500 font-extrabold hover:underline"> 13:00 minutes </span>
+                                </div> */}
+                                <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-bounce">
+                                    Start watching from{" "}
+                                    <span className="text-red-500 font-extrabold hover:underline"> 07:00/19:50 </span>
+                                    to direct jump into dashboard part!
                                 </div>
                                 <div className="flex justify-center">
                                     <iframe
-                                        src="https://drive.google.com/file/d/1rd6ywRPagV8D0fph0vY9XRdeek8YNBEY/preview"
+                                        src="https://drive.google.com/file/d/1GtZTJOtWrtou08zl8Zgm4W7vVtYPkRPW/preview"
                                         className="w-full md:w-[60vw] h-[20vh] md:h-[60vh] rounded-lg shadow-2xl hover:shadow-cyan-700 cursor-pointer transition-all duration-500 shadow-amber-300"
                                         allowFullScreen
                                     ></iframe>
@@ -589,7 +588,6 @@ export const HomeLanding = () => {
                             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                                 <div className="text-center mb-8 md:mb-12">
                                     <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Meet the founders and Developers</h2>
-                                    <p className="text-gray-600 text-sm md:text-base">Developers</p>
                                 </div>
 
                                 {/* Desktop Layout */}
