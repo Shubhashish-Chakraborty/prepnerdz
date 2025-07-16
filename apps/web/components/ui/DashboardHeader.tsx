@@ -10,7 +10,6 @@ import { User } from "@/icons/User";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Home } from "@/icons/Home";
-import { Download } from "@/icons/Download";
 import { Bookmark } from "@/icons/Bookmark";
 import { Settings } from "@/icons/Settings";
 import { Right } from "@/icons/Right";
@@ -226,16 +225,16 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
                                     <button
                                         onClick={() => {
-                                            router.push("/bookmarks");
+                                            router.push("/mybookmarks");
                                             setIsDropdownOpen(false);
                                         }}
                                         className="w-full flex items-center cursor-pointer px-4 py-2 text-left hover:bg-gray-50 transition-colors"
                                     >
                                         <span className="mr-3"><Bookmark className="size-5" /></span>
-                                        <span className="text-gray-700">Bookmarks</span>
+                                        <span className="text-gray-700">My Bookmarks</span>
                                     </button>
 
-                                    <button
+                                    {/* <button
                                         onClick={() => {
                                             router.push("/downloads");
                                             setIsDropdownOpen(false);
@@ -244,7 +243,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                     >
                                         <span className="mr-3"><Download className="size-5" /></span>
                                         <span className="text-gray-700">Downloads</span>
-                                    </button>
+                                    </button> */}
 
                                     {/* Settings with nested panel */}
                                     <div className="relative">

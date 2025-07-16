@@ -67,7 +67,7 @@ app.use("/api/v1/auth/user", UserRouter);
 app.use("/auth", OauthRouter);
 app.use("/api/v1/avatar", AvatarRouter);
 app.use("/api/v1/contact", ContactRouter);
-app.use("api/v1/bookmark" , bookmarkRouter);
+app.use("/api/v1/bookmark" , bookmarkRouter);
 
 // ADMIN API ENDPOINTS!!!
 app.use("/api/v1/course", courseRouter);

@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
-import { Download } from "@/icons/Download"
 import { Eye } from "@/icons/Eye"
-import { CloseCircle } from "@/icons/CloseCircle"
 import { ResourceModal } from "@/components/modals/ResourcePreview"
 import { Button } from "../buttons/Button"
+import { Bookmark } from "@/icons/Bookmark"
 // import { FiBookmark, FiDownload, FiEye, FiX } from "react-icons/fi"
 
 interface SearchPanelProps {
@@ -121,6 +120,20 @@ const searchPanelConfig = {
     },
 }
 
+interface Bookmark {
+    id: string;
+    userId: string;
+    resourceId: string;
+    createdAt: string;
+    resource: Resource;
+}
+
+interface BookmarksResponse {
+    success: boolean;
+    data: Bookmark[];
+    count: number;
+}
+
 export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedBranch, setSelectedBranch] = useState("")
@@ -132,13 +145,47 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     const [initialLoad, setInitialLoad] = useState(false)
     const [totalCount, setTotalCount] = useState(0)
     const [selectedResource, setSelectedResource] = useState<Resource | null>(null)
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [bookmarkedResourceIds, setBookmarkedResourceIds] = useState<string[]>([]);
+    const [userId, setUserId] = useState<string | null>(null);
 
     const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
 
     useEffect(() => {
         console.log("Welcome to PrepNerdz!")
     }, [totalCount])
+
+    useEffect(() => {
+        const fetchBookmarks = async () => {
+            try {
+                const sessionRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
+                    withCredentials: true
+                });
+
+                if (!sessionRes.data.message.isAuthenticated) return;
+
+                const id = sessionRes.data.message.user.id;
+                setUserId(id);
+
+                const bookmarkRes = await axios.get<BookmarksResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/user/${id}`, {
+                    withCredentials: true
+                });
+
+                // const ids = bookmarkRes.data.data.map((b: any) => b.resource.id);
+
+                const ids = bookmarkRes.data.data
+                    .filter((b) => b.resource && b.resource.id)
+                    .map((b) => b.resource.id);
+
+                setBookmarkedResourceIds(ids);
+            } catch (error) {
+                console.error("Failed to fetch bookmarks:", error);
+            }
+        };
+
+        fetchBookmarks();
+    }, []);
+
+
 
     // Get current panel configuration
     const currentPanel = searchPanelConfig[activeNavItem as keyof typeof searchPanelConfig]
@@ -288,25 +335,48 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         setIsResourceModalOpen(true);
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false)
-        setSelectedResource(null)
-    }
+    const handleBookmarkToggle = async (resourceId: string) => {
+        if (!userId) {
+            toast.error("Please log in to bookmark.");
+            return;
+        }
 
-    const handleDownload = (url: string, title: string) => {
-        const link = document.createElement('a')
-        link.href = url
-        link.download = title
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
+        const isBookmarked = bookmarkedResourceIds.includes(resourceId);
 
-    // const handleBookmark = (resourceId: string) => {
-    //     // Implement bookmark functionality here
-    //     toast.success("Bookmarked successfully!")
-    //     console.log(resourceId);
-    // }
+        try {
+            if (isBookmarked) {
+                // Unbookmark
+                const res = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark`, {
+                    data: { userId, resourceId },
+                    withCredentials: true
+                });
+
+                if (res.data.success) {
+                    toast.success("Bookmark removed");
+                    setBookmarkedResourceIds((prev) => prev.filter((id) => id !== resourceId));
+                } else {
+                    toast.error(res.data.message || "Failed to remove bookmark");
+                }
+            } else {
+                // Bookmark
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark`, {
+                    userId,
+                    resourceId
+                }, { withCredentials: true });
+
+                if (res.data.success) {
+                    toast.success("Bookmarked");
+                    setBookmarkedResourceIds((prev) => [...prev, resourceId]);
+                } else {
+                    toast.error(res.data.message || "Failed to bookmark");
+                }
+            }
+        } catch (error) {
+            toast.error("Something went wrong!");
+            console.error("Bookmark toggle error:", error);
+        }
+    };
+
 
     const formatFileSize = (sizeInKb: number) => {
         const sizeInMb = sizeInKb / 1000; // OnPurpose im dividing it by 1000 instead of 1024!
@@ -526,6 +596,15 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2">
+                                                <div>
+                                                    <Bookmark
+                                                        onClick={() => handleBookmarkToggle(resource.id)}
+                                                        className={`size-6 mx-4 cursor-pointer transition-colors duration-200 ${bookmarkedResourceIds.includes(resource.id)
+                                                            ? 'text-blue-500 hover:text-gray-400'
+                                                            : 'text-gray-400 hover:text-blue-500'
+                                                            }`}
+                                                    />
+                                                </div>
                                                 {/* <button
                                                     onClick={() => handleBookmark(resource.id)}
                                                     className="p-2 cursor-pointer text-gray-500 hover:text-amber-500 transition-colors"
@@ -588,83 +667,6 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                     </div>
                 </div>
             </div>
-
-            {/* PDF Viewer Modal */}
-            {isModalOpen && selectedResource && (
-                <div className="fixed inset-0 z-50 overflow-y-auto">
-                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        {/* Background overlay */}
-                        <div
-                            className="fixed inset-0 transition-opacity"
-                            aria-hidden="true"
-                            onClick={closeModal}
-                        >
-                            <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div>
-
-                        {/* Modal container */}
-                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <div className="flex justify-between items-start">
-                                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                                        {selectedResource.title}
-                                    </h3>
-                                    <button
-                                        onClick={closeModal}
-                                        className="text-gray-400 hover:text-gray-500 focus:outline-none"
-                                    >
-                                        <CloseCircle className="size-5" />
-                                    </button>
-                                </div>
-                                <div className="mt-4">
-                                    <div className="h-[70vh] w-full">
-                                        {selectedResource.fileType === 'pdf' ? (
-                                            <iframe
-                                                sandbox="allow-same-origin allow-scripts"
-                                                src={selectedResource.fileUrl}
-                                                className="w-full h-full border border-gray-200 rounded"
-                                                title={selectedResource.title}
-                                            />
-                                        ) : (
-                                            <div className="flex items-center justify-center h-full bg-gray-100 rounded">
-                                                <p className="text-gray-500">
-                                                    Preview not available for {selectedResource.fileType.toUpperCase()} files.
-                                                    <br />
-                                                    <a
-                                                        href={selectedResource.fileUrl}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="text-blue-600 hover:underline"
-                                                    >
-                                                        Open in new tab
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button
-                                    type="button"
-                                    onClick={() => handleDownload(selectedResource.fileUrl, selectedResource.title)}
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                >
-                                    <Download className="size-5" />
-                                    Download
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={closeModal}
-                                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                >
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     )
 }
