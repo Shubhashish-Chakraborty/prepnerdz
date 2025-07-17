@@ -98,3 +98,42 @@ export const getAvatar = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Failed to fetch images' });
     }
 };
+
+export const deleteAvatar = async (req: Request, res: Response) => {
+    try {
+        // Get user ID from authenticated request
+        const userId = (req as any).user.id;
+
+        // Find the avatar for the user
+        const avatar = await prisma.avatar.findFirst({
+            where: {
+                userId
+            }
+        });
+
+        // If no avatar exists, return a success message as there's nothing to delete
+        if (!avatar) {
+            res.status(200).json({ message: 'No avatar to delete.' });
+            return
+        }
+
+        // Delete the image from Cloudinary
+        await cloudinary.uploader.destroy(avatar.publicId);
+
+        // Delete the avatar from the database
+        await prisma.avatar.delete({
+            where: {
+                id: avatar.id
+            }
+        });
+
+        res.status(200).json({ message: 'Avatar deleted successfully' });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+          message: "Failed to delete avatar"
+        });
+        return;
+    }
+};

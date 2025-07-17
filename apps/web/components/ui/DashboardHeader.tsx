@@ -14,6 +14,7 @@ import { Bookmark } from "@/icons/Bookmark";
 import { Settings } from "@/icons/Settings";
 import { Right } from "@/icons/Right";
 import { Question } from "@/icons/Question";
+import { toast } from "react-hot-toast";
 
 interface HeaderProps {
     userName: string
@@ -109,6 +110,20 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
         return "Good Evening";
     };
 
+    const removeProfileImageHandler = async () => {
+        try {
+            await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/delete-avatar`, {
+                withCredentials: true,
+            });
+            setAvatar(null);
+            setAvatarMenuOpen(false);
+            toast.success("Profile Picture deleted Successfully!");
+        } catch (error) {
+            console.error("Failed to remove profile image:", error);
+            toast.error("Failed to remove profile image, please try again later.");
+        }
+    }
+
     return (
         <header className="bg-white border-b border-gray-200 shadow-sm sticky z-50 top-0 w-full">
             <div className="flex items-center justify-between h-24 px-4 lg:px-8">
@@ -179,6 +194,26 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                                 className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold hover:bg-emerald-200 transition-colors"
                                             >
                                                 Change Profile Image
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                            <AnimatePresence>
+                                {avatarMenuOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute right-0 top-full mt-15 w-52 bg-red-400 hover:bg-red-500 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
+                                    >
+                                        <div className="py-1">
+                                            <button
+                                                onClick={removeProfileImageHandler}
+                                                className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold"
+                                            >
+                                                Remove Profile Image
                                             </button>
                                         </div>
                                     </motion.div>
