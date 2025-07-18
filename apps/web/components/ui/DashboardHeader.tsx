@@ -208,14 +208,16 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                                         transition={{ duration: 0.2 }}
                                         className="absolute right-0 top-full mt-15 w-52 bg-red-400 hover:bg-red-500 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
                                     >
-                                        <div className="py-1">
-                                            <button
-                                                onClick={removeProfileImageHandler}
-                                                className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold"
-                                            >
-                                                Remove Profile Image
-                                            </button>
-                                        </div>
+                                        {avatar && (
+                                            <div className="py-1">
+                                                <button
+                                                    onClick={removeProfileImageHandler}
+                                                    className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold"
+                                                >
+                                                    Remove Profile Image
+                                                </button>
+                                            </div>
+                                        )}
                                     </motion.div>
                                 )}
                             </AnimatePresence>
