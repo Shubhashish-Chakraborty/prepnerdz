@@ -576,11 +576,11 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                     <div key={resource.id} className="bg-white p-4 rounded-lg shadow border border-gray-200 hover:shadow-md transition-shadow">
                                         <div className="flex justify-between items-start gap-4">
                                             <div className="flex-1">
-                                                <h4 className="font-medium text-lg text-blue-600">{resource.title}</h4>
-                                                <p className="text-gray-600 mt-1">{resource.description}</p>
-                                                <div className="flex flex-wrap items-center mt-2 text-sm text-gray-500 gap-2">
+                                                <h4 className="font-medium text-sm md:text-lg text-blue-600">{resource.title}</h4>
+                                                <p className="text-gray-600 mt-1 md:block hidden">{resource.description}</p>
+                                                <div className="flex md:flex-wrap items-center mt-2 text-sm text-gray-500 gap-2">
                                                     {resource.subject?.subjectName && (
-                                                        <span className="bg-gray-100 px-2 py-1 rounded">
+                                                        <span className="bg-gray-100 md:block hidden px-2 py-1 rounded">
                                                             {resource.subject.subjectName}
                                                         </span>
                                                     )}
@@ -589,10 +589,9 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                                             {resource.subject.subjectCode}
                                                         </span>
                                                     )}
-                                                    <span className="bg-gray-100 px-2 py-1 rounded">
+                                                    <span className="bg-gray-100 px-2 w-20 text-center py-1 rounded">
                                                         {formatFileSize(resource.fileSize)}
                                                     </span>
-
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2">
