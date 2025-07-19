@@ -5,7 +5,6 @@ import axios from "axios"
 import { toast } from "react-hot-toast"
 import { Eye } from "@/icons/Eye"
 import { ResourceModal } from "@/components/modals/ResourcePreview"
-import { Button } from "../buttons/Button"
 import { Bookmark } from "@/icons/Bookmark"
 // import { FiBookmark, FiDownload, FiEye, FiX } from "react-icons/fi"
 
@@ -618,13 +617,19 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                                 >
                                                     <Download className="size-5" />
                                                 </button> */}
-                                                <Button
+                                                {/* <Button
                                                     colorVariant="black_green"
                                                     sizeVariant="small"
                                                     text="View"
                                                     startIcon={<Eye className="size-5" />}
                                                     onClick={() => openModal(resource)}
-                                                />
+                                                /> */}
+                                                <div>
+                                                    <Eye   
+                                                        onClick={() => openModal(resource)}
+                                                        className="cursor-pointer size-7"
+                                                    />
+                                                </div>
 
                                                 {/* <button
                                                     onClick={() => setIsResourceModalOpen(true)}
