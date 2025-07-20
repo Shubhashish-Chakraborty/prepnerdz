@@ -1,13 +1,14 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GitHubStrategy } from 'passport-github2';
+import { Strategy as TwitterStrategy } from 'passport-twitter';
 import prisma from '../db/prisma';
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../config';
+import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, TWITTER_CLIENT_ID, TWITTER_CLIENT_SECRET } from '../config';
 import { generateHashedPassword } from '../utils/generateHash';
 
 const BASE_URL = process.env.BASE_URL;
 
-if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
+if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET || !TWITTER_CLIENT_ID || !TWITTER_CLIENT_SECRET) {
     throw new Error('Missing OAuth credentials in environment variables');
 }
 
@@ -125,6 +126,68 @@ passport.use(
             } catch (err) {
                 done(err as Error);
                 return
+            }
+        }
+    )
+);
+
+
+// Twitter/X Strategy (OAuth 2.0)!!
+
+passport.use(
+    'twitter',
+    new TwitterStrategy(
+        {
+            consumerKey: TWITTER_CLIENT_ID!,
+            consumerSecret: TWITTER_CLIENT_SECRET!,
+            callbackURL: `${BASE_URL}/auth/twitter/callback`,
+            includeEmail: true,
+        },
+        async (_token, _tokenSecret, profile, done) => {
+            // console.log("--- Twitter/X Profile Received ---");
+            // console.log(JSON.stringify(profile, null, 2)); // Log the entire profile object
+
+            try {
+                const email = profile.emails?.[0]?.value;
+                // console.log(`Extracted Email: ${email}`); // Log the email we found
+
+                if (!email) {
+                    console.error("CRITICAL: No email found in Twitter profile.");
+                    // This error message will now be clearly visible in your server logs.
+                    done(new Error('No email found in Twitter profile. Please ensure permissions are set in the X Developer Portal.'));
+                    return
+                }
+
+                // console.log(`Searching for user with email: ${email}`);
+                let user = await prisma.user.findUnique({
+                    where: { email },
+                });
+
+                if (user) {
+                    console.log(`User found: ${user.id}. Skipping creation.`);
+                } else {
+                    // console.log(`No user found. Creating a new user...`);
+                    user = await prisma.user.create({
+                        data: {
+                            email,
+                            username: profile.username || `user-${Math.random().toString(36).substring(2, 9)}`,
+                            password: await generateHashedPassword(),
+                            contactNumber: "NOT_PROVIDED",
+                            isMailVerified: true,
+                            provider: 'twitter',
+                            providerId: profile.id,
+                        },
+                    });
+                    // console.log(`New user created with ID: ${user.id}`);
+                }
+
+                // console.log(`Authentication successful. Passing user to Passport.`);
+                done(null, user);
+                return;
+            } catch (err) {
+                console.error(err); // Log the full error from Prisma or elsewhere
+                done(err as Error);
+                return;
             }
         }
     )

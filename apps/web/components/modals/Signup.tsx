@@ -15,6 +15,7 @@ import { EnterDoor } from '@/icons/EnterDoor';
 import { OtpDot } from '@/icons/OtpDot';
 import { Tick } from '@/icons/Tick';
 import { Phone } from '@/icons/Phone';
+import TwitterAuthBtn from '../ui/buttons/TwitterAuth';
 
 interface SignupProps {
     open: boolean;
@@ -287,6 +288,9 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                         </div>
                                         <div>
                                             <GithubAuthBtn text="Github" />
+                                        </div>
+                                        <div>
+                                            <TwitterAuthBtn text="Twitter(X)" />
                                         </div>
                                     </div>
 

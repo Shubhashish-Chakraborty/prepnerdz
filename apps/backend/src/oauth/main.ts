@@ -1,17 +1,51 @@
 import jwt from 'jsonwebtoken';
-import { Request, Response } from 'express';
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import passport from 'passport';
 import { FRONTEND_URL, JWT_USER_SECRET } from '../config';
 
 export const OauthRouter = Router();
 
-// Google Auth
+// Helper function for success redirect
+
+const handleAuthSuccess = (req: Request, res: Response) => {
+    if (!req.user) {
+        // This case should ideally be caught by failureRedirect, but as a fallback
+        res.redirect(`${FRONTEND_URL}/auth/failure?message=Authentication failed`);
+        return;
+    }
+
+    const user = req.user as any;
+
+    // Generate JWT token
+    const token = jwt.sign(
+        {
+            id: user.id,
+            email: user.email
+        },
+        JWT_USER_SECRET,
+        { expiresIn: "4d" }
+    );
+
+    // Set cookie with the token
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development", // Use secure cookies in production
+        sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
+        maxAge: 4 * 24 * 60 * 60 * 1000, // 4 Days
+        path: "/",
+    });
+
+    // Redirect to the frontend dashboard
+    const redirectUrl = new URL(`${FRONTEND_URL}/dashboard`);
+    res.redirect(redirectUrl.toString());
+};
+
+
+// --- Google Auth Routes ---
 OauthRouter.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email'],
-    session: false // We're using JWT instead of sessions
+    session: false
 }));
-
 
 OauthRouter.get(
     '/google/callback',
@@ -19,41 +53,11 @@ OauthRouter.get(
         failureRedirect: '/auth/failure',
         session: false
     }),
-    (req, res) => {
-        if (!req.user) {
-            res.redirect('/auth/failure');
-            return
-        }
-
-        // Generate JWT token
-        const token = jwt.sign(
-            {
-                id: (req.user as any).id,
-                email: (req.user as any).email
-            },
-            JWT_USER_SECRET,
-            {
-                expiresIn: "4d"
-            }
-        );
-
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-            maxAge: 4 * 24 * 60 * 60 * 1000, // 4 Days
-            path: "/",
-        });
-
-        const redirectUrl = new URL(`${FRONTEND_URL}/dashboard`);
-
-        res.redirect(redirectUrl.toString());
-    }
+    handleAuthSuccess // Use the helper function
 );
 
 
-/* GitHub Auth */
-
+// --- GitHub Auth Routes ---
 OauthRouter.get('/github', passport.authenticate('github', {
     scope: ['user:email'],
     session: false
@@ -65,48 +69,36 @@ OauthRouter.get(
         failureRedirect: '/auth/failure',
         session: false
     }),
-    (req, res) => {
-        if (!req.user) {
-            return res.redirect(`${FRONTEND_URL}/auth/failure`);
-        }
-
-        const user = req.user as any;
-
-        // Generate JWT token (same as Google flow)
-        const token = jwt.sign(
-            {
-                id: user.id,
-                email: user.email
-            },
-            JWT_USER_SECRET,
-            { expiresIn: "4d" }
-        );
-
-        // Set cookie with same configuration
-        res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-            maxAge: 4 * 24 * 60 * 60 * 1000, // 4 days
-            path: "/",
-        });
-
-
-        const redirectUrl = new URL(`${FRONTEND_URL}/dashboard`); // initially redirecting to signin page!
-
-        res.redirect(redirectUrl.toString());
-    }
+    handleAuthSuccess // Use the helper function
 );
+
+
+// --- Twitter/X Auth Routes ---
+OauthRouter.get('/twitter', passport.authenticate('twitter', {
+    session: false
+}));
+
+OauthRouter.get(
+    '/twitter/callback',
+    passport.authenticate('twitter', {
+        failureRedirect: '/auth/failure',
+        session: false
+    }),
+    handleAuthSuccess // Use the helper function
+);
+
+
+// --- Common Routes ---
 
 // Logout
 OauthRouter.get('/logout', (req: Request, res: Response) => {
-    req.logout((err) => {
-        if (err) console.error(err);
-        res.redirect('/');
-    });
+    // req.logout is session-based, for JWT we just clear the cookie
+    res.clearCookie('token', { path: '/' });
+    res.redirect('/');
 });
 
 // Auth Failure
 OauthRouter.get('/failure', (req: Request, res: Response) => {
-    res.send('Failed to authenticate.');
+    const message = req.query.message || 'Failed to authenticate.';
+    res.status(401).send(message);
 });
