@@ -1,5 +1,5 @@
 <h1 align="center">
-   PrepNerdz📚
+   PrepNerdz
 </h1>
 
 <div align="center">
