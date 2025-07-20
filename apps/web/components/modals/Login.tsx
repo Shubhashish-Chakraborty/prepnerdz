@@ -12,7 +12,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import TwitterAuthBtn from "../ui/buttons/TwitterAuth";
 
 interface LoginProps {
     open: boolean;
@@ -189,9 +188,9 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                     <GithubAuthBtn text="Github" />
                                 </div>
 
-                                <div>
+                                {/* <div>
                                     <TwitterAuthBtn text="Twitter(X)" /> 
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Signup Prompt */}
