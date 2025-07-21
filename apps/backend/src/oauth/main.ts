@@ -74,15 +74,15 @@ OauthRouter.get(
 
 
 // --- Twitter/X Auth Routes ---
-OauthRouter.get('/twitter', passport.authenticate('twitter'));
+// OauthRouter.get('/twitter', passport.authenticate('twitter'));
 
-OauthRouter.get(
-    '/twitter/callback',
-    passport.authenticate('twitter', {
-        failureRedirect: '/auth/failure',
-    }),
-    handleAuthSuccess
-);
+// OauthRouter.get(
+//     '/twitter/callback',
+//     passport.authenticate('twitter', {
+//         failureRedirect: '/auth/failure',
+//     }),
+//     handleAuthSuccess
+// );
 
 
 // --- Common Routes ---
