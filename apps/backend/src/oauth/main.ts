@@ -74,17 +74,14 @@ OauthRouter.get(
 
 
 // --- Twitter/X Auth Routes ---
-OauthRouter.get('/twitter', passport.authenticate('twitter', {
-    session: false
-}));
+OauthRouter.get('/twitter', passport.authenticate('twitter'));
 
 OauthRouter.get(
     '/twitter/callback',
     passport.authenticate('twitter', {
         failureRedirect: '/auth/failure',
-        session: false
     }),
-    handleAuthSuccess // Use the helper function
+    handleAuthSuccess
 );
 
 
