@@ -25,7 +25,7 @@ const ProfileSimple = ({
     x?: string;
 }) => {
     return (
-        <div className="bg-[#555] w-[20rem] sm:w-[22rem] md:w-[25rem] px-4 sm:px-5 py-5 sm:py-6 border-4 border-white shadow-md rounded-lg text-center text-white font-poppins transition-all duration-300 hover:-translate-y-2">
+        <div className="cursor-pointer bg-[#555] w-[20rem] sm:w-[22rem] md:w-[25rem] px-4 sm:px-5 py-5 sm:py-6 border-4 border-white shadow-2xl hover:shadow-purple-400 rounded-lg text-center text-white font-poppins transition-all duration-300 hover:-translate-y-2">
             <div className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 border-4 border-white rounded-full overflow-hidden mx-auto flex items-center justify-center">
                 <Image src={image} alt="profile" width={200} height={200} />
             </div>
