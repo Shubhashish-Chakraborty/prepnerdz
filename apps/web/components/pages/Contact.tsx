@@ -88,7 +88,9 @@ export const ContactLanding = () => {
                         {/* Left Side - Contact Info */}
                         <div className="w-full md:w-auto flex flex-col items-center md:items-start">
                             <div className="text-3xl md:text-5xl font-extrabold text-center md:text-left">
-                                <TypingText text="Lets Get In Touch!" />
+                                <span className="bg-gradient-to-r text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                                    <TypingText text="Lets Get In Touch!" />
+                                </span>
                             </div>
 
                             <div className="mt-5 flex flex-col items-center md:items-start">
