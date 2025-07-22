@@ -20,6 +20,7 @@ import { ContactRouter } from './routes/contactRoutes';
 import prisma from './db/prisma';
 import { dataRouter } from './routes/dataRoutes';
 import { bookmarkRouter } from './routes/bookmarkRoutes';
+import { superAdminRouter } from './routes/superAdminRoutes';
 
 const app = express();
 
@@ -77,6 +78,9 @@ app.use("/api/v1/subject", subjectRouter);
 app.use("/api/v1/resource", resourceRouter);
 app.use("/api/v1/search", searchRouter);
 app.use("/api/v1/getmyid", getMyIdRouter);
+
+// Super Admin API ENDPOINTS!!!
+app.use("/superadmin" , superAdminRouter);
 
 // fetching data for admin work:
 app.use("/api/v1/db/data" , dataRouter);

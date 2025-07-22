@@ -36,6 +36,8 @@ export default function DashboardLanding() {
     const [subjectName, setSubjectName] = useState('');
     const [subjectCode, setSubjectCode] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('');
+    const [superadmin, setSuperAdmin] = useState(false);
+
 
     const [resource, setResource] = useState({
         subjectId: '',
@@ -70,6 +72,25 @@ export default function DashboardLanding() {
         };
         fetchSession();
     }, [router]);
+
+    // Check for Shubhashish for superadmin access
+    useEffect(() => {
+        const fetchSession = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
+                    withCredentials: true,
+                });
+                const data = response.data;
+                if (data.message.user.id === "cmcxr2inw0000js04os2u8mjm") {
+                    setSuperAdmin(true);
+                }
+            } catch {
+                router.push("/");
+            }
+        };
+        fetchSession();
+    }, [])
+    
 
     const fetchInitialData = async () => {
         try {
@@ -162,6 +183,11 @@ export default function DashboardLanding() {
                 <button onClick={handleLogout} className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-xl text-white font-semibold">
                     Logout
                 </button>
+                {superadmin && (
+                    <button onClick={() => router.push("/superadmin")} className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-xl text-white font-semibold">
+                        Super Admin Dashboard
+                    </button>
+                )}
             </div>
 
             <div className="mt-20 flex flex-col items-center space-y-10 px-4">
