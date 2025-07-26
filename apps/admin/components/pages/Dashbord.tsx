@@ -391,6 +391,8 @@ export default function DashboardLanding() {
                         onClick={() => submitData("api/v1/resource/add", resource)}
                         disabled={!selectedSubject}
                     />
+                    <div className="mb-30">
+                    </div>
                 </Section>
             </div>
         </div>
