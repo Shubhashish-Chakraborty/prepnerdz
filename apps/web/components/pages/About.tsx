@@ -181,6 +181,33 @@ export const AboutLanding = () => {
                                 className="my-12"
                             />
 
+                            {/* Community Story Section */}
+                        <div className="my-12 px-4 md:px-0 max-w-4xl mx-auto">
+                            <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
+                              About PrepNerdz
+                            </h2>
+                            <p className="text-zinc-700 text-lg mb-4">
+                              <strong>PrepNerdz</strong> is a student-led community built to empower tomorrow’s developers with hands-on experience in tech, open source, and real-world collaboration.
+                            </p>
+
+                            <p className="text-zinc-700 text-lg mb-4">
+                               We started with a simple goal: to eliminate the chaos of scattered resources and provide students with a one-stop platform where everything — from notes to projects — is organized and accessible. No more random Google Drive folders or WhatsApp forwards.
+                            </p>
+
+                             <p className="text-zinc-700 text-lg mb-4">
+                              Through open-source projects, curated study material, mentorship, and events like GSSoC and Hacktoberfest, PrepNerdz helps you learn by doing — not just reading.
+                            </p>
+
+                             <p className="text-zinc-700 text-lg mb-4">
+                              If you're someone who’s tired of passive learning and ready to build, ship, and grow in public — welcome home.
+                            </p>
+
+                             <p className="text-red-600 text-lg font-semibold italic mt-6">
+                              PrepNerdz — Shaping Tomorrow’s Developers.
+                            </p>
+                        </div>
+
+
                             <div className="text-xl md:text-2xl font-black">
                                 Wanna Know more? <Link target="_blank" href={"https://github.com/Shubhashish-Chakraborty/prepnerdz/blob/main/apps/backend/prisma/schema.prisma"}> <span className="font-bold text-blue-600 hover:underline" > Check out the Database Structure/Schema </span> </Link>
                             </div>
