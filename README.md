@@ -10,12 +10,8 @@
 
 <p align="center">
   <a href="./LEARN.md"><strong>Explore the Project Internals »</strong></a>
-  <br />
-  <br />
-  <a href="https://github.com/Shubhashish-Chakraborty/prepnerdz/issues">Report Bug</a>
-  ·
-  <a href="https://github.com/Shubhashish-Chakraborty/prepnerdz/issues">Request Feature</a>
 </p>
+<br />
 
 ---
 
@@ -24,6 +20,12 @@ Welcome! This is the central hub for Prepnerdz. For a deep dive into the project
 - **[📖 LEARN.md](./LEARN.md)**: Understand the project structure, database schema, and API.
 - **[🤝 CONTRIBUTING.md](./CONTRIBUTING.md)**: Our main guide for contributors, with detailed setup and development instructions.
 - **[📜 CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)**: Our community standards.
+
+<p align="center">
+    <a href="https://github.com/Shubhashish-Chakraborty/prepnerdz/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Shubhashish-Chakraborty/prepnerdz/issues">Request Feature</a>
+</p>
 
 ---
 
@@ -55,7 +57,7 @@ Welcome! This is the central hub for Prepnerdz. For a deep dive into the project
 1.  **Clone the repository**
 
     ```bash
-    git clone [https://github.com/Shubhashish-Chakraborty/prepnerdz.git](https://github.com/Shubhashish-Chakraborty/prepnerdz.git)
+    git clone https://github.com/Shubhashish-Chakraborty/prepnerdz.git
     cd prepnerdz
     ```
 
