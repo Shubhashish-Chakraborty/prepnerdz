@@ -51,7 +51,7 @@ Ensure you have the following software installed on your machine:
 - **Node.js**: v18.x or higher is recommended.
 - **npm** or **yarn**: The project uses npm by default.
 - **Git**: For version control.
-- **PostgreSQL**: A local or cloud-based PostgreSQL database (v15+ recommended).
+- **PostgreSQL**: A local or cloud-based ([NEON](https://neon.tech)) PostgreSQL database (v15+ recommended).
 
 ### Step 2: Fork & Clone the Repository
 
@@ -60,7 +60,7 @@ Ensure you have the following software installed on your machine:
 2.  **Clone your fork**: On your local machine, run the following command, replacing `your-github-username` with your actual username.
 
     ```bash
-    git clone [https://github.com/your-github-username/prepnerdz.git](https://github.com/your-github-username/prepnerdz.git)
+    git clone https://github.com/your-github-username/prepnerdz.git
     cd prepnerdz
     ```
 
@@ -98,15 +98,7 @@ git checkout -b feat/add-resource-search-bar
 
     Repeat this process for `apps/web` and `apps/admin`.
 
-3.  **Set Up the Database**: With your `DATABASE_URL` configured, run the Prisma migrations to set up your database schema. Run this command from the **root directory**.
-
-    ```bash
-    npm run db:migrate --workspace=backend
-    ```
-
-    This will apply all existing migrations to your database, creating the necessary tables.
-
-4.  **Run the Project**: Start all applications in development mode. Run this command from the **root directory**.
+3.  **Run the Project**: Start all applications in development mode. Run this command from the **root directory**.
     ```bash
     npm run dev
     ```
