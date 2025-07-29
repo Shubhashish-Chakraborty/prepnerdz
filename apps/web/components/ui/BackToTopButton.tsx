@@ -30,7 +30,7 @@ const BackToTopButton: React.FC = () => {
         width: 60,
         height: 60,
         borderRadius: '50%',
-        background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+        background: 'black',
         color: '#fff',
         fontSize: 26,
         fontWeight: 'bold',
