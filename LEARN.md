@@ -161,9 +161,21 @@ This section documents the available API endpoints.
 
 We welcome contributions! While we're actively developing and refactoring certain areas, there are plenty of opportunities to contribute effectively.
 
-**🎯 Focus areas:** _WILL BE UPDATED IN THE NEXT 24Hours, STAY TUNED._
+### 🎯 Focus Areas
 
-**⚠️ Avoid for now:** _WILL BE UPDATED IN THE NEXT 24Hours, STAY TUNED._
+We are currently focused on enhancing the user experience and visual polish of the platform. If you're looking for a place to contribute, these are our top priorities:
+
+* 🎨 **UI/UX Enhancement:** We welcome creative ideas to make our UI more modern, interactive, and beautiful. If you have a good eye for design, this is your chance to shine!
+* ✨ **Animations & Transitions:** Implementing smooth and delightful animations using `framer-motion`. This includes page transitions, component animations (like cards appearing), and interactive micro-animations.
+* 🧭 **Core Component Polish:** Improving the look, feel, and functionality of key components like the Navbar, Sidebar, Footer, and the user Dashboard.
+* 📱 **Responsive Design:** This is a top priority! Ensuring every page and component is perfectly responsive across all devices (mobile, tablet, desktop) is crucial for a great student experience.
+
+### ⚠️ Areas to Avoid for Now
+
+To maintain stability and a clear roadmap, please avoid making changes in the following areas without prior discussion:
+
+* 🗄️ **Core Database Schema:** Please **do not** make any changes to the Prisma schema, especially for the core academic structure models (`Course`, `Branch`, `Semester`, `Subject`, `Resource`). The current structure is stable and foundational to the application.
+* ⚙️ **Unsolicited Backend Changes:** Please refrain from making significant backend changes unless they are tied to an existing issue that a maintainer has approved. If you have a great idea for the backend, please **first open an issue** to discuss it. We'll give you the green signal if it aligns with our roadmap.
 
 See our [Contributing Guide](CONTRIBUTING.md) for detailed setup instructions, development guidelines, and complete focus area guidance.
 
