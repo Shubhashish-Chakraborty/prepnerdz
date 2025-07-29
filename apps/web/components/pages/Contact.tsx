@@ -9,7 +9,6 @@ import { Linkedin } from "@/icons/Linkedin";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { Button } from "../ui/buttons/Button";
 import { Footer } from "../ui/Footer";
 import { MessageSend } from "@/icons/MessageSend";
 import Link from "next/link";
@@ -85,10 +84,10 @@ export const ContactLanding = () => {
 
                 {/* Main page content */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="text-center mb-16">
-                        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+                    <div className="text-center mb-6">
+                        <h1 className="text-4xl md:text-3xl font-extrabold mb-4">
                             <span className="bg-gradient-to-r from-red-600 via-black to-blue-600 bg-clip-text text-transparent">
-                                Get In Touch With Us
+                                <TypingText text="Get In Touch With Us"/>
                             </span>
                         </h1>
                         <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -111,7 +110,7 @@ export const ContactLanding = () => {
                                             <div>
                                                 <h3 className="font-semibold text-gray-700">Email Address</h3>
                                                 <p 
-                                                    className="text-blue-600 cursor-pointer hover:underline mt-1"
+                                                    className="text-blue-600 font-bold cursor-pointer hover:underline mt-1"
                                                     onClick={() => {
                                                         navigator.clipboard.writeText("business.prepnerdz@gmail.com");
                                                         toast.success('Email copied to clipboard!');
@@ -128,7 +127,7 @@ export const ContactLanding = () => {
                                             </div>
                                             <div>
                                                 <h3 className="font-semibold text-gray-700">Phone</h3>
-                                                <p className="text-gray-600 mt-1">+1 (123) 456-7890</p>
+                                                <p className="text-gray-600 mt-1">+91 86020 61128</p>
                                             </div>
                                         </div>
                                     </div>
@@ -139,7 +138,7 @@ export const ContactLanding = () => {
                                     <div className="flex gap-4">
                                         <button 
                                             onClick={() => window.open("https://www.instagram.com/___shubhashish___")}
-                                            className="bg-pink-100 hover:bg-pink-200 p-3 rounded-full transition-colors"
+                                            className="bg-pink-100 cursor-pointer hover:-translate-y-1 hover:bg-pink-200 p-3 rounded-full transition-all duration-500"
                                             aria-label="Instagram"
                                         >
                                             <Instagram className="size-6 text-pink-600" />
@@ -147,7 +146,7 @@ export const ContactLanding = () => {
                                         
                                         <button 
                                             onClick={() => window.open("https://www.x.com/__Shubhashish__")}
-                                            className="bg-black hover:bg-gray-800 p-3 rounded-full transition-colors"
+                                            className="bg-black cursor-pointer hover:-translate-y-1 hover:bg-gray-800 p-3 rounded-full transition-all duration-500"
                                             aria-label="Twitter"
                                         >
                                             <X className="size-6 text-white" />
@@ -155,7 +154,7 @@ export const ContactLanding = () => {
                                         
                                         <button 
                                             onClick={() => window.open("https://www.linkedin.com/in/Shubhashish-Chakraborty")}
-                                            className="bg-blue-100 hover:bg-blue-200 p-3 rounded-full transition-colors"
+                                            className="bg-blue-100 cursor-pointer hover:-translate-y-1 hover:bg-blue-200 p-3 rounded-full transition-all duration-500"
                                             aria-label="LinkedIn"
                                         >
                                             <Linkedin className="size-6 text-blue-600" />
@@ -277,7 +276,7 @@ export const ContactLanding = () => {
                                 </div>
                                 
                                 <div className="bg-blue-50 rounded-xl p-6 border border-blue-100">
-                                    <h3 className="font-bold text-blue-800 mb-2 flex items-center">
+                                    <h3 className="font-bold animate-pulse text-blue-800 mb-2 flex items-center">
                                         <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path>
                                         </svg>
@@ -285,7 +284,7 @@ export const ContactLanding = () => {
                                     </h3>
                                     <ul className="text-blue-700 list-disc pl-5 space-y-1">
                                         <li>Our team will review your message within 48 hours</li>
-                                        <li>We'll contact you using the email or phone number provided</li>
+                                        <li>We&apos;ll contact you using the email or phone number provided</li>
                                         <li>All inquiries are handled with confidentiality</li>
                                     </ul>
                                 </div>
