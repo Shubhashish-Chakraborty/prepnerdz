@@ -1,26 +1,27 @@
 import { ReactElement, MouseEvent } from "react";
 
-const colorVariants = {
-    yellow: "bg-[#ffbf23] hover:bg-black hover:text-[#ffbf23] font-bold text-xl border border-black",
-    red: "hover:bg-[#900603] text-white bg-red-600 font-bold text-xl border border-black",
-    blue: "bg-[#1E90FF] text-white hover:bg-blue-600 font-bold text-xl border border-black",
-    black_yellow: "bg-black text-white text-xl font-bold hover:bg-[#ffbf23] hover:text-black border border-black",
-    black_green: "bg-black text-white text-xl font-bold hover:bg-[#cef261] hover:text-black border border-black"
-}
+const variantStyles = {
+  primary: 'bg-blue-600 text-white hover:bg-blue-700',
+  secondary: 'bg-gray-200 text-black hover:bg-gray-300',
+  danger: 'bg-red-500 text-white hover:bg-red-600',
+  ghost: 'bg-transparent border border-gray-400 text-gray-800 hover:bg-gray-100',
+};
+
 
 const sizeVariants = {
-    small: "p-1",
-    medium: "p-2",
-    large: "p-3"
-}
+  sm: "p-1",
+  md: "p-2",
+  lg: "p-3",
+};
+
 
 const defaultButtonStyles = "cursor-pointer flex items-center justify-center space-x-2 transition-all duration-300 rounded-xl";
 
 const disabledStyles = "opacity-50 cursor-not-allowed";
 
 interface ButtonProps {
-    colorVariant: "yellow" | "red" | "black_yellow" | "black_green" | "blue";
-    sizeVariant: "small" | "medium" | "large";
+    variant?: "primary" | "secondary" | "danger" | "ghost";
+    size?: "sm" | "md" | "lg";
     text: string;
     onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
     startIcon?: ReactElement;
@@ -31,8 +32,8 @@ interface ButtonProps {
 }
 
 export const Button = ({
-    colorVariant,
-    sizeVariant,
+    variant = "primary",
+    size = "md",
     text,
     onClick,
     startIcon,
@@ -46,8 +47,8 @@ export const Button = ({
             type={type}
             className={`
                 ${defaultButtonStyles}
-                ${colorVariants[colorVariant]}
-                ${sizeVariants[sizeVariant]}
+                ${variantStyles[variant]}
+                ${sizeVariants[size]}
                 ${disabled ? disabledStyles : ''}
                 ${className}
             `}
