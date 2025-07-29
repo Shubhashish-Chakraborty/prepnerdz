@@ -10,9 +10,9 @@ const colorVariants = {
 
 
 const sizeVariants = {
-  small: "px-2 py-1 text-xs rounded-sm",
-  medium: "px-5 py-3 text-base rounded-md",
-  large: "px-8 py-5 text-2xl rounded-lg",
+  small: "px-2 py-2 text-xs rounded-sm",
+  medium: "px-3 py-2 rounded-md",
+  large: "px-6 py-3 text-xl rounded-lg",
 };
 
 

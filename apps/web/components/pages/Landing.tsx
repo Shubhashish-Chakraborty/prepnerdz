@@ -328,7 +328,7 @@ export const HomeLanding = () => {
 
                                     {/* Action Buttons */}
                                     <div className="flex md:justify-start justify-center gap-4">
-                                        <div>
+                                        <div className="md:hidden block">
                                             <Button
                                                 colorVariant="black_green"
                                                 sizeVariant="small"
@@ -337,7 +337,16 @@ export const HomeLanding = () => {
                                                 onClick={() => setIsSignupOpen(true)}
                                             />
                                         </div>
-                                        <div>
+                                        <div className="md:block hidden">
+                                            <Button
+                                                colorVariant="black_green"
+                                                sizeVariant="medium"
+                                                text="Get Started"
+                                                endIcon={<EnterDoor className="size-6" />}
+                                                onClick={() => setIsSignupOpen(true)}
+                                            />
+                                        </div>
+                                        <div className="md:hidden block">
                                             <Link href={"/about"}>
                                                 <Button
                                                     colorVariant="yellow"
@@ -348,9 +357,19 @@ export const HomeLanding = () => {
                                             </Link>
                                         </div>
                                         <div className="md:block hidden">
+                                            <Link href={"/about"}>
+                                                <Button
+                                                    colorVariant="yellow"
+                                                    sizeVariant="medium"
+                                                    endIcon={<Globe className="size-6" />}
+                                                    text="Explore Features"
+                                                />
+                                            </Link>
+                                        </div>
+                                        <div className="md:block hidden">
                                             <Button
                                                 colorVariant="blue"
-                                                sizeVariant="small"
+                                                sizeVariant="medium"
                                                 text="How to use"
                                                 endIcon={<Question className="size-6" />}
                                                 onClick={() => {
@@ -440,7 +459,7 @@ export const HomeLanding = () => {
 
                                                 <div className="flex justify-center">
                                                     <Button
-                                                        sizeVariant="small"
+                                                        sizeVariant="medium"
                                                         colorVariant="yellow"
                                                         onClick={handleSearch}
                                                         disabled={loading}
