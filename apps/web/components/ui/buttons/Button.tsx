@@ -8,11 +8,13 @@ const colorVariants = {
     black_green: "bg-black text-white text-xl font-bold hover:bg-[#cef261] hover:text-black border border-black"
 }
 
+
 const sizeVariants = {
-    small: "p-1",
-    medium: "p-2",
-    large: "p-3"
-}
+  small: "px-2 py-2 text-xs rounded-sm",
+  medium: "px-3 py-2 rounded-md",
+  large: "px-6 py-3 text-xl rounded-lg",
+};
+
 
 const defaultButtonStyles = "cursor-pointer flex items-center justify-center space-x-2 transition-all duration-300 rounded-xl";
 
