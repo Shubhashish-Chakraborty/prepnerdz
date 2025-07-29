@@ -262,6 +262,16 @@ export const Navbar = () => {
                                         Contact us
                                     </span>
                                 </Link>
+                                
+                                <Link
+                                    href="/contributors"
+                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                    onClick={closeAllDropdowns}
+                                >
+                                    <span className="hover:text-black hover:bg-purple-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                        Contributors
+                                    </span>
+                                </Link>
                             </div>
                         </div>
 
