@@ -24,7 +24,7 @@ async function getContributors(): Promise<Contributor[]> {
                 headers: {
                     Accept: "application/vnd.github.v3+json",
                 },
-                next: { revalidate: 600 }, // 10 minutes
+                next: { revalidate: 60 }, // 1 minutes
             }
         );
 
