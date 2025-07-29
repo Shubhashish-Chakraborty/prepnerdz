@@ -13,7 +13,7 @@ import { Button } from "../ui/buttons/Button";
 import { Footer } from "../ui/Footer";
 import { MessageSend } from "@/icons/MessageSend";
 import Link from "next/link";
-import { Mail, MapPin, Clock, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 export const ContactLanding = () => {
     const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ export const ContactLanding = () => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/contact/to-db`, formData);
             if (response.status === 200) {
-                toast.success("Thankss!, We'll get back to you within 24 hours!");
+                toast.success("Thankss!, We'll get back to you within 48 hours!");
                 setFormData({
                     fullName: "",
                     email: "",
@@ -101,7 +101,7 @@ export const ContactLanding = () => {
                         <div className="w-full lg:w-2/5">
                             <div className="bg-white rounded-2xl shadow-lg p-8 h-full">
                                 <div className="mb-8">
-                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Contact Information</h2>
+                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Lets Get In Touch</h2>
                                     
                                     <div className="space-y-5">
                                         <div className="flex items-start gap-4">
@@ -129,26 +129,6 @@ export const ContactLanding = () => {
                                             <div>
                                                 <h3 className="font-semibold text-gray-700">Phone</h3>
                                                 <p className="text-gray-600 mt-1">+1 (123) 456-7890</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-gray-100 p-3 rounded-full">
-                                                <MapPin className="text-blue-600 w-5 h-5" />
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-gray-700">Office Location</h3>
-                                                <p className="text-gray-600 mt-1">123 Startup Lane, Tech City, TC 10001</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="flex items-start gap-4">
-                                            <div className="bg-gray-100 p-3 rounded-full">
-                                                <Clock className="text-blue-600 w-5 h-5" />
-                                            </div>
-                                            <div>
-                                                <h3 className="font-semibold text-gray-700">Working Hours</h3>
-                                                <p className="text-gray-600 mt-1">Monday - Friday: 9AM - 5PM</p>
                                             </div>
                                         </div>
                                     </div>
@@ -203,7 +183,7 @@ export const ContactLanding = () => {
                             <div className="bg-white rounded-2xl shadow-lg p-8 h-full">
                                 <div className="mb-8">
                                     <h2 className="text-2xl font-bold mb-2 text-gray-800">Send Us a Message</h2>
-                                    <p className="text-gray-600 mb-6">Fill out the form below and our team will get back to you within 24 hours.</p>
+                                    <p className="text-gray-600 mb-6">Fill out the form below and our team will get back to you within 48 hours.</p>
                                     
                                     <form onSubmit={handleSubmit} className="space-y-6">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -217,7 +197,7 @@ export const ContactLanding = () => {
                                                     value={formData.fullName}
                                                     onChange={handleChange}
                                                     required
-                                                    placeholder="John Doe"
+                                                    placeholder="Your Name"
                                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                                 />
                                             </div>
@@ -232,7 +212,7 @@ export const ContactLanding = () => {
                                                     value={formData.email}
                                                     onChange={handleChange}
                                                     required
-                                                    placeholder="john@example.com"
+                                                    placeholder="Your Email"
                                                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                                 />
                                             </div>
@@ -247,7 +227,7 @@ export const ContactLanding = () => {
                                                 id="contactNumber"
                                                 value={formData.contactNumber}
                                                 onChange={handleChange}
-                                                placeholder="(123) 456-7890"
+                                                placeholder="Your Phone Number"
                                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                             />
                                         </div>
@@ -273,8 +253,8 @@ export const ContactLanding = () => {
                                                 disabled={isSubmitting}
                                                 className={`w-full flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium transition-all ${
                                                     isSubmitting 
-                                                        ? "bg-gray-400 cursor-not-allowed" 
-                                                        : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                                        ? "bg-gray-700 cursor-not-allowed" 
+                                                        : "bg-gray-900 hover:bg-black"
                                                 }`}
                                             >
                                                 {isSubmitting ? (
@@ -304,7 +284,7 @@ export const ContactLanding = () => {
                                         What to expect next?
                                     </h3>
                                     <ul className="text-blue-700 list-disc pl-5 space-y-1">
-                                        <li>Our team will review your message within 24 hours</li>
+                                        <li>Our team will review your message within 48 hours</li>
                                         <li>We'll contact you using the email or phone number provided</li>
                                         <li>All inquiries are handled with confidentiality</li>
                                     </ul>
