@@ -123,9 +123,8 @@ export const Landing = () => {
                         <div className='flex flex-col justify-center items-center'>
                             <div>
                                 <button
-                                    onClick={handleLogout}
-                                    className="bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-xl text-white font-semibold"
-                                >
+                                    className="logout-btn bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-xl text-white font-semibold"
+                                    onClick={handleLogout}>
                                     Logout
                                 </button>
                             </div>
@@ -148,7 +147,7 @@ export const Landing = () => {
 
                             <button
                                 onClick={handleLogout}
-                                className="bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-xl text-white font-semibold"
+                                className=" logout-btn bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-xl text-white font-semibold"
                             >
                                 Logout
                             </button>

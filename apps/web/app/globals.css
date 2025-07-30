@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+
+/* === Keyframes & Animations (unchanged) === */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -10,209 +12,291 @@
     transform: translateY(0);
   }
 }
+.animate-fade-in-up { animation: fadeInUp 0.8s ease-out; }
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out;
-}
-
-/* Custom animations */
 @keyframes slide-in-from-top {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes slide-in-from-bottom {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-.animate-in {
-  animation-fill-mode: both;
-}
-
-.slide-in-from-top-2 {
-  animation: slide-in-from-top 0.2s ease-out;
-}
-
-.slide-in-from-top-4 {
-  animation: slide-in-from-top 0.4s ease-out;
-}
-
-.slide-in-from-top-6 {
-  animation: slide-in-from-top 0.6s ease-out;
-}
-
-.slide-in-from-bottom-4 {
-  animation: slide-in-from-bottom 0.4s ease-out;
-}
-
-.slide-in-from-bottom-6 {
-  animation: slide-in-from-bottom 0.6s ease-out;
-}
-
-.slide-in-from-bottom-8 {
-  animation: slide-in-from-bottom 0.8s ease-out;
-}
-
-.slide-in-from-bottom-10 {
-  animation: slide-in-from-bottom 1s ease-out;
-}
-
-.slide-in-from-bottom-12 {
-  animation: slide-in-from-bottom 1.2s ease-out;
-}
+.animate-in { animation-fill-mode: both; }
+.slide-in-from-top-2  { animation: slide-in-from-top 0.2s ease-out; }
+.slide-in-from-top-4  { animation: slide-in-from-top 0.4s ease-out; }
+.slide-in-from-top-6  { animation: slide-in-from-top 0.6s ease-out; }
+.slide-in-from-bottom-4  { animation: slide-in-from-bottom 0.4s ease-out; }
+.slide-in-from-bottom-6  { animation: slide-in-from-bottom 0.6s ease-out; }
+.slide-in-from-bottom-8  { animation: slide-in-from-bottom 0.8s ease-out; }
+.slide-in-from-bottom-10 { animation: slide-in-from-bottom 1s ease-out; }
+.slide-in-from-bottom-12 { animation: slide-in-from-bottom 1.2s ease-out; }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 3px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
+::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
 
 /* Left and right animations */
 @keyframes scroll-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(-100% - 1rem));
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% - 1rem)); }
 }
-
 @keyframes scroll-right {
-  from {
-    transform: translateX(calc(-100% - 1rem));
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(calc(-100% - 1rem)); }
+  to   { transform: translateX(0); }
 }
-
-/* Animation classes */
-.animate-scroll-left {
-  animation: scroll-left var(--animation-duration, 40s) linear infinite;
-}
-
-.animate-scroll-right {
-  animation: scroll-right var(--animation-duration, 40s) linear infinite;
-}
-
+.animate-scroll-left  { animation: scroll-left var(--animation-duration, 40s) linear infinite; }
+.animate-scroll-right { animation: scroll-right var(--animation-duration, 40s) linear infinite; }
 /* Speed classes */
-.duration-20s {
-  --animation-duration: 20s;
-}
-
-.duration-40s {
-  --animation-duration: 40s;
-}
-
-.duration-60s {
-  --animation-duration: 60s;
-}
+.duration-20s { --animation-duration: 20s; }
+.duration-40s { --animation-duration: 40s; }
+.duration-60s { --animation-duration: 60s; }
 
 /* Ensure scroller children don't break layout */
-.scroller li {
-  flex-shrink: 0;
-}
+.scroller li { flex-shrink: 0; }
 
 @keyframes slow-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
+.animate-slow-spin { animation: slow-spin 10s linear infinite; }
 
-.animate-slow-spin {
-  animation: slow-spin 10s linear infinite;
-}
-
-.floating-card {
-  animation: float 6s ease-in-out infinite;
-}
-
-.floating-card:nth-child(2n) {
-  animation-delay: -2s;
-}
-
-.floating-card:nth-child(3n) {
-  animation-delay: -4s;
-}
-
+.floating-card { animation: float 6s ease-in-out infinite; }
+.floating-card:nth-child(2n) { animation-delay: -2s; }
+.floating-card:nth-child(3n) { animation-delay: -4s; }
 @keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  33% {
-    transform: translateY(-10px) rotate(0.5deg);
-  }
-  66% {
-    transform: translateY(-5px) rotate(-0.5deg);
-  }
+  0%,100% { transform: translateY(0px) rotate(0deg);}
+  33%     { transform: translateY(-10px) rotate(0.5deg);}
+  66%     { transform: translateY(-5px) rotate(-0.5deg);}
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .floating-card {
-    animation: none;
-  }
+  .floating-card { animation: none; }
 }
 
-/* for not found wink component */
-
+/* For Not Found Wink Component */
 @keyframes wink {
-  0% {
-    width: 48px;
-    height: 10px;
-    rotate: -25deg;
-    margin-top: 10px;
-  }
-  12.5% {
-    width: 48px;
-    height: 10px;
-    rotate: -45deg;
-    margin-top: 5px;
-  }
-  25%,
-  37.5%,
-  50%,
-  62.5%,
-  75%,
-  87.5% {
-    width: 48px;
-    height: 48px;
-  }
-  100% {
-    width: 48px;
-    height: 48px;
-    rotate: 0deg;
-  }
+  0%   { width: 48px; height: 10px; rotate: -25deg; margin-top: 10px;}
+  12.5%{ width: 48px; height: 10px; rotate: -45deg; margin-top: 5px;}
+  25%, 37.5%, 50%, 62.5%, 75%, 87.5%
+      { width: 48px; height: 48px; }
+  100% { width: 48px; height: 48px; rotate: 0deg; }
+}
+.animate-wink { animation: wink 1.8s infinite; }
+
+/* === Base Light Mode Styles === */
+body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.animate-wink {
-  animation: wink 1.8s infinite;
+.dark-mode body {
+  background-color: #0f0f0f;
+  color: #f1f1f1;
+}
+
+.dark-mode ::-webkit-scrollbar-track { background: #1a1a1a; }
+.dark-mode ::-webkit-scrollbar-thumb { background: #555; }
+.dark-mode ::-webkit-scrollbar-thumb:hover { background: #777; }
+
+.dark-mode,
+.dark-mode * {
+  color: #f1f1f1 !important;
+}
+.dark-mode button,
+.dark-mode a {
+  color: #f1f1f1 !important;
+  background-color: #333 !important;
+  border-color: #555 !important;
+}
+.dark-mode svg,
+.dark-mode .icon {
+  fill: #f1f1f1 !important;
+  stroke: #f1f1f1 !important;
+}
+
+.navbar {
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(14px);
+  color: #18181b;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+  transition: background 0.3s, color 0.3s;
+}
+.dark-mode .navbar {
+  background: rgba(20,20,28,0.88) !important;
+  backdrop-filter: blur(18px) !important;
+  color: #f3f3f3 !important;
+  border: 1px solid rgba(100,100,120,0.17);
+}
+.dark-mode .navbar a,
+.dark-mode .navbar button,
+.dark-mode .navbar svg,
+.dark-mode .navbar [class*="text-gray-"] {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+.dark-mode .navbar a:hover,
+.dark-mode .navbar button:hover { color: #f59e0b !important; }
+.dark-mode .navbar .bg-white\/95,
+.dark-mode .navbar .bg-white\/10 { background: rgba(50,50,60,0.94) !important; }
+.dark-mode .navbar .lg\:hidden {
+  background: rgba(25,25,28,0.98) !important;
+  backdrop-filter: blur(8px) !important;
+}
+.navbar button, .navbar a.button-like {
+  background-color: transparent !important;
+  color: #000 !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.dark-mode .navbar button, .dark-mode .navbar a.button-like {
+  color: #f1f1f1 !important;
+}
+.navbar button:hover, .navbar a.button-like:hover {
+  color: #f59e0b !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.navbar button:focus, .navbar a.button-like:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+.navbar { background-color: transparent !important; box-shadow: none !important; }
+.dark-mode input[type="text"],
+.dark-mode input[type="search"],
+.dark-mode input.search-box {
+  background-color: #23272f !important;
+  color: #f1f1f1 !important;
+  border: 1.5px solid #555 !important;
+  caret-color: #f59e0b !important; 
+}
+.dark-mode input::placeholder {
+  color: #adadad !important;
+  opacity: 1 !important;
+}
+.dark-mode select,
+.dark-mode select.search-select {
+  background-color: #23272f !important;
+  color: #f1f1f1 !important;
+  border: 1.5px solid #555 !important;
+  caret-color: #f59e0b !important;
+}
+.dark-mode select option {
+  background-color: #23272f;
+  color: #f1f1f1;
+}
+.dark-mode button {
+  background-color: #333 !important;
+  color: #f1f1f1 !important;
+  border: 1.5px solid #555 !important;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.dark-mode button:hover {
+  background-color: #f59e0b !important;
+  color: #1f1f1f !important;
+}
+.dark-mode .relative > svg,
+.dark-mode .search-icon {
+  color: #999 !important;
+  fill: #f1f1f1 !important;
+  stroke: #f1f1f1 !important;
+}
+.dark-mode .searchbox-black-text { color: #000 !important; }
+.dark-mode .cta-black-text { color: #000 !important; }
+.dark-mode .bg-purple-50      { background-color: #6d28d9 !important; }
+.dark-mode .border-purple-200 { border-color: #a78bfa !important; }
+.dark-mode .bg-blue-50        { background-color: #1e3a8a !important; }
+.dark-mode .border-blue-200   { border-color: #60a5fa !important; }
+.dark-mode .bg-green-50       { background-color: #166534 !important; }
+.dark-mode .border-green-200  { border-color: #6ee7b7 !important; }
+.dark-mode .bg-orange-50      { background-color: #b45309 !important; }
+.dark-mode .border-orange-200 { border-color: #fbbf24 !important; }
+.dark-mode .bg-gray-50        { background-color: #23272f !important; }
+.dark-mode .border-gray-200   { border-color: #777 !important; }
+.dark-mode .feature-card,
+.dark-mode .feature-card * {
+  color: #fff !important;
+}
+.dark-mode .bg-purple-50,
+.dark-mode .bg-blue-50,
+.dark-mode .bg-green-50,
+.dark-mode .bg-orange-50 {
+  color: #fff !important;
+}
+.dark-mode .mb-16 > .grid > div,
+.dark-mode .what-we-do-section > .grid > div {
+  background-color: #1a1a1a !important;
+  border-color: #333 !important;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.8) !important;
+}
+.dark-mode .mb-16 > .grid > div h3,
+.dark-mode .what-we-do-section > .grid > div h3 {
+  color: #f1f1f1 !important;
+}
+.dark-mode .mb-16 > .grid > div p,
+.dark-mode .what-we-do-section > .grid > div p {
+  color: #d4d4d4 !important;
+}
+.dark-mode .mb-16 > .grid > div svg.size-10,
+.dark-mode .what-we-do-section > .grid > div svg.size-10 {
+  color: #60a5fa !important;
+}
+.dark-mode .mb-16 > span.bg-gradient-to-r,
+.dark-mode .what-we-do-section > span.bg-gradient-to-r {
+  background-image: linear-gradient(to right, #f87171, #ddd, #3b82f6) !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.dark-mode .mb-16 > span.bg-gradient-to-r:hover,
+.dark-mode .what-we-do-section > span.bg-gradient-to-r:hover {
+  text-decoration-color: #22d3ee !important;
+}
+.dark-mode .footer-root {
+  background: #121212 !important;
+}
+.dark-mode .footer-root > .absolute {
+  opacity: 0 !important;
+}
+.dark-mode .footer-root,
+.dark-mode .footer-root h3,
+.dark-mode .footer-root p,
+.dark-mode .footer-root a,
+.dark-mode .footer-root .text-gray-700,
+.dark-mode .footer-root .text-gray-900,
+.dark-mode .footer-root .text-gray-600 {
+  color: #f1f1f1 !important;
+}
+.dark-mode .footer-root a:hover {
+  color: #f59e0b !important;
+}
+.dark-mode .navbar .dropdown-menu-item {
+  background: transparent !important;
+  color: #f1f1f1 !important;
+}
+.dark-mode .navbar .dropdown-menu-item:hover {
+  background: #23272f !important;
+  color: #fff !important;
+  transition: background 0.18s, color 0.18s;
+}
+.dark-mode .navbar .logout-btn,
+.dark-mode .logout-btn {
+  background: #b91c1c !important;    
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.dark-mode .navbar .logout-btn:hover,
+.dark-mode .logout-btn:hover {
+  background: #dc2626 !important;    
+  color: #fff !important;
 }
