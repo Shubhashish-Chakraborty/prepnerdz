@@ -1,4 +1,4 @@
-## 🔍 Overview
+## Overview
 
 Please provide a concise description of the changes introduced in this pull request. Mention the motivation and the context where applicable.
 
