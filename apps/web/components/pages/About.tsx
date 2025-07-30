@@ -19,6 +19,7 @@ import { Footer } from "../ui/Footer";
 import { useState } from "react";
 import { LoginModal } from "../modals/Login";
 import { SignupModal } from "../modals/Signup";
+import Image from "next/image";
 
 const features = [
     {
@@ -125,34 +126,39 @@ export const AboutLanding = () => {
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-                        {/* <div className="mb-10">
-                            <Image
-                                src="/about-banner.png"
-                                alt="PrepNerdz team collaboration"
-                                width={600}
-                                height={600}
-                                className="rounded-lg shadow-md object-cover"
-                            />
-                        </div> */}
+                        
+                        <div className="flex justify-center items-center mb-10 flex-col md:flex-row md:space-x-10">
+                            <div className="md:mb-0 mb-8">
+                                <Image
+                                    src={"/about-banner.png"}
+                                    alt="About PrepNerdz Banner"
+                                    width={350}
+                                    height={350}
+                                    className="rounded-lg shadow-md hover:scale-105 transition-all duration-300 cursor-pointer"
+                                />
+                            </div>
 
-                        <motion.section
-                            initial={{ opacity: 0, y: 60 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            className="text-center mb-16"
-                        >
-                            <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
-                                What is PrepNerdz?
-                            </h2>
+                            <div>
+                                <motion.section
+                                    initial={{ opacity: 0, y: 60 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8 }}
+                                    className="text-center mb-16"
+                                >
+                                    <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
+                                        What is PrepNerdz?
+                                    </h2>
 
-                            <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
-                                PrepNerdz is an open-source, student-driven platform that helps future developers learn, build, and grow together by providing curated academic resources, project support, and real world collaboration opportunities.
-                            </p>
-                        </motion.section>
+                                    <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
+                                        PrepNerdz is an open-source, student-driven platform that helps future developers learn, build, and grow together by providing curated academic resources, project support, and real world collaboration opportunities.
+                                    </p>
+                                </motion.section>
+                            </div>
+                        </div>
 
 
 
-                        <motion.section
+                        {/* <motion.section
                             animate={{ scale: [1, 1.05, 1] }}
                             transition={{
                                 duration: 0.5,
@@ -173,7 +179,7 @@ export const AboutLanding = () => {
                                 <li>💬 Live community Q&A now on Discord</li>
                                 <li>🛠️ Bug fixes and faster file uploads</li>
                             </ul>
-                        </motion.section>
+                        </motion.section> */}
 
 
 
