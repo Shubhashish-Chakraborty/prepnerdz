@@ -391,8 +391,8 @@ export const HomeLanding = () => {
                                     <Card className="p-4 md:p-6 shadow-xl border-0 backdrop-blur-sm">
                                         <div className="space-y-4">
                                             <div className="text-center">
-                                                <h3 className="text-lg md:text-xl font-semibold mb-2">Find Your Resources</h3>
-                                                <p className="text-gray-600 text-sm">Search from thousands of verified academic materials</p>
+                                                <h3 className=" searchbox-black-text text-lg md:text-xl font-semibold mb-2">Find Your Resources</h3>
+                                                <p className=" searchbox-black-text text-gray-600 text-sm">Search from thousands of verified academic materials</p>
                                             </div>
 
                                             <div className="space-y-3">

@@ -190,8 +190,8 @@ export const AboutLanding = () => {
 
                         {/* Call to Action */}
                         <div className="bg-cyan-200 rounded-xl p-8 text-center">
-                            <h2 className="text-2xl font-bold text-black mb-4">Ready to boost your grades?</h2>
-                            <p className="text-black mb-6 max-w-2xl mx-auto">
+                            <h2 className=" cta-black-text text-2xl font-bold text-black mb-4">Ready to boost your grades?</h2>
+                            <p className="cta-black-text mb-6 max-w-2xl mx-auto">
                                 Join thousands of students who are already acing their exams with PrepNerdz
                             </p>
                             <div className="flex justify-center">

@@ -81,9 +81,12 @@ export const Footer = () => {
     return (
         <div
             ref={footerRef}
-            className={`relative min-h-[400px] transition-all duration-1000 ease-out ${isVisible ? "backdrop-blur-xl  border-t border-gray-200/60 shadow-2xl" : "bg-transparent"
-                }`}
-        >
+  className={`footer-root relative min-h-[400px] transition-all duration-1000 ease-out ${
+    isVisible
+      ? "backdrop-blur-xl  border-t border-gray-200/60 shadow-2xl"
+      : "bg-transparent"
+  }`}
+>
             {/* Animated background gradient */}
             <div
                 className={`absolute inset-0 bg-gradient-to-br from-blue-100/40 via-purple-100/40 to-pink-100/40 transition-opacity duration-1000 ${isVisible ? "opacity-100" : "opacity-0"
