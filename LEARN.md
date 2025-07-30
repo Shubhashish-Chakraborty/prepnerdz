@@ -145,6 +145,7 @@ This section documents the available API endpoints.
 - `POST /me`: Get the profile of the currently loggedIn user.
 - `PUT /update-username`: Update the username of the currently loggedIn user.
 - `PUT /update-contact`: Update the contact number of the currently loggedIn user.
+- `PUT /direct-otp-verification`: Directly verify OTP (for quick verification without additional prerequisites).
 
 ### Google & Github Oauth2 (`/auth`) [OauthRoutes](./apps/backend/src/oauth/main.ts)
 
@@ -152,10 +153,76 @@ This section documents the available API endpoints.
 - `GET /google/callback`: Google Oauth2 Callback
 - `GET /github`: Github Oauth2 Login
 - `GET /github/callback`: Github Oauth2 Callback
+- `GET /logout`: Logout (clear authentication token cookie and redirect to homepage).
+- `GET /failure`: Handle authentication failure (return error message with 401 status code).
 
-> And So on, **The Complete API endpoints will be updated soon**
+### Avatar (`/api/v1/avatar`) [AvatarRouter](./apps/backend/src/routes/avatarRouter.ts)
 
----
+- `POST /upload`: Upload user avatar.
+- `GET /get-avatar`: Get user avatar.
+- `DELETE /delete-avatar`: Delete user avatar.
+
+### Contact (`/api/v1/contact`) [ContactRouter](./apps/backend/src/routes/contactRouter.ts)
+
+- `POST /`: Send message to email (submit contact form).
+- `POST /to-db`: Send message to database (store contact records).
+
+### Bookmark (`/api/v1/bookmark`) [bookmarkRouter](./apps/backend/src/routes/bookmarkRouter.ts)
+
+- `POST /`: Add a bookmark (associate with the current resource).
+- `DELETE /`: Remove a bookmark (disassociate from the resource).
+- `GET /user/:userId`: Get all bookmarks by user ID.
+
+### Course (`/api/v1/course`) [courseRouter](./apps/backend/src/routes/courseRouter.ts)
+
+- `POST /add`: (Admin) Add a course after request validation.
+- `GET /`: (Admin) Get all courses after request validation.
+
+### Branch (`/api/v1/branch`) [branchRouter](./apps/backend/src/routes/branchRouter.ts)
+
+- `POST /add`: (Admin) Add a branch (e.g., subject branch) after request validation.
+
+### Semester (`/api/v1/semester`) [semesterRouter](./apps/backend/src/routes/semesterRouter.ts)
+
+- `POST /add`: (Admin) Add a semester after request validation.
+
+### Subject (`/api/v1/subject`) [subjectRouter](./apps/backend/src/routes/subjectRouter.ts)
+
+- `POST /add`: (Admin) Add a subject after request validation.
+- `GET /all`: Get all subjects.
+
+### Resource (`/api/v1/resource`) [resourceRouter](./apps/backend/src/routes/resourceRouter.ts)
+
+- `POST /add`: (Admin) Add a resource (e.g., study material) after request validation.
+- `GET /`: Get all resources by type.
+
+### Search (`/api/v1/search`) [searchRouter](./apps/backend/src/routes/searchRouter.ts)
+
+- `GET /`: Handle search requests (returns matching results; user authentication will be added later in production).  
+- `GET /landing`: Handle landing page search requests (optimized for homepage scenarios; user authentication will be added later in production).  
+
+### GetMyId (`/api/v1/getmyid`) [getMyIdRouter](./apps/backend/src/routes/getMyIdRouter.ts)
+
+- `GET /branchid`: Get branch ID.
+- `GET /semesterid`: Get semester ID.
+
+### SuperAdmin (`/superadmin`) [superAdminRouter](./apps/backend/src/routes/superAdminRouter.ts)
+
+- `GET /getUsers`: (Super Admin) Get all user information after request validation.
+
+### Data (`/api/v1/db/data`) [dataRouter](./apps/backend/src/routes/dataRouter.ts)
+
+- `GET /courses`: (Admin) Get all course data.
+- `GET /branches/:courseId`: (Admin) Get branch data by course ID.
+- `GET /semesters/:branchId`: (Admin) Get semester data by branch ID.
+- `GET /subjects/:semesterId`: (Admin) Get subject data by semester ID.
+
+### Root & System (`/`) [Direct Endpoints](./apps/backend/src/index.ts)
+
+- `GET /`: Check if the server is running (returns a welcome message).  
+- `GET /users`: Get the total number of registered users (returns `totalUsers` count).  
+- `GET /health`: Check server health status (returns `healthy: true` for testing).
+
 
 ## Contributing
 
