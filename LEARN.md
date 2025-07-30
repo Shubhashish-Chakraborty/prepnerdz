@@ -156,61 +156,61 @@ This section documents the available API endpoints.
 - `GET /logout`: Logout (clear authentication token cookie and redirect to homepage).
 - `GET /failure`: Handle authentication failure (return error message with 401 status code).
 
-### Avatar (`/api/v1/avatar`) [AvatarRouter](./apps/backend/src/routes/avatarRouter.ts)
+### Avatar (`/api/v1/avatar`) [AvatarRouter](./apps/backend/src/routes/avatarRoutes.ts)
 
 - `POST /upload`: Upload user avatar.
 - `GET /get-avatar`: Get user avatar.
 - `DELETE /delete-avatar`: Delete user avatar.
 
-### Contact (`/api/v1/contact`) [ContactRouter](./apps/backend/src/routes/contactRouter.ts)
+### Contact (`/api/v1/contact`) [ContactRouter](./apps/backend/src/routes/contactRoutes.ts)
 
 - `POST /`: Send message to email (submit contact form).
 - `POST /to-db`: Send message to database (store contact records).
 
-### Bookmark (`/api/v1/bookmark`) [bookmarkRouter](./apps/backend/src/routes/bookmarkRouter.ts)
+### Bookmark (`/api/v1/bookmark`) [bookmarkRouter](./apps/backend/src/routes/bookmarkRoutes.ts)
 
 - `POST /`: Add a bookmark (associate with the current resource).
 - `DELETE /`: Remove a bookmark (disassociate from the resource).
 - `GET /user/:userId`: Get all bookmarks by user ID.
 
-### Course (`/api/v1/course`) [courseRouter](./apps/backend/src/routes/courseRouter.ts)
+### Course (`/api/v1/course`) [courseRouter](./apps/backend/src/routes/courseRoutes.ts)
 
 - `POST /add`: (Admin) Add a course after request validation.
 - `GET /`: (Admin) Get all courses after request validation.
 
-### Branch (`/api/v1/branch`) [branchRouter](./apps/backend/src/routes/branchRouter.ts)
+### Branch (`/api/v1/branch`) [branchRouter](./apps/backend/src/routes/branchRoutes.ts)
 
 - `POST /add`: (Admin) Add a branch (e.g., subject branch) after request validation.
 
-### Semester (`/api/v1/semester`) [semesterRouter](./apps/backend/src/routes/semesterRouter.ts)
+### Semester (`/api/v1/semester`) [semesterRouter](./apps/backend/src/routes/semesterRoutes.ts)
 
 - `POST /add`: (Admin) Add a semester after request validation.
 
-### Subject (`/api/v1/subject`) [subjectRouter](./apps/backend/src/routes/subjectRouter.ts)
+### Subject (`/api/v1/subject`) [subjectRouter](./apps/backend/src/routes/subjectRoutes.ts)
 
 - `POST /add`: (Admin) Add a subject after request validation.
 - `GET /all`: Get all subjects.
 
-### Resource (`/api/v1/resource`) [resourceRouter](./apps/backend/src/routes/resourceRouter.ts)
+### Resource (`/api/v1/resource`) [resourceRouter](./apps/backend/src/routes/resourceRoutes.ts)
 
 - `POST /add`: (Admin) Add a resource (e.g., study material) after request validation.
 - `GET /`: Get all resources by type.
 
-### Search (`/api/v1/search`) [searchRouter](./apps/backend/src/routes/searchRouter.ts)
+### Search (`/api/v1/search`) [searchRouter](./apps/backend/src/routes/searchRoutes.ts)
 
 - `GET /`: Handle search requests (returns matching results; user authentication will be added later in production).  
 - `GET /landing`: Handle landing page search requests (optimized for homepage scenarios; user authentication will be added later in production).  
 
-### GetMyId (`/api/v1/getmyid`) [getMyIdRouter](./apps/backend/src/routes/getMyIdRouter.ts)
+### GetMyId (`/api/v1/getmyid`) [getMyIdRouter](./apps/backend/src/routes/getMyIdRoutes.ts)
 
 - `GET /branchid`: Get branch ID.
 - `GET /semesterid`: Get semester ID.
 
-### SuperAdmin (`/superadmin`) [superAdminRouter](./apps/backend/src/routes/superAdminRouter.ts)
+### SuperAdmin (`/superadmin`) [superAdminRouter](./apps/backend/src/routes/superAdminRoutes.ts)
 
 - `GET /getUsers`: (Super Admin) Get all user information after request validation.
 
-### Data (`/api/v1/db/data`) [dataRouter](./apps/backend/src/routes/dataRouter.ts)
+### Data (`/api/v1/db/data`) [dataRouter](./apps/backend/src/routes/dataRoutes.ts)
 
 - `GET /courses`: (Admin) Get all course data.
 - `GET /branches/:courseId`: (Admin) Get branch data by course ID.
