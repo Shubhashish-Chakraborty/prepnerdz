@@ -254,13 +254,15 @@ See our [Contributing Guide](CONTRIBUTING.md) for detailed setup instructions, d
 
 # Contact the Maintainer & the Mentors
 
-- **Maintainer/Mentor, Founder**: [Shubhashish](https://bento.me/imshubh) **(DM me wherever you want, iam active on X and linkedin, i will answer your queries)**
+- **Maintainer/Mentor, Founder**: [Shubhashish Chakraborty](https://bento.me/imshubh) **(DM me wherever you want, iam active on X and linkedin, i will answer your queries)**
 
   - Email: [shubhashish147@gmail.com](mailto:shubhashish@gmail.com)
   - [Twitter/X](https://twitter.com/__Shubhashish__)
   - [LinkedIn](https://www.linkedin.com/in/Shubhashish-Chakraborty)
 
-- _Other Maintainer's Details coming within 24 Hours, Stay Tuned!_
+- **Mentor**: [Unnati Pandit](https://www.linkedin.com/in/unnati-pandit-b83a68285/)
+  - Email: [unnati3704@gmail.com](mailto:unnati3704@gmail.com)
+  - [LinkedIn](https://www.linkedin.com/in/unnati-pandit-b83a68285/)
 
 ## License
 
