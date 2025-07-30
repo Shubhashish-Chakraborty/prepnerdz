@@ -19,6 +19,8 @@ import { Footer } from "../ui/Footer";
 import { useState } from "react";
 import { LoginModal } from "../modals/Login";
 import { SignupModal } from "../modals/Signup";
+import Image from "next/image";
+
 
 const features = [
     {
@@ -125,9 +127,61 @@ export const AboutLanding = () => {
                 {/* Main page content starts here in this div!!! */}
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-6xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+                     <div className="mb-10">
+                      <Image
+                       src="/images/about-banner.png"
+                       alt="PrepNerdz team collaboration"
+                       width={1200}
+                       height={400}
+                       className="rounded-lg shadow-md w-full object-cover"
+                      />
+                     </div>
+
+                     <motion.section
+                      initial={{ opacity: 0, y: 60 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8 }}
+                      className="text-center mb-16"
+                    >
+                      <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
+                         What is PrepNerdz?
+                      </h2>
+
+                        <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
+                            PrepNerdz is an open-source, student-driven platform that helps future developers learn, build, and grow together by providing curated academic resources, project support, and real world collaboration opportunities.
+                        </p>
+                     </motion.section>
+
+                     
+
+                     <motion.section
+                       animate={{ scale: [1, 1.05, 1] }}
+                       transition={{
+                         duration: 0.5,
+                         repeat: Infinity,
+                         repeatDelay: 0.5,
+                         ease: "easeInOut",
+                        }}
+                        className="text-center mb-16"
+                     >
+ 
+                       <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto">
+                         What's New on PrepNerdz?
+                       </h2>
+
+                         <ul className="mt-4 space-y-2 text-lg font-bold">
+                          <li>🔖 GSSoC 2025-friendly issue labels added</li>
+                          <li>📘 New curated notes section for Semester 3</li>
+                          <li>💬 Live community Q&A now on Discord</li>
+                          <li>🛠️ Bug fixes and faster file uploads</li>
+                         </ul>
+                    </motion.section>
+
+
+
                         {/* Hero Section */}
                         <div className="text-center mb-16">
-                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
+                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 ">
                                 <TypingText text="Why PrepNerdz exists?" />
                             </span>
                             <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
@@ -147,8 +201,8 @@ export const AboutLanding = () => {
 
                         {/* What We Do Section */}
                         <div className="mb-16 text-center">
-                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 cursor-pointer hover:underline">
-                                What we do .?
+                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 ">
+                                What We Do 🔧
                             </span>
                             <div className="grid mt-5 md:grid-cols-2 gap-8">
                                 <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
@@ -157,7 +211,7 @@ export const AboutLanding = () => {
                                     </div>
                                     <h3 className="text-xl font-semibold mb-3">Centralized Academic Resources</h3>
                                     <p className="text-black">
-                                        PrepNerdz brings together all your study materials - previous year papers, subject notes, lab manuals, and syllabus -
+                                        PrepNerdz brings together all your study materials previous year papers, subject notes, lab manuals, and syllabus
                                         in one organized platform. No more scavenging through WhatsApp groups or begging seniors for files!
                                     </p>
                                 </div>
@@ -181,31 +235,37 @@ export const AboutLanding = () => {
                                 className="my-12"
                             />
 
-                            {/* Community Story Section */}
-                        <div className="my-12 px-4 md:px-0 max-w-4xl mx-auto">
-                            <h2 className="text-3xl font-bold text-center text-red-600 mb-6">
-                              About PrepNerdz
-                            </h2>
-                            <p className="text-zinc-700 text-lg mb-4">
-                              <strong>PrepNerdz</strong> is a student-led community built to empower tomorrow’s developers with hands-on experience in tech, open source, and real-world collaboration.
-                            </p>
+                            {/* ➕ Community Story Section with animation and gradient heading */}
+                            <motion.div
+                               initial={{ opacity: 0, x: 50, scale: 0.9 }}
+                               animate={{ opacity: 1, x: 0, scale: 1 }}
+                               transition={{ duration: 0.8, ease: "easeOut" }}
+                               className="my-12 px-4 md:px-0 max-w-4xl mx-auto"
+                            >
+                              <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
+                         About PrepNerdz
+                      </h2>
+                              <p className="text-zinc-700 text-lg mb-4">
+                                <strong>PrepNerdz</strong> is a student led community built to empower tomorrow’s developers with hands-on experience in tech, open source, and real world collaboration.
+                              </p>
 
-                            <p className="text-zinc-700 text-lg mb-4">
-                               We started with a simple goal: to eliminate the chaos of scattered resources and provide students with a one-stop platform where everything — from notes to projects — is organized and accessible. No more random Google Drive folders or WhatsApp forwards.
-                            </p>
+                              <p className="text-zinc-700 text-lg mb-4">
+                               We started with a simple goal: to eliminate the chaos of scattered resources and provide students with a one-stop platform where everything from notes to projects  is organized and accessible. No more random Google Drive folders or WhatsApp forwards.
+                              </p>
 
-                             <p className="text-zinc-700 text-lg mb-4">
-                              Through open-source projects, curated study material, mentorship, and events like GSSoC and Hacktoberfest, PrepNerdz helps you learn by doing — not just reading.
-                            </p>
+                               <p className="text-zinc-700 text-lg mb-4">
+                              Through open source projects, curated study material, mentorship, and events like GSSoC and Hacktoberfest, PrepNerdz helps you learn by doing not just reading.
+                              </p>
 
-                             <p className="text-zinc-700 text-lg mb-4">
-                              If you're someone who’s tired of passive learning and ready to build, ship, and grow in public — welcome home.
-                            </p>
+                              <p className="text-zinc-700 text-lg mb-4">
+                              If you're someone who’s tired of passive learning and ready to build, ship, and grow in public, welcome home.
+                              </p>
 
-                             <p className="text-red-600 text-lg font-semibold italic mt-6">
-                              PrepNerdz — Shaping Tomorrow’s Developers.
-                            </p>
-                        </div>
+                              <p className="text-red-600 text-lg font-semibold italic mt-6">
+                              PrepNerdz:Shaping Tomorrow’s Developers.
+                              </p>
+                           </motion.div>
+                        
 
 
                             <div className="text-xl md:text-2xl font-black">
