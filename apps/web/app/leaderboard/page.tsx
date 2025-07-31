@@ -1,4 +1,7 @@
 import React from 'react';
+// FIX: Import Node.js modules 'fs' and 'path' for server-side file reading
+import fs from 'fs';
+import path from 'path';
 
 interface Contributor {
   username: string;
@@ -13,11 +16,27 @@ interface Contributor {
 
 async function getLeaderboard(): Promise<Contributor[]> {
   const isServer = typeof window === 'undefined';
-  const baseUrl = isServer
-    ? process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    : '';
-  const res = await fetch(`${baseUrl}/leaderboard.json`, { cache: 'no-store' });
-  if (!res.ok) return [];
+
+  if (isServer) {
+    try {
+      // Construct the full path to the file in the public directory.
+      const filePath = path.join(process.cwd(), 'public', 'leaderboard.json');
+      // Read the file's contents.
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      // Parse the JSON data and return it.
+      const data = JSON.parse(fileContents);
+      return data;
+    } catch (error) {
+      console.error('Error reading leaderboard file on server:', error);
+      return []; // Return an empty array if the file doesn't exist or there's an error.
+    }
+  }
+
+  const res = await fetch('/leaderboard.json', { cache: 'no-store' });
+  if (!res.ok) {
+    console.error('Failed to fetch leaderboard on client');
+    return [];
+  }
   return res.json();
 }
 
