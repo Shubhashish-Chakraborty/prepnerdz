@@ -5,9 +5,19 @@
     "merged_prs": 3,
     "level_3": 0,
     "level_2": 0,
+    "level_1": 3,
+    "normal_prs": 0,
+    "total_score": 12
+  },
+  {
+    "username": "raghavendra-24",
+    "avatar_url": "https://avatars.githubusercontent.com/u/118842369?v=4",
+    "merged_prs": 1,
+    "level_3": 1,
+    "level_2": 0,
     "level_1": 0,
-    "normal_prs": 3,
-    "total_score": 3
+    "normal_prs": 0,
+    "total_score": 10
   },
   {
     "username": "mohammadanas51",
@@ -15,9 +25,9 @@
     "merged_prs": 2,
     "level_3": 0,
     "level_2": 0,
-    "level_1": 0,
-    "normal_prs": 2,
-    "total_score": 2
+    "level_1": 2,
+    "normal_prs": 0,
+    "total_score": 8
   },
   {
     "username": "Varnika060306",
@@ -25,19 +35,19 @@
     "merged_prs": 2,
     "level_3": 0,
     "level_2": 0,
-    "level_1": 0,
-    "normal_prs": 2,
-    "total_score": 2
+    "level_1": 2,
+    "normal_prs": 0,
+    "total_score": 8
   },
   {
-    "username": "raghavendra-24",
-    "avatar_url": "https://avatars.githubusercontent.com/u/118842369?v=4",
+    "username": "harshjainh2j",
+    "avatar_url": "https://avatars.githubusercontent.com/u/141403634?v=4",
     "merged_prs": 1,
     "level_3": 0,
-    "level_2": 0,
+    "level_2": 1,
     "level_1": 0,
-    "normal_prs": 1,
-    "total_score": 1
+    "normal_prs": 0,
+    "total_score": 6
   },
   {
     "username": "Sanika2404",
@@ -45,9 +55,9 @@
     "merged_prs": 1,
     "level_3": 0,
     "level_2": 0,
-    "level_1": 0,
-    "normal_prs": 1,
-    "total_score": 1
+    "level_1": 1,
+    "normal_prs": 0,
+    "total_score": 4
   },
   {
     "username": "lilith887",
@@ -55,9 +65,9 @@
     "merged_prs": 1,
     "level_3": 0,
     "level_2": 0,
-    "level_1": 0,
-    "normal_prs": 1,
-    "total_score": 1
+    "level_1": 1,
+    "normal_prs": 0,
+    "total_score": 4
   },
   {
     "username": "Avanti2023",
@@ -65,19 +75,9 @@
     "merged_prs": 1,
     "level_3": 0,
     "level_2": 0,
-    "level_1": 0,
-    "normal_prs": 1,
-    "total_score": 1
-  },
-  {
-    "username": "harshjainh2j",
-    "avatar_url": "https://avatars.githubusercontent.com/u/141403634?v=4",
-    "merged_prs": 1,
-    "level_3": 0,
-    "level_2": 0,
-    "level_1": 0,
-    "normal_prs": 1,
-    "total_score": 1
+    "level_1": 1,
+    "normal_prs": 0,
+    "total_score": 4
   },
   {
     "username": "anonyguy7",
