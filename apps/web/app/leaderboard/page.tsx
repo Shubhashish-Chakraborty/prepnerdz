@@ -7,6 +7,7 @@ interface Contributor {
   level_3: number;
   level_2: number;
   level_1: number;
+  normal_prs: number;
   total_score: number;
 }
 
@@ -40,13 +41,14 @@ export default async function LeaderboardPage() {
               <th className="px-4 py-2">Level 3</th>
               <th className="px-4 py-2">Level 2</th>
               <th className="px-4 py-2">Level 1</th>
+              <th className="px-4 py-2">Normal PRs</th>
               <th className="px-4 py-2">Total Score</th>
             </tr>
           </thead>
           <tbody>
             {leaderboard.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-4 text-gray-500">
+                <td colSpan={9} className="text-center py-4 text-gray-500">
                   No contributors yet.
                 </td>
               </tr>
@@ -68,6 +70,7 @@ export default async function LeaderboardPage() {
                   <td className="px-4 py-2 text-center">{c.level_3}</td>
                   <td className="px-4 py-2 text-center">{c.level_2}</td>
                   <td className="px-4 py-2 text-center">{c.level_1}</td>
+                  <td className="px-4 py-2 text-center">{c.normal_prs || 0}</td>
                   <td className="px-4 py-2 text-center font-bold">{c.total_score}</td>
                 </tr>
               ))
