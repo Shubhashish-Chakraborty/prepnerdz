@@ -56,7 +56,7 @@ export default function AskNerd() {
         },
         body: JSON.stringify({
           message: inputText,
-          apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY || 'AIzaSyDAodAG6cMvihyIAlS8J2otc_FCoaCCnd8'
+          apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY
         }),
       });
 
