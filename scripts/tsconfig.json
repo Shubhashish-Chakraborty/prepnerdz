@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2020",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    /* This is the most important line: It explicitly loads Node.js types. */
+    "types": ["node"]
+  },
+  "include": ["./**/*.ts"], // Apply this config to all .ts files in this folder
+  "exclude": ["node_modules"]
+}

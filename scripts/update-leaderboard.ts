@@ -4,7 +4,7 @@ import { Octokit } from '@octokit/rest';
 // configurations!!:
 const OWNER = 'Shubhashish-Chakraborty';
 const REPO = 'prepnerdz';
-const LEADERBOARD_FILE_PATH = './public/leaderboard.json';
+const LEADERBOARD_FILE_PATH = './apps/web/public/leaderboard.json';
 
 interface Contributor {
     username: string;
