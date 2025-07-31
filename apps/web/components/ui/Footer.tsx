@@ -42,18 +42,13 @@ export const Footer = () => {
     };
   }, []);
 
-  // FIXED: Mock user count instead of 404 API
   useEffect(() => {
     const fetchUserCount = async () => {
       try {
-        // Commenting out backend API call (causing 404)
-        // const response = await axios.get(
-        //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
-        // );
-        // setUserCount(response.data.totalUsers);
-
-        // Temporary static value
-        setUserCount(1234);
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
+        );
+        setUserCount(response.data.totalUsers);
       } catch (error) {
         console.error("Failed to fetch user count:", error);
       }
