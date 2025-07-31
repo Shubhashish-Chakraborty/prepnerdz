@@ -1,21 +1,21 @@
 export const TestimonialPage = () => {
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white">
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm">
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
             Testimonials
           </h2>
-          <p className="mb-8 font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">
+          <p className="mb-8 font-light lg:mb-16 sm:text-xl text-gray-950">
             Explore the whole collection of open-source web components and
             elements built with the utility classNames from Tailwind
           </p>
         </div>
         <div className="grid mb-8 lg:mb-12 lg:grid-cols-2">
           {/* Testimonial 1 */}
-          <figure className="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 md:p-12 lg:border-r dark:bg-gray-800 dark:border-gray-700">
-            <blockquote className="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12 lg:border-r">
+            <blockquote className="mx-auto mb-8 max-w-2xl text-black">
+              <h3 className="text-lg font-semibold text-black">
                 Speechless with how easy this was to integrate
               </h3>
               <p className="my-4">
@@ -35,9 +35,9 @@ export const TestimonialPage = () => {
               </p>
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
-              <div className="space-y-0.5 font-medium dark:text-white text-left">
+              <div className="space-y-0.5 font-medium text-left text-black">
                 <div>Bonnie Green</div>
-                <div className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <div className="text-sm font-light text-black">
                   Developer at Open AI
                 </div>
               </div>
@@ -45,9 +45,9 @@ export const TestimonialPage = () => {
           </figure>
 
           {/* Testimonial 2 */}
-          <figure className="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 md:p-12 dark:bg-gray-800 dark:border-gray-700">
-            <blockquote className="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12">
+            <blockquote className="mx-auto mb-8 max-w-2xl text-black">
+              <h3 className="text-lg font-semibold text-black">
                 Solid foundation for any project
               </h3>
               <p className="my-4">
@@ -64,9 +64,9 @@ export const TestimonialPage = () => {
               </p>
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
-              <div className="space-y-0.5 font-medium dark:text-white text-left">
+              <div className="space-y-0.5 font-medium text-left text-black">
                 <div>Roberta Casas</div>
-                <div className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <div className="text-sm font-light text-black">
                   Lead designer at Dropbox
                 </div>
               </div>
@@ -74,9 +74,9 @@ export const TestimonialPage = () => {
           </figure>
 
           {/* Testimonial 3 */}
-          <figure className="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-b border-gray-200 lg:border-b-0 md:p-12 lg:border-r dark:bg-gray-800 dark:border-gray-700">
-            <blockquote className="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12 lg:border-r">
+            <blockquote className="mx-auto mb-8 max-w-2xl text-black">
+              <h3 className="text-lg font-semibold text-black">
                 Mindblowing workflow and variants
               </h3>
               <p className="my-4">
@@ -94,9 +94,9 @@ export const TestimonialPage = () => {
               </p>
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
-              <div className="space-y-0.5 font-medium dark:text-white text-left">
+              <div className="space-y-0.5 font-medium text-left text-black">
                 <div>Jese Leos</div>
-                <div className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <div className="text-sm font-light text-black">
                   Software Engineer at Facebook
                 </div>
               </div>
@@ -104,15 +104,15 @@ export const TestimonialPage = () => {
           </figure>
 
           {/* Testimonial 4 */}
-          <figure className="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border-gray-200 md:p-12 dark:bg-gray-800 dark:border-gray-700">
-            <blockquote className="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12">
+            <blockquote className="mx-auto mb-8 max-w-2xl text-black">
+              <h3 className="text-lg font-semibold text-black">
                 Efficient Collaborating
               </h3>
               <p className="my-4">
-                &quot;This is a very complex and beautiful set of elements.
-                Under the hood it comes with the best things from 2 different
-                worlds: Figma and Tailwind.
+                &quot;This is a very complex and beautiful set of elements. Under the
+                hood it comes with the best things from 2 different worlds:
+                Figma and Tailwind.
               </p>
               <p className="my-4">
                 You have many examples that can be used to create a fast
@@ -120,22 +120,14 @@ export const TestimonialPage = () => {
               </p>
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
-              <div className="space-y-0.5 font-medium dark:text-white text-left">
+              <div className="space-y-0.5 font-medium text-left text-black">
                 <div>Joseph McFall</div>
-                <div className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <div className="text-sm font-light text-black">
                   CTO at Google
                 </div>
               </div>
             </figcaption>
           </figure>
-        </div>
-        <div className="text-center">
-          <a
-            href="#"
-            className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-          >
-            Show more...
-          </a>
         </div>
       </div>
     </section>
