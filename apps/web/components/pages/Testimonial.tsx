@@ -16,29 +16,18 @@ export const TestimonialPage = () => {
           <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12 lg:border-r">
             <blockquote className="mx-auto mb-8 max-w-2xl text-black">
               <h3 className="text-lg font-semibold text-black">
-                Speechless with how easy this was to integrate
+                A Must-Have for Every B.Tech Student!
               </h3>
               <p className="my-4">
-                &quot;I recently got my hands on Flowbite Pro, and holy crap,
-                I&apos;m speechless with how easy this was to integrate within
-                my application. Most templates are a pain, code is scattered,
-                and near impossible to theme.
+                &quot;PrepNerdz helped me stay ahead in my academics. The Shivani book notes and previous year papers were a lifesaver during exam week. Everything is clearly organized — I didn’t waste time hunting for material.
               </p>
-              <p className="my-4">
-                Flowbite has code in one place and I&apos;m not joking when I
-                say it took me a matter of minutes to copy the code, customise
-                it and integrate within a Laravel + Vue application.
-              </p>
-              <p className="my-4">
-                If you care for your time, I hands down would go with
-                this.&quot;
-              </p>
+              
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
               <div className="space-y-0.5 font-medium text-left text-black">
-                <div>Bonnie Green</div>
+                <div>Priya Sharma</div>
                 <div className="text-sm font-light text-black">
-                  Developer at Open AI
+                  3rd Year CSE, RGPV University
                 </div>
               </div>
             </figcaption>
@@ -48,26 +37,17 @@ export const TestimonialPage = () => {
           <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12">
             <blockquote className="mx-auto mb-8 max-w-2xl text-black">
               <h3 className="text-lg font-semibold text-black">
-                Solid foundation for any project
+                Everything You Need, All in One Place
               </h3>
               <p className="my-4">
-                &quot;FlowBite provides a robust set of design tokens and
-                components based on the popular Tailwind CSS framework. From the
-                most used UI components like forms and navigation bars to the
-                whole app screens designed both for desktop and mobile, this UI
-                kit provides a solid foundation for any project.
-              </p>
-              <p className="my-4">
-                Designing with Figma components that can be easily translated to
-                the utility classNames of Tailwind CSS is a huge
-                timesaver!&quot;
+                &quot;I used to rely on random WhatsApp groups for study material, but PrepNerdz changed that. From lab manuals to IMP questions, it’s got everything. The best part? The content is verified and high-quality
               </p>
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
               <div className="space-y-0.5 font-medium text-left text-black">
-                <div>Roberta Casas</div>
+                <div>Ankit Verma</div>
                 <div className="text-sm font-light text-black">
-                  Lead designer at Dropbox
+                  Final Year ECE, RGPV
                 </div>
               </div>
             </figcaption>
@@ -77,27 +57,17 @@ export const TestimonialPage = () => {
           <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12 lg:border-r">
             <blockquote className="mx-auto mb-8 max-w-2xl text-black">
               <h3 className="text-lg font-semibold text-black">
-                Mindblowing workflow and variants
+                Perfect for Last-Minute Preparation
               </h3>
               <p className="my-4">
-                &quot;As someone who mainly designs in the browser, I&apos;ve
-                been a casual user of Figma, but as soon as I saw and started
-                playing with FlowBite my mind was 🤯.
-              </p>
-              <p className="my-4">
-                Everything is so well structured and simple to use (I&apos;ve
-                learnt so much about Figma by just using the toolkit).
-              </p>
-              <p className="my-4">
-                Aesthetically, the well designed components are beautiful and
-                will undoubtedly level up your next application.&quot;
+                &quot;During my end-sems, PrepNerdz was my go-to platform. The semester-wise papers and Shivani summaries helped me revise quickly and effectively. I also love how clean and easy the site is to navigate
               </p>
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
               <div className="space-y-0.5 font-medium text-left text-black">
-                <div>Jese Leos</div>
+                <div>Sanya Rathore</div>
                 <div className="text-sm font-light text-black">
-                  Software Engineer at Facebook
+                  2nd Year IT, RGPV
                 </div>
               </div>
             </figcaption>
@@ -107,23 +77,18 @@ export const TestimonialPage = () => {
           <figure className="flex flex-col justify-center items-center p-8 text-center bg-white border border-black md:p-12">
             <blockquote className="mx-auto mb-8 max-w-2xl text-black">
               <h3 className="text-lg font-semibold text-black">
-                Efficient Collaborating
+                Contributing to PrepNerdz Boosted My Confidence
               </h3>
               <p className="my-4">
-                &quot;This is a very complex and beautiful set of elements. Under the
-                hood it comes with the best things from 2 different worlds:
-                Figma and Tailwind.
+                &quot;I uploaded my handwritten notes and they got featured! It felt great knowing I could help others while getting recognized. PrepNerdz isn’t just a resource hub — it’s a growing student community.
               </p>
-              <p className="my-4">
-                You have many examples that can be used to create a fast
-                prototype for your team.&quot;
-              </p>
+             
             </blockquote>
             <figcaption className="flex justify-center items-center space-x-3">
               <div className="space-y-0.5 font-medium text-left text-black">
-                <div>Joseph McFall</div>
+                <div>Ravi Deshmukh</div>
                 <div className="text-sm font-light text-black">
-                  CTO at Google
+                  3rd Year ME, RGPV
                 </div>
               </div>
             </figcaption>
