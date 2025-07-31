@@ -1,0 +1,29 @@
+[
+    {
+      "username": "alice",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1?v=4",
+      "merged_prs": 5,
+      "level_3": 2,
+      "level_2": 1,
+      "level_1": 2,
+      "total_score": 34
+    },
+    {
+      "username": "bob",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2?v=4",
+      "merged_prs": 3,
+      "level_3": 1,
+      "level_2": 2,
+      "level_1": 0,
+      "total_score": 22
+    },
+    {
+      "username": "carol",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3?v=4",
+      "merged_prs": 2,
+      "level_3": 0,
+      "level_2": 1,
+      "level_1": 1,
+      "total_score": 10
+    }
+  ]
