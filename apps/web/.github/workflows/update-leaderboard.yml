@@ -1,0 +1,55 @@
+name: '🏆 Update Leaderboard'
+
+on:
+  # Trigger the workflow when a pull request is closed and merged into the main branch
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+  # Allows to run this workflow manually from the Actions tab on GitHub
+  workflow_dispatch:
+
+jobs:
+  update-leaderboard:
+    # This condition ensures the job only runs if the pull request was actually merged
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    # Granting permissions for the workflow to read repository contents and pull requests,
+    # and to write back the updated leaderboard.json file.
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v4
+
+      - name: 'Set up Node.js'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 'Install dependencies'
+        run: npm install
+
+      - name: 'Run TypeScript update script'
+        # Use npx to run the ts-node compiler, which executes the .ts file directly
+        run: npx ts-node scripts/update-leaderboard.ts
+        env:
+          # The GITHUB_TOKEN is a special secret automatically provided by GitHub Actions.
+          # It's used by Octokit to authenticate with the GitHub API.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Commit and push changes'
+        # This action automatically commits and pushes the specified file if it has changed.
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'docs(leaderboard): update leaderboard.json'
+          file_pattern: 'public/leaderboard.json'
+          # Configure the commit to appear as if it's from the github-actions bot
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_author: 'github-actions[bot] <github-actions[bot]@users.noreply.github.com>'
