@@ -1,10 +1,16 @@
+import Navbar from "../ui/navbars/Navbar";
+
 export const TestimonialPage = () => {
   return (
     <section className="bg-gradient-to-r from-slate-100 via-gray-100 to-gray-200">
+          <Navbar/>
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
             Testimonials
+          </h2>
+          <h2 className="mb-4 animate-pulse text-xl tracking-tight font-extrabold text-red-600">
+            Under Development
           </h2>
           <p className="mb-8 font-light lg:mb-16 sm:text-xl text-gray-950">
             Discover how PrepNerdz is making a difference — straight from the students themselves.
