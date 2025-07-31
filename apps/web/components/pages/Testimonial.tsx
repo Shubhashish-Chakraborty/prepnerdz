@@ -1,6 +1,6 @@
 export const TestimonialPage = () => {
   return (
-    <section className="bg-white">
+    <section className="bg-gradient-to-r from-slate-100 via-gray-100 to-gray-200">
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-sm">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
