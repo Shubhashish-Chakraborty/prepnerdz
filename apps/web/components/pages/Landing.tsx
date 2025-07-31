@@ -89,7 +89,6 @@ const teamMembers = [
   {
     x: "https://x.com/yadav_nihalll",
     instagram: "https://www.instagram.com/Nihaaalll_29",
-    github: "https://github.com/nihal29055",
     linkedin: "https://www.linkedin.com/in/Nihal-yadav2",
     name: "Nihal Yadav",
     image: "/founders/nihal.png",
@@ -655,7 +654,6 @@ export const HomeLanding = () => {
                       icon={item.icon}
                       title={item.title}
                       description={item.description}
-                      role="listitem"
                     />
                   ))}
                 </div>

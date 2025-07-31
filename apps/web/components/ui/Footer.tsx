@@ -144,7 +144,7 @@ export const Footer = () => {
               </div>
 
               <p className="text-gray-700 md:text-left text-center leading-relaxed text-sm md:text-base font-medium mb-8">
-                We're just getting started! Join us on our journey to build something that the community will love.
+                We&apos;re just getting started! Join us on our journey to build something that the community will love.
               </p>
 
               <div className="flex justify-center md:justify-start gap-4 mb-8">
@@ -224,7 +224,7 @@ export const Footer = () => {
 
           {/* CountUp + Reviews */}
           <div className="text-center text-gray-800 text-base font-medium mt-10">
-            Sign up now and be a part of our growing family — we’re now a community of over <CountUp end={userCount} duration={2.5} />+ learners and counting!
+            Sign up now and be a part of our growing family — we&apos;re now a community of over <CountUp end={userCount} duration={2.5} />+ learners and counting!
           </div>
 
           <div className="overflow-hidden mt-6" aria-hidden="true">

@@ -19,6 +19,7 @@
     "next-sitemap": "^4.2.3",
     "radix-ui": "^1.4.2",
     "react": "^19.0.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.0.0",
     "react-simple-typewriter": "^5.0.1",
     "tailwind-merge": "^3.3.1"
