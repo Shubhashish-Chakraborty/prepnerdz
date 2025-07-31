@@ -24,7 +24,7 @@
               transition={{ duration: 1.5 }}
               className="text-center mt-7 text-4xl font-semibold bg-gradient-to-r from-rose-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent leading-snug antialiased"
             >
-              404: Just like your crush, this page doesn’t even know you exist.
+              404: Oops! We couldn’t find that page. Let’s get you back on track.
             </motion.p>
           </motion.div>
 
@@ -41,7 +41,7 @@
                 <Button
                   colorVariant="blue"
                   sizeVariant="medium"
-                  text="Don't Cry - Go to Home"
+                  text="Go to Home"
                   className="text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                   endIcon={<Home className="size-6 " />}
                 />
