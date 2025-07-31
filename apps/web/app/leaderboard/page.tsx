@@ -1,8 +1,8 @@
 import React from 'react';
-// FIX: Import Node.js modules 'fs' and 'path' for server-side file reading
 import fs from 'fs';
 import path from 'path';
 
+// The Contributor interface remains the same.
 interface Contributor {
   username: string;
   avatar_url: string;
@@ -14,24 +14,19 @@ interface Contributor {
   total_score: number;
 }
 
+// This function is already correct and needs no changes.
 async function getLeaderboard(): Promise<Contributor[]> {
   const isServer = typeof window === 'undefined';
-
   if (isServer) {
     try {
-      // Construct the full path to the file in the public directory.
       const filePath = path.join(process.cwd(), 'public', 'leaderboard.json');
-      // Read the file's contents.
       const fileContents = fs.readFileSync(filePath, 'utf8');
-      // Parse the JSON data and return it.
-      const data = JSON.parse(fileContents);
-      return data;
+      return JSON.parse(fileContents);
     } catch (error) {
       console.error('Error reading leaderboard file on server:', error);
-      return []; // Return an empty array if the file doesn't exist or there's an error.
+      return [];
     }
   }
-
   const res = await fetch('/leaderboard.json', { cache: 'no-store' });
   if (!res.ok) {
     console.error('Failed to fetch leaderboard on client');
@@ -40,66 +35,134 @@ async function getLeaderboard(): Promise<Contributor[]> {
   return res.json();
 }
 
-export default async function LeaderboardPage() {
-  const leaderboard = await getLeaderboard();
+// Helper component for the top 3 podium cards
+const PodiumCard = ({ contributor, rank }: { contributor: Contributor; rank: number }) => {
+  // FIX: Add an explicit type with an index signature `[key: number]`
+  // This tells TypeScript that this object can be indexed with a number.
+  const rankStyles: {
+    [key: number]: {
+      borderColor: string;
+      shadowColor: string;
+      emoji: string;
+      textColor: string;
+    };
+  } = {
+    1: {
+      borderColor: 'border-yellow-400',
+      shadowColor: 'shadow-yellow-400/50',
+      emoji: '🥇',
+      textColor: 'text-yellow-400',
+    },
+    2: {
+      borderColor: 'border-gray-400',
+      shadowColor: 'shadow-gray-400/50',
+      emoji: '🥈',
+      textColor: 'text-gray-400',
+    },
+    3: {
+      borderColor: 'border-orange-400',
+      shadowColor: 'shadow-orange-400/50',
+      emoji: '🥉',
+      textColor: 'text-orange-400',
+    },
+  };
+
+  const style = rankStyles[rank];
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-2">🏆 Project Leaderboard</h1>
-      <p className="mb-4 text-gray-600">
-        This leaderboard is updated automatically after every successful PR merge.
-      </p>
-      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow">
-        <table className="min-w-full bg-white text-sm">
-          <thead>
-            <tr className="bg-gray-100 text-gray-700">
-              <th className="px-4 py-2">Rank</th>
-              <th className="px-4 py-2">Contributor</th>
-              <th className="px-4 py-2">Avatar</th>
-              <th className="px-4 py-2">Merged PRs</th>
-              <th className="px-4 py-2">Level 3</th>
-              <th className="px-4 py-2">Level 2</th>
-              <th className="px-4 py-2">Level 1</th>
-              <th className="px-4 py-2">Normal PRs</th>
-              <th className="px-4 py-2">Total Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {leaderboard.length === 0 ? (
-              <tr>
-                <td colSpan={9} className="text-center py-4 text-gray-500">
-                  No contributors yet.
-                </td>
-              </tr>
-            ) : (
-              leaderboard.map((c, i) => (
-                <tr key={c.username} className="border-t">
-                  <td className="px-4 py-2 text-center">{i + 1}</td>
-                  <td className="px-4 py-2">{c.username}</td>
-                  <td className="px-4 py-2 text-center">
-                    <img
-                      src={c.avatar_url}
-                      alt={c.username}
-                      width={32}
-                      height={32}
-                      className="rounded-full mx-auto"
-                    />
-                  </td>
-                  <td className="px-4 py-2 text-center">{c.merged_prs}</td>
-                  <td className="px-4 py-2 text-center">{c.level_3}</td>
-                  <td className="px-4 py-2 text-center">{c.level_2}</td>
-                  <td className="px-4 py-2 text-center">{c.level_1}</td>
-                  <td className="px-4 py-2 text-center">{c.normal_prs || 0}</td>
-                  <td className="px-4 py-2 text-center font-bold">{c.total_score}</td>
+    <div className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-2xl border-2 ${style.borderColor} shadow-lg ${style.shadowColor} flex flex-col items-center text-center transition-transform hover:scale-105`}>
+      <span className="text-5xl mb-4">{style.emoji}</span>
+      <img
+        src={contributor.avatar_url}
+        alt={contributor.username}
+        width={100}
+        height={100}
+        className="rounded-full border-4 border-gray-700 mb-4"
+      />
+      <h3 className={`text-2xl font-bold ${style.textColor}`}>{contributor.username}</h3>
+      <p className="text-gray-300 text-lg">{contributor.total_score} Points</p>
+    </div>
+  );
+};
+
+
+export default async function LeaderboardPage() {
+  const leaderboard = await getLeaderboard();
+  const topThree = leaderboard.slice(0, 3);
+  const restOfLeaderboard = leaderboard.slice(3);
+
+  return (
+    <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-6 md:p-8">
+      <div className="max-w-5xl mx-auto">
+
+        {/* --- Header Section --- */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            GSSoC 2025 Contribution Leaderboard
+          </h1>
+          <p className="text-lg text-gray-400 mt-2">PrepNerdz Project</p>
+        </div>
+
+        {/* --- Top 3 Podium Section --- */}
+        {topThree.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {topThree.map((contributor, index) => (
+              <PodiumCard key={contributor.username} contributor={contributor} rank={index + 1} />
+            ))}
+          </div>
+        )}
+
+        {/* --- Main Leaderboard Table --- */}
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-1 shadow-lg">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-900/70">
+                <tr>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-300 rounded-tl-xl">Rank</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-300">Contributor</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Total PRs</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Level 3</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Level 2</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Level 1</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Normal</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300 rounded-tr-xl">Total Score</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {leaderboard.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} className="text-center py-8 text-gray-400">
+                      No contributions yet. Be the first!
+                    </td>
+                  </tr>
+                ) : (
+                  restOfLeaderboard.map((c, i) => (
+                    <tr key={c.username} className="border-t border-gray-700 hover:bg-gray-700/50">
+                      <td className="px-4 py-3 text-center font-bold text-gray-400">{i + 4}</td>
+                      <td className="px-4 py-3 flex items-center gap-3">
+                        <img src={c.avatar_url} alt={c.username} width={32} height={32} className="rounded-full" />
+                        <span className="font-semibold">{c.username}</span>
+                      </td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.merged_prs}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.level_3}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.level_2}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.level_1}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.normal_prs || 0}</td>
+                      <td className="px-4 py-3 text-center font-bold text-lg text-purple-400">{c.total_score}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* --- Disclaimer Section --- */}
+        <div className="mt-12 text-center text-sm text-gray-500 border border-gray-700 rounded-lg p-4">
+          <p className="font-semibold">Disclaimer</p>
+          <p>This leaderboard reflects contributions made exclusively to the PrepNerdz repository for GSSoC 2025 and does not represent the official, overall GSSoC standings.</p>
+        </div>
       </div>
-      <p className="mt-6 italic text-gray-500">
-        Leaderboard will be updated automatically. Do not edit manually.
-      </p>
     </div>
   );
 }
