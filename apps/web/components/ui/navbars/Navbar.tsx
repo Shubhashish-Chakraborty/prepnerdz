@@ -30,24 +30,26 @@ export const Navbar = () => {
 
     // Check if user is authenticated
     useEffect(() => {
-        const checkSession = async () => {
-            setAuthLoading(true);
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
-                    withCredentials: true,
-                });
-                if (response.data.message.isAuthenticated) {
-                    setIsAuthenticated(true);
-                }
-            } catch (error) {
-                console.error("Session check failed:", error);
-                setIsAuthenticated(false);
-            } finally {
-                setAuthLoading(false);
-            }
-        };
-        checkSession();
-    }, []);
+  const checkSession = async () => {
+    setAuthLoading(true);
+    try {
+      // remove axios request
+      const response = { data: { message: { isAuthenticated: false } } };
+
+      if (response.data.message.isAuthenticated) {
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.error("Session check failed:", error);
+      setIsAuthenticated(false);
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  checkSession();
+}, []);
+
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -166,10 +168,45 @@ export const Navbar = () => {
                                 </Link>
 
                                 {/* StudyMaterial Dropdown */}
-                                <div className="relative">
+                                {/* StudyMaterial Dropdown */}
+<div className="relative group">
+  <button
+    className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:outline-none"
+  >
+    <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+      Study Material
+    </span>
+    <Down className="size-4 xl:size-5 ml-1" />
+  </button>
+
+  <div
+    className="absolute top-full left-0 mt-2 w-[280px] xl:w-[300px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50 hidden group-hover:block transition-all duration-300"
+  >
+    {[
+      { title: "Shivani PDFs", description: "Comprehensive study materials and notes" },
+      { title: "IMP Questions", description: "Important questions for exam preparation" },
+      { title: "IMP Topics", description: "Get the most important topics unit wise" },
+      { title: "Best Academic Notes", description: "High-quality academic notes and resources" },
+      { title: "Syllabus", description: "Step-by-step manual solutions" },
+      { title: "Lab Manual", description: "All Lab manual and their solutions" },
+    ].map((item, index) => (
+      <div
+        key={index}
+        className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
+        onClick={() => handleLinkClick()}
+      >
+        <div className="text-sm font-medium">{item.title}</div>
+        <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+                                {/* <div className="relative group">
                                     <button
-                                        onClick={() => toggleDropdown("studymaterial")}
-                                        className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                       // onClick={() => toggleDropdown("studymaterial")}
+                                        //className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                    className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
                                         <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                             Study Material
@@ -177,48 +214,96 @@ export const Navbar = () => {
                                         <Down className="size-4 xl:size-5 ml-1" />
                                     </button>
                                     {activeDropdown === "studymaterial" && (
-                                        <div className="absolute top-full left-0 mt-2 w-[280px] xl:w-[300px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50">
-                                            {[
-                                                {
-                                                    title: "Shivani PDFs",
-                                                    description: "Comprehensive study materials and notes",
-                                                },
-                                                {
-                                                    title: "IMP Questions",
-                                                    description: "Important questions for exam preparation",
-                                                },
-                                                {
-                                                    title: "IMP Topics",
-                                                    description: "Get the most important topics unit wise",
-                                                },
-                                                {
-                                                    title: "Best Academic Notes",
-                                                    description: "High-quality academic notes and resources",
-                                                },
-                                                {
-                                                    title: "Syllabus",
-                                                    description: "Step-by-step manual solutions",
-                                                },
-                                                {
-                                                    title: "Lab Manual",
-                                                    description: "All Lab manual and there solutions",
-                                                },
-                                            ].map((item, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                                                    onClick={() => handleLinkClick()}
-                                                >
-                                                    <div className="text-sm font-medium">{item.title}</div>
-                                                    <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        // <div className="absolute top-full left-0 mt-2 w-[280px] xl:w-[300px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50">
+                                        //     {[
+                                        //         {
+                                        //            title: "Shivani PDFs",
+                                        //             description: "Comprehensive study materials and notes",
+                                        //         },
+                                        //         {
+                                        //             title: "IMP Questions",
+                                        //             description: "Important questions for exam preparation",
+                                        //         },
+                                        //         {
+                                        //             title: "IMP Topics",
+                                        //             description: "Get the most important topics unit wise",
+                                        //         },
+                                        //         {
+                                        //             title: "Best Academic Notes",
+                                        //             description: "High-quality academic notes and resources",
+                                        //         },
+                                        //         {
+                                        //             title: "Syllabus",
+                                        //             description: "Step-by-step manual solutions",
+                                        //         },
+                                        //         {
+                                        //             title: "Lab Manual",
+                                        //             description: "All Lab manual and there solutions",
+                                        //         },
+                                        //     ].map((item, index) => (
+                                        //         <div
+                                        //             key={index}
+                                        //             className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                                        //             onClick={() => handleLinkClick()}
+                                        //         >
+                                        //             <div className="text-sm font-medium">{item.title}</div>
+                                        //             <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
+                                        //         </div>
+                                        <div
+    className="absolute top-full left-0 mt-2 w-[280px] xl:w-[300px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50 hidden group-hover:block transition-all duration-300"
+>
+    {[
+        { title: "Shivani PDFs", description: "Comprehensive study materials and notes" },
+        { title: "IMP Questions", description: "Important questions for exam preparation" },
+        { title: "IMP Topics", description: "Get the most important topics unit wise" },
+        { title: "Best Academic Notes", description: "High-quality academic notes and resources" },
+        { title: "Syllabus", description: "Step-by-step manual solutions" },
+        { title: "Lab Manual", description: "All Lab manual and their solutions" },
+    ].map((item, index) => (
+        <div
+            key={index}
+            className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
+            onClick={() => handleLinkClick()}
+        >
+            <div className="text-sm font-medium">{item.title}</div>
+            <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
+        </div>
+    ))}
+</div>
+
+                                          //  ))}
+                                        //</div>
                                     )}
-                                </div>
+                                </div> */}
 
                                 {/* PYQ'S Dropdown */}
-                                <div className="relative">
+                                {/* PYQ'S Dropdown (Hover) */}
+<div className="relative group">
+  <button className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:text-gray-900 focus:outline-none">
+    <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+      {"PYQ'S"}
+    </span>
+    <Down className="size-4 xl:size-5 ml-1" />
+  </button>
+
+  <div className="absolute top-full left-0 mt-2 w-[260px] xl:w-[280px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50 hidden group-hover:block transition-all duration-300">
+    {[
+      { title: "Mid Term PYQ'S", description: "Previous year mid-term questions" },
+      { title: "End Sem PYQ'S", description: "Previous year end semester questions" },
+    ].map((item, index) => (
+      <div
+        key={index}
+        className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-all duration-200 hover:bg-gray-100 hover:text-gray-900"
+        onClick={() => handleLinkClick()}
+      >
+        <div className="text-sm font-medium">{item.title}</div>
+        <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+                                {/* <div className="relative">
                                     <button
                                         onClick={() => toggleDropdown("pyqs")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
@@ -251,7 +336,7 @@ export const Navbar = () => {
                                             ))}
                                         </div>
                                     )}
-                                </div>
+                                </div> */}
 
                                 <Link
                                     href="/contact-us"
