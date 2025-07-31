@@ -7,8 +7,7 @@ export const TestimonialPage = () => {
             Testimonials
           </h2>
           <p className="mb-8 font-light lg:mb-16 sm:text-xl text-gray-950">
-            Explore the whole collection of open-source web components and
-            elements built with the utility classNames from Tailwind
+            Discover how PrepNerdz is making a difference — straight from the students themselves.
           </p>
         </div>
         <div className="grid mb-8 lg:mb-12 lg:grid-cols-2">
