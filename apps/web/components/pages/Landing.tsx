@@ -396,27 +396,29 @@ export const HomeLanding = () => {
                       />
                     </div>
                     <div className="md:hidden block">
-                      <Link href={"/about"} passHref legacyBehavior>
-                        <Button
-                          colorVariant="yellow"
-                          sizeVariant="small"
-                          endIcon={<Globe className="size-6" aria-hidden="true" />}
-                          text="Explore Features"
-                          aria-label="Explore features on mobile"
-                        />
-                      </Link>
-                    </div>
+  <Link href="/about">
+    <Button
+      colorVariant="yellow"
+      sizeVariant="small"
+      endIcon={<Globe className="size-6" aria-hidden="true" />}
+      text="Explore Features"
+      aria-label="Explore features on mobile"
+    />
+  </Link>
+</div>
+s
                     <div className="md:block hidden">
-                      <Link href={"/about"} passHref legacyBehavior>
-                        <Button
-                          colorVariant="yellow"
-                          sizeVariant="medium"
-                          endIcon={<Globe className="size-6" aria-hidden="true" />}
-                          text="Explore Features"
-                          aria-label="Explore features"
-                        />
-                      </Link>
-                    </div>
+  <Link href="/about">
+    <Button
+      colorVariant="yellow"
+      sizeVariant="medium"
+      endIcon={<Globe className="size-6" aria-hidden="true" />}
+      text="Explore Features"
+      aria-label="Explore features"
+    />
+  </Link>
+</div>
+
                     <div className="md:block hidden">
                       <Button
                         colorVariant="blue"
