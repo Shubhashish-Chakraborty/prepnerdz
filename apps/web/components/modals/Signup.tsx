@@ -27,6 +27,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
         username: '',
         email: '',
         password: '',
+        confirmPassword : '',
         contact: ''
     });
     const [otp, setOtp] = useState('');
@@ -73,8 +74,14 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
 
         try {
             // Basic validation
-            if (!formData.username || !formData.email || !formData.password) {
+            if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
                 toast.error('Please fill all fields');
+                setIsLoading(false);
+                return;
+            }
+
+            if(formData.password != formData.confirmPassword){
+                toast.error('Passwords do not match');
                 setIsLoading(false);
                 return;
             }
@@ -258,6 +265,16 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                     value={formData.password}
                                                 />
                                             </div>
+                                            <div className="w-full max-w-xs md:max-w-md">
+                                                <InputBulged
+                                                    type="password"
+                                                    placeholder="Confirm Password:"
+                                                    icon={<Key className="size-5" />}
+                                                    name="confirmPassword"
+                                                    onChange={handleInputChange}
+                                                    value={formData.confirmPassword}
+                                                />
+                                            </div>
                                         </div>
                                         <div className="flex justify-center mt-6 md:mt-8">
                                             <Button
@@ -266,7 +283,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 sizeVariant="medium"
                                                 text={isLoading ? "Processing..." : "Register"}
                                                 type="submit"
-                                                disabled={isLoading}
+                                                disabled={isLoading}                
                                             />
                                         </div>
                                     </form>
