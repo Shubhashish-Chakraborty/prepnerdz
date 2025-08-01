@@ -101,6 +101,12 @@ export default async function LeaderboardPage() {
             <Navbar />
             <div className="max-w-5xl mx-auto">
 
+                {/* --- Disclaimer Section --- */}
+                <div className="animate-leaderboard-fade-in-up mt-12 text-center text-sm text-gray-300 border border-gray-700 rounded-lg p-4">
+                    <p className="font-semibold">Disclaimer</p>
+                    <p>This leaderboard reflects contributions made exclusively only to the PrepNerdz repository for GSSoC 2025 and does not represent the official, overall GSSoC standings.</p>
+                </div>
+
                 {/* --- Header Section --- */}
                 <div className="text-center mb-10 animate-leaderboard-fade-in-up">
                     <h1 className="text-4xl md:text-5xl mt-10 font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-pink-600">
@@ -174,12 +180,6 @@ export default async function LeaderboardPage() {
                             </tbody>
                         </table>
                     </div>
-                </div>
-
-                {/* --- Disclaimer Section --- */}
-                <div className="animate-leaderboard-fade-in-up mt-12 text-center text-sm text-gray-500 border border-gray-700 rounded-lg p-4">
-                    <p className="font-semibold">Disclaimer</p>
-                    <p>This leaderboard reflects contributions made exclusively to the PrepNerdz repository for GSSoC 2025 and does not represent the official, overall GSSoC standings.</p>
                 </div>
             </div>
         </div>
