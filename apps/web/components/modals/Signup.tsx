@@ -283,7 +283,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                 sizeVariant="medium"
                                                 text={isLoading ? "Processing..." : "Register"}
                                                 type="submit"
-                                                disabled={isLoading}
+                                                disabled={isLoading}                
                                             />
                                         </div>
                                     </form>
