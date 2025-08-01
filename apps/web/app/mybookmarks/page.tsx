@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Footer } from "@/components/ui/Footer";
 import Navbar from "@/components/ui/navbars/Navbar";
@@ -6,136 +6,207 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Metadata } from "next";
 
 type Bookmark = {
+  id: string;
+  resource: {
     id: string;
-    resource: {
-        id: string;
-        type: string;
-        title: string;
-        description: string;
-        fileUrl: string;
-        fileSize: number;
-        fileType: string;
-        subject: {
-            subjectName: string;
-            subjectCode: string;
-        };
+    type: string;
+    title: string;
+    description: string;
+    fileUrl: string;
+    fileSize: number;
+    fileType: string;
+    subject: {
+      subjectName: string;
+      subjectCode: string;
     };
+  };
+};
+
+export const metadata: Metadata = {
+  title: "My Bookmarked Resources | PrepNerdz",
+  description:
+    "Easily access and manage your saved resources on PrepNerdz. Quickly review your bookmarked study materials, notes, and more.",
+  keywords: [
+    "bookmarked resources",
+    "saved study materials",
+    "PrepNerdz bookmarks",
+    "student notes",
+    "tech learning",
+    "study resources",
+    "btech bookmarks",
+    "study platform",
+    "educational resources",
+    "My resources",
+  ],
+  openGraph: {
+    title: "Bookmarks | PrepNerdz",
+    description:
+      "View all your saved and bookmarked educational resources in one place on PrepNerdz.",
+    url: "https://prepnerdz.tech/bookmarks",
+    siteName: "PrepNerdz",
+    images: [
+      {
+        url: "/prepnerdz-only-specs.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bookmarks | PrepNerdz",
+    description:
+      "Access your saved and favorite content at PrepNerdz anytime, anywhere.",
+    images: ["/prepnerdz-only-specs.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://prepnerdz.tech/bookmarks",
+  },
 };
 
 export default function MyBookmarksPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [authLoading, setAuthLoading] = useState(true);
-    const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-    const [loading, setLoading] = useState(true);
-    const router = useRouter();
-    const [userId, setUserId] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const [userId, setUserId] = useState<string | null>(null);
 
-    // Authentication Check
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`,
-                    { withCredentials: true }
-                );
-                setIsAuthenticated(response.status === 200);
-                setUserId(response.data.message.user.id);
-            } catch (error) {
-                console.error("Authentication check failed:", error);
-                setIsAuthenticated(false);
-                router.push("/");
-            } finally {
-                setAuthLoading(false);
-            }
-        };
+  // Authentication Check
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`,
+          { withCredentials: true }
+        );
+        setIsAuthenticated(response.status === 200);
+        setUserId(response.data.message.user.id);
+      } catch (error) {
+        console.error("Authentication check failed:", error);
+        setIsAuthenticated(false);
+        router.push("/");
+      } finally {
+        setAuthLoading(false);
+      }
+    };
 
-        checkAuth();
-    }, [router]);
+    checkAuth();
+  }, [router]);
 
-    // Fetch bookmarks if authenticated
-    useEffect(() => {
-        const fetchBookmarks = async () => {
-            try {
-                const response = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/user/${userId}`,
-                    { withCredentials: true }
-                );
-                setBookmarks(response.data.data);
-            } catch (err) {
-                console.error("Failed to fetch bookmarks", err);
-            } finally {
-                setLoading(false);
-            }
-        };
+  // Fetch bookmarks if authenticated
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/bookmark/user/${userId}`,
+          { withCredentials: true }
+        );
+        setBookmarks(response.data.data);
+      } catch (err) {
+        console.error("Failed to fetch bookmarks", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        if (isAuthenticated) {
-            fetchBookmarks();
-        }
-    }, [isAuthenticated]);
+    if (isAuthenticated) {
+      fetchBookmarks();
+    }
+  }, [isAuthenticated]);
 
-    return (
-        <div className="relative min-h-screen bg-mainBgColor">
-            {/* Background Circles */}
-            <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.3 }}
-                    transition={{ duration: 1 }}
-                    className="absolute animate-pulse bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-red-300/80 blur-[80px] md:blur-[150px]"
-                />
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1.2 }}
-                    transition={{ duration: 2, delay: 0.5 }}
-                    className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-purple-500/40 blur-[60px] md:blur-[120px]"
-                />
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 2.4 }}
-                    transition={{ duration: 2, delay: 1 }}
-                    className="absolute animate-pulse top-1/2 left-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-emerald-500/40 blur-[50px] md:blur-[100px] transform -translate-x-1/2 -translate-y-1/2"
-                />
-            </div>
+  return (
+    <div className="relative min-h-screen bg-mainBgColor">
+      {/* Background Circles */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ duration: 1 }}
+          className="absolute animate-pulse bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-red-300/80 blur-[80px] md:blur-[150px]"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1.2 }}
+          transition={{ duration: 2, delay: 0.5 }}
+          className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-purple-500/40 blur-[60px] md:blur-[120px]"
+        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 2.4 }}
+          transition={{ duration: 2, delay: 1 }}
+          className="absolute animate-pulse top-1/2 left-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-emerald-500/40 blur-[50px] md:blur-[100px] transform -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
 
-            {/* Main Content */}
-            <div className="relative z-10">
-                <Navbar />
+      {/* Main Content */}
+      <div className="relative z-10">
+        <Navbar />
 
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                    <h1 className="text-3xl font-bold mb-6 text-center">📌 My Bookmarked Resources</h1>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <h1 className="text-3xl font-bold mb-6 text-center">
+            📌 My Bookmarked Resources
+          </h1>
 
-                    {authLoading || loading ? (
-                        <p className="text-center">Loading bookmarks...</p>
-                    ) : bookmarks.length === 0 ? (
-                        <p className="text-center">No bookmarks found.</p>
-                    ) : (
-                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                            {bookmarks.map((bookmark) => (
-                                <div key={bookmark.id} className="rounded-xl p-4 shadow-lg cursor-pointer transition-all duration-500 hover:shadow-amber-300 backdrop-blur-md border">
-                                    <iframe
-                                        src={bookmark.resource.fileUrl}
-                                        title={bookmark.resource.title}
-                                        className="w-full h-64 rounded-md mb-3"
-                                        allow="autoplay"
-                                    />
-                                    <h2 className="text-xl font-semibold">{bookmark.resource.title}</h2>
-                                    <p className="text-sm mb-2">{bookmark.resource.description}</p>
-                                    <div className="text-sm">
-                                        <p><strong>Subject:</strong> {bookmark.resource.subject.subjectName} ({bookmark.resource.subject.subjectCode})</p>
-                                        <p><strong>Type:</strong> {bookmark.resource.type}</p>
-                                        <p><strong>Size:</strong> {(bookmark.resource.fileSize / 1024).toFixed(2)} MB</p>
-                                        <p><strong>Format:</strong> {bookmark.resource.fileType}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+          {authLoading || loading ? (
+            <p className="text-center">Loading bookmarks...</p>
+          ) : bookmarks.length === 0 ? (
+            <p className="text-center">No bookmarks found.</p>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {bookmarks.map((bookmark) => (
+                <div
+                  key={bookmark.id}
+                  className="rounded-xl p-4 shadow-lg cursor-pointer transition-all duration-500 hover:shadow-amber-300 backdrop-blur-md border"
+                >
+                  <iframe
+                    src={bookmark.resource.fileUrl}
+                    title={bookmark.resource.title}
+                    className="w-full h-64 rounded-md mb-3"
+                    allow="autoplay"
+                  />
+                  <h2 className="text-xl font-semibold">
+                    {bookmark.resource.title}
+                  </h2>
+                  <p className="text-sm mb-2">
+                    {bookmark.resource.description}
+                  </p>
+                  <div className="text-sm">
+                    <p>
+                      <strong>Subject:</strong>{" "}
+                      {bookmark.resource.subject.subjectName} (
+                      {bookmark.resource.subject.subjectCode})
+                    </p>
+                    <p>
+                      <strong>Type:</strong> {bookmark.resource.type}
+                    </p>
+                    <p>
+                      <strong>Size:</strong>{" "}
+                      {(bookmark.resource.fileSize / 1024).toFixed(2)} MB
+                    </p>
+                    <p>
+                      <strong>Format:</strong> {bookmark.resource.fileType}
+                    </p>
+                  </div>
                 </div>
-
-                <Footer />
+              ))}
             </div>
+          )}
         </div>
-    );
+
+        <Footer />
+      </div>
+    </div>
+  );
 }
