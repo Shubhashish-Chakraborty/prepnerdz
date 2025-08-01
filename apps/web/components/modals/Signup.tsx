@@ -74,8 +74,14 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
 
         try {
             // Basic validation
-            if (!formData.username || !formData.email || !formData.password) {
+            if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
                 toast.error('Please fill all fields');
+                setIsLoading(false);
+                return;
+            }
+
+            if(formData.password != formData.confirmPassword){
+                toast.error('Passwords do not match');
                 setIsLoading(false);
                 return;
             }
@@ -264,7 +270,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                     type="password"
                                                     placeholder="Confirm Password:"
                                                     icon={<Key className="size-5" />}
-                                                    name="password"
+                                                    name="confirmPassword"
                                                     onChange={handleInputChange}
                                                     value={formData.confirmPassword}
                                                 />
