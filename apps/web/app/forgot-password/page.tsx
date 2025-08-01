@@ -11,6 +11,9 @@ import InputBulged from "@/components/ui/inputs/InputBulged";
 import { Email } from "@/icons/Email";
 import { OtpDot } from "@/icons/OtpDot";
 import { Key } from "@/icons/Key";
+import { LoginModal } from "@/components/modals/Login";
+import { SignupModal } from "@/components/modals/Signup";
+
 
 export default function ForgotPassword() {
     const router = useRouter();
@@ -21,6 +24,9 @@ export default function ForgotPassword() {
     const [step, setStep] = useState(1); // 1: email input, 2: OTP and new password
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isSignupOpen, setIsSignupOpen] = useState(false);
+    
 
     const handleSendOtp = async () => {
         if (!email) {
@@ -84,6 +90,27 @@ export default function ForgotPassword() {
 
     return (
         <div className="relative min-h-screen bg-mainBgColor overflow-hidden">
+      
+             <div>
+                    <LoginModal
+                        open={isLoginOpen}
+                        onClose={() => setIsLoginOpen(false)}
+                        onSwitchToSignup={() => {
+                            setIsLoginOpen(false);
+                            setIsSignupOpen(true);
+                        }}
+                    />
+
+                    <SignupModal
+                        open={isSignupOpen}
+                        onClose={() => setIsSignupOpen(false)}
+                        onSwitchToLogin={() => {
+                            setIsSignupOpen(false);
+                            setIsLoginOpen(true);
+                        }}
+                    />
+                
+        </div>
             {/* Notification Popup */}
             {notification && (
                 <motion.div
@@ -159,7 +186,10 @@ export default function ForgotPassword() {
                                         text="Back to Login"
                                         colorVariant="black_yellow"
                                         sizeVariant="medium"
-                                        onClick={() => router.push('/signin')}
+                                        onClick={() => { 
+                                            setIsLoginOpen(true)
+                                            
+                                        }}
                                     >
                                     </Button>
                                 </div>
