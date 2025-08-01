@@ -27,6 +27,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
         username: '',
         email: '',
         password: '',
+        confirmPassword : '',
         contact: ''
     });
     const [otp, setOtp] = useState('');
@@ -256,6 +257,16 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                                     name="password"
                                                     onChange={handleInputChange}
                                                     value={formData.password}
+                                                />
+                                            </div>
+                                            <div className="w-full max-w-xs md:max-w-md">
+                                                <InputBulged
+                                                    type="password"
+                                                    placeholder="Confirm Password:"
+                                                    icon={<Key className="size-5" />}
+                                                    name="password"
+                                                    onChange={handleInputChange}
+                                                    value={formData.confirmPassword}
                                                 />
                                             </div>
                                         </div>
