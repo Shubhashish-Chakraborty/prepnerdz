@@ -7,6 +7,7 @@ import TypingText from "../ui/TypingTest";
 import InputBulged from "../ui/inputs/InputBulged";
 import GoogleAuthBtn from "../ui/buttons/GoogleAuth";
 import GithubAuthBtn from "../ui/buttons/GithubAuth";
+import TwitterAuthBtn from "../ui/buttons/TwitterAuth";
 import { CloseCircle } from '@/icons/CloseCircle';
 import { User } from '@/icons/User';
 import { Email } from '@/icons/Email';
@@ -288,9 +289,9 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                                         <div>
                                             <GithubAuthBtn text="Github" />
                                         </div>
-                                        {/* <div>
+                                        <div>
                                             <TwitterAuthBtn text="Twitter(X)" />
-                                        </div> */}
+                                        </div>
                                     </div>
 
                                     {/* Login Prompt */}
