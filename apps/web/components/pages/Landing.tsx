@@ -356,7 +356,7 @@ export const HomeLanding = () => {
                 <div className="space-y-6 animate-fade-in-up order-2 lg:order-1 w-full lg:w-1/2">
                   <div className="space-y-4">
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
-                      <span className="text-[#ffbf23] flex md:inline-block justify-center backdrop-blur-md cursor-pointer bg-black rounded-3xl p-2">
+                      <span className="text-[#ffbf23] flex md:inline-block justify-center backdrop-blur-md cursor-default bg-black rounded-3xl p-2">
                         <TypingText text="Notes? Papers? Materials?" typeSpeed={100} />
                       </span>
                       <br />
@@ -396,29 +396,27 @@ export const HomeLanding = () => {
                       />
                     </div>
                     <div className="md:hidden block">
-  <Link href="/about">
-    <Button
-      colorVariant="yellow"
-      sizeVariant="small"
-      endIcon={<Globe className="size-6" aria-hidden="true" />}
-      text="Explore Features"
-      aria-label="Explore features on mobile"
-    />
-  </Link>
-</div>
-s
+                      <Link href={"/about"} passHref legacyBehavior>
+                        <Button
+                          colorVariant="yellow"
+                          sizeVariant="small"
+                          endIcon={<Globe className="size-6" aria-hidden="true" />}
+                          text="Explore Features"
+                          aria-label="Explore features on mobile"
+                        />
+                      </Link>
+                    </div>
                     <div className="md:block hidden">
-  <Link href="/about">
-    <Button
-      colorVariant="yellow"
-      sizeVariant="medium"
-      endIcon={<Globe className="size-6" aria-hidden="true" />}
-      text="Explore Features"
-      aria-label="Explore features"
-    />
-  </Link>
-</div>
-
+                      <Link href={"/about"} passHref legacyBehavior>
+                        <Button
+                          colorVariant="yellow"
+                          sizeVariant="medium"
+                          endIcon={<Globe className="size-6" aria-hidden="true" />}
+                          text="Explore Features"
+                          aria-label="Explore features"
+                        />
+                      </Link>
+                    </div>
                     <div className="md:block hidden">
                       <Button
                         colorVariant="blue"
