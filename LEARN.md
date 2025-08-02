@@ -264,6 +264,10 @@ See our [Contributing Guide](CONTRIBUTING.md) for detailed setup instructions, d
   - Email: [unnati3704@gmail.com](mailto:unnati3704@gmail.com)
   - [LinkedIn](https://www.linkedin.com/in/unnati-pandit-b83a68285/)
 
+- **Mentor**: [Jaydeepsinh Parmar](https://www.linkedin.com/in/jaydeepsinh-parmar-084609247)
+  - Email: [parmarjaydeepsinh099@gmail.com](mailto:parmarjaydeepsinh099@gmail.com)
+  - [LinkedIn](https://www.linkedin.com/in/jaydeepsinh-parmar-084609247)
+
 ## License
 
 [MIT LICENSE](LICENSE)

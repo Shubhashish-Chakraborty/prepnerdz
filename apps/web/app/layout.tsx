@@ -2,6 +2,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import BackToTopButton from '../components/ui/BackToTopButton';
+import AskNerd from '@/components/ui/AskNerd';
+import GssocBanner from "@/components/ui/GssocBanner";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -77,7 +79,9 @@ export default function RootLayout({
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
+                <GssocBanner/>
                 {children}
+                <AskNerd />
                 <BackToTopButton />
                 <Toaster
                     position="top-center"

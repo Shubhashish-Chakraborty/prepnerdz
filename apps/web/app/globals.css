@@ -216,3 +216,28 @@
 .animate-wink {
   animation: wink 1.8s infinite;
 }
+
+
+@keyframes fadeInUpLeaderboard {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-leaderboard-fade-in-up {
+  /* Apply the animation and make it fill backwards to prevent a flash of unstyled content */
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-fill-mode: backwards;
+}
+
+/* Create utility classes for staggered delays */
+.animation-delay-100 { animation-delay: 0.1s; }
+.animation-delay-200 { animation-delay: 0.2s; }
+.animation-delay-300 { animation-delay: 0.3s; }
+.animation-delay-400 { animation-delay: 0.4s; }
+.animation-delay-500 { animation-delay: 0.5s; }

@@ -332,4 +332,5 @@ export const Footer = () => {
         }
       `}</style>
     </div>
-</div>)};
+  );
+</div>)}
