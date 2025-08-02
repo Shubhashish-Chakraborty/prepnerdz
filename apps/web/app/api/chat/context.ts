@@ -49,7 +49,7 @@ PrepNerdz is a monorepo using **Turborepo**. It contains three main apps:
 * **/apps/backend** – REST API built using Express.js + Prisma
 * **/apps/admin** – Admin panel for managing content and users
 
-Shared packages and utilities may be inside `/packages`.
+Shared packages and utilities may be inside \`/packages\`.
 
 Docs like:
 - **LEARN.md** – Tech stack, architecture, database schema
@@ -70,10 +70,10 @@ To run PrepNerdz locally:
 **Steps:**
 1. Fork & clone the repo
 2. Run \`npm install\` in the root directory
-3. Create `.env` files inside:
-   - `/apps/web`
-   - `/apps/backend`
-   - `/apps/admin`
+3. Create \`.env\` files inside:
+   - \`/apps/web\`
+   - \`/apps/backend\`
+   - \`/apps/admin\`
 4. Run:
    \`\`\`
    npm run dev
@@ -146,14 +146,13 @@ REST APIs are used for auth, bookmarks, uploads, and moderation.
 ### **SECTION 8: ASKNERD RESPONSE RULES**
 ---
 
-* Be friendly, concise, and helpful
-* Refer to context only — don’t guess
+* Be friendly, concise, and helpful  
+* Refer to context only — don’t guess  
 * If a user asks:
    - About a person → Give their name and link (if present)
    - About contributing → Explain the process above
-   - About resources → Say what’s available and guide them to use search
+   - About resources → Say what’s available and guide them to use search  
 * If unknown:  
   _"That's a great question! I don't have specific information on that right now. The best place to find the most up-to-date details would be on the official PrepNerdz website or by contacting the team directly."_
 
 `;
-
