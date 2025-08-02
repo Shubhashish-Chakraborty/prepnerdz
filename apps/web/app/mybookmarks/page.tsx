@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Metadata } from "next";
+import Head from "next/head";
 
 type Bookmark = {
   id: string;
@@ -23,56 +23,6 @@ type Bookmark = {
       subjectCode: string;
     };
   };
-};
-
-export const metadata: Metadata = {
-  title: "My Bookmarked Resources | PrepNerdz",
-  description:
-    "Easily access and manage your saved resources on PrepNerdz. Quickly review your bookmarked study materials, notes, and more.",
-  keywords: [
-    "bookmarked resources",
-    "saved study materials",
-    "PrepNerdz bookmarks",
-    "student notes",
-    "tech learning",
-    "study resources",
-    "btech bookmarks",
-    "study platform",
-    "educational resources",
-    "My resources",
-  ],
-  openGraph: {
-    title: "Bookmarks | PrepNerdz",
-    description:
-      "View all your saved and bookmarked educational resources in one place on PrepNerdz.",
-    url: "https://prepnerdz.tech/bookmarks",
-    siteName: "PrepNerdz",
-    images: [
-      {
-        url: "/prepnerdz-only-specs.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Bookmarks | PrepNerdz",
-    description:
-      "Access your saved and favorite content at PrepNerdz anytime, anywhere.",
-    images: ["/prepnerdz-only-specs.png"],
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "https://prepnerdz.tech/bookmarks",
-  },
 };
 
 export default function MyBookmarksPage() {
@@ -121,13 +71,44 @@ export default function MyBookmarksPage() {
       }
     };
 
-    if (isAuthenticated) {
+    if (isAuthenticated && userId) {
       fetchBookmarks();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userId]);
 
   return (
     <div className="relative min-h-screen bg-mainBgColor">
+      <Head>
+        <title>My Bookmarked Resources | PrepNerdz</title>
+        <meta
+          name="description"
+          content="Easily access and manage your saved resources on PrepNerdz. Quickly review your bookmarked study materials, notes, and more."
+        />
+        <meta
+          name="keywords"
+          content="bookmarked resources, saved study materials, PrepNerdz bookmarks, student notes, tech learning, study resources, btech bookmarks, study platform, educational resources, My resources"
+        />
+        <meta property="og:title" content="Bookmarks | PrepNerdz" />
+        <meta
+          property="og:description"
+          content="View all your saved and bookmarked educational resources in one place on PrepNerdz."
+        />
+        <meta property="og:url" content="https://prepnerdz.tech/bookmarks" />
+        <meta property="og:site_name" content="PrepNerdz" />
+        <meta property="og:image" content="/prepnerdz-only-specs.png" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Bookmarks | PrepNerdz" />
+        <meta
+          name="twitter:description"
+          content="Access your saved and favorite content at PrepNerdz anytime, anywhere."
+        />
+        <meta name="twitter:image" content="/prepnerdz-only-specs.png" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="canonical" href="https://prepnerdz.tech/bookmarks" />
+        <meta name="robots" content="index, follow" />
+      </Head>
+
       {/* Background Circles */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <motion.div

@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { AboutLanding } from "@/components/pages/About";
 
 export const metadata = {
