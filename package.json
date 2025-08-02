@@ -9,6 +9,11 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/jquery": "^3.5.32",
+    "@types/node": "^24.1.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "prettier": "^3.5.3",
     "turbo": "^2.5.4",
     "typescript": "5.8.2"
