@@ -254,8 +254,8 @@ export const Footer = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
-                Thanks for Visiting PrepNerdz! 🚀
+              <h3 className="text-2xl font-bold bg-gradient-to-r animate-bounce from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
+                Thanks for Visiting PrepNerdz!
               </h3>
             </motion.div>
           </div>
