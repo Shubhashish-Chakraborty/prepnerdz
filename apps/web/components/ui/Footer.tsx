@@ -245,6 +245,21 @@ export const Footer = () => {
             </motion.div>
           </div>
 
+          {/* Thanks for Visiting */}
+          <div className={`mt-8 text-center transition-all duration-1000 delay-300 ${
+            isVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-4"
+          }`}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <h3 className="text-2xl font-bold bg-gradient-to-r animate-bounce from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
+                Thanks for Visiting PrepNerdz!
+              </h3>
+            </motion.div>
+          </div>
+
           {/* Copyright */}
           <div
             className={`mt-12 pt-8 border-t border-gray-200/60 transition-all duration-1000 delay-500 ${
