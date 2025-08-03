@@ -172,6 +172,7 @@ export const ContactLanding = () => {
                                             className="rounded-xl shadow-md mx-auto w-full max-w-[250px] hover:scale-105 transition-transform duration-300"
                                         />
                                     </Link>
+                                     <h3 className="mt-6 text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-blue-600 transition-all duration-300 hover:text-3xl hover:brightness-110">Shubhashish Chakraborty</h3>
                                     <p className="mt-3 text-sm text-gray-500">Founder & CEO</p>
                                 </div>
                             </div>
