@@ -172,7 +172,8 @@ export const ContactLanding = () => {
                                             className="rounded-xl shadow-md mx-auto w-full max-w-[250px] hover:scale-105 transition-transform duration-300"
                                         />
                                     </Link>
-                                    <p className="mt-3 text-sm text-gray-500">Founder & CEO</p>
+                                     <h3 onClick={() =>  {window.open("https://bento.me/imshubh")}} className="mt-6 text-2xl font-extrabold text-transparent cursor-pointer bg-clip-text bg-gradient-to-r from-black to-red-500 transition-all duration-300 hover:text-3xl hover:brightness-110">Shubhashish Chakraborty</h3>
+                                    <p className="mt-3 text-sm text-gray-500">Founder & Developer</p>
                                 </div>
                             </div>
                         </div>
