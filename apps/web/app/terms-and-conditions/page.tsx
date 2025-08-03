@@ -104,7 +104,7 @@ const TermsAndConditionsPage = () => {
             }}
             className="wrapper flex flex-col items-start justify-center"
           >
-            <h1 className="mx-auto mb-8 w-full text-center text-4xl font-extrabold tracking-tighter text-primary md:mb-12 md:text-5xl">
+            <h1 className="mx-auto mb-8 special w-full text-center text-4xl font-extrabold tracking-tighter text-primary md:mb-12 md:text-5xl">
               Terms & Conditions
             </h1>
             <div className="mx-auto max-w-3xl">

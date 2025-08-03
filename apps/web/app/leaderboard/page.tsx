@@ -170,7 +170,7 @@ export default async function LeaderboardPage() {
 
         {/* --- Header Section --- */}
         <div className="text-center mb-10 animate-leaderboard-fade-in-up">
-          <h1 className="text-4xl md:text-5xl mt-10 font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-pink-600">
+          <h1 className="text-4xl md:text-5xl special mt-10 font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-pink-600">
             GSSoC 2025 Contribution Leaderboard
           </h1>
           <div className="flex justify-center items-center">

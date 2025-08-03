@@ -41,12 +41,14 @@ const featureItems = [
   {
     icon: <BookOpen className="size-5 md:size-6" aria-hidden="true" />,
     title: "Comprehensive Resources",
-    description: "Access previous year RGPV papers, notes, and syllabus all in one place.",
+    description:
+      "Access previous year RGPV papers, notes, and syllabus all in one place.",
   },
   {
     icon: <Target className="size-5 md:size-6" aria-hidden="true" />,
     title: "Organized by Semester",
-    description: "Find exactly what you need with our branch-wise, semester-wise organization.",
+    description:
+      "Find exactly what you need with our branch-wise, semester-wise organization.",
   },
   {
     icon: <ShieldColored className="size-5 md:size-6" aria-hidden="true" />,
@@ -61,7 +63,8 @@ const featureItems = [
   {
     icon: <Upload className="size-5 md:size-6" aria-hidden="true" />,
     title: "Contribute and shine",
-    description: "Add value to the platform and get recognized in the community.",
+    description:
+      "Add value to the platform and get recognized in the community.",
   },
 ];
 
@@ -150,7 +153,8 @@ export const HomeLanding = () => {
       return;
     }
 
-    const adjustedSemester = semester === "1" || semester === "2" ? "0" : semester;
+    const adjustedSemester =
+      semester === "1" || semester === "2" ? "0" : semester;
 
     setLoading(true);
     setHasSearched(true);
@@ -158,13 +162,16 @@ export const HomeLanding = () => {
     setHasMore(false);
 
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search/landing`, {
-        params: {
-          subject: searchQuery,
-          semester: adjustedSemester,
-          landingResourceType: resourceType,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/search/landing`,
+        {
+          params: {
+            subject: searchQuery,
+            semester: adjustedSemester,
+            landingResourceType: resourceType,
+          },
+        }
+      );
 
       setResults(response.data.data);
       setHasMore(response.data.hasMore);
@@ -177,7 +184,8 @@ export const HomeLanding = () => {
   };
 
   useEffect(() => {
-    const isBrave = navigator.brave !== undefined || navigator.userAgent.includes("Brave");
+    const isBrave =
+      navigator.brave !== undefined || navigator.userAgent.includes("Brave");
 
     if (isBrave) {
       const alertDiv = document.createElement("div");
@@ -291,7 +299,7 @@ export const HomeLanding = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-mainBgColor">
+    <div className="relative min-h-screen bg-mainBgColor font-special">
       {/* Skip to content link for screen readers */}
       <a
         href="#main-content"
@@ -301,7 +309,10 @@ export const HomeLanding = () => {
       </a>
 
       {/* Background Animated Circles */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+      <div
+        className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
+        aria-hidden="true"
+      >
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.3 }}
@@ -347,7 +358,11 @@ export const HomeLanding = () => {
         </div>
 
         {/* Main page content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={mainContentRef} id="main-content">
+        <div
+          className="container mx-auto px-4 sm:px-6 lg:px-8"
+          ref={mainContentRef}
+          id="main-content"
+        >
           <div className="min-h-screen bg-gradient-to-br">
             {/* Hero Section */}
             <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-20">
@@ -357,7 +372,10 @@ export const HomeLanding = () => {
                   <div className="space-y-4">
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
                       <span className="text-[#ffbf23] flex md:inline-block justify-center backdrop-blur-md cursor-default bg-black rounded-3xl p-2">
-                        <TypingText text="Notes? Papers? Materials?" typeSpeed={100} />
+                        <TypingText
+                          text="Notes? Papers? Materials?"
+                          typeSpeed={100}
+                        />
                       </span>
                       <br />
                       <span className="text-gray-900 flex md:justify-start justify-center">
@@ -368,8 +386,9 @@ export const HomeLanding = () => {
                       </span>
                     </h1>
                     <p className="text-base md:text-lg text-black md:text-start text-center font-bold italic max-w-2xl">
-                      &apos;No more &apos;Does anyone have...?&apos; messages. No more dead-end Google searches. Just the right resources, when you
-                      need them.&apos;
+                      &apos;No more &apos;Does anyone have...?&apos; messages.
+                      No more dead-end Google searches. Just the right
+                      resources, when you need them.&apos;
                     </p>
                   </div>
 
@@ -380,7 +399,9 @@ export const HomeLanding = () => {
                         colorVariant="black_green"
                         sizeVariant="small"
                         text="Get Started"
-                        endIcon={<EnterDoor className="size-6" aria-hidden="true" />}
+                        endIcon={
+                          <EnterDoor className="size-6" aria-hidden="true" />
+                        }
                         onClick={() => setIsSignupOpen(true)}
                         aria-label="Get started on mobile"
                       />
@@ -390,7 +411,9 @@ export const HomeLanding = () => {
                         colorVariant="black_green"
                         sizeVariant="medium"
                         text="Get Started"
-                        endIcon={<EnterDoor className="size-6" aria-hidden="true" />}
+                        endIcon={
+                          <EnterDoor className="size-6" aria-hidden="true" />
+                        }
                         onClick={() => setIsSignupOpen(true)}
                         aria-label="Get started"
                       />
@@ -400,7 +423,9 @@ export const HomeLanding = () => {
                         <Button
                           colorVariant="yellow"
                           sizeVariant="small"
-                          endIcon={<Globe className="size-6" aria-hidden="true" />}
+                          endIcon={
+                            <Globe className="size-6" aria-hidden="true" />
+                          }
                           text="Explore Features"
                           aria-label="Explore features on mobile"
                         />
@@ -411,7 +436,9 @@ export const HomeLanding = () => {
                         <Button
                           colorVariant="yellow"
                           sizeVariant="medium"
-                          endIcon={<Globe className="size-6" aria-hidden="true" />}
+                          endIcon={
+                            <Globe className="size-6" aria-hidden="true" />
+                          }
                           text="Explore Features"
                           aria-label="Explore features"
                         />
@@ -422,9 +449,13 @@ export const HomeLanding = () => {
                         colorVariant="blue"
                         sizeVariant="medium"
                         text="How to use"
-                        endIcon={<Question className="size-6" aria-hidden="true" />}
+                        endIcon={
+                          <Question className="size-6" aria-hidden="true" />
+                        }
                         onClick={() => {
-                          guideRef.current?.scrollIntoView({ behavior: "smooth" });
+                          guideRef.current?.scrollIntoView({
+                            behavior: "smooth",
+                          });
                           toast.success("Watch the PrepNerdz Guide Tutorial");
                         }}
                         aria-label="Learn how to use PrepNerdz"
@@ -436,9 +467,13 @@ export const HomeLanding = () => {
                       colorVariant="blue"
                       sizeVariant="small"
                       text="How to use"
-                      endIcon={<Question className="size-6" aria-hidden="true" />}
+                      endIcon={
+                        <Question className="size-6" aria-hidden="true" />
+                      }
                       onClick={() => {
-                        guideRef.current?.scrollIntoView({ behavior: "smooth" });
+                        guideRef.current?.scrollIntoView({
+                          behavior: "smooth",
+                        });
                         toast.success("Watch the PrepNerdz Guide Tutorial");
                       }}
                       aria-label="Learn how to use PrepNerdz on mobile"
@@ -449,11 +484,18 @@ export const HomeLanding = () => {
                   <div className="flex flex-wrap md:justify-start justify-center items-center gap-4 md:gap-6 pt-4">
                     <div className="flex items-center gap-2">
                       <Users className="size-5 md:size-6" aria-hidden="true" />
-                      <span className="text-sm text-gray-600">500+ Students</span>
+                      <span className="text-sm text-gray-600">
+                        500+ Students
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <ShieldColored className="size-5 md:size-6 text-green-500" aria-hidden="true" />
-                      <span className="text-sm text-gray-600">Verified Content</span>
+                      <ShieldColored
+                        className="size-5 md:size-6 text-green-500"
+                        aria-hidden="true"
+                      />
+                      <span className="text-sm text-gray-600">
+                        Verified Content
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -463,8 +505,12 @@ export const HomeLanding = () => {
                   <Card className="p-4 md:p-6 shadow-xl border-0 backdrop-blur-sm">
                     <div className="space-y-4">
                       <div className="text-center">
-                        <h2 className="text-lg md:text-xl font-semibold mb-2">Find Your Resources</h2>
-                        <p className="text-gray-600 text-sm">Search from thousands of verified academic materials</p>
+                        <h2 className="text-lg md:text-xl special font-semibold mb-2">
+                          Find Your Resources
+                        </h2>
+                        <p className="text-gray-600 text-sm">
+                          Search from thousands of verified academic materials
+                        </p>
                       </div>
 
                       <div className="space-y-3">
@@ -472,7 +518,10 @@ export const HomeLanding = () => {
                           <label htmlFor="search-input" className="sr-only">
                             Search resources
                           </label>
-                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 md:h-5 md:w-5" aria-hidden="true" />
+                          <Search
+                            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 md:h-5 md:w-5"
+                            aria-hidden="true"
+                          />
                           <input
                             id="search-input"
                             type="text"
@@ -491,7 +540,10 @@ export const HomeLanding = () => {
                         <div className="grid grid-cols-2 gap-2 md:gap-4">
                           {/* Semester Dropdown */}
                           <div>
-                            <label htmlFor="semester-select" className="sr-only">
+                            <label
+                              htmlFor="semester-select"
+                              className="sr-only"
+                            >
                               Select semester
                             </label>
                             <select
@@ -511,7 +563,10 @@ export const HomeLanding = () => {
 
                           {/* Resources Dropdown */}
                           <div>
-                            <label htmlFor="resource-type-select" className="sr-only">
+                            <label
+                              htmlFor="resource-type-select"
+                              className="sr-only"
+                            >
                               Select resource type
                             </label>
                             <select
@@ -522,9 +577,15 @@ export const HomeLanding = () => {
                               aria-label="Select resource type"
                             >
                               <option value="">Resource Type</option>
-                              <option value="SHIVANI_BOOKS">Shivani Books</option>
-                              <option value="MID_SEM_PAPER">Mid Sem Papers</option>
-                              <option value="END_SEM_PAPER">End Sem Papers</option>
+                              <option value="SHIVANI_BOOKS">
+                                Shivani Books
+                              </option>
+                              <option value="MID_SEM_PAPER">
+                                Mid Sem Papers
+                              </option>
+                              <option value="END_SEM_PAPER">
+                                End Sem Papers
+                              </option>
                               <option value="NOTES">Notes</option>
                               <option value="LAB_MANUAL">Lab Manuals</option>
                               <option value="SYLLABUS">Syllabus</option>
@@ -546,13 +607,17 @@ export const HomeLanding = () => {
 
                         {/* Results Section */}
                         {results.length > 0 && (
-                          <div className="bg-white p-4 md:p-6 rounded-xl shadow-md mt-4" aria-live="polite">
+                          <div
+                            className="bg-white p-4 md:p-6 rounded-xl shadow-md mt-4"
+                            aria-live="polite"
+                          >
                             {/* Login Prompt */}
                             {hasSearched && results.length > 0 && hasMore && (
                               <div className="mt-4 p-3 md:p-4 bg-blue-50 rounded-lg border border-blue-200">
                                 <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
                                   <p className="text-blue-800 text-sm md:text-base text-center md:text-left">
-                                    To access all resources, please login to your PrepNerdz account
+                                    To access all resources, please login to
+                                    your PrepNerdz account
                                   </p>
                                   <Button
                                     colorVariant="blue"
@@ -564,7 +629,9 @@ export const HomeLanding = () => {
                                 </div>
                               </div>
                             )}
-                            <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-gray-800">Search Results</h3>
+                            <h3 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-gray-800">
+                              Search Results
+                            </h3>
                             <div className="space-y-4 md:space-y-6" role="list">
                               {results.map((resource, index) => (
                                 <div
@@ -576,24 +643,47 @@ export const HomeLanding = () => {
                                   <div className="flex flex-col md:flex-row gap-3 md:gap-4">
                                     <div className="bg-indigo-100 p-2 md:p-3 rounded-lg w-fit">
                                       {resource.type === "NOTES" ? (
-                                        <Paper className="size-4 md:size-6 text-indigo-600" aria-hidden="true" />
+                                        <Paper
+                                          className="size-4 md:size-6 text-indigo-600"
+                                          aria-hidden="true"
+                                        />
                                       ) : (
-                                        <BookOpen className="size-4 md:size-6 text-indigo-600" aria-hidden="true" />
+                                        <BookOpen
+                                          className="size-4 md:size-6 text-indigo-600"
+                                          aria-hidden="true"
+                                        />
                                       )}
                                     </div>
                                     <div className="flex-1">
-                                      <h4 id={`resource-title-${index}`} className="font-medium text-base md:text-lg text-gray-900">
+                                      <h4
+                                        id={`resource-title-${index}`}
+                                        className="font-medium text-base md:text-lg text-gray-900"
+                                      >
                                         {resource.title}
                                       </h4>
                                       <p className="text-xs md:text-sm text-gray-600 mt-1 md:mt-2">
-                                        {resource.subject?.semester?.branch?.name || "General"} • Semester {resource.subject?.semester?.semNumber}
+                                        {resource.subject?.semester?.branch
+                                          ?.name || "General"}{" "}
+                                        • Semester{" "}
+                                        {resource.subject?.semester?.semNumber}
                                       </p>
                                       <div className="flex flex-wrap items-center mt-2 gap-1 md:gap-2 text-xs md:text-sm text-gray-500">
-                                        <span>Type: {resource.type.replace(/_/g, " ")}</span>
+                                        <span>
+                                          Type:{" "}
+                                          {resource.type.replace(/_/g, " ")}
+                                        </span>
                                         <span aria-hidden="true">•</span>
-                                        <span>Uploaded by {resource.uploadedBy?.username || "System"}</span>
+                                        <span>
+                                          Uploaded by{" "}
+                                          {resource.uploadedBy?.username ||
+                                            "System"}
+                                        </span>
                                         <span aria-hidden="true">•</span>
-                                        <span>{new Date(resource.createdAt).toLocaleDateString()}</span>
+                                        <span>
+                                          {new Date(
+                                            resource.createdAt
+                                          ).toLocaleDateString()}
+                                        </span>
                                       </div>
                                     </div>
                                     <a
@@ -603,7 +693,10 @@ export const HomeLanding = () => {
                                       className="px-3 py-1 md:px-4 md:py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg flex items-center gap-1 md:gap-2 self-start md:self-center text-xs md:text-sm"
                                       aria-label={`Download ${resource.title}`}
                                     >
-                                      <Download className="h-3 w-3 md:h-4 md:w-4" aria-hidden="true" />
+                                      <Download
+                                        className="h-3 w-3 md:h-4 md:w-4"
+                                        aria-hidden="true"
+                                      />
                                       Download
                                     </a>
                                   </div>
@@ -615,12 +708,22 @@ export const HomeLanding = () => {
 
                         {/* Empty State */}
                         {hasSearched && results.length === 0 && !loading && (
-                          <div className="bg-white p-4 md:p-8 rounded-xl shadow-md text-center mt-4" aria-live="polite">
+                          <div
+                            className="bg-white p-4 md:p-8 rounded-xl shadow-md text-center mt-4"
+                            aria-live="polite"
+                          >
                             <div className="mx-auto h-12 w-12 md:h-16 md:w-16 text-gray-400">
-                              <BookOpen className="h-full w-full" aria-hidden="true" />
+                              <BookOpen
+                                className="h-full w-full"
+                                aria-hidden="true"
+                              />
                             </div>
-                            <h3 className="mt-2 md:mt-4 text-base md:text-lg font-medium text-gray-900">No resources found</h3>
-                            <p className="mt-1 md:mt-2 text-xs md:text-sm text-gray-500">Try different search terms or filters</p>
+                            <h3 className="mt-2 md:mt-4 text-base md:text-lg font-medium text-gray-900">
+                              No resources found
+                            </h3>
+                            <p className="mt-1 md:mt-2 text-xs md:text-sm text-gray-500">
+                              Try different search terms or filters
+                            </p>
                           </div>
                         )}
                       </div>
@@ -631,23 +734,35 @@ export const HomeLanding = () => {
             </section>
 
             {/* Features Section */}
-            <section id="features" className="py-12 md:py-16" aria-labelledby="features-heading">
+            <section
+              id="features"
+              className="py-12 md:py-16"
+              aria-labelledby="features-heading"
+            >
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-8 md:mb-10">
-                  <h2 id="features-heading" className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+                  <h2
+                    id="features-heading"
+                    className="text-2xl md:text-3xl special lg:text-4xl font-bold mb-4"
+                  >
                     What PrepNerdz Provides?
                   </h2>
                   <FloatingFeatures features={features} />
                 </div>
                 <div className="text-center mb-8 md:mb-12">
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Why Choose PrepNerdz?</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl special font-bold mb-4">
+                    Why Choose PrepNerdz?
+                  </h2>
                   <p className="text-black max-w-2xl mx-auto text-sm md:text-base">
                     Everything you need to excel in your academics
                   </p>
                 </div>
 
                 {/* Desktop Grid */}
-                <div className="hidden md:flex flex-row flex-wrap gap-4 md:gap-6 lg:gap-10 items-center justify-center" role="list">
+                <div
+                  className="hidden md:flex flex-row flex-wrap gap-4 md:gap-6 lg:gap-10 items-center justify-center"
+                  role="list"
+                >
                   {featureItems.map((item, index) => (
                     <LandingHero
                       key={index}
@@ -683,13 +798,19 @@ export const HomeLanding = () => {
             >
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-8 md:mb-12">
-                  <h2 id="how-it-works-heading" className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+                  <h2
+                    id="how-it-works-heading"
+                    className="text-2xl md:text-3xl lg:text-4xl special font-bold mb-4"
+                  >
                     How to use PrepNerdz?
                   </h2>
                 </div>
                 <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-bounce">
                   Start watching from{" "}
-                  <span className="text-red-500 font-extrabold hover:underline">07:00/19:50</span> to direct jump into dashboard part!
+                  <span className="text-red-500 font-extrabold hover:underline">
+                    07:00/19:50
+                  </span>{" "}
+                  to direct jump into dashboard part!
                 </div>
                 <div className="flex justify-center">
                   <iframe
@@ -704,10 +825,17 @@ export const HomeLanding = () => {
             </section>
 
             {/* Team Section */}
-            <section id="team" className="py-12 md:py-16" aria-labelledby="team-heading">
+            <section
+              id="team"
+              className="py-12 md:py-16"
+              aria-labelledby="team-heading"
+            >
               <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-8 md:mb-12">
-                  <h2 id="team-heading" className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+                  <h2
+                    id="team-heading"
+                    className="text-2xl md:text-3xl lg:text-4xl special font-bold mb-4"
+                  >
                     Meet the founders and Developers
                   </h2>
                 </div>

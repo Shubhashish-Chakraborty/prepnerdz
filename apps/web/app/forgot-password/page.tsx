@@ -176,7 +176,7 @@ export default function ForgotPassword() {
           />
         </div>
         <div className="flex flex-col justify-center mt-10 space-y-10 items-center">
-          <div className="animate-pulse text-red-400 font-extrabold text-xl md:text-5xl">
+          <div className="animate-pulse special text-red-400 font-extrabold text-xl md:text-5xl">
             Reset Your Password!
           </div>
 

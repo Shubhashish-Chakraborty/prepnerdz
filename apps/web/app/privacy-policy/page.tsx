@@ -100,7 +100,7 @@ const PrivacyPolicyPage = () => {
               }}
               className="wrapper flex flex-col items-start justify-center"
             >
-              <h1 className="mx-auto mb-8 w-full text-center text-4xl font-extrabold tracking-tighter text-primary md:mb-12 md:text-5xl">
+              <h1 className="mx-auto mb-8 w-full special text-center text-4xl font-extrabold tracking-tighter text-primary md:mb-12 md:text-5xl">
                 Privacy Policy
               </h1>
               <div className="mx-auto text-center text-lg font-medium text-foreground/70">
