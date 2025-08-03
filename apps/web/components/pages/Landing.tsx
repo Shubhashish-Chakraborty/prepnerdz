@@ -19,7 +19,7 @@ import { LoginModal } from "../modals/Login";
 import { SignupModal } from "../modals/Signup";
 import Link from "next/link";
 import LandingHero from "../ui/cards/HeroCard";
-import { ThanksForVisit } from "../ui/ThanksForVisit";
+// import { ThanksForVisit } from "../ui/ThanksForVisit";
 import { EnterDoor } from "@/icons/EnterDoor";
 import { Globe } from "@/icons/Globe";
 import axios from "axios";
@@ -715,15 +715,15 @@ export const HomeLanding = () => {
                 {/* Desktop Layout */}
                 <div className="hidden md:block">
                   <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 lg:space-x-40 mb-8">
-                    <ThanksForVisit />
+                    {/* <ThanksForVisit /> */}
                     <ProfileSimple {...teamMembers[0]} />
-                    <ThanksForVisit />
+                    {/* <ThanksForVisit /> */}
                   </div>
                   <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
-                    <ThanksForVisit />
+                    {/* <ThanksForVisit /> */}
                     <ProfileSimple {...teamMembers[1]} />
                     <ProfileSimple {...teamMembers[2]} />
-                    <ThanksForVisit />
+                    {/* <ThanksForVisit /> */}
                   </div>
                 </div>
 
