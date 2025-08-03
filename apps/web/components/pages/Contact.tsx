@@ -10,7 +10,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { Footer } from "../ui/Footer";
-import { MessageSend } from "@/icons/MessageSend";
+import { CustomMessageSend } from "@/icons/CustomMessageSend";
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 
@@ -265,9 +265,9 @@ export const ContactLanding = () => {
                                                         Sending...
                                                     </span>
                                                 ) : (
-                                                    <span className="flex items-center">
+                                                    <span className="flex items-center gap-3">
                                                         Send Message
-                                                        <MessageSend />
+                                                        <CustomMessageSend />
                                                     </span>
                                                 )}
                                             </button>
