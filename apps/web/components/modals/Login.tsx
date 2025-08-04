@@ -1,5 +1,3 @@
-
-import { Eye, EyeOff } from "lucide-react";
 import { Button } from "../ui/buttons/Button";
 import { CloseCircle } from "@/icons/CloseCircle";
 import TypingText from "../ui/TypingTest";
@@ -27,7 +25,6 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
         password: ''
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const modalRef = useRef<HTMLDivElement>(null);
 
@@ -150,24 +147,15 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                     </div>
 
                                     <div className="w-full max-w-xs md:max-w-md">
-                                 <InputBulged
-                                  type={showPassword ? "text" : "password"}
-                                    placeholder="Enter Password:"
-                                   icon={<Key className="size-5" />}
-                                     name="password"
-                                      onChange={handleInputChange}
-                                       value={loginData.password}
-                                        endIcon={
-                                         <div
-                                      onClick={() => setShowPassword((prev) => !prev)}
-                                       className="cursor-pointer hover:text-blue-600 transition"
-                                                    >
-                                       {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
-                                          </div>
-                                             }
-                                                 />
-                                             </div>
-
+                                        <InputBulged
+                                            type="password"
+                                            placeholder="Enter Password:"
+                                            icon={<Key className="size-5" />}
+                                            name="password"
+                                            onChange={handleInputChange}
+                                            value={loginData.password}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="flex justify-center mt-6 md:mt-8">
                                     <Button
@@ -219,7 +207,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
 
                             {/* Forgot Password */}
                             <div className="flex justify-center transition-all text-base md:text-xl duration-500 hover:text-blue-600 font-bold mt-2 md:mt-0">
-                                <Link href={"/forgot-password"} onClick={()=>{ onClose()}}>
+                                <Link href={"/forgot-password"} onClick={() => { onClose() }}>
                                     Forgot Password?
                                 </Link>
                             </div>
