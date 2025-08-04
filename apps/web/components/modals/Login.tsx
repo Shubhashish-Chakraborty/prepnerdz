@@ -207,7 +207,7 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
 
                             {/* Forgot Password */}
                             <div className="flex justify-center transition-all text-base md:text-xl duration-500 hover:text-blue-600 font-bold mt-2 md:mt-0">
-                                <Link href={"/forgot-password"}>
+                                <Link href={"/forgot-password"} onClick={() => { onClose() }}>
                                     Forgot Password?
                                 </Link>
                             </div>

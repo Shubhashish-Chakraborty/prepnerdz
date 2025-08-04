@@ -14,6 +14,15 @@
   }
 }
 
+:root {
+  --font-saira: "Saira", sans-serif;
+  --font-special-gothic: "font-special-gothic";
+  --font-myfont2: "Share Tech", sans-serif;
+  --font-myfont3: "Josefin Sans", sans-serif;
+}
+body {
+  font-family: var(--font-saira);
+}
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -25,6 +34,12 @@
   }
 }
 
+.font-saira {
+  font-family: var(--font-saira);
+}
+.special {
+  font-family: var(--font-special-gothic);
+}
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out;
 }
@@ -229,4 +244,38 @@
 
 .animate-wink {
   animation: wink 1.8s infinite;
+}
+
+@keyframes fadeInUpLeaderboard {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-leaderboard-fade-in-up {
+  /* Apply the animation and make it fill backwards to prevent a flash of unstyled content */
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-fill-mode: backwards;
+}
+
+/* Create utility classes for staggered delays */
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+.animation-delay-500 {
+  animation-delay: 0.5s;
 }

@@ -20,6 +20,7 @@ import { ClientOnly } from "../ClientOnly";
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+    const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
     const [isMobileStudyMaterialOpen, setIsMobileStudyMaterialOpen] = useState(false)
     const [isMobilePYQOpen, setIsMobilePYQOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
@@ -87,6 +88,14 @@ export const Navbar = () => {
     const toggleDropdown = (dropdown: string) => {
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown)
     }
+
+    const handleMouseEnter = (dropdown: string) => {
+        setHoveredDropdown(dropdown);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredDropdown(null);
+    };
 
     const closeAllDropdowns = () => {
         setActiveDropdown(null)
@@ -274,91 +283,81 @@ export const Navbar = () => {
                                 </Link>
 
                                 {/* StudyMaterial Dropdown */}
-                                <div className="relative">
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => handleMouseEnter("studymaterial")}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <button
                                         onClick={() => toggleDropdown("studymaterial")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
-                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                        <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                             Study Material
                                         </span>
                                         <Down className="size-4 xl:size-5 ml-1" />
                                     </button>
-                                    {activeDropdown === "studymaterial" && (
-                                        <div className="absolute top-full left-0 mt-2 w-[280px] xl:w-[300px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50">
-                                            {[
-                                                {
-                                                    title: "Shivani PDFs",
-                                                    description: "Comprehensive study materials and notes",
-                                                },
-                                                {
-                                                    title: "IMP Questions",
-                                                    description: "Important questions for exam preparation",
-                                                },
-                                                {
-                                                    title: "IMP Topics",
-                                                    description: "Get the most important topics unit wise",
-                                                },
-                                                {
-                                                    title: "Best Academic Notes",
-                                                    description: "High-quality academic notes and resources",
-                                                },
-                                                {
-                                                    title: "Syllabus",
-                                                    description: "Step-by-step manual solutions",
-                                                },
-                                                {
-                                                    title: "Lab Manual",
-                                                    description: "All Lab manual and there solutions",
-                                                },
-                                            ].map((item, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                                                    onClick={() => handleLinkClick()}
-                                                >
-                                                    <div className="text-sm font-medium">{item.title}</div>
-                                                    <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                                    <div className={`absolute top-full left-0 w-[300px] rounded-xl border-1 border-black bg-white/95 backdrop-blur-lg shadow-2xl p-3 space-y-1 z-50 origin-top-left transition-all duration-200 ease-in-out
+                                        ${(activeDropdown === "studymaterial" || hoveredDropdown === "studymaterial")
+                                            ? 'transform opacity-100 scale-100'
+                                            : 'transform opacity-0 scale-95 pointer-events-none'
+                                        }`}
+                                    >
+                                        {[
+                                            { title: "Shivani PDFs", description: "Comprehensive study materials and notes" },
+                                            { title: "IMP Questions", description: "Important questions for exam preparation" },
+                                            { title: "IMP Topics", description: "Get the most important topics unit wise" },
+                                            { title: "Best Academic Notes", description: "High-quality academic notes and resources" },
+                                            { title: "Syllabus", description: "Step-by-step manual solutions" },
+                                            { title: "Lab Manual", description: "All Lab manual and there solutions" },
+                                        ].map((item, index) => (
+                                            <div
+                                                key={index}
+                                                className="block cursor-pointer border-2 border-white hover:border-blue-500 select-none space-y-1 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02]"
+                                                onClick={() => handleLinkClick()}
+                                            >
+                                                <div className="font-bold text-blue-700 text-center">{item.title}</div>
+                                                <p className="line-clamp-2 text-sm text-black text-center">{item.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 {/* PYQ'S Dropdown */}
-                                <div className="relative">
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => handleMouseEnter("pyqs")}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <button
                                         onClick={() => toggleDropdown("pyqs")}
                                         className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     >
-                                        <span className="hover:text-black hover:bg-cyan-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                        <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                             {"PYQ'S"}
                                         </span>
                                         <Down className="size-4 xl:size-5 ml-1" />
                                     </button>
-                                    {activeDropdown === "pyqs" && (
-                                        <div className="absolute top-full left-0 mt-2 w-[260px] xl:w-[280px] rounded-lg border border-white/20 bg-white/95 backdrop-blur-md shadow-lg p-4 space-y-3 z-50">
-                                            {[
-                                                {
-                                                    title: "Mid Term PYQ'S",
-                                                    description: "Previous year mid-term questions",
-                                                },
-                                                {
-                                                    title: "End Sem PYQ'S",
-                                                    description: "Previous year end semester questions",
-                                                },
-                                            ].map((item, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="block cursor-pointer select-none space-y-1 rounded-md p-3 transition-colors hover:bg-gray-100 hover:text-gray-900"
-                                                    onClick={() => handleLinkClick()}
-                                                >
-                                                    <div className="text-sm font-medium">{item.title}</div>
-                                                    <p className="line-clamp-2 text-sm text-gray-600">{item.description}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                                    <div className={`absolute top-full left-0 w-[280px] rounded-xl border-1 border-black bg-white/95 backdrop-blur-lg shadow-2xl p-3 space-y-1 z-50 origin-top-left transition-all duration-200 ease-in-out
+                                        ${(activeDropdown === "pyqs" || hoveredDropdown === "pyqs")
+                                            ? 'transform opacity-100 scale-100'
+                                            : 'transform opacity-0 scale-95 pointer-events-none'
+                                        }`}
+                                    >
+                                        {[
+                                            { title: "Mid Term PYQ'S", description: "Previous year mid-term questions" },
+                                            { title: "End Sem PYQ'S", description: "Previous year end semester questions" },
+                                        ].map((item, index) => (
+                                            <div
+                                                key={index}
+                                                className="block cursor-pointer border-2 border-white hover:border-blue-500 select-none space-y-1 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02]"
+                                                onClick={() => handleLinkClick()}
+                                            >
+                                                <div className="font-bold text-blue-700 text-center">{item.title}</div>
+                                                <p className="line-clamp-2 text-sm text-black text-center">{item.description}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
                                 <Link
@@ -370,13 +369,13 @@ export const Navbar = () => {
                                         Contact us
                                     </span>
                                 </Link>
-                                
+
                                 <Link
                                     href="/contributors"
                                     className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
                                     onClick={closeAllDropdowns}
                                 >
-                                    <span className="hover:text-black hover:bg-purple-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                    <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                         Contributors
                                     </span>
                                 </Link>
@@ -422,7 +421,6 @@ export const Navbar = () => {
 
                         {/* Mobile menu button */}
                         <div className="flex items-center space-x-2 md:space-x-3 lg:hidden">
-                            {/* Mobile GitHub link */}
                             <Link
                                 href="https://github.com/Shubhashish-Chakraborty/prepnerdz"
                                 target="_blank"

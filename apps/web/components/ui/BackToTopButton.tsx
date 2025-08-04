@@ -2,62 +2,59 @@
 
 import React, { useState, useEffect } from 'react';
 
-const BackToTopButton: React.FC = () => {
-  const [visible, setVisible] = useState<boolean>(false);
+// A simple SVG arrow icon for a cleaner look
+const UpArrowIcon = () => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        strokeWidth={3} // Bolder stroke
+        stroke="currentColor" 
+        className="w-6 h-6"
+    >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+    </svg>
+);
 
-  useEffect(() => {
-    const toggleVisibility = () => {
-      setVisible(window.pageYOffset > 300);
+
+const BackToTopButton: React.FC = () => {
+    const [visible, setVisible] = useState<boolean>(false);
+
+    useEffect(() => {
+        const toggleVisibility = () => {
+            setVisible(window.pageYOffset > 300);
+        };
+
+        window.addEventListener('scroll', toggleVisibility);
+        return () => window.removeEventListener('scroll', toggleVisibility);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  if (!visible) return null;
-
-  return (
-    <button
-      onClick={scrollToTop}
-      style={{
-        position: 'fixed',
-        bottom: 30,
-        right: 30,
-        width: 60,
-        height: 60,
-        borderRadius: '50%',
-        background: 'black',
-        color: '#fff',
-        fontSize: 26,
-        fontWeight: 'bold',
-        letterSpacing: '1px',
-        border: 'none',
-        cursor: 'pointer',
-        boxShadow: '0 0 15px rgba(124, 58, 237, 0.6), 0 0 30px rgba(79, 70, 229, 0.3)',
-        zIndex: 1000,
-        transition: 'all 0.3s ease',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        animation: 'floatUpDown 2s ease-in-out infinite',
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(20px)',
-      }}
-      aria-label="Back to top"
-      onMouseOver={(e) => {
-        e.currentTarget.style.transform = 'scale(1.1)';
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.transform = 'scale(1)';
-      }}
-    >
-      ↑
-    </button>
-  );
+    // We use a transition class on the button itself for smooth appearance/disappearance
+    return (
+        <button
+            onClick={scrollToTop}
+            className={`
+                fixed bottom-32 right-6 z-40
+                w-14 h-14 
+                bg-gray-900 text-white 
+                rounded-full 
+                flex items-center justify-center 
+                shadow-lg 
+                border-2 border-white/20
+                transition-all duration-300 ease-in-out
+                hover:bg-amber-500 hover:scale-110 hover:shadow-amber-500/50
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500
+                ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}
+            `}
+            aria-label="Back to top"
+        >
+            <UpArrowIcon />
+        </button>
+    );
 };
 
 export default BackToTopButton;
