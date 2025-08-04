@@ -743,7 +743,7 @@ export const HomeLanding = () => {
                 <div className="text-center mb-8 md:mb-10">
                   <h2
                     id="features-heading"
-                    className="text-2xl md:text-3xl special lg:text-4xl font-bold mb-4"
+                    className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4"
                   >
                     What PrepNerdz Provides?
                   </h2>
