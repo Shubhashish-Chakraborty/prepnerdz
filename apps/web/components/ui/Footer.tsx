@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "react-hot-toast";
 import GithubStar from "./buttons/GithubStar"
 import axios from "axios";
+import { ClientOnly } from "./ClientOnly";
 
 export const Footer = () => {
     const [isVisible, setIsVisible] = useState(false)
@@ -69,6 +70,7 @@ export const Footer = () => {
     const quickLinks = [
         { name: "Home Page", href: "/" },
         { name: "Contact Us", href: "/contact-us" },
+        { name: "Feedback", href: "/feedback" },
         { name: "Open Source", href: "https://github.com/Shubhashish-Chakraborty/prepnerdz", external: true },
         { name: "Developer", href: "https://imshubh.site", external: true },
     ]
@@ -202,7 +204,9 @@ export const Footer = () => {
                     </div>
 
                     <div className="flex justify-center text-center md:mt-2 mt-4">
-                        Sign up now and be a part of our growing family - we&apos;re now a community of over {userCount} learners and counting!
+                        <ClientOnly>
+                            Sign up now and be a part of our growing family - we&apos;re now a community of over {userCount} learners and counting!
+                        </ClientOnly>
                     </div>
 
 

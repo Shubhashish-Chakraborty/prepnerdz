@@ -4,7 +4,7 @@ import express from 'express';
 import session from 'express-session';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
-import { PORT } from './config';
+import { PORT, SESSION_SECRET } from './config';
 import { UserRouter } from './routes/userRoutes';
 import { OauthRouter } from './oauth/main';
 import { requestValidation } from './middlewares/requestValidation';
@@ -17,6 +17,7 @@ import { searchRouter } from './routes/searchRoutes';
 import { getMyIdRouter } from './routes/getMyIdRoutes';
 import { AvatarRouter } from './routes/avatarRoutes';
 import { ContactRouter } from './routes/contactRoutes';
+import { FeedbackRouter } from './routes/feedbackRoutes';
 import prisma from './db/prisma';
 import { dataRouter } from './routes/dataRoutes';
 import { bookmarkRouter } from './routes/bookmarkRoutes';
@@ -33,8 +34,7 @@ app.use(express.urlencoded({
 // Session configuration
 app.use(
     session({
-        // secret: process.env.SESSION_SECRET || 'defaultsecret',
-        secret: process.env.SESSION_SECRET as string,
+        secret: SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -68,6 +68,7 @@ app.use("/api/v1/auth/user", UserRouter);
 app.use("/auth", OauthRouter);
 app.use("/api/v1/avatar", AvatarRouter);
 app.use("/api/v1/contact", ContactRouter);
+app.use("/api/v1/feedback", FeedbackRouter);
 app.use("/api/v1/bookmark" , bookmarkRouter);
 
 // ADMIN API ENDPOINTS!!!

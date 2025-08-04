@@ -22,6 +22,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Add settings to help with hydration issues
+  reactStrictMode: true,
+  // Disable source maps in development to reduce browser extension interference
+  ...(process.env.NODE_ENV === 'development' && {
+    webpack: (config, { dev, isServer }) => {
+      if (dev && !isServer) {
+        config.devtool = 'eval-source-map';
+      }
+      return config;
+    },
+  }),
+  // Add experimental features for better SSR handling
+  experimental: {
+    // Enable server actions if you're using them
+    serverActions: true,
+  },
 };
 
 export default nextConfig;
