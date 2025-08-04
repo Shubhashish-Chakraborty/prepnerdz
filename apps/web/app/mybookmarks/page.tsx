@@ -136,7 +136,7 @@ export default function MyBookmarksPage() {
         <Navbar />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <h1 className="text-3xl font-bold mb-6 text-center">
+          <h1 className="text-3xl font-bold mb-6 text-center special">
             📌 My Bookmarked Resources
           </h1>
 

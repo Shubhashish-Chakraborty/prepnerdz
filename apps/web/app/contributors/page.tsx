@@ -126,7 +126,7 @@ export default async function ContributorsPage() {
                   <div className="text-xl">Open Source</div>
                 </Badge>
               </Link>
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+              <h1 className="text-5xl special md:text-6xl font-bold tracking-tight mb-6">
                 Contributors
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
@@ -283,7 +283,9 @@ export default async function ContributorsPage() {
 
             <div className="mt-32 text-center">
               <div className="max-w-2xl mx-auto">
-                <h2 className="text-3xl font-bold mb-4">Join the community</h2>
+                <h2 className="text-3xl font-bold mb-4 special">
+                  Join the community
+                </h2>
                 <p className="text-lg text-muted-foreground mb-10 leading-relaxed">
                   PrepNerdz is built by developers like you. Every contribution,
                   no matter how small, helps making the life of the rising
