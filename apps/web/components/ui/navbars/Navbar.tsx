@@ -108,7 +108,7 @@ export const Navbar = () => {
 
     return (
         <>
-            <header className="sticky top-2 sm:top-4 z-50 w-full px-2 sm:px-4">
+            <header className="top-2 sm:top-4 z-50 w-full px-2 sm:px-4">
                 <div>
                     <LoginModal
                         open={isLoginOpen}
