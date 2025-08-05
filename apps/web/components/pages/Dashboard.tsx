@@ -64,65 +64,70 @@ export const DashboardLanding = () => {
         checkAuth();
     }, [router]);
     return (
-        <div className="relative min-h-screen bg-mainBgColor">
-            {/* Background Animated Circles */}
-            <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.3 }}
-                    transition={{ duration: 1 }}
-                    className="absolute animate-pulse bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-red-300/80 blur-[80px] md:blur-[150px]"
-                />
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1.2 }}
-                    transition={{ duration: 2, delay: 0.5 }}
-                    className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-cyan-500/40 blur-[60px] md:blur-[120px]"
-                />
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 2.4 }}
-                    transition={{ duration: 2, delay: 1 }}
-                    className="absolute animate-pulse top-1/2 left-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-emerald-500/40 blur-[50px] md:blur-[100px] transform -translate-x-1/2 -translate-y-1/2"
-                />
-            </div>
-
-            {/* Main container */}
-            <div className="relative z-10">
-
-                {/* Main page content starts here in this div!!! */}
-                <div className=" px-4 sm:px-6 lg:px-8">
-                    <div className="min-h-screen flex">
-                        {/* Sidebar */}
-                        <Sidebar
-                            navigationItems={navigationItems}
-                            activeNavItem={activeNavItem}
-                            setActiveNavItem={setActiveNavItem}
-                            isSidebarOpen={isSidebarOpen}
-                            setIsSidebarOpen={setIsSidebarOpen}
-                        />
-
-                        {/* Main Content Area */}
-                        <div className="flex-1 flex flex-col lg:ml-64">
-                            {/* Header */}
-                            <Header userName={username} setIsSidebarOpen={setIsSidebarOpen} />
-
-                            {/* Main Content */}
-                            <main className="flex-1 p-4 lg:p-8">
-                                <div className="max-w-6xl mx-auto">
-                                    {/* Search Panel - Different panel based on active navigation */}
-                                    <SearchPanel activeNavItem={activeNavItem} />
-                                </div>
-                            </main>
-                        </div>
-
-                        {/* Mobile Sidebar Overlay */}
-                        {isSidebarOpen && (
-                            <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
-                        )}
-                    </div>
-                </div>
-            </div>
+      <div className="relative min-h-screen bg-mainBgColor">
+        {/* Background Animated Circles */}
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.3 }}
+            transition={{ duration: 1 }}
+            className="absolute animate-pulse bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-red-300/80 blur-[80px] md:blur-[150px]"
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1.2 }}
+            transition={{ duration: 2, delay: 0.5 }}
+            className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-cyan-500/40 blur-[60px] md:blur-[120px]"
+          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 2.4 }}
+            transition={{ duration: 2, delay: 1 }}
+            className="absolute animate-pulse top-1/2 left-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-emerald-500/40 blur-[50px] md:blur-[100px] transform -translate-x-1/2 -translate-y-1/2"
+          />
         </div>
-    )
+
+        {/* Main container */}
+        <div className="relative z-10">
+          {/* Main page content starts here in this div!!! */}
+          <div className=" px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen flex">
+              {/* Sidebar */}
+              <Sidebar
+                navigationItems={navigationItems}
+                activeNavItem={activeNavItem}
+                setActiveNavItem={setActiveNavItem}
+                isSidebarOpen={isSidebarOpen}
+                setIsSidebarOpen={setIsSidebarOpen}
+              />
+
+              {/* Main Content Area */}
+              <div className="flex-1 flex flex-col lg:ml-64">
+                {/* Header */}
+                <Header
+                  userName={username}
+                  setIsSidebarOpen={setIsSidebarOpen}
+                />
+
+                {/* Main Content */}
+                <main className="flex-1 p-4 lg:p-8">
+                  <div className="max-w-6xl mx-auto">
+                    {/* Search Panel - Different panel based on active navigation */}
+                    <SearchPanel activeNavItem={activeNavItem} />
+                  </div>
+                </main>
+              </div>
+
+              {/* Mobile Sidebar Overlay */}
+              {isSidebarOpen && (
+                <div
+                  className="fixed inset-0 bg-white/30 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 }
