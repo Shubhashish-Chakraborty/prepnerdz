@@ -45,7 +45,7 @@ export const Navbar = () => {
 
     return (
         <>
-            <header className="sticky top-2 sm:top-4 z-50 w-full px-2 sm:px-4">
+            <header className="sticky top-2 sm:top-4 z-30 w-full px-2 sm:px-4">
                 <div>
                     <LoginModal
                         open={isLoginOpen}
@@ -158,7 +158,17 @@ export const Navbar = () => {
                 <div className="fixed inset-0 z-40 lg:hidden">
                     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={closeMobileMenu} aria-hidden="true" />
                     <div className="fixed right-0 top-0 h-full w-[280px] sm:w-[320px] bg-white/95 backdrop-blur-md border-l border-white/20 shadow-xl overflow-y-auto">
-                        <div className="flex flex-col p-4 sm:p-6 pt-16 sm:pt-20 space-y-3 sm:space-y-4">
+  {/* Plain X icon in top-right */}
+  <button
+    onClick={closeMobileMenu}
+    className="absolute top-4 right-4 z-50 text-gray-800 hover:text-black transition-colors"
+    aria-label="Close menu"
+  >
+    <CloseCircle className="size-6 sm:size-7" />
+  </button>
+
+  <div className="flex flex-col p-4 sm:p-6 pt-16 sm:pt-20 space-y-3 sm:space-y-4">
+
                             <Link
                                 href="/"
                                 className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
