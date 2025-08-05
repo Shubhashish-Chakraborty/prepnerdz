@@ -15,6 +15,7 @@ const ProfileSimple = ({
     linkedin,
     instagram,
     x,
+    role
 }: {
     name: string;
     image: string;
@@ -23,6 +24,7 @@ const ProfileSimple = ({
     linkedin?: string;
     instagram?: string;
     x?: string;
+    role: string;
 }) => {
     return (
         <div className="cursor-pointer bg-[#555] w-[20rem] sm:w-[22rem] md:w-[25rem] px-4 sm:px-5 py-5 sm:py-6 border-4 border-white shadow-2xl hover:shadow-purple-400 rounded-lg text-center text-white font-poppins transition-all duration-300 hover:-translate-y-2">
@@ -30,7 +32,9 @@ const ProfileSimple = ({
                 <Image src={image} alt="profile" width={200} height={200} />
             </div>
 
-            <p className="mt-4 sm:mt-5 font-semibold text-base sm:text-lg">{name}</p>
+            <p className='mt-2 text-gray-300'> {role} </p>
+
+            <p className="mt-3 sm:mt-5 font-semibold text-base sm:text-lg">{name}</p>
 
             <div
                 onClick={() => {

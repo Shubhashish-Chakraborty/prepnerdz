@@ -119,9 +119,8 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
           </h2>
         </div>
 
-        {/* Avatar + Logout */}
+        {/* Avatar + Dropdown + Logout */}
         <div className="flex items-center gap-3" ref={avatarMenuRef}>
-          {/* Avatar Dropdown Trigger */}
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -209,7 +208,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
             </AnimatePresence>
           </div>
 
-          {/* Logout Button (outside dropdown) */}
+          {/* Logout Button */}
           <Button text="LogOut" colorVariant="red" sizeVariant="medium" onClick={handleLogout} />
         </div>
       </div>
