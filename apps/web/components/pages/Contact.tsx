@@ -151,15 +151,13 @@ export const ContactLanding = () => {
                   </h3>
                   <div className="flex gap-4">
                     <button
-                      onClick={() =>
-                        window.open(
-                          "https://www.instagram.com/___shubhashish___"
-                        )
-                      }
-                      className="bg-pink-100 cursor-pointer hover:-translate-y-1 hover:bg-pink-200 p-3 rounded-full transition-all duration-500"
-                      aria-label="Instagram"
-                    >
-                      <Instagram className="size-6 text-pink-600" />
+                    onClick={() =>
+                      window.open("https://www.instagram.com/___shubhashish___", "_blank", "noopener,noreferrer")
+                    }
+                    className="bg-[#E1306C] cursor-pointer hover:-translate-y-1 hover:bg-[#c72b60] p-3 rounded-full transition-all duration-500"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="size-6 text-white" />
                     </button>
 
                     <button
@@ -178,10 +176,10 @@ export const ContactLanding = () => {
                           "https://www.linkedin.com/in/Shubhashish-Chakraborty"
                         )
                       }
-                      className="bg-blue-100 cursor-pointer hover:-translate-y-1 hover:bg-blue-200 p-3 rounded-full transition-all duration-500"
+                      className="bg-[#0A66C2] cursor-pointer hover:-translate-y-1 hover:bg-[#006699] p-3 rounded-full transition-all duration-500"
                       aria-label="LinkedIn"
                     >
-                      <Linkedin className="size-6 text-blue-600" />
+                      <Linkedin className="size-6 text-white" />
                     </button>
                   </div>
                 </div>
