@@ -153,7 +153,7 @@ export const Navbar = () => {
                                     <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                         Home
                                     </span>
-                                </Link>
+                                </Link>                                                                          
 
                                 <Link
                                     href="/about"
