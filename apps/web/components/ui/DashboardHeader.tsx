@@ -136,7 +136,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
               )}
             </button>
 
-            {/* Dropdown */}
+            {/* Dropdown Menu */}
             <AnimatePresence>
               {isDropdownOpen && (
                 <motion.div
@@ -162,7 +162,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                       My Bookmarks
                     </button>
 
-                    {/* Settings Dropdown */}
+                    {/* Settings */}
                     <div className="border-t my-1" />
                     <button
                       onClick={() => setSettingsOpen(!settingsOpen)}
@@ -209,11 +209,12 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
             </AnimatePresence>
           </div>
 
-          {/* Logout Button (outside dropdown) */}
+          {/* Logout Button */}
           <Button text="LogOut" colorVariant="red" sizeVariant="medium" onClick={handleLogout} />
         </div>
       </div>
 
+      {/* Backdrop for Dropdown */}
       {isDropdownOpen && <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />}
     </header>
   );
