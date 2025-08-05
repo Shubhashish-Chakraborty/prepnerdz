@@ -432,6 +432,14 @@ export const Navbar = () => {
                                 Contact us
                             </Link>
 
+                            <Link
+                                href="/contributors"
+                                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
+                                onClick={closeMobileMenu}
+                            >
+                                Contributors
+                            </Link>
+
                             {/* Mobile Auth Section */}
                             <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
                                 <div className="hidden md:flex items-center space-x-4">
