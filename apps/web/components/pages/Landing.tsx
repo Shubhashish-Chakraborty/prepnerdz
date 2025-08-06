@@ -28,6 +28,7 @@ import { toast } from "react-hot-toast";
 import FloatingFeatures from "../ui/cards/FloatingSimple";
 import { Question } from "@/icons/Question";
 import { Carousel } from "../carousel/LandingCarousle";
+import CountUp from "react-countup";
 
 declare global {
   interface Navigator {
@@ -135,9 +136,24 @@ export const HomeLanding = () => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [studentCount, setStudentCount] = useState(0);
 
   const guideRef = useRef<HTMLDivElement>(null);
   const mainContentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const fetchUserCount = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/users`
+        );
+        setStudentCount(response.data.totalUsers);
+      } catch (error) {
+        console.error("Failed to fetch user count:", error);
+      }
+    };
+    fetchUserCount();
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -485,7 +501,7 @@ export const HomeLanding = () => {
                     <div className="flex items-center gap-2">
                       <Users className="size-5 md:size-6" aria-hidden="true" />
                       <span className="text-sm text-gray-600">
-                        500+ Students
+                        <CountUp end={studentCount} duration={2.5} />+ Students
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
