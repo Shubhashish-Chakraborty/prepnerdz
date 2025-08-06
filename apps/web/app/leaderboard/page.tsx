@@ -1,3 +1,4 @@
+// All your imports remain the same
 import React from "react";
 import fs from "fs";
 import path from "path";
@@ -6,7 +7,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 
-// The Contributor interface remains the same.
 interface Contributor {
   username: string;
   avatar_url: string;
@@ -60,7 +60,6 @@ export const metadata: Metadata = {
   },
 };
 
-// This function is already correct and needs no changes.
 async function getLeaderboard(): Promise<Contributor[]> {
   const isServer = typeof window === "undefined";
   if (isServer) {
@@ -81,7 +80,6 @@ async function getLeaderboard(): Promise<Contributor[]> {
   return res.json();
 }
 
-// Helper component for the top 3 podium cards
 const PodiumCard = ({
   contributor,
   rank,
@@ -89,8 +87,6 @@ const PodiumCard = ({
   contributor: Contributor;
   rank: number;
 }) => {
-  // FIX: Add an explicit type with an index signature `[key: number]`
-  // This tells TypeScript that this object can be indexed with a number.
   const rankStyles: {
     [key: number]: {
       borderColor: string;
@@ -158,7 +154,7 @@ export default async function LeaderboardPage() {
     <div className="bg-[#08090a] text-white min-h-screen p-4 sm:p-6 md:p-8">
       <Navbar />
       <div className="max-w-5xl mx-auto">
-        {/* --- Disclaimer Section --- */}
+        {/* Disclaimer */}
         <div className="animate-leaderboard-fade-in-up mt-12 text-center text-sm text-gray-300 border border-gray-700 rounded-lg p-4">
           <p className="font-semibold">Disclaimer</p>
           <p>
@@ -168,7 +164,7 @@ export default async function LeaderboardPage() {
           </p>
         </div>
 
-        {/* --- Header Section --- */}
+        {/* Header */}
         <div className="text-center mb-10 animate-leaderboard-fade-in-up">
           <h1 className="text-4xl md:text-5xl special mt-10 font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-pink-600">
             GSSoC 2025 Contribution Leaderboard
@@ -199,7 +195,7 @@ export default async function LeaderboardPage() {
           </div>
         </div>
 
-        {/* --- Top 3 Podium Section --- */}
+        {/* Top 3 Podium */}
         {topThree.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 animate-leaderboard-fade-in-up">
             {topThree.map((contributor, index) => (
@@ -212,36 +208,20 @@ export default async function LeaderboardPage() {
           </div>
         )}
 
-        {/* --- Main Leaderboard Table --- */}
+        {/* Leaderboard Table */}
         <div className="bg-gray-800/50 backdrop-blur-sm animate-leaderboard-fade-in-up rounded-2xl p-1 shadow-lg">
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead className="bg-gray-900/70">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-300 rounded-tl-xl">
-                    Rank
-                  </th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-300">
-                    Contributor
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-300">
-                    Total PRs
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-300">
-                    Level 3
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-300">
-                    Level 2
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-300">
-                    Level 1
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-300">
-                    Normal
-                  </th>
-                  <th className="px-4 py-3 text-center font-semibold text-gray-300 rounded-tr-xl">
-                    Total Score
-                  </th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-300 rounded-tl-xl">Rank</th>
+                  <th className="px-4 py-3 text-left font-semibold text-gray-300">Contributor</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Total PRs</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Level 3</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Level 2</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Level 1</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300">Normal</th>
+                  <th className="px-4 py-3 text-center font-semibold text-gray-300 rounded-tr-xl">Total Score</th>
                 </tr>
               </thead>
               <tbody>
@@ -253,13 +233,8 @@ export default async function LeaderboardPage() {
                   </tr>
                 ) : (
                   restOfLeaderboard.map((c, i) => (
-                    <tr
-                      key={c.username}
-                      className="border-t border-gray-700 hover:bg-gray-700/50"
-                    >
-                      <td className="px-4 py-3 text-center font-bold text-gray-400">
-                        {i + 4}
-                      </td>
+                    <tr key={c.username} className="border-t border-gray-700 hover:bg-gray-700/50">
+                      <td className="px-4 py-3 text-center font-bold text-gray-400">{i + 4}</td>
                       <Link
                         href={`https://github.com/${c.username}`}
                         target="_blank"
@@ -276,24 +251,12 @@ export default async function LeaderboardPage() {
                           <span className="font-semibold">{c.username}</span>
                         </td>
                       </Link>
-                      <td className="px-4 py-3 text-center text-gray-400">
-                        {c.merged_prs}
-                      </td>
-                      <td className="px-4 py-3 text-center text-gray-400">
-                        {c.level_3}
-                      </td>
-                      <td className="px-4 py-3 text-center text-gray-400">
-                        {c.level_2}
-                      </td>
-                      <td className="px-4 py-3 text-center text-gray-400">
-                        {c.level_1}
-                      </td>
-                      <td className="px-4 py-3 text-center text-gray-400">
-                        {c.normal_prs || 0}
-                      </td>
-                      <td className="px-4 py-3 text-center font-bold text-lg text-purple-400">
-                        {c.total_score}
-                      </td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.merged_prs}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.level_3}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.level_2}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.level_1}</td>
+                      <td className="px-4 py-3 text-center text-gray-400">{c.normal_prs || 0}</td>
+                      <td className="px-4 py-3 text-center font-bold text-lg text-purple-400">{c.total_score}</td>
                     </tr>
                   ))
                 )}
