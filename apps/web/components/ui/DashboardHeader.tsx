@@ -1,380 +1,225 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Button } from "./buttons/Button";
-import { MenuDots } from "@/icons/MenuDots";
-import TypingText from "./TypingTest";
-import { User } from "@/icons/User";
-import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Home } from "@/icons/Home";
-import { Bookmark } from "@/icons/Bookmark";
-import { Settings } from "@/icons/Settings";
-import { Right } from "@/icons/Right";
-import { Question } from "@/icons/Question";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
 
+import { Button } from "./buttons/Button";
+import { User } from "@/icons/User";
+import { Home } from "@/icons/Home";
+import { Bookmark } from "@/icons/Bookmark";
+import { SettingsIcon } from "@/icons/Settings";
+import { Right } from "@/icons/Right";
+import { Question } from "@/icons/Question";
+import TypingText from "./TypingTest";
+
 interface HeaderProps {
-    userName: string
-    setIsSidebarOpen: (open: boolean) => void
+  userName: string;
+  setIsSidebarOpen: (open: boolean) => void;
 }
 
 export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-    const router = useRouter();
-    const [avatar, setAvatar] = useState<string | null>(null);
-    const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
-    const avatarMenuRef = useRef<HTMLDivElement>(null);
-    const [username, setUsername] = useState("");
-    const [contact, setContact] = useState("");
-    const [email, setEmail] = useState("");
-    const [joined, setJoined] = useState("");
-    const [settingsOpen, setSettingsOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [contactProvided, setContactProvided] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const router = useRouter();
+  const avatarMenuRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        console.log();
-    }, [loading]);
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [joined, setJoined] = useState("");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [contactProvided, setContactProvided] = useState(false);
 
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
-                    withCredentials: true,
-                });
-                setUsername(response.data.message.user.username);
-                setEmail(response.data.message.user.email);
-                setContact(response.data.message.user.contactNumber);
-                setJoined(response.data.message.user.UserAddedAt.split("T")[0].split("-").reverse().join("-"));
-
-                if (response.data.message.user.contactNumber !== "NOT_PROVIDED") {
-                    setContactProvided(true);
-                }
-            } catch (err) {
-                console.error("Failed to fetch user data:", err);
-            } finally {
-                setLoading(false);
-            }
-        }
-        getUserData();
-    }, []);
-
-
-    // Fetch Avatar:
-    useEffect(() => {
-        const fetchAvatar = async () => {
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/get-avatar`, {
-                    withCredentials: true,
-                });
-                if (response.data && response.data.url) {
-                    setAvatar(response.data.url);
-                }
-            } catch (err) {
-                console.error("Failed to fetch avatar:", err);
-            }
-        };
-
-        fetchAvatar();
-    }, []);
-
-    // Dropdown menu items - easily extensible
-    // const dropdownItems = [
-    //     { label: "Home", icon: <Home />, action: () => console.log("Profile clicked") },
-    //     { label: "Profile", icon: "👤", action: () => console.log("Profile clicked") },
-    //     { label: "Settings", icon: "⚙️", action: () => console.log("Settings clicked") },
-    //     { label: "Help", icon: "❓", action: () => console.log("Help clicked") },
-    //     // Add more dropdown items here
-    //     // { label: 'Notifications', icon: '🔔', action: () => console.log('Notifications clicked') },
-    // ]
-
-    const handleLogout = async () => {
-        try {
-            await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/logout`, {}, { withCredentials: true });
-            // setIsLoggedIn(false);
-            router.push("/");
-        } catch (error) {
-            console.error("Logout failed:", error);
-        }
-    }
-
-    const getGreeting = () => {
-        const hour = new Date().getHours();
-
-        if (hour < 12) return "Good Morning";
-        if (hour < 18) return "Good Afternoon";
-        return "Good Evening";
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`,
+          { withCredentials: true }
+        );
+        const user = response.data.message.user;
+        setUsername(user.username);
+        setEmail(user.email);
+        setContact(user.contactNumber);
+        setJoined(user.UserAddedAt.split("T")[0].split("-").reverse().join("-"));
+        setContactProvided(user.contactNumber !== "NOT_PROVIDED");
+      } catch (err) {
+        console.error("Failed to fetch user data:", err);
+      }
     };
+    getUserData();
+  }, []);
 
-    const removeProfileImageHandler = async () => {
-        try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/delete-avatar`, {
-                withCredentials: true,
-            });
-            setAvatar(null);
-            setAvatarMenuOpen(false);
-            toast.success("Profile Picture deleted Successfully!");
-        } catch (error) {
-            console.error("Failed to remove profile image:", error);
-            toast.error("Failed to remove profile image, please try again later.");
-        }
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/get-avatar`, {
+          withCredentials: true,
+        });
+        if (res.data?.url) setAvatar(res.data.url);
+      } catch (err) {
+        console.error("Failed to fetch avatar:", err);
+      }
+    };
+    fetchAvatar();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/logout`, {}, { withCredentials: true });
+      router.push("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
     }
+  };
 
-    return (
-        <header className="bg-white border-b border-gray-200 shadow-sm top-0 w-full">
-            <div className="flex items-center justify-between h-24 px-4 lg:px-8">
-                {/* Mobile Menu Button */}
-                <button
-                    onClick={() => setIsSidebarOpen(true)}
-                    className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
+  const removeProfileImageHandler = async () => {
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/avatar/delete-avatar`, {
+        withCredentials: true,
+      });
+      setAvatar(null);
+      setIsDropdownOpen(false);
+      toast.success("Profile Picture deleted Successfully!");
+    } catch (err) {
+      console.error("Failed to remove profile image:", err);
+      toast.error("Something went wrong.");
+    }
+  };
+
+  return (
+    <header className="bg-white border-b border-gray-200 shadow-sm sticky z-50 top-0 w-full">
+      <div className="flex items-center justify-between h-24 px-4 lg:px-8">
+        {/* Mobile Sidebar Toggle */}
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Greeting */}
+        <div className="md:block hidden">
+          <h2 className="md:text-3xl text-lg font-semibold text-gray-800">
+            <TypingText text={getGreeting()} />{" "}
+            <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
+          </h2>
+        </div>
+
+        {/* Avatar + Dropdown + Logout */}
+        <div className="flex items-center gap-3" ref={avatarMenuRef}>
+          <div className="relative">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-16 cursor-pointer h-16 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
+            >
+              {avatar ? (
+                <Image src={avatar} alt="User Avatar" width={48} height={48} className="object-cover w-full h-full" />
+              ) : (
+                <div className="w-full h-full bg-amber-300 flex items-center justify-center">
+                  <User className="size-5" />
+                </div>
+              )}
+            </button>
+
+            {/* Dropdown */}
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
                 >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                  <div className="text-center border-b px-4 py-3">
+                    <p className="font-bold text-lg text-gray-900 truncate">{username}</p>
+                    <p className="text-sm text-blue-500 font-bold truncate">{email}</p>
+                    {contact !== "NOT_PROVIDED" && <p className="text-sm">{contact}</p>}
+                  </div>
 
-                {/* Welcome Message */}
-                <div className="flex-1 lg:flex-none">
-                    <div className="flex items-center">
-                        <div className="md:block hidden">
-                            <h2 className="md:text-3xl text-lg  transition-all duration-300 font-semibold text-gray-800">
-                                <TypingText text={getGreeting()} /> <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
-                            </h2>
-                        </div>
-                        {/* <div className="sm:hidden">
-                            <h2 className="text-lg font-semibold text-gray-800">Hi, {userName}! 👋</h2>
-                        </div> */}
-                    </div>
-                </div>
+                  <div className="py-1">
+                    <button onClick={() => router.push("/")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
+                      <Home className="mr-3 size-5" />
+                      Home
+                    </button>
+                    <button onClick={() => router.push("/mybookmarks")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
+                      <Bookmark className="mr-3 size-5" />
+                      My Bookmarks
+                    </button>
 
-                {/* Right Side Actions */}
+                    {/* Settings Dropdown */}
+                    <div className="border-t my-1" />
+                    <button
+                      onClick={() => setSettingsOpen(!settingsOpen)}
+                      className="w-full flex justify-between px-4 py-2 hover:bg-gray-100"
+                    >
+                      <span className="flex items-center gap-2">
+                        <SettingsIcon />
+                        Settings
+                      </span>
+                      <Right className={`size-5 transition-transform ${settingsOpen ? "rotate-90" : ""}`} />
+                    </button>
 
-                <div className="flex items-center space-x-4">
-                    {/* avatar section */}
-                    <div className="">
-                        <div className="relative" ref={avatarMenuRef}>
-                            <button
-                                onClick={() => setAvatarMenuOpen(!avatarMenuOpen)}
-                                className="flex cursor-pointer items-center justify-center w-20 h-20 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
-                            >
-                                {avatar ? (
-                                    <Image
-                                        src={avatar}
-                                        alt="User Avatar"
-                                        width={64}
-                                        height={64}
-                                        className="object-cover w-full h-full"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full bg-amber-300 flex items-center justify-center">
-                                        <User className="size-6" />
-                                    </div>
-                                )}
-                            </button>
-
-                            <AnimatePresence>
-                                {avatarMenuOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 10 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="absolute right-0 top-full mt-2 w-52 bg-emerald-400 hover:bg-emerald-200 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
-                                    >
-                                        <div className="py-1">
-                                            <button
-                                                onClick={() => {
-                                                    router.push("/upload-avatar");
-                                                    setAvatarMenuOpen(false);
-                                                }}
-                                                className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold hover:bg-emerald-200 transition-colors"
-                                            >
-                                                Change Profile Image
-                                            </button>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                            <AnimatePresence>
-                                {avatarMenuOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 10 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="absolute right-0 top-full mt-15 w-52 bg-red-400 hover:bg-red-500 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
-                                    >
-                                        {avatar && (
-                                            <div className="py-1">
-                                                <button
-                                                    onClick={removeProfileImageHandler}
-                                                    className="block w-full text-left px-4 py-2 cursor-pointer text-black font-bold"
-                                                >
-                                                    Remove Profile Image
-                                                </button>
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </div>
-
-                    {/* Dropdown Menu */}
-                    <div className="relative">
-                        <button
-                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            className="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                        >
-                            <div className="ml-4">
-                                <MenuDots />
-                            </div>
+                    {settingsOpen && (
+                      <div className="pl-6">
+                        <button onClick={() => router.push("/change-username")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
+                          Change Username
                         </button>
-
-                        {/* Dropdown Content */}
-                        {isDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-72 cursor-pointer bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
-                                {/* User info section */}
-                                <div className="px-4 py-3 border-b text-center border-gray-100">
-                                    <p className="font-bold text-lg text-gray-900 truncate">{username}</p>
-                                    <p className="text-sm truncate text-blue-500 font-bold">{email}</p>
-                                    {contact !== "NOT_PROVIDED" && (
-                                        <p className="text-sm truncate">{contact}</p>
-                                    )}
-                                </div>
-
-                                {/* Main menu items */}
-                                <div className="py-1">
-                                    <button
-                                        onClick={() => {
-                                            router.push("/");
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className="w-full flex cursor-pointer items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
-                                    >
-                                        <span className="mr-3"><Home className="size-5" /></span>
-                                        <span className="text-gray-700">Home</span>
-                                    </button>
-
-                                    <button
-                                        onClick={() => {
-                                            router.push("/mybookmarks");
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className="w-full flex items-center cursor-pointer px-4 py-2 text-left hover:bg-gray-50 transition-colors"
-                                    >
-                                        <span className="mr-3"><Bookmark className="size-5" /></span>
-                                        <span className="text-gray-700">My Bookmarks</span>
-                                    </button>
-
-                                    {/* <button
-                                        onClick={() => {
-                                            router.push("/downloads");
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className="w-full flex items-center cursor-pointer px-4 py-2 text-left hover:bg-gray-50 transition-colors"
-                                    >
-                                        <span className="mr-3"><Download className="size-5" /></span>
-                                        <span className="text-gray-700">Downloads</span>
-                                    </button> */}
-
-                                    {/* Settings with nested panel */}
-                                    <div className="relative">
-                                        <button
-                                            onClick={() => setSettingsOpen(!settingsOpen)}
-                                            className="w-full flex items-center cursor-pointer justify-between px-4 py-2 text-left hover:bg-gray-50 transition-colors"
-                                        >
-                                            <div className="flex items-center">
-                                                <span className="mr-3"><Settings /></span>
-                                                <span className="text-gray-700">Settings</span>
-                                            </div>
-                                            <Right className={`size-5 transition-transform ${settingsOpen ? 'transform rotate-90' : ''}`} />
-                                        </button>
-
-                                        {settingsOpen && (
-                                            <div className="ml-2 pl-2 border-l-2 border-gray-200">
-                                                <button
-                                                    onClick={() => {
-                                                        router.push("/change-username");
-                                                        setIsDropdownOpen(false);
-                                                    }}
-                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
-                                                >
-                                                    <span className="text-gray-700">Change Username</span>
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        router.push("/forgot-password");
-                                                        setIsDropdownOpen(false);
-                                                    }}
-                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
-                                                >
-                                                    <span className="text-gray-700">Change Password</span>
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        router.push("/change-contact");
-                                                        setIsDropdownOpen(false);
-                                                    }}
-                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
-                                                >
-                                                    <span
-                                                        className={`text-gray-700 ${!contactProvided ? "bg-red-100 text-red-700 px-2 py-1 rounded" : ""
-                                                            }`}
-                                                    >
-                                                        {contactProvided ? "Change Contact Number" : "Contact Number (required)"}
-                                                    </span>
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        router.push("/upload-avatar");
-                                                        setIsDropdownOpen(false);
-                                                    }}
-                                                    className="w-full flex items-center px-4 py-2 cursor-pointer text-left hover:bg-cyan-100 transition-colors"
-                                                >
-                                                    <span className="text-gray-700">Change Profile Picture</span>
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <button
-                                        onClick={() => {
-                                            router.push("/?scrollTo=guide");
-                                            setIsDropdownOpen(false);
-                                        }}
-                                        className="w-full flex cursor-pointer items-center px-4 py-2 text-left hover:bg-gray-50 transition-colors"
-                                    >
-                                        <span className="mr-3"><Question className="size-5" /></span>
-                                        <span className="text-gray-700">Help</span>
-                                    </button>
-                                </div>
-
-                                {/* Footer section */}
-                                <div className="px-4 text-center py-2 border-t border-gray-100 text-sm font-bold">
-                                    Member since: {joined}
-                                </div>
-                            </div>
+                        <button onClick={() => router.push("/forgot-password")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
+                          Change Password
+                        </button>
+                        <button onClick={() => router.push("/change-contact")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
+                          {contactProvided ? "Change Contact Number" : "Contact Number (required)"}
+                        </button>
+                        <button onClick={() => router.push("/upload-avatar")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
+                          Change Profile Picture
+                        </button>
+                        {avatar && (
+                          <button onClick={removeProfileImageHandler} className="w-full px-4 py-2 font-bold text-red-600 hover:bg-cyan-100 text-left">
+                            Remove Profile Picture
+                          </button>
                         )}
+                      </div>
+                    )}
+
+                    <button onClick={() => router.push("/?scrollTo=guide")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
+                      <Question className="mr-3 size-5" />
+                      Help
+                    </button>
+
+                    <div className="md:hidden flex justify-center"> 
+                      <Button text="LogOut" colorVariant="red" sizeVariant="small" onClick={handleLogout} />
                     </div>
+                  </div>
 
-                    {/* Logout Button */}
-                    <Button
-                        text="LogOut"
-                        colorVariant="red"
-                        sizeVariant="medium"
-                        onClick={handleLogout}
-                    />
-                </div>
+                  <div className="text-center border-t px-4 py-2 text-sm font-bold">Member since: {joined}</div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-            </div>
+          {/* Logout Button */}
+          <div className="md:block hidden">
+            <Button text="LogOut" colorVariant="red" sizeVariant="medium" onClick={handleLogout} />
+          </div>
+        </div>
+      </div>
 
-            {/* Close dropdown when clicking outside */}
-            {isDropdownOpen && <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />}
-        </header>
-    )
+      {isDropdownOpen && <div className="fixed inset-0 z-40" onClick={() => setIsDropdownOpen(false)} />}
+    </header>
+  );
 }
