@@ -7,6 +7,7 @@ import { Key } from "@/icons/Key";
 import { EnterDoor } from "@/icons/EnterDoor";
 import GoogleAuthBtn from "../ui/buttons/GoogleAuth";
 import GithubAuthBtn from "../ui/buttons/GithubAuth";
+import TwitterAuthBtn from "../ui/buttons/TwitterAuth";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -188,9 +189,9 @@ export const LoginModal = ({ open, onClose, onSwitchToSignup }: LoginProps) => {
                                     <GithubAuthBtn text="Github" />
                                 </div>
 
-                                {/* <div>
+                                <div>
                                     <TwitterAuthBtn text="Twitter(X)" /> 
-                                </div> */}
+                                </div>
                             </div>
 
                             {/* Signup Prompt */}
