@@ -304,24 +304,26 @@ export const AboutLanding = () => {
             </div>
 
             {/* Call to Action */}
-            <div className="bg-cyan-200 rounded-xl p-8 text-center">
-              <h2 className="text-2xl font-bold special text-black mb-4">
-                Ready to boost your grades?
-              </h2>
-              <p className="text-black mb-6 max-w-2xl mx-auto">
-                Join thousands of students who are already acing their exams
-                with PrepNerdz
-              </p>
-              <div className="flex justify-center">
-                <Button
-                  text="Get Started Now"
-                  onClick={() => setIsSignupOpen(true)}
-                  endIcon={<Rocket className="size-6" />}
-                  sizeVariant="medium"
-                  colorVariant="black_green"
-                />
-              </div>
-            </div>
+           <div className="relative w-full h-52 overflow-hidden flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-gradient-to-br from-blue-400/30 via-cyan-400/20 to-teal-400/30 hover:from-blue-500/40 hover:via-cyan-500/30 hover:to-teal-500/40 backdrop-blur-xl border border-blue-300/40 group-hover:border-cyan-400/60 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+  
+          <h2 className="text-2xl font-bold special text-black mb-2">
+            Ready to boost your grades?
+          </h2>
+
+          <p className="text-black mb-4 max-w-xl mx-auto">
+            Join thousands of students who are already acing their exams with PrepNerdz
+          </p>
+
+          <div className="w-full flex justify-center">
+            <Button
+              text="Get Started Now"
+              onClick={() => setIsSignupOpen(true)}
+              endIcon={<Rocket className="size-6" />}
+              sizeVariant="medium"
+              colorVariant="black_green"
+            />
+          </div>
+          </div>
           </div>
         </div>
         <div className="">
