@@ -150,37 +150,32 @@ export const ContactLanding = () => {
                     Connect With Us
                   </h3>
                   <div className="flex gap-4">
-                    <button
-                    onClick={() =>
-                      window.open("https://www.instagram.com/___shubhashish___", "_blank", "noopener,noreferrer")
-                    }
-                    className="bg-[#E1306C] cursor-pointer hover:-translate-y-1 hover:bg-[#c72b60] p-3 rounded-full transition-all duration-500"
-                    aria-label="Instagram"
-                  >
-                    <Instagram className="size-6 text-white" />
-                    </button>
+                    <Link href={"https://www.instagram.com/___Shubhashish___"} target="_blank" rel="noopener noreferrer">
+                      <button
+                        className="bg-[#E1306C] cursor-pointer hover:-translate-y-1 hover:bg-[#c72b60] p-3 rounded-full transition-all duration-500"
+                        aria-label="Instagram"
+                      >
+                        <Instagram className="size-6 text-white" />
+                      </button>
+                    </Link>
 
-                    <button
-                      onClick={() =>
-                        window.open("https://www.x.com/__Shubhashish__")
-                      }
-                      className="bg-black cursor-pointer hover:-translate-y-1 hover:bg-gray-800 p-3 rounded-full transition-all duration-500"
-                      aria-label="Twitter"
-                    >
-                      <X className="size-6 text-white" />
-                    </button>
+                    <Link href={"https://www.x.com/__Shubhashish__"} target="_blank" rel="noopener noreferrer">
+                      <button
+                        className="bg-black cursor-pointer hover:-translate-y-1 hover:bg-gray-800 p-3 rounded-full transition-all duration-500"
+                        aria-label="Twitter"
+                      >
+                        <X className="size-6 text-white" />
+                      </button>
+                    </Link>
 
-                    <button
-                      onClick={() =>
-                        window.open(
-                          "https://www.linkedin.com/in/Shubhashish-Chakraborty"
-                        )
-                      }
-                      className="bg-[#0A66C2] cursor-pointer hover:-translate-y-1 hover:bg-[#006699] p-3 rounded-full transition-all duration-500"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="size-6 text-white" />
-                    </button>
+                    <Link href={"https://www.linkedin.com/in/Shubhashish-Chakraborty"} target="_blank" rel="noopener noreferrer">
+                      <button
+                        className="bg-[#0A66C2] cursor-pointer hover:-translate-y-1 hover:bg-[#006699] p-3 rounded-full transition-all duration-500"
+                        aria-label="LinkedIn"
+                      >
+                        <Linkedin className="size-6 text-white" />
+                      </button>
+                    </Link>
                   </div>
                 </div>
 
@@ -299,11 +294,10 @@ export const ContactLanding = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`w-full flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium transition-all ${
-                          isSubmitting
+                        className={`w-full flex items-center justify-center px-6 py-3 rounded-lg text-white font-medium transition-all ${isSubmitting
                             ? "bg-gray-700 cursor-not-allowed"
                             : "bg-gray-900 hover:bg-black"
-                        }`}
+                          }`}
                       >
                         {isSubmitting ? (
                           <span className="flex items-center">
