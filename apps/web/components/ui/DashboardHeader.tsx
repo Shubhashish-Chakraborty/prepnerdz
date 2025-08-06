@@ -99,7 +99,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm sticky z-50 top-0 w-full">
+    <header className="bg-white border-b border-gray-200 shadow-sm top-0 w-full">
       <div className="flex items-center justify-between h-24 px-4 lg:px-8">
         {/* Mobile Sidebar Toggle */}
         <button
