@@ -185,13 +185,19 @@ export const AboutLanding = () => {
 
                         {/* Hero Section */}
                         <div className="text-center mb-16">
-                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 ">
-                                <TypingText text="Why PrepNerdz exists?" />
-                            </span>
+                            <motion.section
+                                    initial={{ opacity: 0, y: 60 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8 }}
+                                    className="text-center mb-16"
+                                >
+                            <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
+                                        Why PrepNerdz exists?
+                                    </h2>
                             <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
                                 College students waste countless hours wandering WhatsApp groups, requesting seniors, or digging through disorganized drives for study materials and all. PrepNerdz solves this chaos by providing a centralized and organized repository of:
                             </p>
-
+                            </motion.section>
                             <InfiniteMovingCards
                                 items={features}
                                 direction="left"
@@ -205,9 +211,15 @@ export const AboutLanding = () => {
 
                         {/* What We Do Section */}
                         <div className="mb-16 text-center">
-                            <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 ">
+                            <motion.section
+                                    initial={{ opacity: 0, y: 60 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8 }}
+                                    className="text-center mb-16"
+                                >
+                            <h2 className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 ">
                                 What We Do 🔧
-                            </span>
+                            </h2>
                             <div className="grid mt-5 md:grid-cols-2 gap-8">
                                 <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
                                     <div className="flex justify-center">
@@ -231,6 +243,7 @@ export const AboutLanding = () => {
                                     </p>
                                 </div>
                             </div>
+                                </motion.section>
                             <InfiniteMovingCards
                                 items={features2}
                                 direction="left"
@@ -241,9 +254,9 @@ export const AboutLanding = () => {
 
                             {/* ➕ Community Story Section with animation and gradient heading */}
                             <motion.div
-                                initial={{ opacity: 0, x: 50, scale: 0.9 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                initial={{ opacity: 0, y: 60 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8 }}
                                 className="my-12 px-4 md:px-0 max-w-4xl mx-auto"
                             >
                                 <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
