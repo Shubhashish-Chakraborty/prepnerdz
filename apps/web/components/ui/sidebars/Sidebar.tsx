@@ -28,16 +28,44 @@ export default function Sidebar({
 }: SidebarProps) {
     const handleNavClick = (itemId: string) => {
         setActiveNavItem(itemId)
-        setIsSidebarOpen(false) // Close sidebar on mobile after selection
+        setIsSidebarOpen(false) 
     }
 
     return (
         <>
+            {/* Custom Scrollbar Styles */}
+            <style jsx global>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                }
+                
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: transparent;
+                    border-radius: 10px;
+                }
+                
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: linear-gradient(180deg, #f59e0b, #d97706);
+                    border-radius: 10px;
+                    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+                }
+                
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: linear-gradient(180deg, #d97706, #b45309);
+                }
+                
+                /* Firefox */
+                .custom-scrollbar {
+                    scrollbar-width: thin;
+                    scrollbar-color: #f59e0b transparent;
+                }
+            `}</style>
+
             {/* Desktop Sidebar */}
             <div className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white border-r border-gray-200 shadow-sm">
-                <div className="flex flex-col flex-1">
+                <div className="flex flex-col h-full">
                     {/* Logo/Brand Area */}
-                    <div className="flex mt-4 items-center justify-center h-16 px-4">
+                    <div className="flex-shrink-0 flex mt-4 items-center justify-center h-16 px-4">
                         <Link href={"/"}>
                             <Image
                                 src={"/prepnerdz-logo-with-code.png"}
@@ -49,32 +77,40 @@ export default function Sidebar({
                         </Link>
                     </div>
 
-                    <div className="mt-10">
+                    {/* DateTime Card*/}
+                    <div className="flex-shrink-0 mt-10">
                         <DateTimeCard />
                     </div>
 
-                    {/* Navigation Menu */}
-                    <nav className="mt-5 flex-1 px-4 py-6 space-y-2">
-                        {navigationItems.map((item) => (
-                            <button
-                                key={item.id}
-                                onClick={() => handleNavClick(item.id)}
-                                className={`w-full cursor-pointer flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-amber-100 group ${activeNavItem === item.id
-                                    ? "bg-amber-50 text-yellow-600 border-l-4 border-red-500"
-                                    : "text-gray-700 hover:text-gray-900"
-                                    }`}
-                            >
-                                <span className="text-lg mr-3">{item.icon}</span>
-                                <span className="font-medium">{item.label}</span>
-                                {activeNavItem === item.id && (
-                                    <div className="ml-auto w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                                )}
-                            </button>
-                        ))}
-                    </nav>
+                    {/* Scrollable Navigation*/}
+                    <div className="flex-1 overflow-hidden px-4 min-h-0">
+                        <div className="h-full overflow-y-auto px-4 space-y-6 py-6 custom-scrollbar">
+                            <nav>
+                                {navigationItems.map((item) => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => handleNavClick(item.id)}
+                                        className={`w-full cursor-pointer flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-amber-100 group ${
+                                            activeNavItem === item.id
+                                                ? "bg-amber-50 text-yellow-600 border-l-4 border-red-500"
+                                                : "text-gray-700 hover:text-gray-900"
+                                        }`}
+                                    >
+                                        <span className="text-lg mr-3">{item.icon}</span>
+                                        <span className="font-medium">{item.label}</span>
+                                        {activeNavItem === item.id && (
+                                             <div className="ml-auto">
+                                                <div className="ml-4 w-2 h-2 bg-red-500 rounded-full" />
+                                        </div>
+                                        )}
+                                    </button>
+                                ))}
+                            </nav>
+                        </div>
+                    </div>
 
                     {/* Footer */}
-                    <div className="p-4 border-t border-gray-200">
+                    <div className="flex-shrink-0 p-4 border-t border-gray-200">
                         <div className="text-xs text-gray-500 text-center">© {new Date().getFullYear()} PrepNerdz</div>
                     </div>
                 </div>
@@ -101,12 +137,12 @@ export default function Sidebar({
                     </div>
 
                     {/* Mobile Navigation */}
-                    <nav className="flex-1 px-4 py-6 space-y-2">
+                    <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2 custom-scrollbar">
                         {navigationItems.map((item) => (
                             <button
                                 key={item.id}
                                 onClick={() => handleNavClick(item.id)}
-                                className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-gray-100 ${activeNavItem === item.id
+                                className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-all duration-200 hover:bg-gray-100 whitespace-nowrap ${activeNavItem === item.id
                                     ? "bg-blue-50 text-blue-700 border-l-4 border-blue-500"
                                     : "text-gray-700 hover:text-gray-900"
                                     }`}
