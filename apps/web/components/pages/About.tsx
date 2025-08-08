@@ -183,7 +183,7 @@ export const AboutLanding = () => {
               transition={{ duration: 0.8 }}
               className="mb-16 text-center"
             >
-              <h2 className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent">
+              <h2 className="text-2xl md:text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto">
                 What We Do 🔧
               </h2>
               <div className="grid mt-5 md:grid-cols-2 gap-8">
