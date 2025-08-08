@@ -1,6 +1,6 @@
 "use client"
 
-
+import axios from "axios";
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
@@ -25,9 +25,30 @@ export const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [authLoading, setAuthLoading] = useState(true);
 
+    // Check if user is authenticated
+    useEffect(() => {
+        const checkSession = async () => {
+            setAuthLoading(true);
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
+                    withCredentials: true,
+                });
+                if (response.data.message.isAuthenticated) {
+                    setIsAuthenticated(true);
+                }
+            } catch (error) {
+                console.error("Session check failed:", error);
+                setIsAuthenticated(false);
+            } finally {
+                setAuthLoading(false);
+            }
+        };
+        checkSession();
+    }, []);
+
     useEffect(() => {
         console.log("Welcome")
-    } , [activeDropdown, isMobileMenuOpen, isMobileStudyMaterialOpen, isMobilePYQOpen, setIsAuthenticated, setAuthLoading])
+    }, [activeDropdown, isMobileMenuOpen, isMobileStudyMaterialOpen, isMobilePYQOpen, setIsAuthenticated, setAuthLoading])
 
     const closeAllDropdowns = () => {
         setActiveDropdown(null)
@@ -45,27 +66,26 @@ export const Navbar = () => {
 
     return (
         <>
+            <div>
+                <LoginModal
+                    open={isLoginOpen}
+                    onClose={() => setIsLoginOpen(false)}
+                    onSwitchToSignup={() => {
+                        setIsLoginOpen(false);
+                        setIsSignupOpen(true);
+                    }}
+                />
+
+                <SignupModal
+                    open={isSignupOpen}
+                    onClose={() => setIsSignupOpen(false)}
+                    onSwitchToLogin={() => {
+                        setIsSignupOpen(false);
+                        setIsLoginOpen(true);
+                    }}
+                />
+            </div>
             <header className="sticky top-2 sm:top-4 z-30 w-full px-2 sm:px-4">
-                <div>
-                    <LoginModal
-                        open={isLoginOpen}
-                        onClose={() => setIsLoginOpen(false)}
-                        onSwitchToSignup={() => {
-                            setIsLoginOpen(false);
-                            setIsSignupOpen(true);
-                        }}
-                    />
-
-                    <SignupModal
-                        open={isSignupOpen}
-                        onClose={() => setIsSignupOpen(false)}
-                        onSwitchToLogin={() => {
-                            setIsSignupOpen(false);
-                            setIsLoginOpen(true);
-                        }}
-                    />
-                </div>
-
                 <nav className="mx-auto max-w-7xl rounded-xl sm:rounded-2xl bg-cyan-50 shadow-lg">
                     <div className="flex h-16 sm:h-20 items-center justify-between px-3 sm:px-6">
                         {/* Logo */}
@@ -126,7 +146,7 @@ export const Navbar = () => {
 
                         {/* Right side buttons */}
                         <div className="hidden md:flex lg:items-center lg:space-x-3 xl:space-x-4">
-                            <GithubStar/>
+                            <GithubStar />
                         </div>
 
                         {/* Mobile menu button */}
@@ -158,16 +178,16 @@ export const Navbar = () => {
                 <div className="fixed inset-0 z-40 lg:hidden">
                     <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={closeMobileMenu} aria-hidden="true" />
                     <div className="fixed right-0 top-0 h-full w-[280px] sm:w-[320px] bg-white/95 backdrop-blur-md border-l border-white/20 shadow-xl overflow-y-auto">
-  {/* Plain X icon in top-right */}
-  <button
-    onClick={closeMobileMenu}
-    className="absolute top-4 right-4 z-50 text-gray-800 hover:text-black transition-colors"
-    aria-label="Close menu"
-  >
-    <CloseCircle className="size-6 sm:size-7" />
-  </button>
+                        {/* Plain X icon in top-right */}
+                        <button
+                            onClick={closeMobileMenu}
+                            className="absolute top-4 right-4 z-50 text-gray-800 hover:text-black transition-colors"
+                            aria-label="Close menu"
+                        >
+                            <CloseCircle className="size-6 text-black sm:size-7" />
+                        </button>
 
-  <div className="flex flex-col p-4 sm:p-6 pt-16 sm:pt-20 space-y-3 sm:space-y-4">
+                        <div className="flex flex-col p-4 sm:p-6 pt-16 sm:pt-20 space-y-3 sm:space-y-4">
 
                             <Link
                                 href="/"

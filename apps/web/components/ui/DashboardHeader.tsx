@@ -99,7 +99,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm sticky z-50 top-0 w-full">
+    <header className="bg-white border-b border-gray-200 shadow-sm top-0 w-full">
       <div className="flex items-center justify-between h-24 px-4 lg:px-8">
         {/* Mobile Sidebar Toggle */}
         <button
@@ -119,13 +119,12 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
           </h2>
         </div>
 
-        {/* Avatar + Logout */}
+        {/* Avatar + Dropdown + Logout */}
         <div className="flex items-center gap-3" ref={avatarMenuRef}>
-          {/* Avatar Dropdown Trigger */}
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-12 h-12 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
+              className="w-16 cursor-pointer h-16 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
             >
               {avatar ? (
                 <Image src={avatar} alt="User Avatar" width={48} height={48} className="object-cover w-full h-full" />
@@ -190,7 +189,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                           Change Profile Picture
                         </button>
                         {avatar && (
-                          <button onClick={removeProfileImageHandler} className="w-full px-4 py-2 text-red-600 hover:bg-cyan-100 text-left">
+                          <button onClick={removeProfileImageHandler} className="w-full px-4 py-2 font-bold text-red-600 hover:bg-cyan-100 text-left">
                             Remove Profile Picture
                           </button>
                         )}
@@ -201,6 +200,10 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                       <Question className="mr-3 size-5" />
                       Help
                     </button>
+
+                    <div className="md:hidden flex justify-center"> 
+                      <Button text="LogOut" colorVariant="red" sizeVariant="small" onClick={handleLogout} />
+                    </div>
                   </div>
 
                   <div className="text-center border-t px-4 py-2 text-sm font-bold">Member since: {joined}</div>
@@ -209,8 +212,10 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
             </AnimatePresence>
           </div>
 
-          {/* Logout Button (outside dropdown) */}
-          <Button text="LogOut" colorVariant="red" sizeVariant="medium" onClick={handleLogout} />
+          {/* Logout Button */}
+          <div className="md:block hidden">
+            <Button text="LogOut" colorVariant="red" sizeVariant="medium" onClick={handleLogout} />
+          </div>
         </div>
       </div>
 
