@@ -1,10 +1,7 @@
 import { Saira, Josefin_Sans, Share_Tech } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
-import BackToTopButton from "../components/ui/BackToTopButton";
-import AskNerd from "@/components/ui/AskNerd";
-import GssocBanner from "@/components/ui/GssocBanner";
+import CursorEffect from "@/components/Mouse/CursorEffect";
 
 // Root font - default
 const saira = Saira({
@@ -126,23 +123,7 @@ export default function RootLayout({
       <body
         className={`${saira.variable} ${specialGothic.variable} ${shareTech.variable} ${josefinSans.variable} font-saira antialiased`}
       >
-        <GssocBanner />
-        {children}
-        <AskNerd />
-        <BackToTopButton />
-        <Toaster
-          position="top-center"
-          containerStyle={{
-            zIndex: 999999, // Higher than your modal's z-index
-          }}
-          toastOptions={{
-            style: {
-              background: "#363636",
-              color: "#fff",
-              zIndex: 999999,
-            },
-          }}
-        />
+        <CursorEffect>{children}</CursorEffect>
       </body>
     </html>
   );
