@@ -2,8 +2,10 @@ import { config } from "dotenv";
 config();
 
 export const PORT = process.env.PORT || 3002;
-export const JWT_USER_SECRET = process.env.JWT_USER_SECRET as string;
-export const FRONTEND_URL = process.env.FRONTEND_URL as string;
+export const JWT_USER_SECRET = process.env.JWT_USER_SECRET || 'dev-secret-key-change-in-production';
+export const SESSION_SECRET = process.env.SESSION_SECRET || 'dev-session-secret-change-in-production';
+export const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+export const BASE_URL = process.env.BASE_URL || 'http://localhost:3002';
 
 export const OTP_SENDERMAIL = process.env.OTP_SENDERMAIL;
 export const OTP_MAIL_PASSWORD = process.env.OTP_MAIL_PASSWORD;

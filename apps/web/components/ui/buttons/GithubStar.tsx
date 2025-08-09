@@ -2,6 +2,7 @@
 import { Redirect } from '@/icons/Redirect';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { ClientOnly } from '../ClientOnly';
 
 const GithubStar = () => {
     const [starCount, setStarCount] = useState(0);
@@ -30,6 +31,7 @@ const GithubStar = () => {
     };
 
     return (
+        <ClientOnly>
         <Link href={`https://github.com/${username}/${repo}`} target="_blank" rel="noopener noreferrer"> 
             <button
                 onClick={handleClick}
@@ -45,6 +47,7 @@ const GithubStar = () => {
                     <span className="inline-block tabular-nums tracking-wider font-display font-medium text-black dark:text-white">{starCount}</span>
                 </div>
             </button>
+        </ClientOnly>
         </Link>
     );
 }
