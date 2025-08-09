@@ -1,15 +1,17 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, JSX } from "react"
 import axios from "axios"
-import { toast } from "react-hot-toast"
-import { Eye } from "@/icons/Eye"
-import { ResourceModal } from "@/components/modals/ResourcePreview"
+import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
+import { Eye } from "@/icons/Eye";
+
 import { Bookmark } from "@/icons/Bookmark"
 // import { FiBookmark, FiDownload, FiEye, FiX } from "react-icons/fi"
+import { ResourceModal } from "@/components/modals/ResourcePreview";
 
 interface SearchPanelProps {
-    activeNavItem: string
+    activeNavItem: string;
 }
 
 interface Resource {
@@ -45,7 +47,7 @@ interface Resource {
     uploadedBy?: {
         username: string
     }
-}
+};
 
 // Mapping from nav item to API type
 const typeMapping: Record<string, string> = {
@@ -133,7 +135,7 @@ interface BookmarksResponse {
     count: number;
 }
 
-export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
+export default function SearchPanel({ activeNavItem }: SearchPanelProps): JSX.Element {
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedBranch, setSelectedBranch] = useState("")
     const [selectedSemester, setSelectedSemester] = useState("")
@@ -372,18 +374,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
             }
         } catch (error) {
             toast.error("Something went wrong!");
-            console.error("Bookmark toggle error:", error);
         }
-    };
-
-
-    const formatFileSize = (sizeInKb: number) => {
-        const sizeInMb = sizeInKb / 1000; // OnPurpose im dividing it by 1000 instead of 1024!
-        return `${sizeInMb.toFixed(2)} MB`;
-        // if (sizeInKb < 1024) {
-        //     return `${sizeInKb.toFixed(1)} KB`
-        // }
-        // return `${(sizeInKb / 1024).toFixed(1)} MB`
     }
 
     // Load initial resources when panel is first rendered
@@ -412,6 +403,15 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
         )
     }
 
+        function formatFileSize(fileSize: number): import("react").ReactNode {
+            if (!fileSize || fileSize < 0) return "N/A";
+            const sizeInKb = fileSize / 1024;
+            if (sizeInKb < 1024) {
+            return `${sizeInKb.toFixed(1)} KB`;
+            }
+            return `${(sizeInKb / 1024).toFixed(2)} MB`;
+        }
+
     return (
         <div className="bg-amber-50 rounded-xl shadow-lg border border-gray-200 overflow-hidden">
             <div>
@@ -427,34 +427,30 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
             </div>
 
             {/* Panel Header */}
-            <div className="bg-gradient-to-r from-amber-500 to-emerald-700 px-6 py-8 text-white">
-                <div className="max-w-3xl mx-auto text-center">
-                    <h1 className="text-3xl font-bold mb-2 animate-in slide-in-from-top-4 duration-500">
-                        {currentPanel.title}
-                    </h1>
-                    <p className="text-blue-100 animate-in slide-in-from-top-6 duration-700">{currentPanel.description}</p>
-                </div>
-            </div>
-
-            {/* Search Form */}
-            <div className="p-6 lg:p-8">
-                <div className="max-w-4xl mx-auto space-y-6">
-                    {/* Search Input */}
-                    <div className="animate-in slide-in-from-bottom-4 duration-500">
-                        <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
-                            Search Query
-                        </label>
-                        <div className="relative">
+            <div className="flex justify-center items-center py-12">
+                <div className="w-full max-w-3xl rounded-3xl bg-white/60 backdrop-blur-xl shadow-2xl border border-amber-200 p-10 flex flex-col gap-8 animate-in slide-in-from-bottom-4 duration-700">
+                    <div className="text-center">
+                        <h1 className="text-4xl font-extrabold text-amber-600 mb-2 drop-shadow-lg tracking-tight animate-in slide-in-from-top-4 duration-500">
+                            {currentPanel.title}
+                        </h1>
+                        <p className="text-lg text-gray-700 font-medium animate-in slide-in-from-top-6 duration-700">
+                            {currentPanel.description}
+                        </p>
+                    </div>
+                    <form className="flex flex-col gap-6">
+                        <div className="relative flex items-center gap-4">
                             <input
                                 id="search"
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder={currentPanel.placeholder}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 pl-12"
+                                className="w-full px-6 py-5 rounded-2xl bg-white/70 backdrop-blur-lg shadow-lg border border-amber-300 focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all duration-200 pl-14 text-xl font-semibold placeholder-gray-400 hover:bg-white/80 hover:shadow-xl"
                             />
-                            <svg
-                                className="absolute left-4 top-3.5 w-5 h-5 text-gray-400"
+                            <motion.svg
+                                initial={{ scale: 1 }}
+                                whileHover={{ scale: 1.2, color: '#f59e0b' }}
+                                className="absolute left-6 top-1/2 -translate-y-1/2 w-7 h-7 text-amber-400 pointer-events-none"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -465,52 +461,56 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                     strokeWidth={2}
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                 />
-                            </svg>
-                        </div>
-                    </div>
-
-                    {/* Filters Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-bottom-6 duration-700">
-                        {/* Branch Selection */}
-                        <div>
-                            <label htmlFor="branch" className="block text-sm font-medium text-gray-700 mb-2">
-                                Branch
-                            </label>
-                            <select
-                                id="branch"
-                                value={selectedBranch}
-                                onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            </motion.svg>
+                            <button
+                                type="button"
+                                className="px-7 py-4 rounded-2xl bg-gradient-to-br from-amber-400 to-blue-400 text-white font-bold shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-200 text-lg"
+                                onClick={() => {/* Optionally trigger search/filter logic here */}}
                             >
-                                <option value="">Select Branch</option>
-                                {currentPanel.branches.map((branch) => (
-                                    <option key={branch} value={branch}>
-                                        {branch}
-                                    </option>
-                                ))}
-                            </select>
+                                Search
+                            </button>
                         </div>
-
-                        {/* Semester Selection */}
-                        <div>
-                            <label htmlFor="semester" className="block text-sm font-medium text-gray-700 mb-2">
-                                Semester
-                            </label>
-                            <select
-                                id="semester"
-                                value={selectedSemester}
-                                onChange={(e) => setSelectedSemester(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                            >
-                                <option value="">Select Semester</option>
-                                {currentPanel.semesters.map((sem) => (
-                                    <option key={sem} value={sem}>
-                                        Semester {sem}
-                                    </option>
-                                ))}
-                            </select>
+                        <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                            <div className="flex flex-col gap-2 w-full md:w-1/2">
+                                <label htmlFor="branch" className="block text-base font-semibold text-gray-700 mb-1">
+                                    Branch
+                                </label>
+                                <select
+                                    id="branch"
+                                    value={selectedBranch}
+                                    onChange={(e) => setSelectedBranch(e.target.value)}
+                                    className="w-full px-5 py-4 rounded-full bg-white/80 border border-amber-300 shadow-md focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 text-lg font-semibold"
+                                >
+                                    <option value="">Select Branch</option>
+                                    {currentPanel.branches.map((branch) => (
+                                        <option key={branch} value={branch}>
+                                            {branch}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="flex flex-col gap-2 w-full md:w-1/2">
+                                <label htmlFor="semester" className="block text-base font-semibold text-gray-700 mb-1">
+                                    Semester
+                                </label>
+                                <select
+                                    id="semester"
+                                    value={selectedSemester}
+                                    onChange={(e) => setSelectedSemester(e.target.value)}
+                                    className="w-full px-5 py-4 rounded-full bg-white/80 border border-amber-300 shadow-md focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 text-lg font-semibold"
+                                >
+                                    <option value="">Select Semester</option>
+                                    {currentPanel.semesters.map((sem) => (
+                                        <option key={sem} value={sem}>
+                                            Semester {sem}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+                </div>
+            </div>
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-in slide-in-from-bottom-10 duration-1000">
@@ -669,8 +669,6 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                             </div>
                         )}
                     </div>
-                </div>
-            </div>
-        </div>
-    )
+          </div>
+    );
 }
