@@ -64,33 +64,32 @@ export const DashboardLanding = () => {
         checkAuth();
     }, [router]);
     return (
-      <div className="relative min-h-screen bg-mainBgColor">
-        {/* Background Animated Circles */}
+      <div className="relative min-h-screen bg-gradient-to-br from-blue-50 via-emerald-50 to-amber-100">
+        {/* Modern Animated Background */}
         <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.3 }}
+            animate={{ opacity: 0.4 }}
             transition={{ duration: 1 }}
-            className="absolute animate-pulse bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-red-300/80 blur-[80px] md:blur-[150px]"
+            className="absolute animate-pulse bottom-0 right-0 w-[350px] h-[350px] md:w-[700px] md:h-[700px] rounded-full bg-gradient-to-br from-red-300/80 to-amber-200/60 blur-[100px] md:blur-[180px]"
           />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1.2 }}
             transition={{ duration: 2, delay: 0.5 }}
-            className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-cyan-500/40 blur-[60px] md:blur-[120px]"
+            className="absolute animate-pulse top-0 left-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-gradient-to-tr from-cyan-400/40 to-blue-200/40 blur-[80px] md:blur-[150px]"
           />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 2.4 }}
             transition={{ duration: 2, delay: 1 }}
-            className="absolute animate-pulse top-1/2 left-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-emerald-500/40 blur-[50px] md:blur-[100px] transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute animate-pulse top-1/2 left-1/2 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-gradient-to-br from-emerald-400/40 to-amber-200/40 blur-[70px] md:blur-[120px] transform -translate-x-1/2 -translate-y-1/2"
           />
         </div>
 
         {/* Main container */}
         <div className="relative z-10">
-          {/* Main page content starts here in this div!!! */}
-          <div className=" px-4 sm:px-6 lg:px-8">
+          <div className="px-2 sm:px-6 lg:px-8">
             <div className="min-h-screen flex">
               {/* Sidebar */}
               <Sidebar
@@ -109,13 +108,50 @@ export const DashboardLanding = () => {
                   setIsSidebarOpen={setIsSidebarOpen}
                 />
 
-                {/* Main Content */}
+                {/* Welcome Banner */}
+                <div className="mb-8 flex items-center gap-4 p-6 rounded-2xl bg-white/60 backdrop-blur-md shadow-lg border border-gray-100">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-300 to-blue-200 flex items-center justify-center shadow-md">
+                    <span className="text-3xl font-bold text-white drop-shadow-lg">{username.charAt(0).toUpperCase()}</span>
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-800">Welcome, {username}!</h2>
+                    <p className="text-gray-500">Your personalized dashboard for all resources and tools.</p>
+                  </div>
+                </div>
+
+                {/* Modern Card Section for Navigation */}
                 <main className="flex-1 p-4 lg:p-8">
                   <div className="max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
+                      {navigationItems.map((item) => (
+                        <motion.div
+                          key={item.id}
+                          whileHover={{ scale: 1.05, boxShadow: "0 8px 32px rgba(0,0,0,0.15)", backgroundColor: "#fff" }}
+                          className={`rounded-2xl shadow-xl bg-white/60 backdrop-blur-lg border border-gray-100 flex items-center gap-4 p-8 cursor-pointer transition-all duration-300 ${activeNavItem === item.id ? 'ring-2 ring-amber-400' : ''}`}
+                          onClick={() => setActiveNavItem(item.id)}
+                        >
+                          <span className="text-4xl text-amber-500 drop-shadow-lg">{item.icon}</span>
+                          <span className="font-semibold text-xl text-gray-800">{item.label}</span>
+                        </motion.div>
+                      ))}
+                    </div>
                     {/* Search Panel - Different panel based on active navigation */}
-                    <SearchPanel activeNavItem={activeNavItem} />
+                    <div className="rounded-2xl bg-white/80 backdrop-blur-lg shadow-2xl border border-gray-100 p-8">
+                      <SearchPanel activeNavItem={activeNavItem} />
+                    </div>
                   </div>
                 </main>
+
+                {/* Floating Action Button */}
+                <button
+                  className="fixed bottom-8 right-8 z-50 bg-gradient-to-br from-amber-400 to-blue-400 text-white rounded-full shadow-xl p-5 hover:scale-110 transition-transform duration-300"
+                  title="Quick Add Resource"
+                  onClick={() => router.push('/upload-avatar')}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                  </svg>
+                </button>
               </div>
 
               {/* Mobile Sidebar Overlay */}
