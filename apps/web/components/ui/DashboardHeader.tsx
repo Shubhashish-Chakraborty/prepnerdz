@@ -28,6 +28,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
 
   const [avatar, setAvatar] = useState<string | null>(null);
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
   const [joined, setJoined] = useState("");
@@ -44,6 +45,7 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
         const user = response.data.message.user;
         setUsername(user.username);
         setEmail(user.email);
+        setRole(user.role);
         setContact(user.contactNumber);
         setJoined(user.UserAddedAt.split("T")[0].split("-").reverse().join("-"));
         setContactProvided(user.contactNumber !== "NOT_PROVIDED");
@@ -196,12 +198,22 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                       </div>
                     )}
 
+                    {role === "ADMIN" && (
+                      <button
+                        onClick={() => {window.location.href = "https://pnadmin.vercel.app"}}
+                        className="w-full flex text-purple-600 font-bold items-center px-4 py-2 hover:bg-gray-100"
+                      >
+                        <User className="mr-3 size-5" />
+                        Admin Panel
+                      </button>
+                    )}
+
                     <button onClick={() => router.push("/?scrollTo=guide")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
                       <Question className="mr-3 size-5" />
                       Help
                     </button>
 
-                    <div className="md:hidden flex justify-center"> 
+                    <div className="md:hidden flex justify-center">
                       <Button text="LogOut" colorVariant="red" sizeVariant="small" onClick={handleLogout} />
                     </div>
                   </div>

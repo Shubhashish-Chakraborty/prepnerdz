@@ -7,14 +7,20 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { User } from '@/icons/User'
+import GithubAuthBtn from '../ui/buttons/GIthubAuth'
+import InputStraightLine from '../ui/inputs/StraightLine'
 
 export const Landing = () => {
     const [authStatus, setAuthStatus] = useState<'LOADING' | 'UNAUTHENTICATED' | 'ADMIN' | 'STUDENT'>('LOADING');
     const router = useRouter();
     const [avatar, setAvatar] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
     const avatarMenuRef = useRef<HTMLDivElement>(null);
     const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState('');
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     // Fetch Avatar:
     useEffect(() => {
@@ -46,7 +52,8 @@ export const Landing = () => {
                 if (data.message.isAuthenticated) {
                     const role = data.message.user.role
                     if (role === 'ADMIN') {
-                        setAuthStatus('ADMIN')
+                        setAuthStatus('ADMIN');
+                        setUsername(data.message.user.username);
                     } else if (role === 'STUDENT') {
                         setAuthStatus('STUDENT')
                     } else {
@@ -73,13 +80,73 @@ export const Landing = () => {
         }
     }
 
+    const handleLogin = async () => {
+        if (!email || !password) {
+            setLoginError('Please enter both email and password');
+            return;
+        }
+
+        setIsLoggingIn(true);
+        setLoginError('');
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/signin`, {
+                email,
+                password
+            }, {
+                withCredentials: true
+            });
+
+            if (response.data.message.isAuthenticated) {
+                const role = response.data.message.user.role;
+                if (role === 'ADMIN') {
+                    setAuthStatus('ADMIN');
+                    setUsername(response.data.message.user.username);
+                } else if (role === 'STUDENT') {
+                    setAuthStatus('STUDENT');
+                }
+            }
+            window.location.reload();
+        } catch (error: unknown) {
+            console.error('Login failed:', error);
+
+            if (axios.isAxiosError(error)) {
+                setLoginError(error.response?.data?.message || 'Login failed. Please try again.');
+            } else {
+                setLoginError('Login failed. Please try again.');
+            }
+            // console.error('Login failed:', error);
+            // setLoginError(error.response?.data?.message || 'Login failed. Please try again.');
+        } finally {
+            setIsLoggingIn(false);
+        }
+    }
+
     return (
         <div className="bg-mainBgColor text-white h-screen overflow-hidden">
-            <div className="flex mt-30 flex-col justify-center items-center">
+
+            <div className="flex items-center justify-center">
+                <div>
+                    <Image
+                        src="/pn_specs.png"
+                        alt="PrepNerdz Logo"
+                        className='hover:scale-105 transition-all duration-300 cursor-pointer'
+                        width={100}
+                        height={100}
+                    />
+                </div>
+
+                <Link href={"https://prepnerdz.tech"} target='_blank' >
+                    <div className='text-3xl cursor-pointer hover:text-blue-400 font-bold'>
+                        PrepNerdz
+                    </div>
+                </Link>
+            </div>
+            <div className="flex mt-10 flex-col justify-center items-center">
 
                 {authStatus !== "ADMIN" && (
                     <div className="md:text-4xl text-2xl font-bold text-center">
-                        LogIn to your admin account
+                        Login to your Admin Account...
                     </div>
                 )}
 
@@ -87,6 +154,13 @@ export const Landing = () => {
                 {authStatus !== "UNAUTHENTICATED" && (
                     <div className="mt-5">
                         <div className="relative" ref={avatarMenuRef}>
+                            <div>
+                                {authStatus === "LOADING" ? (
+                                    "Loading..."
+                                ) : authStatus === "ADMIN" ? (
+                                    <>hey {username} !!</>
+                                ) : null}
+                            </div>
                             <button
                                 onClick={() => setAvatarMenuOpen(!avatarMenuOpen)}
                                 className="flex cursor-pointer items-center justify-center w-20 h-20 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
@@ -110,13 +184,47 @@ export const Landing = () => {
                     </div>
                 )}
 
-
-
-                <div className="mt-20">
+                <div className="mt-20 flex md:flex-row flex-col items-center">
                     {authStatus === 'LOADING' && <div>Loading...</div>}
 
                     {authStatus === 'UNAUTHENTICATED' && (
-                        <GoogleAuthBtn text="Login with Google" />
+                        <div className='flex justify-center items-center gap-5 flex-col'>
+                            <div className='flex gap-5 md:flex-row flex-col'>
+                                <GoogleAuthBtn text="Login with Google" />
+                                <GithubAuthBtn text="Login with Github" />
+                            </div>
+
+                            <div className="text-center text-gray-400 my-4">OR</div>
+
+                            <div className='flex flex-col gap-4 w-full max-w-md'>
+                                <InputStraightLine
+                                    type='email'
+                                    label='Email'
+                                    id='email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <InputStraightLine
+                                    type='password'
+                                    label='Password'
+                                    id='password'
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+
+                                {loginError && (
+                                    <div className="text-red-500 text-sm text-center">{loginError}</div>
+                                )}
+
+                                <button
+                                    onClick={handleLogin}
+                                    disabled={isLoggingIn}
+                                    className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isLoggingIn ? 'Logging in...' : 'Login with Email'}
+                                </button>
+                            </div>
+                        </div>
                     )}
 
                     {authStatus === 'STUDENT' && (
@@ -138,10 +246,10 @@ export const Landing = () => {
                     )}
 
                     {authStatus === 'ADMIN' && (
-                        <div className='space-x-6'>
+                        <div className='gap-6 flex md:flex-row flex-col'>
                             <button
                                 onClick={() => { router.push('/dashboard') }}
-                                className="bg-green-600 cursor-pointer hover:bg-green-700 px-4 py-2 rounded-xl text-white font-semibold"
+                                className="bg-purple-500 text-white cursor-pointer hover:bg-purple-700 px-4 py-2 rounded-xl font-semibold"
                             >
                                 Go to Admin Dashboard
                             </button>
@@ -156,9 +264,9 @@ export const Landing = () => {
                     )}
 
                     {authStatus === 'ADMIN' && (
-                        <div className='mt-5 flex justify-center'>
+                        <div className='flex md:ml-5 mt-5 md:mt-0 items-center justify-center'>
                             <button
-                                onClick={() => {window.location.href = "https://prepnerdz.tech/dashboard"}}
+                                onClick={() => { window.location.href = "https://prepnerdz.tech/dashboard" }}
                                 className="bg-blue-600 cursor-pointer hover:bg-blue-700 px-4 py-2 rounded-xl text-white font-semibold"
                             >
                                 Go to PrepNerdz Dashboard
