@@ -225,7 +225,7 @@ export const Navbar = () => {
 
     return (
         <>
-            <header className="sticky top-2 sm:top-4 z-50 w-full px-2 sm:px-4">
+            <header className="top-2 sm:top-4 z-50 w-full px-2 sm:px-4 md:sticky">
                 <div>
                     <LoginModal
                         open={isLoginOpen}
@@ -270,7 +270,7 @@ export const Navbar = () => {
                                     <span className="hover:text-black hover:bg-amber-300 rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                         Home
                                     </span>
-                                </Link>
+                                </Link>                                                                          
 
                                 <Link
                                     href="/about"
@@ -535,6 +535,14 @@ export const Navbar = () => {
                                 onClick={closeMobileMenu}
                             >
                                 Contact us
+                            </Link>
+
+                            <Link
+                                href="/contributors"
+                                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
+                                onClick={closeMobileMenu}
+                            >
+                                Contributors
                             </Link>
 
                             {/* Mobile Auth Section */}

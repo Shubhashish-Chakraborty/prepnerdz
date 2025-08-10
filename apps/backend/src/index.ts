@@ -56,7 +56,7 @@ const corsOptions = {
         'https://prepnerdz.vercel.app',
         'https://prepnerdz.tech',
         'https://www.prepnerdz.tech',
-        'https://prepnerdz-admin.vercel.app'
+        'https://pnadmin.vercel.app'
     ],
     credentials: true,
     optionsSuccessStatus: 200

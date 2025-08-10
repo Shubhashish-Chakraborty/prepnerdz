@@ -9,7 +9,6 @@ on:
 
 jobs:
   update-leaderboard:
-    # This condition correctly runs the job if the PR was merged OR if it was triggered manually.
     if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
@@ -17,9 +16,13 @@ jobs:
       pull-requests: read
 
     steps:
-      - name: "Checkout repository"
-        # This step checks out your repository's code.
+      - name: "Checkout main branch"
         uses: actions/checkout@v4
+        with:
+          # This forces the action to checkout the 'main' branch specifically,
+          # ensuring the entire job runs in the correct context, not the
+          # context of the merged (and possibly deleted) feature branch.
+          ref: main
 
       - name: "Set up Node.js"
         uses: actions/setup-node@v4
@@ -40,12 +43,8 @@ jobs:
         with:
           commit_message: "docs(leaderboard): update leaderboard.json"
           file_pattern: "apps/web/public/leaderboard.json"
-          
-          # This line explicitly tells the action to commit to the 'main' branch,
-          # ignoring the branch that triggered the workflow (which may be deleted).
+          # This is still needed to confirm the commit target branch.
           branch: main
-
           commit_user_name: "github-actions[bot]"
           commit_user_email: "github-actions[bot]@users.noreply.github.com"
           commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
-
