@@ -81,11 +81,11 @@ export default function GssocDoubtsPage() {
     return (
         <div className="min-h-screen bg-gray-900 text-white p-6">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-xl font-bold text-left text-gray-500">
+                <h1 className="text-xl font-bold text-left text-gray-300">
                     Welcome {username}!
                 </h1>
                 <h1 className="text-3xl font-bold mb-6 text-center">
-                    GSSoC Doubts & Questions
+                    GSSoC Doubts & Questions <span className="text-gray-400"> ({doubts.length}) </span>
                 </h1>
 
                 {loading ? (
