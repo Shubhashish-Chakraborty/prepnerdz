@@ -238,8 +238,12 @@ export const Landing = () => {
                                 </button>
                             </div>
                             <div className="mt-8 text-white italic">
-                                <div className="cursor-pointer text-center hover:-translate-y-1 transition-all duration-500 font-extrabold text-white text-xl md:text-4xl tracking-tight leading-snug animate-fade-in-up">
-                                    Please wait until <Link href={"https://wa.me/918602061128"} target='_blank'> <span className="text-blue-600 hover:underline">Shubhashish</span> </Link> assigns you the admin role.
+                                <div className="cursor-pointer text-center hover:-translate-y-1 transition-all duration-500 font-extrabold text-white text-xl md:text-3xl tracking-tight leading-snug animate-fade-in-up">
+                                    Only <Link href="https://bento.me/imshubh" target="_blank">
+                                        <span className="text-cyan-300 hover:underline">Shubhashish</span>
+                                    </Link> can assign admin roles.
+                                    Please wait for him to grant you access, contact him directly..
+
                                 </div>
                             </div>
                         </div>
