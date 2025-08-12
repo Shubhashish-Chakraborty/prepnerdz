@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import BackToTopButton from "../components/ui/BackToTopButton";
 import AskNerd from "@/components/ui/AskNerd";
 import GssocBanner from "@/components/ui/GssocBanner";
+import FluidCursor from "@/components/FluidCursor";
 
 // Root font - default
 const saira = Saira({
@@ -126,6 +127,7 @@ export default function RootLayout({
       <body
         className={`${saira.variable} ${specialGothic.variable} ${shareTech.variable} ${josefinSans.variable} font-saira antialiased`}
       >
+        <FluidCursor />
         <GssocBanner />
         {children}
         <AskNerd />
