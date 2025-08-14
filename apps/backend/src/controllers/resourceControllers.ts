@@ -125,3 +125,22 @@ export const getSomeResources = async (req: Request, res: Response) => {
         return;
     }
 }
+
+// get recent resources
+export async function getRecentResources(req: Request, res: Response) {
+    const limit = Number(req.query.limit) || 10;
+    const subject = typeof req.query.subject === "string" ? req.query.subject : "";
+    try {
+        const resources = await prisma.resource.findMany({
+            where: subject
+                ? { subject: { subjectName: { contains: subject, mode: 'insensitive' } } }
+                : {},
+            orderBy: { createdAt: 'desc' },
+            take: limit,
+            include: { subject: { include: { semester: { include: { branch: true } } } } },
+        });
+        res.json(resources);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch recent resources.' });
+    }
+}

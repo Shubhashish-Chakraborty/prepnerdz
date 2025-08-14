@@ -29,6 +29,7 @@ import FloatingFeatures from "../ui/cards/FloatingSimple";
 import { Question } from "@/icons/Question";
 import { Carousel } from "../carousel/LandingCarousle";
 import CountUp from "react-countup";
+import RecentlyAddedResources from "./RecentlyAddedResources";
 
 declare global {
   interface Navigator {
@@ -748,6 +749,9 @@ export const HomeLanding = () => {
                 </div>
               </div>
             </section>
+
+            {/* Recently Added Resources Section */}
+            <RecentlyAddedResources limit={10} />
 
             {/* Features Section */}
             <section

@@ -75,7 +75,7 @@ app.use("/api/v1/course", courseRouter);
 app.use("/api/v1/branch", branchRouter);
 app.use("/api/v1/semester", semesterRouter);
 app.use("/api/v1/subject", subjectRouter);
-app.use("/api/v1/resource", resourceRouter);
+app.use("/api/v1/resources", resourceRouter);
 app.use("/api/v1/search", searchRouter);
 app.use("/api/v1/getmyid", getMyIdRouter);
 
