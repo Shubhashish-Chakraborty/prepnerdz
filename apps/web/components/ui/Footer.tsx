@@ -89,7 +89,7 @@ export const Footer = () => {
       href: "https://github.com/Shubhashish-Chakraborty/prepnerdz",
       external: true,
     },
-    { name: "Developer", href: "https://imshubh.site", external: true },
+    { name: "Developer", href: "https://bento.me/imshubh", external: true },
   ];
 
   const legalLinks = [
