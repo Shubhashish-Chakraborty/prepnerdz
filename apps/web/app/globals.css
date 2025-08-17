@@ -20,6 +20,28 @@ body {
   }
 }
 
+/* ---------- Theme variables ---------- */
+:root {
+  --main-bg-color: #ffffff;    /* light bg */
+  --main-text-color: #111827;  /* light text */
+  --accent-color: #2563eb;
+}
+
+.dark {
+  --main-bg-color: #0F1214;    
+  --main-text-color: #ffffff;  
+  --accent-color: #60a5fa;
+}
+
+/* ---------- Apply globally ---------- */
+@layer base {
+  html, body {
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+}
+
 .font-saira {
   font-family: var(--font-saira);
 }

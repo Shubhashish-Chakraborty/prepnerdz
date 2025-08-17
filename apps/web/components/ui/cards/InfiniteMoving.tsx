@@ -103,7 +103,7 @@ export const InfiniteMovingCards = ({
                         <div className="text-3xl md:text-4xl text-primary">
                             {item.icon}
                         </div>
-                        <p className="text-center text-sm md:text-base font-medium text-foreground">
+                        <p className="text-center text-sm md:text-base font-medium ">
                             {item.text}
                         </p>
                     </li>

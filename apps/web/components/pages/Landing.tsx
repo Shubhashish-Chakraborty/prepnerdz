@@ -29,6 +29,8 @@ import FloatingFeatures from "../ui/cards/FloatingSimple";
 import { Question } from "@/icons/Question";
 import { Carousel } from "../carousel/LandingCarousle";
 import CountUp from "react-countup";
+import { useTheme } from 'next-themes';
+
 
 declare global {
   interface Navigator {
@@ -314,8 +316,15 @@ export const HomeLanding = () => {
     }
   }, []);
 
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null; // prevent flash / wrong color
+
   return (
-    <div className="relative min-h-screen bg-mainBgColor font-special">
+    <div className="relative min-h-screen bg-mainBg font-special">
       {/* Skip to content link for screen readers */}
       <a
         href="#main-content"
@@ -394,14 +403,14 @@ export const HomeLanding = () => {
                         />
                       </span>
                       <br />
-                      <span className="text-gray-900 flex md:justify-start justify-center">
+                      <span className="text-mainText flex md:justify-start justify-center">
                         Welcome to{" "}
                         <span className="font-bold ml-2 bg-gradient-to-r from-red-600 via-black-500 to-purple-900 bg-clip-text text-transparent">
                           PrepNerdz
                         </span>
                       </span>
                     </h1>
-                    <p className="text-base md:text-lg text-black md:text-start text-center font-bold italic max-w-2xl">
+                    <p className="text-base md:text-lg text-mainText md:text-start text-center font-bold italic max-w-2xl">
                       &apos;No more &apos;Does anyone have...?&apos; messages.
                       No more dead-end Google searches. Just the right
                       resources, when you need them.&apos;
@@ -521,7 +530,7 @@ export const HomeLanding = () => {
                   <Card className="p-4 md:p-6 shadow-xl border-0 backdrop-blur-sm">
                     <div className="space-y-4">
                       <div className="text-center">
-                        <h2 className="text-lg md:text-xl special font-semibold mb-2">
+                        <h2 className="text-lg md:text-xl special font-semibold mb-2 text-black">
                           Find Your Resources
                         </h2>
                         <p className="text-gray-600 text-sm">
@@ -544,7 +553,7 @@ export const HomeLanding = () => {
                             placeholder="Search for notes, papers, syllabus..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg"
+                            className="w-full pl-9 pr-4 py-2 md:py-3 text-sm md:text-base border-2 border-gray-200 focus:border-indigo-500 rounded-lg placeholder-gray-500" 
                             aria-describedby="search-description"
                           />
                           <div id="search-description" className="sr-only">
@@ -558,7 +567,7 @@ export const HomeLanding = () => {
                           <div>
                             <label
                               htmlFor="semester-select"
-                              className="sr-only"
+                              className="sr-only bg-gray-500"
                             >
                               Select semester
                             </label>
@@ -566,10 +575,10 @@ export const HomeLanding = () => {
                               id="semester-select"
                               value={semester}
                               onChange={(e) => setSemester(e.target.value)}
-                              className="px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-xs md:text-sm focus:border-indigo-500 focus:ring-indigo-500 w-full"
+                              className="px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-xs md:text-sm focus:border-indigo-500 focus:ring-indigo-500 w-full text-gray-700"
                               aria-label="Select semester"
                             >
-                              <option value="">Select Semester</option>
+                              <option value="" className="text-gray-400" >Select Semester</option>
                               <option value="1">1st Semester</option>
                               <option value="2">2nd Semester</option>
                               <option value="3">3rd Semester</option>
@@ -589,7 +598,7 @@ export const HomeLanding = () => {
                               id="resource-type-select"
                               value={resourceType}
                               onChange={(e) => setResourceType(e.target.value)}
-                              className="px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-xs md:text-sm focus:border-indigo-500 focus:ring-indigo-500 w-full"
+                              className="px-3 py-2 md:px-4 md:py-2 border border-gray-300 rounded-lg text-xs md:text-sm focus:border-indigo-500 focus:ring-indigo-500 w-full text-gray-700"
                               aria-label="Select resource type"
                             >
                               <option value="">Resource Type</option>
@@ -769,7 +778,7 @@ export const HomeLanding = () => {
                   <h2 className="text-2xl md:text-3xl lg:text-4xl special font-bold mb-4">
                     Why Choose PrepNerdz?
                   </h2>
-                  <p className="text-black max-w-2xl mx-auto text-sm md:text-base">
+                  <p className="text-mainText max-w-2xl mx-auto text-sm md:text-base">
                     Everything you need to excel in your academics
                   </p>
                 </div>
@@ -821,7 +830,7 @@ export const HomeLanding = () => {
                     How to use PrepNerdz?
                   </h2>
                 </div>
-                <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-bounce">
+                <div className="text-center mt-6 md:mt-8 text-mainText font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-bounce">
                   Start watching from{" "}
                   <span className="text-red-500 font-extrabold hover:underline">
                     07:00/19:50

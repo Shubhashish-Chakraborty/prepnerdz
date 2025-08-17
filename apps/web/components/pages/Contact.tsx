@@ -13,8 +13,10 @@ import { Footer } from "../ui/Footer";
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import { MessageSend } from "@/icons/MessageSend";
+import { useTheme } from "next-themes";
 
 export const ContactLanding = () => {
+  const { theme } = useTheme(); // light or dark
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -91,11 +93,14 @@ export const ContactLanding = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-6">
             <h1 className="text-4xl md:text-3xl font-extrabold mb-4">
-              <span className="bg-gradient-to-r from-red-600 special via-black to-blue-600 bg-clip-text text-transparent">
+              <span className={`bg-gradient-to-r  bg-clip-text text-transparent 
+               ${
+        theme === "dark" ? "from-purple-400 via-pink-500 to-yellow-400" : "from-red-600 special via-black to-blue-600"
+      }`}>
                 <TypingText text="Get In Touch With Us" />
               </span>
             </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+            <p className="text-mainText max-w-2xl mx-auto text-lg">
               Have questions or want to learn more? Reach out to us and our team
               will get back to you as soon as possible.
             </p>

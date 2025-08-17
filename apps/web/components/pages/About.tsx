@@ -20,6 +20,7 @@ import { useState } from "react";
 import { LoginModal } from "../modals/Login";
 import { SignupModal } from "../modals/Signup";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const features = [
   {
@@ -35,6 +36,7 @@ const features = [
   {
     text: "RGPV Previous year papers (Mid-Sem & End-Sem)",
     icon: <BookClose className="size-6" />,
+    className: "bg-yellow-50 border-yellow-200",
   },
   {
     text: "Lab manuals",
@@ -74,6 +76,7 @@ const features2 = [
 export const AboutLanding = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const { theme } = useTheme(); // light or dark
 
   return (
     <div className="relative min-h-screen bg-mainBgColor">
@@ -144,11 +147,14 @@ export const AboutLanding = () => {
                   transition={{ duration: 0.8 }}
                   className="text-center mb-16"
                 >
-                  <h2 className="text-2xl md:text-4xl special font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
+                  <h2 className={`text-2xl md:text-4xl special font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r  w-fit mx-auto
+                    ${
+        theme === "dark" ? "from-purple-400 via-pink-500 to-yellow-400" : "from-red-600 special via-black to-blue-600"
+      }`}>
                     What is PrepNerdz?
                   </h2>
 
-                  <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
+                  <p className="text-lg md:text-xl text-mainText font-bold mt-4 max-w-3xl mx-auto">
                     PrepNerdz is an open-source, student-driven platform that
                     helps future developers learn, build, and grow together by
                     providing curated academic resources, project support, and
@@ -183,10 +189,13 @@ export const AboutLanding = () => {
 
             {/* Hero Section */}
             <div className="text-center mb-16">
-              <span className="bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 special">
+              <span className={`bg-gradient-to-r text-2xl md:text-4xl text-center font-extrabold bg-clip-text text-transparent decoration-cyan-800 special
+                ${
+        theme === "dark" ? "from-purple-400 via-pink-500 to-yellow-400" : "from-red-600 special via-black to-blue-600"
+      }`}>
                 <TypingText text="Why PrepNerdz exists?" />
               </span>
-              <p className="text-lg md:text-xl text-black font-bold mt-4 max-w-3xl mx-auto">
+              <p className="text-lg md:text-xl text-mainText font-bold mt-4 max-w-3xl mx-auto">
                 College students waste countless hours wandering WhatsApp
                 groups, requesting seniors, or digging through disorganized
                 drives for study materials and all. PrepNerdz solves this chaos
@@ -198,13 +207,16 @@ export const AboutLanding = () => {
                 direction="left"
                 speed="slow"
                 pauseOnHover={true}
-                className="my-12"
+                className="my-12 text-black"
               />
             </div>
 
             {/* What We Do Section */}
             <div className="mb-16 text-center">
-              <span className="bg-gradient-to-r text-2xl special md:text-4xl text-center font-extrabold from-red-600 via-black to-blue-600 bg-clip-text text-transparent decoration-cyan-800 ">
+              <span className={`bg-gradient-to-r text-2xl special md:text-4xl text-center font-extrabold  bg-clip-text text-transparent decoration-cyan-800 
+                ${
+        theme === "dark" ? "from-purple-400 via-pink-500 to-yellow-400" : "from-red-600 special via-black to-blue-600"
+      }`}>
                 What We Do 🔧
               </span>
               <div className="grid mt-5 md:grid-cols-2 gap-8">
@@ -212,7 +224,7 @@ export const AboutLanding = () => {
                   <div className="flex justify-center">
                     <Database className="size-10 text-indigo-600 mb-4" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">
+                  <h3 className="text-xl font-semibold mb-3 text-black">
                     Centralized Academic Resources
                   </h3>
                   <p className="text-black">
@@ -227,7 +239,7 @@ export const AboutLanding = () => {
                   <div className="flex justify-center">
                     <BookOpen className="size-10 text-indigo-600 mb-4" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">
+                  <h3 className="text-xl font-semibold mb-3 text-black">
                     Semester-Wise Organization
                   </h3>
                   <p className="text-black">
@@ -253,16 +265,19 @@ export const AboutLanding = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="my-12 px-4 md:px-0 max-w-4xl mx-auto"
               >
-                <h2 className="text-2xl md:text-4xl special font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#DC2626] via-[#000000] to-[#2563EB] w-fit mx-auto ">
+                <h2 className={`text-2xl md:text-4xl special font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r  w-fit mx-auto 
+                  ${
+        theme === "dark" ? "from-purple-400 via-pink-500 to-yellow-400" : "from-red-600 special via-black to-blue-600"
+      }`}>
                   Vision
                 </h2>
-                <p className="text-black text-lg mb-4">
+                <p className="text-mainText text-lg mb-4">
                   <strong>PrepNerdz</strong> is a student led community built to
                   empower tomorrow&apos;s developers with hands-on experience in
                   tech, open source, and real world collaboration.
                 </p>
 
-                <p className="text-black text-lg mb-4">
+                <p className="text-mainText text-lg mb-4">
                   We started with a simple goal: to eliminate the chaos of
                   scattered resources and provide students with a one-stop
                   platform where everything from notes to projects is organized
@@ -270,13 +285,13 @@ export const AboutLanding = () => {
                   WhatsApp forwards.
                 </p>
 
-                <p className="text-black text-lg mb-4">
+                <p className="text-mainText text-lg mb-4">
                   Through open source projects, curated study material,
                   mentorship, and events like GSSoC and Hacktoberfest, PrepNerdz
                   helps you learn by doing not just reading.
                 </p>
 
-                <p className="text-black text-lg mb-4">
+                <p className="text-mainText text-lg mb-4">
                   If you&apos;re someone who&apos;s tired of passive learning
                   and ready to build, ship, and grow in public, welcome home.
                 </p>

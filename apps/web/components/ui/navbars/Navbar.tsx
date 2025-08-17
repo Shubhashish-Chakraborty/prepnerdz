@@ -15,6 +15,9 @@ import { useRouter } from "next/navigation";
 import { CloseCircle } from "@/icons/CloseCircle";
 import { LoginModal } from "@/components/modals/Login";
 import { SignupModal } from "@/components/modals/Signup";
+import DarkModeToggle from '@/components/DarkModeToggle';
+import { useTheme } from "next-themes";
+
 
 export const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -28,6 +31,7 @@ export const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [authLoading, setAuthLoading] = useState(true);
     const router = useRouter();
+    const { theme } = useTheme(); // light or dark
 
     // Check if user is authenticated
     useEffect(() => {
@@ -154,20 +158,33 @@ export const Navbar = () => {
                             <div className="flex items-center space-x-1 xl:space-x-2">
                                 <Link
                                     href="/"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                    className={`inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium  transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none ${
+        theme === "dark" ? "text-gray-200" : "text-gray-900"
+      }`}
                                     onClick={closeAllDropdowns}
                                 >
-                                    <span className="hover:text-black  rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                    <span className={`  rounded-2xl p-1 transition-all duration-300 hover:scale-110
+                                    ${
+        theme === "dark" ? "hover:text-white" : "hover:text-black"
+      } `}>
                                         Home
                                     </span>
-                                </Link>                                                                          
+                                </Link>
+
+                                                                                                         
 
                                 <Link
                                     href="/about"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                    className={`inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none
+                                     ${
+        theme === "dark" ? "text-gray-200" : "text-gray-900"
+      }`}
                                     onClick={closeAllDropdowns}
                                 >
-                                    <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                    <span className={`  rounded-2xl p-1 transition-all duration-300 hover:scale-110
+                                    ${
+        theme === "dark" ? "hover:text-white" : "hover:text-black"
+      } `}>
                                         About
                                     </span>
                                 </Link>
@@ -180,9 +197,14 @@ export const Navbar = () => {
                                 >
                                     <button
                                         onClick={() => toggleDropdown("studymaterial")}
-                                        className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    >
-                                        <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
+                                        className={`cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                 ${
+        theme === "dark" ? "text-gray-200" : "text-gray-900"
+      }   `}>
+                                        <span className={`  rounded-2xl p-1 transition-all duration-300 hover:scale-110
+                                    ${
+        theme === "dark" ? "hover:text-white" : "hover:text-black"
+      } `}>
                                             Study Material
                                         </span>
                                         <Down className="size-4 xl:size-5 ml-1" />
@@ -221,8 +243,10 @@ export const Navbar = () => {
                                 >
                                     <button
                                         onClick={() => toggleDropdown("pyqs")}
-                                        className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    >
+                                        className={`cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium  transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                   ${
+        theme === "dark" ? "text-gray-200" : "text-gray-900"
+      }     `}>
                                         <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
                                             {"PYQ'S"}
                                         </span>
@@ -252,7 +276,10 @@ export const Navbar = () => {
 
                                 <Link
                                     href="/contact-us"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                    className={`inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium  transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none
+                                        ${
+        theme === "dark" ? "text-gray-200" : "text-gray-900"
+      }`}
                                     onClick={closeAllDropdowns}
                                 >
                                     <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
@@ -262,7 +289,10 @@ export const Navbar = () => {
 
                                 <Link
                                     href="/contributors"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
+                                    className={`inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium  transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none
+                                        ${
+        theme === "dark" ? "text-gray-200" : "text-gray-900"
+      }`}
                                     onClick={closeAllDropdowns}
                                 >
                                     <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
@@ -271,6 +301,8 @@ export const Navbar = () => {
                                 </Link>
                             </div>
                         </div>
+
+                         <DarkModeToggle />
 
                         {/* Right side buttons */}
                         <div className="hidden md:flex lg:items-center lg:space-x-3 xl:space-x-4">

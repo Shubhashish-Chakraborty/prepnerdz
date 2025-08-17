@@ -6,6 +6,7 @@ import BackToTopButton from "../components/ui/BackToTopButton";
 import AskNerd from "@/components/ui/AskNerd";
 import GssocBanner from "@/components/ui/GssocBanner";
 import FluidCursor from "@/components/FluidCursor";
+import { ThemeProvider } from "@/components/theme-provider"
 
 // Root font - default
 const saira = Saira({
@@ -129,7 +130,15 @@ export default function RootLayout({
       >
         <FluidCursor />
         <GssocBanner />
-        {children}
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        {/* {children} */}
         <AskNerd />
         <BackToTopButton />
         <Toaster
