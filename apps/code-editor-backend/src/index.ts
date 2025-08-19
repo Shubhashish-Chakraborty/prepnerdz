@@ -4,41 +4,19 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import Docker from 'dockerode';
-import { URL } from 'url'; // Import the URL class
+// No longer need the URL class for this logic
+// import { URL } from 'url'; 
 
 // --- SETUP ---
 const app = express();
 const port = 5000;
 
-// --- DOCKER INITIALIZATION - FINAL FIX ---
-let docker: Docker;
-
-console.log(`DOCKER_HOST environment variable is: ${process.env.DOCKER_HOST}`);
-
-try {
-    if (process.env.DOCKER_HOST && process.env.DOCKER_HOST.startsWith('tcp://')) {
-        console.log('DOCKER_HOST found, attempting to connect via TCP...');
-        const dockerHostUrl = new URL(process.env.DOCKER_HOST);
-
-        // This is the critical fix:
-        // If the hostname is 'localhost', force it to use the IPv4 address '127.0.0.1'.
-        // This prevents the ECONNREFUSED error with IPv6 (::1).
-        const host = dockerHostUrl.hostname === 'localhost' ? '127.0.0.1' : dockerHostUrl.hostname;
-
-        docker = new Docker({
-            host: host,
-            port: dockerHostUrl.port,
-        });
-        console.log(`Successfully configured Docker to connect to ${host}:${dockerHostUrl.port}`);
-    } else {
-        console.log('DOCKER_HOST not found or invalid, falling back to default socket connection for local dev...');
-        docker = new Docker();
-    }
-} catch (e) {
-    console.error('FATAL: Could not initialize Docker.', e);
-    docker = new Docker();
-}
-
+// --- DOCKER INITIALIZATION - FINAL SIMPLIFIED FIX ---
+// The dockerode library is designed to automatically read the DOCKER_HOST
+// environment variable if it exists. By passing no options, we let the
+// library handle the connection logic itself. This is the most robust method.
+console.log(`Initializing Docker. DOCKER_HOST is: ${process.env.DOCKER_HOST}`);
+const docker = new Docker();
 
 app.use(cors());
 app.use(express.json());
