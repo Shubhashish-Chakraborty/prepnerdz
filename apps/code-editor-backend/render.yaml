@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: code-editor-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerInDocker: true
