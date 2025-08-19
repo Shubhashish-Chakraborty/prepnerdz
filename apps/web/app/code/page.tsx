@@ -5,16 +5,17 @@ import Editor from '@monaco-editor/react';
 import axios from 'axios';
 
 export default function Home() {
-    // State variables to hold the code, selected language, and output
+    // State variables
     const [code, setCode] = useState<string>('// Welcome to the Online Code Editor!\n// Select a language and start coding.');
     const [language, setLanguage] = useState<string>('javascript');
     const [output, setOutput] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    // Default code snippets for different languages
+    // Add a default snippet for C++
     const defaultCode: { [key: string]: string } = {
         javascript: 'console.log("Hello, JavaScript!");',
         python: 'print("Hello, Python!")',
+        cpp: '#include <iostream>\n\nint main() {\n    std::cout << "Hello, C++!";\n    return 0;\n}',
     };
 
     // Handler for language change
@@ -24,7 +25,7 @@ export default function Home() {
         setCode(defaultCode[newLanguage] || '');
     };
 
-    // Handler for running the code
+    // Handler for running the code (no changes here)
     const handleRunCode = async () => {
         setIsLoading(true);
         setOutput('');
@@ -50,8 +51,8 @@ export default function Home() {
     };
 
     return (
-        <main className="flex flex-col min-h-screen bg-gray-900 text-white p-4 font-sans">
-            <header className="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
+        <main className="relative flex flex-col min-h-screen bg-gray-900 text-white p-4 font-sans">
+            <header className="relative z-10 flex space-x-90 items-center mb-4 border-b border-gray-700 pb-2">
                 <h1 className="text-2xl font-bold text-cyan-400">Under Development!</h1>
                 <div className="flex items-center space-x-4">
                     <select
@@ -61,6 +62,7 @@ export default function Home() {
                     >
                         <option value="javascript">JavaScript</option>
                         <option value="python">Python</option>
+                        <option value="cpp">C++</option>
                     </select>
                     <button
                         onClick={handleRunCode}
@@ -72,12 +74,12 @@ export default function Home() {
                 </div>
             </header>
 
-            <div className="flex flex-grow gap-4">
-                {/* Code Editor Section */}
+            <div className="relative z-10 flex flex-grow gap-4">
                 <div className="w-1/2 flex flex-col">
                     <Editor
                         height="80vh"
-                        language={language}
+                        // Use 'cpp' for Monaco's language highlighting
+                        language={language === 'cpp' ? 'cpp' : language}
                         theme="vs-dark"
                         value={code}
                         onChange={(value) => setCode(value || '')}
@@ -91,7 +93,6 @@ export default function Home() {
                     />
                 </div>
 
-                {/* Output Section */}
                 <div className="w-1/2 flex flex-col">
                     <h2 className="text-xl font-semibold mb-2 text-gray-300">Output:</h2>
                     <div className="bg-black rounded-md p-4 h-full overflow-auto">

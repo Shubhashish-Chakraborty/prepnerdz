@@ -1,10 +1,11 @@
+// src/index.ts
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import Docker from 'dockerode';
 
-// setup:
+// --- SETUP ---
 const app = express();
 const port = 5000;
 const docker = new Docker();
@@ -12,21 +13,19 @@ const docker = new Docker();
 app.use(cors());
 app.use(express.json());
 
-// Create a directory for temporary code files if it doesn't exist
 const tempDir = path.join(__dirname, 'temp');
 if (!fs.existsSync(tempDir)) {
     fs.mkdirSync(tempDir);
 }
 
-// Define the type for the request body
+// Add 'cpp' to the list of allowed languages
 interface RunRequestBody {
-    language: 'javascript' | 'python';
+    language: 'javascript' | 'python' | 'cpp';
     code: string;
 }
 
 // --- API ENDPOINT ---
 app.post('/run', async (req: Request, res: Response) => {
-    // Apply the type to req.body here for type safety
     const { language, code } = req.body as RunRequestBody;
 
     if (!code) {
@@ -34,7 +33,6 @@ app.post('/run', async (req: Request, res: Response) => {
         return;
     }
 
-    // --- LANGUAGE CONFIGURATION ---
     let imageName: string, command: string[], extension: string;
     const fileName = `code-${Date.now()}`;
 
@@ -49,8 +47,15 @@ app.post('/run', async (req: Request, res: Response) => {
             extension = 'py';
             command = ['python', `/app/${fileName}.${extension}`];
             break;
+        // Add the case for C++
+        case 'cpp':
+            imageName = 'gcc:latest'; // Use the official GCC compiler image
+            extension = 'cpp';
+            // This command first compiles the code into an executable named 'output',
+            // and then executes it. Both stdout and stderr from both commands are captured.
+            command = ['/bin/sh', '-c', `g++ /app/${fileName}.${extension} -o /app/output && /app/output`];
+            break;
         default:
-            // This default case handles any languages that are not 'javascript' or 'python'
             const unhandledLanguage: never = language;
             res.status(400).json({ error: `Language "${unhandledLanguage}" is not supported.` });
             return;
@@ -77,7 +82,6 @@ app.post('/run', async (req: Request, res: Response) => {
 
         let output = '';
         logs.on('data', (chunk: Buffer) => {
-            // The Docker log stream has an 8-byte header we need to strip
             output += chunk.toString('utf8').substring(8);
         });
 
