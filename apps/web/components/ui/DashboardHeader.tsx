@@ -21,6 +21,18 @@ interface HeaderProps {
   setIsSidebarOpen: (open: boolean) => void;
 }
 
+// Helper function to get initials from a name
+const getInitials = (name: string) => {
+  if (!name) return "";
+  const words = name.trim().split(' ');
+  // If there's only one word, return the first letter.
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  }
+  // Otherwise, return the first letter of the first and last words.
+  return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+};
+
 export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
@@ -129,10 +141,13 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
               className="w-16 cursor-pointer h-16 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
             >
               {avatar ? (
-                <Image src={avatar} alt="User Avatar" width={48} height={48} className="object-cover w-full h-full" />
+                <Image src={avatar} alt="User Avatar" width={64} height={64} className="object-cover w-full h-full" />
               ) : (
+                // This is the updated part for the initials fallback
                 <div className="w-full h-full bg-amber-300 flex items-center justify-center">
-                  <User className="size-5" />
+                  <span className="text-2xl font-bold text-black">
+                    {getInitials(userName)}
+                  </span>
                 </div>
               )}
             </button>
