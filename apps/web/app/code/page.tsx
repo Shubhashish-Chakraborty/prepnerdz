@@ -30,7 +30,7 @@ export default function Home() {
         setIsLoading(true);
         setOutput('');
         try {
-            const response = await axios.post('http://localhost:5000/run', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_CODE_EDITOR_BACKEND_URL}/run`, {
                 language,
                 code,
             });
