@@ -4,17 +4,26 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import Docker from 'dockerode';
+import { URL } from 'url'; // Import the URL class
 
 // --- SETUP ---
 const app = express();
 const port = 5000;
 
-// --- DOCKER INITIALIZATION FIX ---
-// This logic checks if the DOCKER_HOST variable is set (like on Render)
-// and connects via TCP. Otherwise, it falls back to the default Unix socket for local development.
-const docker = process.env.DOCKER_HOST
-    ? new Docker({ host: process.env.DOCKER_HOST.split('//')[1].split(':')[0], port: process.env.DOCKER_HOST.split(':')[2] })
-    : new Docker();
+// --- DOCKER INITIALIZATION FINAL FIX ---
+// This robust logic correctly handles both Render's DOCKER_HOST variable
+// and the default local socket connection.
+let docker: Docker;
+if (process.env.DOCKER_HOST) {
+    const dockerHostUrl = new URL(process.env.DOCKER_HOST);
+    docker = new Docker({
+        host: dockerHostUrl.hostname,
+        port: dockerHostUrl.port,
+    });
+} else {
+    // This is for local development on Windows/Mac/Linux
+    docker = new Docker();
+}
 
 app.use(cors());
 app.use(express.json());
@@ -85,12 +94,12 @@ app.post('/run', async (req: Request, res: Response) => {
         await container.start();
 
         const logs = await container.logs({ follow: true, stdout: true, stderr: true });
-
+        
         let output = '';
         logs.on('data', (chunk: Buffer) => {
             output += chunk.toString('utf8').substring(8);
         });
-
+        
         await new Promise<void>((resolve) => logs.on('end', resolve));
 
         res.json({ output });
