@@ -6,15 +6,27 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { User } from '@/icons/User'
 import GithubAuthBtn from '../ui/buttons/GIthubAuth'
 import InputStraightLine from '../ui/inputs/StraightLine'
+
+// Helper function to get initials from a name
+const getInitials = (name: string) => {
+    if (!name) return "";
+    const words = name.trim().split(' ');
+    // If there's only one word, return the first letter.
+    if (words.length === 1) {
+        return words[0].charAt(0).toUpperCase();
+    }
+    // Otherwise, return the first letter of the first and last words.
+    return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+};
 
 export const Landing = () => {
     const [authStatus, setAuthStatus] = useState<'LOADING' | 'UNAUTHENTICATED' | 'ADMIN' | 'STUDENT'>('LOADING');
     const router = useRouter();
     const [avatar, setAvatar] = useState<string | null>(null);
-    const [username, setUsername] = useState<string | null>(null);
+    const [username, setUsername] = useState("");
+
     const avatarMenuRef = useRef<HTMLDivElement>(null);
     const [avatarMenuOpen, setAvatarMenuOpen] = useState(false);
     const [email, setEmail] = useState('');
@@ -50,10 +62,13 @@ export const Landing = () => {
                 const data = response.data;
 
                 if (data.message.isAuthenticated) {
-                    const role = data.message.user.role
+                    const user = data.message.user;
+                    // Set username for any authenticated user
+                    setUsername(user.username);
+                    const role = user.role;
+
                     if (role === 'ADMIN') {
                         setAuthStatus('ADMIN');
-                        setUsername(data.message.user.username);
                     } else if (role === 'STUDENT') {
                         setAuthStatus('STUDENT')
                     } else {
@@ -75,6 +90,9 @@ export const Landing = () => {
         try {
             await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/logout`, {}, { withCredentials: true });
             setAuthStatus('UNAUTHENTICATED')
+            // Clear user-specific state on logout
+            setUsername("");
+            setAvatar(null);
         } catch (error) {
             console.error('Logout failed:', error)
         }
@@ -98,10 +116,11 @@ export const Landing = () => {
             });
 
             if (response.data.message.isAuthenticated) {
-                const role = response.data.message.user.role;
+                const user = response.data.message.user;
+                setUsername(user.username); // Set username on successful login
+                const role = user.role;
                 if (role === 'ADMIN') {
                     setAuthStatus('ADMIN');
-                    setUsername(response.data.message.user.username);
                 } else if (role === 'STUDENT') {
                     setAuthStatus('STUDENT');
                 }
@@ -115,8 +134,6 @@ export const Landing = () => {
             } else {
                 setLoginError('Login failed. Please try again.');
             }
-            // console.error('Login failed:', error);
-            // setLoginError(error.response?.data?.message || 'Login failed. Please try again.');
         } finally {
             setIsLoggingIn(false);
         }
@@ -157,7 +174,7 @@ export const Landing = () => {
                             <div>
                                 {authStatus === "LOADING" ? (
                                     "Loading..."
-                                ) : authStatus === "ADMIN" ? (
+                                ) : authStatus === "ADMIN" || authStatus === "STUDENT" ? (
                                     <>hey {username} !!</>
                                 ) : null}
                             </div>
@@ -166,16 +183,13 @@ export const Landing = () => {
                                 className="flex cursor-pointer items-center justify-center w-20 h-20 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
                             >
                                 {avatar ? (
-                                    <Image
-                                        src={avatar}
-                                        alt="User Avatar"
-                                        width={64}
-                                        height={64}
-                                        className="object-cover w-full h-full"
-                                    />
+                                    <Image src={avatar} alt="User Avatar" width={80} height={80} className="object-cover w-full h-full" />
                                 ) : (
+                                    // This is the updated part for the initials fallback
                                     <div className="w-full h-full bg-amber-300 flex items-center justify-center">
-                                        <User className="size-6" />
+                                        <span className="text-2xl font-bold text-black">
+                                            {getInitials(username)}
+                                        </span>
                                     </div>
                                 )}
                             </button>
