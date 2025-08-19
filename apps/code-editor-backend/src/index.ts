@@ -4,32 +4,87 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import Docker from 'dockerode';
-// No longer need the URL class for this logic
-// import { URL } from 'url'; 
+import { exec } from 'child_process';
+import { promisify } from 'util';
+
+const execAsync = promisify(exec);
 
 // --- SETUP ---
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
-// --- DOCKER INITIALIZATION - FINAL SIMPLIFIED FIX ---
-// The dockerode library is designed to automatically read the DOCKER_HOST
-// environment variable if it exists. By passing no options, we let the
-// library handle the connection logic itself. This is the most robust method.
-console.log(`Initializing Docker. DOCKER_HOST is: ${process.env.DOCKER_HOST}`);
-const docker = new Docker();
+// --- DOCKER INITIALIZATION - FIXED FOR RENDER ---
+// Render doesn't support Docker-in-Docker for Web Services, only for background workers
+// We'll use a different approach that works on Render
+console.log(`Initializing in environment: ${process.env.RENDER ? 'Render' : 'Local'}`);
+
+let docker: Docker;
+if (process.env.RENDER) {
+    // On Render, we can't use Docker-in-Docker for Web Services
+    // We'll use a fallback method using child processes
+    docker = null as any;
+} else {
+    // Local development with Docker
+    docker = new Docker();
+}
 
 app.use(cors());
 app.use(express.json());
 
 const tempDir = path.join(__dirname, 'temp');
 if (!fs.existsSync(tempDir)) {
-    fs.mkdirSync(tempDir);
+    fs.mkdirSync(tempDir, { recursive: true });
 }
 
 // Add 'cpp' to the list of allowed languages
 interface RunRequestBody {
     language: 'javascript' | 'python' | 'cpp';
     code: string;
+}
+
+// Function to execute code without Docker (for Render)
+async function executeWithoutDocker(language: string, code: string, fileName: string, extension: string): Promise<string> {
+    const filePath = path.join(tempDir, `${fileName}.${extension}`);
+    fs.writeFileSync(filePath, code);
+
+    try {
+        let command: string;
+
+        switch (language) {
+            case 'javascript':
+                command = `node ${filePath}`;
+                break;
+            case 'python':
+                command = `python ${filePath}`;
+                break;
+            case 'cpp':
+                // Compile then run
+                const outputFile = path.join(tempDir, fileName);
+                await execAsync(`g++ ${filePath} -o ${outputFile}`);
+                command = outputFile;
+                break;
+            default:
+                throw new Error(`Unsupported language: ${language}`);
+        }
+
+        const { stdout, stderr } = await execAsync(command);
+        return stdout + (stderr ? `\nERROR: ${stderr}` : '');
+    } catch (error: any) {
+        return error.stderr || error.message;
+    } finally {
+        // Clean up
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+
+        // Clean up compiled C++ binary
+        if (language === 'cpp') {
+            const outputFile = path.join(tempDir, fileName);
+            if (fs.existsSync(outputFile)) {
+                fs.unlinkSync(outputFile);
+            }
+        }
+    }
 }
 
 // --- API ENDPOINT ---
@@ -55,9 +110,8 @@ app.post('/run', async (req: Request, res: Response) => {
             extension = 'py';
             command = ['python', `/app/${fileName}.${extension}`];
             break;
-        // Add the case for C++
         case 'cpp':
-            imageName = 'gcc:latest'; // Use the official GCC compiler image
+            imageName = 'gcc:latest';
             extension = 'cpp';
             command = ['/bin/sh', '-c', `g++ /app/${fileName}.${extension} -o /app/output && /app/output`];
             break;
@@ -67,10 +121,22 @@ app.post('/run', async (req: Request, res: Response) => {
             return;
     }
 
+    // On Render, use the fallback method
+    if (process.env.RENDER) {
+        try {
+            const output = await executeWithoutDocker(language, code, fileName, extension);
+            res.json({ output });
+        } catch (error) {
+            console.error("Execution failed:", error);
+            res.status(500).json({ error: 'Failed to execute code.' });
+        }
+        return;
+    }
+
+    // Local execution with Docker
     const filePath = path.join(tempDir, `${fileName}.${extension}`);
     fs.writeFileSync(filePath, code);
 
-    // --- DOCKER EXECUTION ---
     try {
         const container = await docker.createContainer({
             Image: imageName,
@@ -99,8 +165,15 @@ app.post('/run', async (req: Request, res: Response) => {
         console.error("Docker execution failed:", error);
         res.status(500).json({ error: 'Failed to execute code.' });
     } finally {
-        fs.unlinkSync(filePath);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
     }
+});
+
+// Health check endpoint
+app.get('/health', (req: Request, res: Response) => {
+    res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 app.listen(port, () => {

@@ -1,6 +1,12 @@
 services:
   - type: web
     name: code-editor-backend
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    dockerInDocker: true
+    plan: free
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: RENDER
+        value: true

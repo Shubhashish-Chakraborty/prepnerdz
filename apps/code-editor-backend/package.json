@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "build": "npx tsc",
-    "dev": "tsc -b && node ./dist/index.js"
+    "start": "node dist/index.js",
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "clean": "rm -rf dist"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,8 @@
     "@types/cors": "^2.8.19",
     "@types/dockerode": "^3.3.42",
     "@types/express": "^5.0.3",
-    "typescript": "^5.8.2"
+    "@types/node": "^22.10.2",
+    "typescript": "^5.8.2",
+    "ts-node": "^10.9.2"
   }
 }

@@ -1,5 +1,4 @@
 # ---- Builder Stage ----
-# This stage installs ALL dependencies (including dev) and builds the source code
 FROM node:18-alpine AS builder
 WORKDIR /usr/src/app
 
@@ -10,14 +9,26 @@ RUN npm install
 # Copy the rest of the source code
 COPY . .
 
+# Install system dependencies needed for code execution
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    && ln -sf python3 /usr/bin/python
+
 # Run the build command (tsc will be available here)
 RUN npm run build
 
-
 # ---- Production Stage ----
-# This stage creates the final, lean image with only what's needed to run
 FROM node:18-alpine
 WORKDIR /usr/src/app
+
+# Install system dependencies needed for code execution
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    && ln -sf python3 /usr/bin/python
 
 # Copy package files and install ONLY production dependencies
 COPY package*.json ./
