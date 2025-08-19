@@ -10,20 +10,33 @@ import { URL } from 'url'; // Import the URL class
 const app = express();
 const port = 5000;
 
-// --- DOCKER INITIALIZATION FINAL FIX ---
-// This robust logic correctly handles both Render's DOCKER_HOST variable
-// and the default local socket connection.
+// --- DOCKER INITIALIZATION - FINAL ROBUST FIX ---
 let docker: Docker;
-if (process.env.DOCKER_HOST) {
-    const dockerHostUrl = new URL(process.env.DOCKER_HOST);
-    docker = new Docker({
-        host: dockerHostUrl.hostname,
-        port: dockerHostUrl.port,
-    });
-} else {
-    // This is for local development on Windows/Mac/Linux
+
+// Add logging to see what the environment variable is in production
+console.log(`DOCKER_HOST environment variable is: ${process.env.DOCKER_HOST}`);
+
+try {
+    // Check if the DOCKER_HOST variable is set and in the expected format
+    if (process.env.DOCKER_HOST && process.env.DOCKER_HOST.startsWith('tcp://')) {
+        console.log('DOCKER_HOST found, attempting to connect via TCP...');
+        const dockerHostUrl = new URL(process.env.DOCKER_HOST);
+        docker = new Docker({
+            host: dockerHostUrl.hostname,
+            port: dockerHostUrl.port,
+        });
+        console.log(`Successfully configured Docker to connect to ${dockerHostUrl.hostname}:${dockerHostUrl.port}`);
+    } else {
+        console.log('DOCKER_HOST not found or invalid, falling back to default socket connection for local dev...');
+        // This is for local development on Windows/Mac/Linux
+        docker = new Docker();
+    }
+} catch (e) {
+    console.error('FATAL: Could not initialize Docker. Please check DOCKER_HOST environment variable.', e);
+    // Fallback to the default, which will likely fail but prevents the app from crashing on startup.
     docker = new Docker();
 }
+
 
 app.use(cors());
 app.use(express.json());
@@ -94,12 +107,12 @@ app.post('/run', async (req: Request, res: Response) => {
         await container.start();
 
         const logs = await container.logs({ follow: true, stdout: true, stderr: true });
-        
+
         let output = '';
         logs.on('data', (chunk: Buffer) => {
             output += chunk.toString('utf8').substring(8);
         });
-        
+
         await new Promise<void>((resolve) => logs.on('end', resolve));
 
         res.json({ output });
