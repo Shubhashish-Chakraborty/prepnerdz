@@ -8,7 +8,13 @@ import Docker from 'dockerode';
 // --- SETUP ---
 const app = express();
 const port = 5000;
-const docker = new Docker();
+
+// --- DOCKER INITIALIZATION FIX ---
+// This logic checks if the DOCKER_HOST variable is set (like on Render)
+// and connects via TCP. Otherwise, it falls back to the default Unix socket for local development.
+const docker = process.env.DOCKER_HOST
+    ? new Docker({ host: process.env.DOCKER_HOST.split('//')[1].split(':')[0], port: process.env.DOCKER_HOST.split(':')[2] })
+    : new Docker();
 
 app.use(cors());
 app.use(express.json());
