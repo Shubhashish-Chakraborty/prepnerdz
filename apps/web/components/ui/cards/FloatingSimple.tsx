@@ -67,7 +67,7 @@ export default function FloatingFeatures({ features, className = "" }: FloatingF
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-r from-white/10 to-white/5 rounded-full blur-2xl group-hover:scale-110 transition-transform duration-700"></div>
 
                 {/* Feature text */}
-                <h3 className="relative z-10 text-lg font-semibold text-gray-800 leading-relaxed group-hover:text-gray-900 transition-colors duration-300 drop-shadow-sm">
+                <h3 className="relative z-10 text-lg font-semibold text-mainText leading-relaxed group-hover:text-gray-900 transition-colors duration-300 drop-shadow-sm">
                   {feature}
                 </h3>
 

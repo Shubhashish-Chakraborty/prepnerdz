@@ -1,4 +1,7 @@
+import { useTheme } from "next-themes";
+
 export const ThanksForVisit = () => {
+    const { theme } = useTheme(); // light or dark
     return (
         <div className="flex justify-center">
             <svg
@@ -11,7 +14,7 @@ export const ThanksForVisit = () => {
                     d="M 0 50 A 1 1 0 0 1 100 50 A 1 1 0 0 1 0 50"
                     fill="transparent"
                 ></path>
-                <text className="fill-black text-lg">
+                <text fill={theme === "dark" ? "orange" : "black"} className=" text-lg"> 
                     <textPath href="#curve-text" startOffset="0" dominantBaseline="hanging">
                         💟 Thanks for Visiting 💟
                     </textPath>
