@@ -264,6 +264,7 @@ This project is licensed under the MIT License - see the [`License`](https://git
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
 
 **👨‍💻 Built with ❤️ by the prepnerdz Team**
+
 **❤️ Shubhashish-Chakraborty and Contributors ❤️** [open an issue](https://github.com/Shubhashish-Chakraborty/prepnerdz/issues) | [Watch Demo](https://www.prepnerdz.tech/)
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
