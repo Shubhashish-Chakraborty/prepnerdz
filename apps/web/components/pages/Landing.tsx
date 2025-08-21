@@ -822,15 +822,11 @@ export const HomeLanding = () => {
                   </h2>
                 </div>
                 <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-bounce">
-                  Start watching from{" "}
-                  <span className="text-red-500 font-extrabold hover:underline">
-                    07:00/19:50
-                  </span>{" "}
-                  to direct jump into dashboard part!
+                  Watch this quick tutorial to begin using the platform effectively.
                 </div>
                 <div className="flex justify-center">
                   <iframe
-                    src="https://drive.google.com/file/d/1GtZTJOtWrtou08zl8Zgm4W7vVtYPkRPW/preview"
+                    src="https://drive.google.com/file/d/1POx9yoQn_yB8pPA1pEuw_kZPN7YrhK9p/preview"
                     className="w-full md:w-[60vw] h-[20vh] md:h-[60vh] rounded-lg shadow-2xl hover:shadow-cyan-700 cursor-pointer transition-all duration-500 shadow-amber-300"
                     allowFullScreen
                     title="PrepNerdz Tutorial Video"
