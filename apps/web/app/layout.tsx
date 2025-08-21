@@ -1,3 +1,4 @@
+import Script from 'next/script';
 import { Saira, Josefin_Sans, Share_Tech } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -124,6 +125,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8097731478229459"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body
         className={`${saira.variable} ${specialGothic.variable} ${shareTech.variable} ${josefinSans.variable} font-saira antialiased`}
       >
