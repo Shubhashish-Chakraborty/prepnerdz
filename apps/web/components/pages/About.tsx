@@ -25,51 +25,55 @@ const features = [
   {
     text: "Important questions, Important Topics & reference books",
     icon: <Star className="size-6" />,
-    className: "bg-purple-50 border-purple-200",
+    className: "bg-gradient-to-r from-purple-900 to-purple-700 border-purple-300 text-purple-100",
   },
   {
     text: "Subject notes (Faculty & Topper-curated)",
     icon: <BookOpen className="size-6" />,
-    className: "bg-blue-50 border-blue-200",
+    className: "bg-gradient-to-r from-blue-900 to-blue-700 border-blue-300 text-blue-100",
   },
   {
     text: "RGPV Previous year papers (Mid-Sem & End-Sem)",
     icon: <BookClose className="size-6" />,
+    className: "bg-gradient-to-r from-pink-900 to-pink-700 border-pink-300 text-pink-100",
   },
   {
     text: "Lab manuals",
     icon: <Flask className="size-6" />,
-    className: "bg-green-50 border-green-200",
+    className: "bg-gradient-to-r from-green-900 to-green-700 border-green-300 text-green-100",
   },
   {
     text: "Career Advancement",
     icon: <Rocket className="size-6" />,
-    className: "bg-orange-50 border-orange-200",
+    className: "bg-gradient-to-r from-orange-900 to-orange-700 border-orange-300 text-orange-100",
   },
 ];
+
+
 
 const features2 = [
   {
     text: "Student/faculty accounts with role-based access",
     icon: <User className="size-6" />,
-    className: "bg-black border-cyan-200 text-amber-400",
+    className: "bg-gradient-to-r from-purple-900 to-purple-700 border-purple-300 text-purple-100",
   },
   {
     text: "Branches → Semesters → Subjects: Hierarchical organization",
     icon: <Database className="size-6" />,
-    className: "bg-black border-cyan-200 text-amber-400",
+    className: "bg-gradient-to-r from-indigo-900 to-indigo-700 border-indigo-300 text-indigo-100",
   },
   {
     text: "Files (PDFs/DOCs) with metadata (type, year, uploader)",
     icon: <Paper className="size-6" />,
-    className: "bg-black border-cyan-200 text-amber-400",
+    className: "bg-gradient-to-r from-emerald-900 to-emerald-700 border-emerald-300 text-emerald-100",
   },
   {
     text: "Bookmarks/Downloads for Tracking student activity",
     icon: <Download className="size-6" />,
-    className: "bg-black border-cyan-200 text-amber-400",
+    className: "bg-gradient-to-r from-rose-900 to-rose-700 border-rose-300 text-rose-100",
   },
 ];
+
 
 export const AboutLanding = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);

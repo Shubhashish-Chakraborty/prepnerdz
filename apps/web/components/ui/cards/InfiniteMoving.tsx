@@ -85,55 +85,29 @@ export const InfiniteMovingCards = ({
                     pauseOnHover && 'hover:[animation-play-state:paused]'
                 )}
             >
-                {items.map((item, idx) => {
-                    
-                    const isDarkCard =
-                        item.className?.includes('bg-black') ||
-                        item.className?.includes('dark-card');
-
-                    return (
-                        <li
-                            key={idx}
-                            onClick={item.onClick}
-                            style={
-                                isDarkCard
-                                    ? {
-                                          background:
-                                              'linear-gradient(135deg, rgba(255,255,255,0.92), #f0e6ff 80%)',
-                                          border: '1px solid #1f2937', // gray-800
-                                          color: '#1f2937', // gray-800
-                                      }
-                                    : undefined
-                            }
-                            className={cn(
-                                'relative cursor-pointer w-[180px] sm:w-[200px] md:w-[240px] lg:w-[280px] xl:w-[320px]',
-                                'flex-shrink-0 rounded-lg md:rounded-xl p-4 md:p-6',
-                                !isDarkCard && 'border border-gray-300 text-gray-700', // default for light cards
-                                'transition-all duration-300 hover:-translate-y-1 md:hover:-translate-y-2',
-                                'flex flex-col items-center justify-center gap-3',
-                                'hover:shadow-md hover:shadow-primary/10',
-                                item.className
-                            )}
-                        >
-                            <div
-                                className={cn(
-                                    'text-3xl md:text-4xl',
-                                    isDarkCard ? 'text-gray-800' : 'text-inherit'
-                                )}
-                            >
-                                {item.icon}
-                            </div>
-                            <p
-                                className={cn(
-                                    'text-center text-sm md:text-base font-medium',
-                                    isDarkCard ? 'text-gray-800' : 'text-inherit'
-                                )}
-                            >
-                                {item.text}
-                            </p>
-                        </li>
-                    );
-                })}
+                {items.map((item, idx) => (
+                    <li
+                        key={idx}
+                        onClick={item.onClick}
+                        className={cn(
+                            'relative cursor-pointer w-[180px] sm:w-[200px] md:w-[240px] lg:w-[280px] xl:w-[320px]',
+                            'flex-shrink-0 rounded-lg md:rounded-xl p-4 md:p-6',
+                            'bg-gradient-to-br from-primary/10 to-secondary/10',
+                            'border border-primary/20 hover:border-primary/30',
+                            'transition-all duration-300 hover:-translate-y-1 md:hover:-translate-y-2',
+                            'flex flex-col items-center justify-center gap-3',
+                            'hover:shadow-md hover:shadow-primary/10',
+                            item.className
+                        )}
+                    >
+                        <div className="text-3xl md:text-4xl text-primary">
+                            {item.icon}
+                        </div>
+                        <p className="text-center text-sm md:text-base font-medium text-foreground">
+                            {item.text}
+                        </p>
+                    </li>
+                ))}
             </ul>
         </div>
     );
