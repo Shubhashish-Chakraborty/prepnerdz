@@ -1,7 +1,12 @@
+import Script from 'next/script';
 import { Saira, Josefin_Sans, Share_Tech } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
-import CursorEffect from "@/components/Mouse/CursorEffect";
+import { Toaster } from "react-hot-toast";
+import BackToTopButton from "../components/ui/BackToTopButton";
+import AskNerd from "@/components/ui/AskNerd";
+import GssocBanner from "@/components/ui/GssocBanner";
+import ConditionalFluidCursor from "@/components/ConditionalFluidCursor";
 
 // Root font - default
 const saira = Saira({
@@ -120,10 +125,35 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-8097731478229459"></meta>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8097731478229459"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${saira.variable} ${specialGothic.variable} ${shareTech.variable} ${josefinSans.variable} font-saira antialiased`}
       >
-        <CursorEffect>{children}</CursorEffect>
+        <ConditionalFluidCursor/>
+        <GssocBanner />
+        {children}
+        <AskNerd />
+        <BackToTopButton />
+        <Toaster
+          position="top-center"
+          containerStyle={{
+            zIndex: 999999, // Higher than your modal's z-index
+          }}
+          toastOptions={{
+            style: {
+              background: "#363636",
+              color: "#fff",
+              zIndex: 999999,
+            },
+          }}
+        />
       </body>
     </html>
   );
