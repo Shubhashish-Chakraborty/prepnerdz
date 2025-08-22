@@ -78,11 +78,16 @@
   <b>This project is now OFFICIALLY accepted for:</b>
 </p>
 
-![GSSoC Logo](./apps/web/public/gssocLogo.png)
+<div align="center">
+
+![GSSoC Logo](./apps/web/public/GirlScriptLogo.png)
+
+</div>
+
 
 **🌟 Exciting News...**
 
-🚀 This project is now an official part of GirlScript Summer of Code – GSSoC'25! 💃🎉💻 We're thrilled to welcome contributors from all over India and beyond to collaborate, build, and grow prepnerdz! Let’s make learning and career development smarter – together! 🌟👨‍💻👩‍💻
+🚀 This project is now an official part of [GirlScript Summer of Code](https://gssoc.girlscript.tech) – GSSoC'25! 💃🎉💻 We're thrilled to welcome contributors from all over India and beyond to collaborate, build, and grow prepnerdz! Let’s make learning and career development smarter – together! 🌟👨‍💻👩‍💻
 
 👩‍💻 GSSoC is one of India’s **largest 3-month-long open-source programs** that encourages developers of all levels to contribute to real-world projects 🌍 while learning, collaborating, and growing together. 🌱
 
