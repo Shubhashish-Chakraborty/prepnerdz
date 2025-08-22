@@ -78,7 +78,7 @@
   <b>This project is now OFFICIALLY accepted for:</b>
 </p>
 
-![GSSoC Logo](/prepnerdz/apps/web/public/gssoc%20logo.png)
+![GSSoC Logo](./apps/web/public/gssocLogo.png)
 
 **🌟 Exciting News...**
 
