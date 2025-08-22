@@ -8,10 +8,6 @@
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
-[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/Shubhashish-Chakraborty/prepnerdz)
-
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-
 >The ultimate academic resource platform for BTECH students - where finding study materials stops being a struggle!
 
 <p align="center">
@@ -225,26 +221,10 @@ This project is licensed under the MIT License - see the [`License`](https://git
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
 
-**⭐ Stargazers**
 
 <div align="center">
-  <a href="https://github.com/Shubhashish-Chakraborty/prepnerdz/stargazers">
-    <img src="https://reporoster.com/stars/Shubhashish-Chakraborty/prepnerdz?type=svg&limit=100&names=false" alt="Stargazers" />
-  </a>
-</div>
 
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
-
-**🍴 Forkers**
-
-<div align="center">
-  <a href="https://github.com/Shubhashish-Chakraborty/prepnerdz/network/members">
-    <img src="https://reporoster.com/forks/Shubhashish-Chakraborty/prepnerdz?type=svg&limit=100&names=false" alt="Forkers" />
-  </a>
-
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
-
-<h2>🧑‍💻Project Admin:</h2>
+<h2>🧑‍💻Project Admin & Maintainer:</h2>
 <table>
 <tr>
 <td align="center">
