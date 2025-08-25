@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import axios from 'axios';
+import AdsenseAd from '@/components/ads/AdsenseAd';
+import Navbar from '@/components/ui/navbars/Leaderboard-Navbar';
 
 export default function Home() {
     // State variables
@@ -25,7 +27,7 @@ export default function Home() {
         setCode(defaultCode[newLanguage] || '');
     };
 
-    // Handler for running the code (no changes here)
+    // Handler for running the code
     const handleRunCode = async () => {
         setIsLoading(true);
         setOutput('');
@@ -36,7 +38,6 @@ export default function Home() {
             });
             setOutput(response.data.output);
         } catch (error: unknown) {
-            // setOutput(error.response?.data?.error || 'An error occurred while running the code.');
             if (axios.isAxiosError(error)) {
                 setOutput(
                     (error.response?.data as { error?: string })?.error ||
@@ -52,7 +53,18 @@ export default function Home() {
 
     return (
         <main className="relative flex flex-col min-h-screen bg-gray-900 text-white p-4 font-sans">
-            <header className="relative z-10 flex space-x-90 items-center mb-4 border-b border-gray-700 pb-2">
+            <Navbar/>
+            {/* Horizontal Ad at top right */}
+            <div className="absolute top-4 right-4 z-20">
+                <AdsenseAd
+                    client="ca-pub-8097731478229459"
+                    slot="5261635117"
+                    className="w-full"
+                    style={{ display: 'block', width: '728px', height: '90px' }}
+                />
+            </div>
+
+            <header className="relative z-10 flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
                 <h1 className="text-2xl font-bold text-cyan-400">Under Development!</h1>
                 <div className="flex items-center space-x-4">
                     <select
@@ -78,7 +90,6 @@ export default function Home() {
                 <div className="w-1/2 flex flex-col">
                     <Editor
                         height="80vh"
-                        // Use 'cpp' for Monaco's language highlighting
                         language={language === 'cpp' ? 'cpp' : language}
                         theme="vs-dark"
                         value={code}
@@ -99,6 +110,16 @@ export default function Home() {
                         <pre className="text-sm whitespace-pre-wrap">{output}</pre>
                     </div>
                 </div>
+            </div>
+
+            {/* Vertical Ad at right most area */}
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20">
+                <AdsenseAd
+                    client="ca-pub-8097731478229459"
+                    slot="5390429950"
+                    className="h-full"
+                    style={{ display: 'block', width: '160px', height: '600px' }}
+                />
             </div>
         </main>
     );

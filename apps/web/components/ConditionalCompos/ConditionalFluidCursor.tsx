@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import FluidCursor from './FluidCursor';
+import FluidCursor from '../FluidCursor';
 
 const ConditionalFluidCursor = () => {
     const pathname = usePathname();
