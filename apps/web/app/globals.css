@@ -318,3 +318,55 @@ body {
 .resize-handle:active {
   background-color: #374151;
 }
+
+/* for lang select component */
+
+/* Theme popup dropdown toggle */
+.theme-popup input[type="checkbox"]:checked ~ .theme-popup__list-container {
+  display: block;
+}
+
+.theme-popup__icons svg {
+  display: none;
+}
+
+#default:checked ~ #checkbox + .theme-popup__button .default,
+#light:checked ~ #checkbox + .theme-popup__button .sun,
+#dark:checked ~ #checkbox + .theme-popup__button .moon {
+  display: inline-block;
+}
+
+/* for code run button only: */
+
+.animated-button:hover {
+  box-shadow: 0 0 0 12px transparent;
+  color: #212121;
+  border-radius: 12px;
+}
+
+.animated-button:hover .arr-1 {
+  right: -25%;
+}
+
+.animated-button:hover .arr-2 {
+  left: 16px;
+}
+
+.animated-button:hover .text {
+  transform: translateX(12px);
+}
+
+.animated-button:hover svg {
+  fill: #212121;
+}
+
+.animated-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 0 4px greenyellow;
+}
+
+.animated-button:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+}

@@ -5,7 +5,9 @@ import { useState, useRef, useCallback, useEffect } from "react"
 import Editor from "@monaco-editor/react"
 import axios from "axios"
 import AdsenseAd from "@/components/ads/AdsenseAd"
-import Navbar from "@/components/ui/navbars/Leaderboard-Navbar"
+import Link from "next/link"
+import LangSelect from "@/components/ui/code-editor/LangSelect"
+import CodeRun from "@/components/ui/buttons/RunCodeBtn"
 
 export default function CodePage() {
     // State variables
@@ -30,11 +32,16 @@ export default function CodePage() {
     }
 
     // Handler for language change
-    const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const newLanguage = e.target.value
-        setLanguage(newLanguage)
-        setCode(defaultCode[newLanguage] || "")
-    }
+    // const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    //     const newLanguage = e.target.value
+    //     setLanguage(newLanguage)
+    //     setCode(defaultCode[newLanguage] || "")
+    // }
+
+    const handleLanguageChange = (newLanguage: string) => {
+        setLanguage(newLanguage);
+        setCode(defaultCode[newLanguage] || "");
+    };
 
     // Handler for running the code
     const handleRunCode = async () => {
@@ -109,9 +116,9 @@ export default function CodePage() {
     }, [isDragging, handleMouseMove, handleMouseUp])
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+        <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#0B0F0C] to-[#3f3801] text-white">
             {/* Fixed Horizontal Ad at Top - FIXED */}
-            <div className="fixed top-0 left-0 right-0 z-50 bg-gray-800 border-b border-gray-700" style={{ height: "60px" }}>
+            <div className="fixed top-0 left-0 right-0 z-50 bg-[#0B0F0C] border-b border-gray-700" style={{ height: "60px" }}>
                 <div className="flex justify-center items-center h-full">
                     <AdsenseAd
                         client="ca-pub-8097731478229459"
@@ -136,30 +143,48 @@ export default function CodePage() {
 
             {/* Main Content with Top Margin for Ad - FIXED */}
             <main className="flex flex-col flex-1 pt-16 px-4 pb-4 xl:pr-44">
-                <div className="mt-6">
-                    <Navbar />
-                </div>
+
 
                 {/* Header with Controls */}
-                <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-gray-700 pb-4 gap-4">
-                    <h1 className="text-xl sm:text-2xl font-bold text-cyan-400">Code Editor</h1>
+                <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 mt-10 border-b border-gray-700 pb-4 gap-4">
+                    {/* <h1 className="text-xl sm:text-2xl font-bold text-cyan-100">PrepNerdz Exclusive Code Editor</h1> */}
+
+                    <div className="flex flex-col">
+                        <h1 className="text-xl sm:text-2xl font-bold text-white">PrepNerdz Exclusive Code Editor</h1>
+                        <p className="text-sm text-gray-400 mt-1">
+                            Practice your code, Learn DSA, Enhance your skills with our online editor.
+                        </p>
+                    </div>
+
+
                     <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                        <select
-                            value={language}
-                            onChange={handleLanguageChange}
-                            className="bg-gray-800 border border-gray-600 rounded-md px-3 py-1.5 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 text-sm min-w-[120px]"
-                        >
-                            <option value="javascript">JavaScript</option>
-                            <option value="python">Python</option>
-                            <option value="cpp">C++</option>
-                        </select>
-                        <button
+                        <div className="hidden md:flex items-center gap-3 text-sm text-gray-300">
+                            <Link href="/" className="hover:text-amber-400 transition-colors">
+                                Home
+                            </Link>
+                            <span className="text-gray-600">|</span>
+                            <Link href="/practice" className="hover:text-amber-400 transition-colors">
+                                Practice Problems
+                            </Link>
+                            <span className="text-gray-600">|</span>
+                            <Link href="/about" className="hover:text-amber-400 transition-colors">
+                                About Us
+                            </Link>
+                        </div>
+
+                        <LangSelect value={language} onChange={handleLanguageChange} />
+
+                        {/* <button
                             onClick={handleRunCode}
                             disabled={isLoading}
                             className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out disabled:bg-gray-500 disabled:cursor-not-allowed text-sm whitespace-nowrap"
                         >
                             {isLoading ? "Running..." : "Run Code"}
-                        </button>
+                        </button> */}
+                        
+                        <CodeRun isLoading={isLoading} onClick={handleRunCode} />
+                            
+
                         <button
                             onClick={toggleOutput}
                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out text-sm whitespace-nowrap"
