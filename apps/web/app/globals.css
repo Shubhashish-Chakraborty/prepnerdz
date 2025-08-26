@@ -265,3 +265,56 @@ body {
 .animation-delay-500 {
   animation-delay: 0.5s;
 }
+
+/* Custom scrollbar for output */
+.output-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-container::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 4px;
+}
+
+.output-container::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+.output-container::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Prevent text selection during resize */
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 1024px) {
+  .monaco-editor {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .monaco-editor {
+    font-size: 11px !important;
+  }
+}
+
+/* Resizer improvements */
+.resize-handle {
+  transition: background-color 0.2s;
+}
+
+.resize-handle:hover {
+  background-color: #4b5563;
+}
+
+.resize-handle:active {
+  background-color: #374151;
+}
