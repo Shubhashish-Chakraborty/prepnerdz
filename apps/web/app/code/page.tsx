@@ -1,5 +1,6 @@
 "use client"
 
+import type * as monaco from "monaco-editor"
 import type React from "react"
 import { useState, useRef, useCallback, useEffect } from "react"
 import Editor from "@monaco-editor/react"
@@ -8,6 +9,7 @@ import AdsenseAd from "@/components/ads/AdsenseAd"
 import Link from "next/link"
 import LangSelect from "@/components/ui/code-editor/LangSelect"
 import CodeRun from "@/components/ui/buttons/RunCodeBtn"
+import TypingText from "@/components/ui/TypingTest"
 
 export default function CodePage() {
     // State variables
@@ -20,9 +22,30 @@ export default function CodePage() {
     const [showOutput, setShowOutput] = useState<boolean>(true)
     const [editorWidth, setEditorWidth] = useState<number>(50) // Percentage
     const [isDragging, setIsDragging] = useState<boolean>(false)
+    const [fontSize, setFontSize] = useState<number>(14) // Default font size
 
     const containerRef = useRef<HTMLDivElement>(null)
     const resizeRef = useRef<HTMLDivElement>(null)
+    const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+
+    // const editorRef = useRef<any>(null)
+
+    // Function to handle editor mount
+    const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor) => {
+        editorRef.current = editor;
+
+        // Add keyboard event listener for zoom in/out
+        editor.onKeyDown((e: monaco.IKeyboardEvent) => {
+            // Check for Ctrl+ (zoom in) or Ctrl- (zoom out)
+            if (e.ctrlKey && (e.code === 'Equal' || e.code === 'NumpadAdd')) {
+                e.preventDefault();
+                setFontSize(prev => Math.min(prev + 1, 30)); // Max font size 30
+            } else if (e.ctrlKey && (e.code === 'Minus' || e.code === 'NumpadSubtract')) {
+                e.preventDefault();
+                setFontSize(prev => Math.max(prev - 1, 8)); // Min font size 8
+            }
+        });
+    };
 
     // Add a default snippet for different languages
     const defaultCode: { [key: string]: string } = {
@@ -31,17 +54,10 @@ export default function CodePage() {
         cpp: '#include <iostream>\n\nint main() {\n    std::cout << "Hello, C++!" << std::endl;\n    return 0;\n}',
     }
 
-    // Handler for language change
-    // const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const newLanguage = e.target.value
-    //     setLanguage(newLanguage)
-    //     setCode(defaultCode[newLanguage] || "")
-    // }
-
     const handleLanguageChange = (newLanguage: string) => {
-        setLanguage(newLanguage);
-        setCode(defaultCode[newLanguage] || "");
-    };
+        setLanguage(newLanguage)
+        setCode(defaultCode[newLanguage] || "")
+    }
 
     // Handler for running the code
     const handleRunCode = async () => {
@@ -72,6 +88,7 @@ export default function CodePage() {
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
         e.preventDefault()
+        e.stopPropagation()
         setIsDragging(true)
     }, [])
 
@@ -79,12 +96,13 @@ export default function CodePage() {
         (e: MouseEvent) => {
             if (!isDragging || !containerRef.current) return
 
+            e.preventDefault()
             const container = containerRef.current
             const containerRect = container.getBoundingClientRect()
             const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100
 
-            // Constrain between 20% and 80%
-            const constrainedWidth = Math.min(Math.max(newWidth, 20), 80)
+            // Constrain between 25% and 75% for better usability
+            const constrainedWidth = Math.min(Math.max(newWidth, 25), 75)
             setEditorWidth(constrainedWidth)
         },
         [isDragging],
@@ -96,22 +114,20 @@ export default function CodePage() {
 
     useEffect(() => {
         if (isDragging) {
-            document.addEventListener("mousemove", handleMouseMove)
-            document.addEventListener("mouseup", handleMouseUp)
+            const handleMove = (e: MouseEvent) => handleMouseMove(e)
+            const handleUp = () => handleMouseUp()
+
+            document.addEventListener("mousemove", handleMove, { passive: false })
+            document.addEventListener("mouseup", handleUp)
             document.body.style.cursor = "col-resize"
             document.body.style.userSelect = "none"
-        } else {
-            document.removeEventListener("mousemove", handleMouseMove)
-            document.removeEventListener("mouseup", handleMouseUp)
-            document.body.style.cursor = ""
-            document.body.style.userSelect = ""
-        }
 
-        return () => {
-            document.removeEventListener("mousemove", handleMouseMove)
-            document.removeEventListener("mouseup", handleMouseUp)
-            document.body.style.cursor = ""
-            document.body.style.userSelect = ""
+            return () => {
+                document.removeEventListener("mousemove", handleMove)
+                document.removeEventListener("mouseup", handleUp)
+                document.body.style.cursor = ""
+                document.body.style.userSelect = ""
+            }
         }
     }, [isDragging, handleMouseMove, handleMouseUp])
 
@@ -143,12 +159,8 @@ export default function CodePage() {
 
             {/* Main Content with Top Margin for Ad - FIXED */}
             <main className="flex flex-col flex-1 pt-16 px-4 pb-4 xl:pr-44">
-
-
                 {/* Header with Controls */}
                 <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 mt-10 border-b border-gray-700 pb-4 gap-4">
-                    {/* <h1 className="text-xl sm:text-2xl font-bold text-cyan-100">PrepNerdz Exclusive Code Editor</h1> */}
-
                     <div className="flex flex-col">
                         <h1 className="text-xl sm:text-2xl font-bold text-white">PrepNerdz Exclusive Code Editor</h1>
                         <p className="text-sm text-gray-400 mt-1">
@@ -156,34 +168,25 @@ export default function CodePage() {
                         </p>
                     </div>
 
-
                     <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         <div className="hidden md:flex items-center gap-3 text-sm text-gray-300">
                             <Link href="/" className="hover:text-amber-400 transition-colors">
                                 Home
                             </Link>
                             <span className="text-gray-600">|</span>
-                            <Link href="/practice" className="hover:text-amber-400 transition-colors">
+                            {/* <Link href="/practice" className="hover:text-amber-400 transition-colors">
                                 Practice Problems
-                            </Link>
-                            <span className="text-gray-600">|</span>
+                            </Link> */}
+                            {/* <span className="text-gray-600">|</span> */}
                             <Link href="/about" className="hover:text-amber-400 transition-colors">
                                 About Us
                             </Link>
+
                         </div>
 
                         <LangSelect value={language} onChange={handleLanguageChange} />
 
-                        {/* <button
-                            onClick={handleRunCode}
-                            disabled={isLoading}
-                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out disabled:bg-gray-500 disabled:cursor-not-allowed text-sm whitespace-nowrap"
-                        >
-                            {isLoading ? "Running..." : "Run Code"}
-                        </button> */}
-                        
                         <CodeRun isLoading={isLoading} onClick={handleRunCode} />
-                            
 
                         <button
                             onClick={toggleOutput}
@@ -195,17 +198,20 @@ export default function CodePage() {
                 </header>
 
                 {/* Editor and Output Container */}
-                <div className="flex-1 flex flex-col lg:flex-row gap-4 min-h-0" ref={containerRef}>
+                <div className="flex-1 flex flex-col lg:flex-row gap-0 min-h-0 relative" ref={containerRef}>
                     {/* Editor Panel */}
                     <div
-                        className={`flex flex-col transition-all duration-300 ${showOutput ? "lg:flex-1 w-full" : "w-full"}`}
+                        className={`flex flex-col transition-all duration-200 ${showOutput ? "lg:flex-none" : "w-full"}`}
                         style={{
                             width: showOutput ? `${editorWidth}%` : "100%",
                             minWidth: showOutput ? "300px" : undefined,
                         }}
                     >
-                        <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center justify-between mr-6">
                             <h2 className="text-lg font-semibold text-gray-300">Editor</h2>
+                            <div className="text-sm text-gray-300">
+                                <TypingText text="Click inside the Code Editor, Ctrl +/- to zoom in/out" />
+                            </div>
                         </div>
                         <div className="flex-1 border border-gray-600 rounded-md overflow-hidden min-h-[400px]">
                             <Editor
@@ -214,9 +220,10 @@ export default function CodePage() {
                                 theme="vs-dark"
                                 value={code}
                                 onChange={(value) => setCode(value || "")}
+                                onMount={handleEditorDidMount}
                                 options={{
                                     minimap: { enabled: false },
-                                    fontSize: 14,
+                                    fontSize: fontSize,
                                     wordWrap: "on",
                                     scrollBeyondLastLine: false,
                                     automaticLayout: true,
@@ -231,27 +238,32 @@ export default function CodePage() {
                         </div>
                     </div>
 
-                    {/* Resizer */}
                     {showOutput && (
                         <div
                             ref={resizeRef}
-                            className="hidden lg:flex items-center justify-center w-2 cursor-col-resize bg-gray-700 hover:bg-gray-600 transition-colors duration-200 rounded select-none"
+                            className="hidden lg:flex items-center justify-center w-2 cursor-col-resize bg-gray-700 hover:bg-gray-600 transition-colors duration-200 select-none group relative"
                             onMouseDown={handleMouseDown}
+                            style={{
+                                minWidth: "8px",
+                                zIndex: 10,
+                            }}
                         >
-                            <div className="w-1 h-8 bg-gray-500 rounded pointer-events-none"></div>
+                            <div className="w-1 h-12 bg-gray-300 group-hover:bg-gray-400 rounded transition-colors duration-200 pointer-events-none"></div>
+                            {/* Visual indicator when dragging */}
+                            {isDragging && <div className="absolute inset-0 bg-blue-500 opacity-50 rounded"></div>}
                         </div>
                     )}
 
                     {/* Output Panel */}
                     {showOutput && (
                         <div
-                            className="flex flex-col transition-all duration-300 lg:flex-1 w-full"
+                            className="flex flex-col transition-all duration-200 lg:flex-none w-full"
                             style={{
                                 width: `${100 - editorWidth}%`,
                                 minWidth: "300px",
                             }}
                         >
-                            <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center justify-between ml-6">
                                 <h2 className="text-lg font-semibold text-gray-300">Output</h2>
                                 <button
                                     onClick={() => setOutput("")}

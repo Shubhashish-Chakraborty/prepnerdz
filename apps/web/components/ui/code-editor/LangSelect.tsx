@@ -1,11 +1,13 @@
+import { Javascript } from "@/icons/Languages/Javascript";
+import { Python } from "@/icons/Languages/Python";
 import React, { useState } from "react";
 
 const LangSelect = ({ value, onChange }: { value: string; onChange: (lang: string) => void }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const languages = [
-        { id: "javascript", name: "JavaScript", icon: "JS" },
-        { id: "python", name: "Python", icon: "Py" },
+        { id: "javascript", name: "JavaScript", icon: <Javascript className="size-8 text-amber-300"/> },
+        { id: "python", name: "Python", icon: <Python className="size-8 text-blue-400"/> },
         { id: "cpp", name: "C++", icon: "C++" }
     ];
 
@@ -18,7 +20,7 @@ const LangSelect = ({ value, onChange }: { value: string; onChange: (lang: strin
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-800 border border-gray-600 text-white cursor-pointer select-none hover:bg-gray-700 transition-colors"
             >
-                <span className="w-6 h-6 flex items-center justify-center bg-cyan-600 rounded text-xs font-bold">
+                <span className="w-6 h-6 flex items-center justify-center rounded text-xs font-bold">
                     {currentLang.icon}
                 </span>
                 {currentLang.name}
@@ -47,7 +49,7 @@ const LangSelect = ({ value, onChange }: { value: string; onChange: (lang: strin
                                         value === lang.id ? 'bg-cyan-900 text-cyan-100' : 'text-white'
                                     }`}
                                 >
-                                    <span className="w-6 h-6 flex items-center justify-center bg-cyan-600 rounded text-xs font-bold">
+                                    <span className="w-6 h-6 flex items-center justify-center rounded text-xs font-bold">
                                         {lang.icon}
                                     </span>
                                     {lang.name}
