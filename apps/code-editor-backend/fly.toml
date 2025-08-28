@@ -1,0 +1,19 @@
+app = "prepnerdz-code-editor-backend"
+primary_region = "sin"
+
+[build]
+  # This path must be relative to the repository root
+  dockerfile = "apps/code-editor-backend/Dockerfile" 
+
+[http_service]
+  internal_port = 5000 # The port your app listens on inside the container
+  force_https = true
+  auto_stop_machines = true # Stops the machine when idle to save costs/free tier usage
+  auto_start_machines = true # Starts the machine automatically on new requests
+  min_machines_running = 0 # Allows the machine to scale down to 0
+  processes = ["app"]
+
+[[vm]]
+  memory_mb = 1024 # Allocate 1GB of RAM, which is more generous than Render's free tier
+  cpu_kind = "shared"
+  cpus = 1
