@@ -133,15 +133,15 @@ export default function AskNerd() {
             {/* Floating Chat Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 z-50 bg-amber-300 hover:bg-amber-600 text-white rounded-full p-4 shadow-lg transition-all duration-300 ease-in-out transform ${isOpen ? 'scale-0' : 'scale-100 hover:scale-110'}`}
+                className={`fixed bottom-6 right-6 z-50 bg-amber-300 hover:bg-amber-600 text-white rounded-full p-3 shadow-lg transition-all duration-300 ease-in-out transform ${isOpen ? 'scale-0' : 'scale-100 hover:scale-110'}`}
                 title="AskNerd - AI Assistant"
                 aria-label="Open chat"
             >
                 <Image
                     src={"/asknerd-logo.png"}
                     alt="AskNerd Logo"
-                    width={60}
-                    height={60}
+                    width={45}
+                    height={45}
                 />
             </button>
 
