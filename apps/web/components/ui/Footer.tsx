@@ -100,7 +100,7 @@ export const Footer = () => {
   return (
     <div
       ref={footerRef}
-      className={`relative min-h-[400px] transition-all duration-1000 ease-out${
+      className={`relative min-h-[400px] transition-all duration-1000 ease-out ${
         isVisible
           ? "backdrop-blur-xl border-t border-gray-200/60 shadow-2xl"
           : "bg-transparent"
@@ -125,7 +125,7 @@ export const Footer = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-center items-center md:justify-between md:items-start lg:items-center gap-8 lg:gap-12 mt-[90px]">
+          <div className="flex flex-col lg:flex-row justify-center items-center md:justify-between md:items-start lg:items-center gap-8 lg:gap-12">
             {/* Left Side */}
             <div className="flex-1 max-w-md">
               <div className="mb-6 flex md:justify-start justify-center">
