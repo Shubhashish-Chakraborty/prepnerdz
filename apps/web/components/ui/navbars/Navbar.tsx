@@ -206,8 +206,9 @@ export const Navbar = () => {
                                                 className="block cursor-pointer border-2 border-white hover:border-blue-500 select-none space-y-1 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02]"
                                                 onClick={() => handleLinkClick()}
                                             >
-                                                <div className="font-bold text-blue-700 text-center">{item.title}</div>
-                                                <p className="line-clamp-2 text-sm text-black text-center">{item.description}</p>
+                                                <div className="font-bold text-blue-700 text-center align-center tooltip relative inline-block">{item.title}
+                                                    <p className="line-clamp-2 text-sm text-black text-center align-center tooltiptext">{item.description}</p>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -243,8 +244,9 @@ export const Navbar = () => {
                                                 className="block cursor-pointer border-2 border-white hover:border-blue-500 select-none space-y-1 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02]"
                                                 onClick={() => handleLinkClick()}
                                             >
-                                                <div className="font-bold text-blue-700 text-center">{item.title}</div>
-                                                <p className="line-clamp-2 text-sm text-black text-center">{item.description}</p>
+                                                <div className="font-bold text-blue-700 text-center align-center tooltip">{item.title}
+                                                    <p className="line-clamp-2 text-sm text-black text-center align-center tooltiptext">{item.description}</p>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
