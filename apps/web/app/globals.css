@@ -370,3 +370,20 @@ body {
   height: 220px;
   opacity: 1;
 }
+
+/* For Tooltip in Navbar */
+
+.tooltiptext{
+  visibility: hidden;
+  background-color: #ffbf23;
+  border-radius: 6px;
+  border: 2px solid black;
+  height: 0;
+}
+
+.tooltip:hover .tooltiptext{
+  visibility: visible;
+  height: 60px;
+  padding: 5px;
+}
+
