@@ -54,7 +54,6 @@ export const Footer = () => {
 
   useEffect(() => {
     const footerElement = footerRef.current;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
