@@ -1,16 +1,29 @@
 'use client';
-import { useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import fluidCursor from '../hooks/use-FluidCursor';
 
-const FluidCursor = () => {
+{/* Modified to work with intersaction */}
+const FluidCursor = ( {active} : {active:boolean}) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [controller, setController] = useState<{ start: () => void; stop: () => void }>();
+
   useEffect(() => {
-    fluidCursor();
+    if (canvasRef.current) {
+      const ctrl = fluidCursor(canvasRef.current);
+      setController(ctrl);
+    }
   }, []);
+
+  useEffect(() => {
+    if (!controller) return;
+    if (active) controller.start();
+    else controller.stop();
+  }, [active, controller]);
 
   return (
     <div className='fixed top-0 left-0 '>
-      <canvas id='fluid' className='w-screen h-screen' />
+      <canvas ref={canvasRef} className='w-screen h-screen' />
     </div>
   );
 };
