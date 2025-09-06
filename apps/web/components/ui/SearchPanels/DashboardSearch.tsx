@@ -413,116 +413,141 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
     }
 
     return (
-        <div className="bg-amber-50 rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+        <div className="bg-gradient-to-br from-white via-amber-50 to-yellow-50 rounded-2xl shadow-2xl border border-amber-200 overflow-hidden backdrop-blur-sm">
             <div>
                 <ResourceModal
                     open={isResourceModalOpen}
                     onClose={() => setIsResourceModalOpen(false)}
                     resource={selectedResource}
                 />
-                {/* <ResourceModal
-                    open={isResourceModalOpen}
-                    onClose={() => setIsResourceModalOpen(false)}
-                /> */}
             </div>
 
             {/* Panel Header */}
-            <div className="bg-gradient-to-r from-amber-500 to-emerald-700 px-6 py-8 text-white">
-                <div className="max-w-3xl mx-auto text-center">
-                    <h1 className="text-3xl font-bold mb-2 animate-in slide-in-from-top-4 duration-500">
+            <div className="relative bg-gradient-to-r from-purple-500 via-blue-500 to-orange-500 px-6 py-12 text-white overflow-hidden">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 left-0 w-full h-full" style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+                    }}></div>
+                </div>
+                <div className="relative z-10 max-w-4xl mx-auto text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4 backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-yellow-100 bg-clip-text text-transparent">
                         {currentPanel.title}
                     </h1>
-                    <p className="text-blue-100 animate-in slide-in-from-top-6 duration-700">{currentPanel.description}</p>
+                    <p className="text-lg text-yellow-100 max-w-2xl mx-auto leading-relaxed">
+                        {currentPanel.description}
+                    </p>
                 </div>
             </div>
 
             {/* Search Form */}
-            <div className="p-6 lg:p-8">
-                <div className="max-w-4xl mx-auto space-y-6">
+            <div className="p-4 sm:p-6 lg:p-10">
+                <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
                     {/* Search Input */}
                     <div className="animate-in slide-in-from-bottom-4 duration-500">
-                        <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="search" className="block text-sm font-semibold text-gray-800 mb-3">
                             Search Query
                         </label>
-                        <div className="relative">
+                        <div className="relative group">
                             <input
                                 id="search"
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder={currentPanel.placeholder}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 pl-12"
+                                className="w-full px-6 py-4 border-2 border-amber-200 rounded-2xl focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-300 pl-14 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl"
                             />
-                            <svg
-                                className="absolute left-4 top-3.5 w-5 h-5 text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                />
-                            </svg>
+                            <div className="absolute left-5 top-1/2 transform -translate-y-1/2">
+                                <svg
+                                    className="w-6 h-6 text-gray-400 group-focus-within:text-amber-500 transition-colors duration-200"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                            </div>
                         </div>
                     </div>
 
                     {/* Filters Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-bottom-6 duration-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in slide-in-from-bottom-6 duration-700">
                         {/* Branch Selection */}
-                        <div>
-                            <label htmlFor="branch" className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="space-y-3">
+                            <label htmlFor="branch" className="block text-sm font-semibold text-gray-800">
                                 Branch
                             </label>
-                            <select
-                                id="branch"
-                                value={selectedBranch}
-                                onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                            >
-                                <option value="">Select Branch</option>
-                                {currentPanel.branches.map((branch) => (
-                                    <option key={branch} value={branch}>
-                                        {branch}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <select
+                                    id="branch"
+                                    value={selectedBranch}
+                                    onChange={(e) => setSelectedBranch(e.target.value)}
+                                    className="w-full px-6 py-4 border-2 border-amber-200 rounded-2xl focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl appearance-none cursor-pointer"
+                                >
+                                    <option value="">Select Branch</option>
+                                    {currentPanel.branches.map((branch) => (
+                                        <option key={branch} value={branch}>
+                                            {branch}
+                                        </option>
+                                    ))}
+                                </select>
+                                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Semester Selection */}
-                        <div>
-                            <label htmlFor="semester" className="block text-sm font-medium text-gray-700 mb-2">
+                        <div className="space-y-3">
+                            <label htmlFor="semester" className="block text-sm font-semibold text-gray-800">
                                 Semester
                             </label>
-                            <select
-                                id="semester"
-                                value={selectedSemester}
-                                onChange={(e) => setSelectedSemester(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                            >
-                                <option value="">Select Semester</option>
-                                {currentPanel.semesters.map((sem) => (
-                                    <option key={sem} value={sem}>
-                                        Semester {sem}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <select
+                                    id="semester"
+                                    value={selectedSemester}
+                                    onChange={(e) => setSelectedSemester(e.target.value)}
+                                    className="w-full px-6 py-4 border-2 border-amber-200 rounded-2xl focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl appearance-none cursor-pointer"
+                                >
+                                    <option value="">Select Semester</option>
+                                    {currentPanel.semesters.map((sem) => (
+                                        <option key={sem} value={sem}>
+                                            Semester {sem}
+                                        </option>
+                                    ))}
+                                </select>
+                                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4 pt-4 animate-in slide-in-from-bottom-10 duration-1000">
+                    <div className="flex flex-col sm:flex-row gap-6 pt-6 animate-in slide-in-from-bottom-10 duration-1000">
                         <button
                             onClick={handleSearch}
                             disabled={isSearching || !searchQuery.trim() || !selectedBranch || !selectedSemester}
-                            className="flex-1 sm:flex-none px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 disabled:hover:scale-100 flex items-center justify-center"
+                            className="flex-1 sm:flex-none px-10 py-4 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-2xl hover:from-amber-600 hover:to-yellow-700 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 flex items-center justify-center shadow-lg hover:shadow-xl font-semibold text-lg"
                         >
                             {isSearching ? (
                                 <>
                                     <svg
-                                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                        className="animate-spin -ml-1 mr-3 h-6 w-6 text-white"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -545,7 +570,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                 </>
                             ) : (
                                 <>
-                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
@@ -553,102 +578,96 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                         />
                                     </svg>
-                                    Search
+                                    Search Resources
                                 </>
                             )}
                         </button>
 
                         <button
                             onClick={resetForm}
-                            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                            className="px-8 py-4 border-2 border-amber-300 text-gray-700 rounded-2xl hover:bg-amber-50 hover:border-amber-400 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl"
                         >
-                            Reset
+                            Reset Form
                         </button>
                     </div>
 
                     {/* Results Section */}
-                    <div className="space-y-4 mt-8">
+                    <div className="space-y-6 mt-12">
                         {resources.length > 0 && (
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-semibold text-gray-800">Results ({totalCount})</h3>
-                                {resources.map((resource) => (
-                                    <div key={resource.id} className="bg-white p-4 rounded-lg shadow border border-gray-200 hover:shadow-md transition-shadow">
-                                        <div className="flex justify-between items-start gap-4">
-                                            <div className="flex-1">
-                                                <h4 className="font-medium text-sm md:text-lg text-blue-600">{resource.title}</h4>
-                                                <p className="text-gray-600 mt-1 md:block hidden">{resource.description}</p>
-                                                <div className="flex md:flex-wrap items-center mt-2 text-sm text-gray-500 gap-2">
-                                                    {resource.subject?.subjectName && (
-                                                        <span className="bg-gray-100 md:block hidden px-2 py-1 rounded">
-                                                            {resource.subject.subjectName}
-                                                        </span>
-                                                    )}
-                                                    {resource.subject?.subjectCode && (
-                                                        <span className="bg-gray-100 px-2 py-1 rounded">
-                                                            {resource.subject.subjectCode}
-                                                        </span>
-                                                    )}
-                                                    <span className="bg-gray-100 px-2 w-20 text-center py-1 rounded">
-                                                        {formatFileSize(resource.fileSize)}
-                                                    </span>
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-full flex items-center justify-center">
+                                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                        </div>
+                                        Search Results ({totalCount})
+                                    </h3>
+                                </div>
+                                <div className="grid gap-6">
+                                    {resources.map((resource) => (
+                                        <div key={resource.id} className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                                            <div className="flex justify-between items-start gap-6">
+                                                <div className="flex-1">
+                                                    <div className="flex items-start gap-4">
+                                                        <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <h4 className="font-bold text-lg text-gray-800 mb-2">{resource.title}</h4>
+                                                            <p className="text-gray-600 mb-4 line-clamp-2">{resource.description}</p>
+                                                            <div className="flex flex-wrap items-center gap-3">
+                                                                {resource.subject?.subjectName && (
+                                                                    <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
+                                                                        {resource.subject.subjectName}
+                                                                    </span>
+                                                                )}
+                                                                {resource.subject?.subjectCode && (
+                                                                    <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                                                                        {resource.subject.subjectCode}
+                                                                    </span>
+                                                                )}
+                                                                <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
+                                                                    {formatFileSize(resource.fileSize)}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <div>
-                                                    <Bookmark
+                                                <div className="flex items-center gap-3">
+                                                    <button
                                                         onClick={() => handleBookmarkToggle(resource.id)}
-                                                        className={`size-6 mx-4 cursor-pointer transition-colors duration-200 ${bookmarkedResourceIds.includes(resource.id)
-                                                            ? 'text-blue-500 hover:text-gray-400'
-                                                            : 'text-gray-400 hover:text-blue-500'
-                                                            }`}
-                                                    />
-                                                </div>
-                                                {/* <button
-                                                    onClick={() => handleBookmark(resource.id)}
-                                                    className="p-2 cursor-pointer text-gray-500 hover:text-amber-500 transition-colors"
-                                                    aria-label="Bookmark"
-                                                >
-                                                    <Bookmark className="size-5" />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDownload(resource.fileUrl, resource.title)}
-                                                    className="p-2 cursor-pointer text-gray-500 hover:text-green-600 transition-colors"
-                                                    aria-label="Download"
-                                                >
-                                                    <Download className="size-5" />
-                                                </button> */}
-                                                {/* <Button
-                                                    colorVariant="black_green"
-                                                    sizeVariant="small"
-                                                    text="View"
-                                                    startIcon={<Eye className="size-5" />}
-                                                    onClick={() => openModal(resource)}
-                                                /> */}
-                                                <div>
-                                                    <Eye   
+                                                        className={`p-3 rounded-xl transition-all duration-200 ${
+                                                            bookmarkedResourceIds.includes(resource.id)
+                                                                ? 'bg-amber-100 text-amber-600 hover:bg-amber-200'
+                                                                : 'bg-gray-100 text-gray-400 hover:bg-amber-100 hover:text-amber-600'
+                                                        }`}
+                                                        title={bookmarkedResourceIds.includes(resource.id) ? 'Remove bookmark' : 'Add bookmark'}
+                                                    >
+                                                        <Bookmark className="size-6" />
+                                                    </button>
+                                                    <button
                                                         onClick={() => openModal(resource)}
-                                                        className="cursor-pointer size-7"
-                                                    />
+                                                        className="p-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-xl hover:from-amber-600 hover:to-yellow-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                                                        title="View resource"
+                                                    >
+                                                        <Eye className="size-6" />
+                                                    </button>
                                                 </div>
-
-                                                {/* <button
-                                                    onClick={() => setIsResourceModalOpen(true)}
-                                                    className="p-2 cursor-pointer text-gray-500 hover:text-blue-600 transition-colors"
-                                                    aria-label="View"
-                                                >
-                                                    <Eye className="size-5" />
-                                                </button> */}
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                                 {hasMore && (
                                     <button
                                         onClick={loadMoreResources}
-                                        className="w-full py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors flex items-center justify-center gap-2"
+                                        className="w-full py-4 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 rounded-2xl text-gray-700 font-semibold transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
                                     >
-                                        <span>Show More</span>
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <span>Load More Resources</span>
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                         </svg>
                                     </button>
@@ -656,16 +675,25 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
                             </div>
                         )}
                         {resources.length === 0 && initialLoad && (
-                            <div className="text-center py-8 text-gray-500">
-                                <svg className="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                <p>No resources found. Try a different search.</p>
+                            <div className="text-center py-16">
+                                <div className="w-24 h-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <h3 className="text-xl font-semibold text-gray-700 mb-2">No resources found</h3>
+                                <p className="text-gray-500 mb-6">Try adjusting your search criteria or browse different categories.</p>
+                                <button
+                                    onClick={resetForm}
+                                    className="px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-xl hover:from-amber-600 hover:to-yellow-700 transition-all duration-200 font-medium"
+                                >
+                                    Clear Search
+                                </button>
                             </div>
                         )}
                     </div>

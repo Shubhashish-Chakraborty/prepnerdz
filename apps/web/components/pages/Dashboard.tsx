@@ -38,6 +38,7 @@ export const DashboardLanding = () => {
 
     const [activeNavItem, setActiveNavItem] = useState("shivani-books")
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
     useEffect(() => {
         console.log("Welcome to PrepNerdz!!")
@@ -90,7 +91,7 @@ export const DashboardLanding = () => {
         {/* Main container */}
         <div className="relative z-10">
           {/* Main page content starts here in this div!!! */}
-          <div className=" px-4 sm:px-6 lg:px-8">
+          <div className="px-2 sm:px-4 lg:px-8">
             <div className="min-h-screen flex">
               {/* Sidebar */}
               <Sidebar
@@ -99,10 +100,14 @@ export const DashboardLanding = () => {
                 setActiveNavItem={setActiveNavItem}
                 isSidebarOpen={isSidebarOpen}
                 setIsSidebarOpen={setIsSidebarOpen}
+                isCollapsed={isSidebarCollapsed}
+                setIsCollapsed={setIsSidebarCollapsed}
               />
 
               {/* Main Content Area */}
-              <div className="flex-1 flex flex-col lg:ml-64">
+              <div className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
+                isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'
+              }`}>
                 {/* Header */}
                 <Header
                   userName={username}
@@ -110,8 +115,8 @@ export const DashboardLanding = () => {
                 />
 
                 {/* Main Content */}
-                <main className="flex-1 p-4 lg:p-8">
-                  <div className="max-w-6xl mx-auto">
+                <main className="flex-1 p-2 sm:p-4 lg:p-8">
+                  <div className="max-w-7xl mx-auto">
                     {/* Search Panel - Different panel based on active navigation */}
                     <SearchPanel activeNavItem={activeNavItem} />
                   </div>
@@ -121,7 +126,7 @@ export const DashboardLanding = () => {
               {/* Mobile Sidebar Overlay */}
               {isSidebarOpen && (
                 <div
-                  className="fixed inset-0 bg-white/30 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+                  className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
                   onClick={() => setIsSidebarOpen(false)}
                 />
               )}

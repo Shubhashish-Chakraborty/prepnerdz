@@ -113,39 +113,48 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm top-0 w-full">
-      <div className="flex items-center justify-between h-24 px-4 lg:px-8">
+    <header className="bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-lg top-0 w-full sticky z-30">
+      <div className="flex items-center justify-between h-20 px-4 lg:px-8">
         {/* Mobile Sidebar Toggle */}
         <button
           onClick={() => setIsSidebarOpen(true)}
-          className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+          className="lg:hidden p-3 rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-sm hover:shadow-md"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
         {/* Greeting */}
-        <div className="md:block hidden">
-          <h2 className="md:text-3xl text-lg font-semibold text-gray-800">
-            <TypingText text={getGreeting()} />{" "}
-            <span className="text-blue-600 hover:underline cursor-pointer">{userName}</span>! 👋
-          </h2>
+        <div className="hidden sm:block">
+          <div className="flex items-center gap-3 lg:gap-4">
+            {/* <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center">
+              <span className="text-white text-lg lg:text-xl font-bold">
+                {getGreeting().charAt(0)}
+              </span>
+            </div> */}
+            <div>
+              <h2 className="text-lg lg:text-2xl font-bold text-gray-800">
+                <TypingText text={getGreeting()} />{" "}
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:underline cursor-pointer">{userName}</span>! 👋
+              </h2>
+              <p className="text-xs lg:text-sm text-gray-500 hidden lg:block">Welcome back to your dashboard</p>
+            </div>
+          </div>
         </div>
 
         {/* Avatar + Dropdown + Logout */}
-        <div className="flex items-center gap-3" ref={avatarMenuRef}>
+        <div className="flex items-center gap-2 sm:gap-4" ref={avatarMenuRef}>
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-16 cursor-pointer h-16 rounded-full overflow-hidden border-2 border-black hover:border-gray-400 transition-colors"
+              className="w-12 h-12 sm:w-16 sm:h-16 cursor-pointer rounded-2xl overflow-hidden border-2 border-gray-200 hover:border-amber-500 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               {avatar ? (
                 <Image src={avatar} alt="User Avatar" width={64} height={64} className="object-cover w-full h-full" />
               ) : (
-                // This is the updated part for the initials fallback
-                <div className="w-full h-full bg-amber-300 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-black">
+                <div className="w-full h-full bg-gradient-to-r from-amber-500 to-yellow-600 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">
                     {getInitials(userName)}
                   </span>
                 </div>
@@ -156,57 +165,62 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
             <AnimatePresence>
               {isDropdownOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50"
+                  className="absolute right-0 mt-3 w-80 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden"
                 >
-                  <div className="text-center border-b px-4 py-3">
+                  <div className="text-center border-b border-gray-200 px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50">
+                    <div className="w-16 h-16 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <span className="text-2xl font-bold text-white">
+                        {getInitials(username)}
+                      </span>
+                    </div>
                     <p className="font-bold text-lg text-gray-900 truncate">{username}</p>
-                    <p className="text-sm text-blue-500 font-bold truncate">{email}</p>
-                    {contact !== "NOT_PROVIDED" && <p className="text-sm">{contact}</p>}
+                    <p className="text-sm text-amber-600 font-medium truncate">{email}</p>
+                    {contact !== "NOT_PROVIDED" && <p className="text-sm text-gray-600">{contact}</p>}
                   </div>
 
-                  <div className="py-1">
-                    <button onClick={() => router.push("/")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
-                      <Home className="mr-3 size-5" />
-                      Home
+                  <div className="py-2">
+                    <button onClick={() => router.push("/")} className="w-full flex items-center px-6 py-3 hover:bg-gray-50 transition-colors duration-200">
+                      <Home className="mr-4 size-5 text-gray-600" />
+                      <span className="font-medium">Home</span>
                     </button>
-                    <button onClick={() => router.push("/mybookmarks")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
-                      <Bookmark className="mr-3 size-5" />
-                      My Bookmarks
+                    <button onClick={() => router.push("/mybookmarks")} className="w-full flex items-center px-6 py-3 hover:bg-gray-50 transition-colors duration-200">
+                      <Bookmark className="mr-4 size-5 text-gray-600" />
+                      <span className="font-medium">My Bookmarks</span>
                     </button>
 
                     {/* Settings Dropdown */}
-                    <div className="border-t my-1" />
+                    <div className="border-t border-gray-200 my-2" />
                     <button
                       onClick={() => setSettingsOpen(!settingsOpen)}
-                      className="w-full flex justify-between px-4 py-2 hover:bg-gray-100"
+                      className="w-full flex justify-between items-center px-6 py-3 hover:bg-gray-50 transition-colors duration-200"
                     >
-                      <span className="flex items-center gap-2">
+                      <span className="flex items-center gap-3">
                         <SettingsIcon />
-                        Settings
+                        <span className="font-medium">Settings</span>
                       </span>
-                      <Right className={`size-5 transition-transform ${settingsOpen ? "rotate-90" : ""}`} />
+                      <Right className={`size-5 transition-transform duration-200 ${settingsOpen ? "rotate-90" : ""}`} />
                     </button>
 
                     {settingsOpen && (
-                      <div className="pl-6">
-                        <button onClick={() => router.push("/change-username")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
-                          Change Username
+                      <div className="pl-8 space-y-1">
+                        <button onClick={() => router.push("/change-username")} className="w-full px-6 py-2 hover:bg-amber-50 text-left rounded-lg transition-colors duration-200">
+                          <span className="text-sm font-medium">Change Username</span>
                         </button>
-                        <button onClick={() => router.push("/forgot-password")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
-                          Change Password
+                        <button onClick={() => router.push("/forgot-password")} className="w-full px-6 py-2 hover:bg-amber-50 text-left rounded-lg transition-colors duration-200">
+                          <span className="text-sm font-medium">Change Password</span>
                         </button>
-                        <button onClick={() => router.push("/change-contact")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
-                          {contactProvided ? "Change Contact Number" : "Contact Number (required)"}
+                        <button onClick={() => router.push("/change-contact")} className="w-full px-6 py-2 hover:bg-amber-50 text-left rounded-lg transition-colors duration-200">
+                          <span className="text-sm font-medium">{contactProvided ? "Change Contact Number" : "Contact Number (required)"}</span>
                         </button>
-                        <button onClick={() => router.push("/upload-avatar")} className="w-full px-4 py-2 hover:bg-cyan-100 text-left">
-                          Change Profile Picture
+                        <button onClick={() => router.push("/upload-avatar")} className="w-full px-6 py-2 hover:bg-amber-50 text-left rounded-lg transition-colors duration-200">
+                          <span className="text-sm font-medium">Change Profile Picture</span>
                         </button>
                         {avatar && (
-                          <button onClick={removeProfileImageHandler} className="w-full px-4 py-2 font-bold text-red-600 hover:bg-cyan-100 text-left">
+                          <button onClick={removeProfileImageHandler} className="w-full px-6 py-2 font-medium text-red-600 hover:bg-red-50 text-left rounded-lg transition-colors duration-200">
                             Remove Profile Picture
                           </button>
                         )}
@@ -216,32 +230,39 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                     {role === "ADMIN" && (
                       <button
                         onClick={() => {window.location.href = "https://pnadmin.vercel.app"}}
-                        className="w-full flex text-purple-600 font-bold items-center px-4 py-2 hover:bg-gray-100"
+                        className="w-full flex text-purple-600 font-medium items-center px-6 py-3 hover:bg-amber-50 transition-colors duration-200"
                       >
-                        <User className="mr-3 size-5" />
+                        <User className="mr-4 size-5" />
                         Admin Panel
                       </button>
                     )}
 
-                    <button onClick={() => router.push("/?scrollTo=guide")} className="w-full flex items-center px-4 py-2 hover:bg-gray-100">
-                      <Question className="mr-3 size-5" />
-                      Help
+                    <button onClick={() => router.push("/?scrollTo=guide")} className="w-full flex items-center px-6 py-3 hover:bg-gray-50 transition-colors duration-200">
+                      <Question className="mr-4 size-5 text-gray-600" />
+                      <span className="font-medium">Help</span>
                     </button>
 
-                    <div className="md:hidden flex justify-center">
+                    <div className="md:hidden flex justify-center p-4">
                       <Button text="LogOut" colorVariant="red" sizeVariant="small" onClick={handleLogout} />
                     </div>
                   </div>
 
-                  <div className="text-center border-t px-4 py-2 text-sm font-bold">Member since: {joined}</div>
+                  <div className="text-center border-t border-gray-200 px-6 py-3 bg-gray-50">
+                    <p className="text-sm font-medium text-gray-600">Member since: {joined}</p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           {/* Logout Button */}
-          <div className="md:block hidden">
-            <Button text="LogOut" colorVariant="red" sizeVariant="medium" onClick={handleLogout} />
+          <div className="hidden sm:block">
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 text-sm sm:text-base"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
