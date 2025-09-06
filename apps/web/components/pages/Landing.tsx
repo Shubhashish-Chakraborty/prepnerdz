@@ -855,15 +855,11 @@ export const HomeLanding = () => {
                 {/* Desktop Layout */}
                 <div className="hidden md:block">
                   <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 lg:space-x-40 mb-8">
-                    <ThanksForVisit />
                     <ProfileSimple {...teamMembers[0]} />
-                    <ThanksForVisit />
                   </div>
                   <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
-                    <ThanksForVisit />
                     <ProfileSimple {...teamMembers[1]} />
                     <ProfileSimple {...teamMembers[2]} />
-                    <ThanksForVisit />
                   </div>
                 </div>
 
