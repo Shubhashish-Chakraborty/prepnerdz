@@ -113,7 +113,19 @@ export const SuperAdminLanding = () => {
     return (
         <div className="bg-mainBgColor text-white min-h-screen p-8">
             <h1 className="text-3xl font-bold mb-8">Super Admin Dashboard</h1>
-            <h1 className="text-2xl font-bold mb-5">We have <span className="text-amber-400"> {userCount} </span> users</h1> 
+            <h1 className="text-2xl font-bold mb-5">We have <span className="text-amber-400"> {userCount} </span> users</h1>
+
+            <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onClick={() => router.push('/superadmin/total-users')} className="p-6 bg-gray-800 rounded-lg hover:bg-gray-700">
+                    <h2 className="text-xl font-semibold">Total Users</h2>
+                    <p className="text-sm text-gray-400 mt-2">View and manage all registered users (edit/delete)</p>
+                </button>
+
+                <button onClick={() => router.push('/superadmin/uploads')} className="p-6 bg-gray-800 rounded-lg hover:bg-gray-700">
+                    <h2 className="text-xl font-semibold">Uploads by Admins</h2>
+                    <p className="text-sm text-gray-400 mt-2">See which admins uploaded resources and edit or delete uploads</p>
+                </button>
+            </div>
 
             <div className="mb-6">
                 <input
