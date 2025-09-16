@@ -253,7 +253,7 @@ export const Landing = () => {
                             </div>
                             <div className="mt-8 text-white italic">
                                 <div className="cursor-pointer text-center hover:-translate-y-1 transition-all duration-500 font-extrabold text-white text-xl md:text-3xl tracking-tight leading-snug animate-fade-in-up">
-                                    Only <Link href="https://bento.me/imshubh" target="_blank">
+                                    Only <Link href="https://imshubh.cc.cc" target="_blank">
                                         <span className="text-cyan-300 hover:underline">Shubhashish</span>
                                     </Link> can assign admin roles.
                                     Please wait for him to grant you access, contact him directly..

@@ -188,6 +188,9 @@ export default function DashboardLanding() {
                         Super Admin Dashboard
                     </button>
                 )}
+                <button onClick={() => router.push("/myuploads")} className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-xl text-white font-semibold">
+                    MY UPLOADS
+                </button>
             </div>
 
             <div className="mt-20 flex flex-col items-center space-y-10 px-4">
