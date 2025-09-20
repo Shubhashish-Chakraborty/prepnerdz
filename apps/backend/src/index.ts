@@ -109,7 +109,7 @@ app.get("/users", async (req, res) => {
 app.get("/health", requestValidation, (req, res) => { // for testing purpose!
     res.json({
         healthy: true,
-        message: "server is up!"
+        message: "Your request is validated!, you are allowed!"
     })
 })
 
