@@ -30,6 +30,13 @@ model User {
   avatar              Avatar[]
   UserAddedAt         DateTime   @default(now())
   UserUpdatedAt       DateTime   @updatedAt
+
+  posts           Post[]         @relation("UserPosts")
+  replies         Reply[]        @relation("UserReplies")
+  votes           Vote[]
+  mentorProfile   MentorProfile?
+  reportsMade     Report[]       @relation("ReportsBy")
+  reportsReceived Report[]       @relation("ReportsAgainst")
 }
 
 model Avatar {
@@ -128,9 +135,90 @@ model Download {
   downloadedAt DateTime @default(now())
 }
 
+model MentorProfile {
+  id            String         @id @default(cuid())
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String         @unique
+  category      MentorCategory // FACULTY, ALUMNI, SENIOR
+  bio           String?
+  expertise     String[]
+  hourlyRate    Float?
+  rating        Float?         @default(0)
+  introVideoUrl String? // Optional intro video URL
+  linkedinUrl   String? // Optional social handle
+  twitterUrl    String? // Optional social handle
+  githubUrl     String? // Optional social handle
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Post {
+  id           String       @id @default(cuid())
+  title        String
+  content      String       @db.Text
+  isAnonymous  Boolean      @default(false)
+  doubtCleared Boolean      @default(false) // New field
+  authorId     String
+  author       User         @relation("UserPosts", fields: [authorId], references: [id])
+  replies      Reply[]
+  votes        Vote[]
+  tags         String[]
+  attachments  Attachment[] // New relation
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Reply {
+  id          String       @id @default(cuid())
+  content     String       @db.Text
+  authorId    String
+  author      User         @relation("UserReplies", fields: [authorId], references: [id])
+  postId      String
+  post        Post         @relation(fields: [postId], references: [id])
+  votes       Vote[]
+  attachments Attachment[] // New relation for mentor attachments
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Vote {
+  id      String   @id @default(cuid())
+  type    VoteType // UPVOTE or DOWNVOTE
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+  postId  String?
+  post    Post?    @relation(fields: [postId], references: [id])
+  replyId String?
+  reply   Reply?   @relation(fields: [replyId], references: [id])
+
+  @@unique([userId, postId]) // User can only vote once per post
+  @@unique([userId, replyId]) // User can only vote once per reply
+}
+
 enum Role {
   STUDENT
   ADMIN
+  MENTOR
+}
+
+model Attachment {
+  id      String  @id @default(cuid())
+  url     String // URL from a service like Cloudinary
+  type    String // e.g., 'image/png', 'application/pdf'
+  postId  String?
+  post    Post?   @relation(fields: [postId], references: [id])
+  replyId String?
+  reply   Reply?  @relation(fields: [replyId], references: [id])
+}
+
+model Report {
+  id             String   @id @default(cuid())
+  reason         String
+  reporterId     String
+  reporter       User     @relation("ReportsBy", fields: [reporterId], references: [id])
+  reportedUserId String
+  reportedUser   User     @relation("ReportsAgainst", fields: [reportedUserId], references: [id])
+  createdAt      DateTime @default(now())
 }
 
 enum ResourceType {
@@ -142,4 +230,15 @@ enum ResourceType {
   NOTES
   LAB_MANUAL
   SYLLABUS
+}
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+}
+
+enum MentorCategory {
+  FACULTY
+  ALUMNI
+  SENIOR
 }

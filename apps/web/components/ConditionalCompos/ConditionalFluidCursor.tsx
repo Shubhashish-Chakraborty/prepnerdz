@@ -6,11 +6,11 @@ import FluidCursor from '../FluidCursor';
 const ConditionalFluidCursor = () => {
     const pathname = usePathname();
 
-    // Define the path where you DON'T want the cursor
-    const disabledPath = '/code';
+    // Define the paths where you DON'T want the cursor
+    const disabledPaths = ['/code', '/nerdconnect'];
 
-    // If the current path is the disabled path, render nothing
-    if (pathname === disabledPath) {
+    // If the current path is in the disabled paths, render nothing
+    if (disabledPaths.includes(pathname)) {
         return null;
     }
 

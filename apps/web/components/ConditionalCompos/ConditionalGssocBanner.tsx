@@ -3,19 +3,18 @@
 import { usePathname } from 'next/navigation';
 import GssocBanner from '../ui/GssocBanner';
 
-
 const ConditionalGssocBanner = () => {
     const pathname = usePathname();
 
-    // Define the path where you DON'T want the cursor
-    const disabledPath = '/code';
+    // Define the paths where you DON'T want the banner
+    const disabledPaths = ['/code', '/nerdconnect'];
 
-    // If the current path is the disabled path, render nothing
-    if (pathname === disabledPath) {
+    // If the current path is in the disabled paths, render nothing
+    if (disabledPaths.includes(pathname)) {
         return null;
     }
 
-    // Otherwise, render the cursor
+    // Otherwise, render the banner
     return <GssocBanner />;
 };
 

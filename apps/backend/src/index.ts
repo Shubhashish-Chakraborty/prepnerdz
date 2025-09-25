@@ -21,6 +21,7 @@ import prisma from './db/prisma';
 import { dataRouter } from './routes/dataRoutes';
 import { bookmarkRouter } from './routes/bookmarkRoutes';
 import { superAdminRouter } from './routes/superAdminRoutes';
+import { PostRouter } from './routes/nerdconnect/postRoutes';
 
 const app = express();
 
@@ -84,6 +85,9 @@ app.use("/superadmin" , superAdminRouter);
 
 // fetching data for admin work:
 app.use("/api/v1/db/data" , dataRouter);
+
+// NerdConnect Routes:
+app.use("/nerdconnect/post" , PostRouter);
 
 app.get("/", (req, res) => {
     res.send(`

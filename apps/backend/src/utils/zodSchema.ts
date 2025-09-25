@@ -55,3 +55,25 @@ export const resourceValidationSchema = z.object({
     fileSize: z.number().min(1, "File size is required"), // Size in KB
     fileType: z.string().min(1, "File type is required"),
 });
+
+
+// Zod validation schema for attachments
+export const attachmentSchema = z.object({
+    url: z.string().url(),
+    type: z.string(),
+});
+
+// Zod validation schema for creating a post
+export const createPostSchema = z.object({
+    title: z.string().min(5, 'Title must be at least 5 characters long'),
+    content: z.string().min(10, 'Content must be at least 10 characters long'),
+    isAnonymous: z.boolean().optional(),
+    tags: z.array(z.string()).optional(),
+    attachments: z.array(attachmentSchema).optional(), // Validate attachments
+});
+
+// Zod validation schema for adding a reply
+export const addReplySchema = z.object({
+    content: z.string().min(1, 'Reply content cannot be empty'),
+    attachments: z.array(attachmentSchema).optional(), // Validate attachments
+});
