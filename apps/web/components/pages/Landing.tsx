@@ -596,9 +596,9 @@ export const HomeLanding = () => {
                               <option value="SHIVANI_BOOKS">
                                 Shivani Books
                               </option>
-                              <option value="MID_SEM_PAPER">
+                              {/* <option value="MID_SEM_PAPER">
                                 Mid Sem Papers
-                              </option>
+                              </option> */}
                               <option value="END_SEM_PAPER">
                                 End Sem Papers
                               </option>
