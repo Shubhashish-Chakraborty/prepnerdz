@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 import BackToTopButton from "../components/ui/BackToTopButton";
 import AskNerd from "@/components/ui/AskNerd";
 import ConditionalFluidCursor from "@/components/ConditionalCompos/ConditionalFluidCursor";
-import ConditionalGssocBanner from '@/components/ConditionalCompos/ConditionalGssocBanner';
+import ConditionalComingSoon from '@/components/ConditionalCompos/ConditionalComingSoon';
 
 // Root font - default
 const saira = Saira({
@@ -137,7 +137,7 @@ export default function RootLayout({
         className={`${saira.variable} ${specialGothic.variable} ${shareTech.variable} ${josefinSans.variable} font-saira antialiased`}
       >
         <ConditionalFluidCursor/>
-        <ConditionalGssocBanner/>
+        <ConditionalComingSoon/>
         {children}
         <AskNerd />
         <BackToTopButton />
