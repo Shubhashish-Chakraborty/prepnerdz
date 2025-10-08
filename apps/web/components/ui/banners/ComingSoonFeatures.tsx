@@ -4,7 +4,7 @@ import React from 'react';
 const ComingSoonFeatures = () => {
     return (
         <div className="bg-gradient-to-r from-gray-900 via-emerald-700 to-gray-900 text-center py-3 lg:px-4 w-full">
-            <Link href="/leaderboard" passHref>
+            <Link href="/" passHref>
                 <div
                     className="p-2 bg-gray-800/50 animate-bounce items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer group"
                     role="alert"
