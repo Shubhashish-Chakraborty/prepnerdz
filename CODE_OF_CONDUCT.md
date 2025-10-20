@@ -12,7 +12,7 @@ We pledge to act and interact in ways that contribute to an open, welcoming, div
 
 ## 🚦 Our Standards
 
-Examples of behavior that contributes to a positive environment include:
+Examples of behaviors that contributes to a positive environment include:
 
 - 💖 Demonstrating empathy and kindness toward others  
 - 🤝 Being respectful of differing opinions, viewpoints, and experiences  
