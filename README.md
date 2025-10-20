@@ -1,5 +1,5 @@
 <h1 align="center">
-    PrepNerdz📚
+    PrepNerdz 📚
 </h1>
 
 <div align="center">
@@ -73,7 +73,7 @@
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
 
-<h2 align="center">🎯 Open Source Programmes ⭐</h2>
+<h2 align="center">🎯 Open Source Programs ⭐</h2>
 <p align="center">
   <b>This project is now OFFICIALLY accepted for:</b>
 </p>
@@ -186,7 +186,7 @@ We welcome contributions from the community! Please see our comprehensive **[Con
 
 We love our contributors! If you'd like to help, please check out our [`CONTRIBUTE.md`](https://github.com/Shubhashish-Chakraborty/prepnerdz/blob/main/CONTRIBUTING.md) file for guidelines.
 
->Thank you once again to all our contributors who has contributed to **prepnerdz!** Your efforts are truly appreciated. 💖👏
+>Thank you once again to all our contributors who have contributed to **prepnerdz!** Your efforts are truly appreciated. 💖👏
 
 <!-- Contributors badge (auto-updating) -->
 
