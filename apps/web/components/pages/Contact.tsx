@@ -191,7 +191,7 @@ export const ContactLanding = () => {
                   </Link>
                   <h3
                     onClick={() => {
-                      window.open("https://bento.me/imshubh");
+                      window.open("https://imshubh.site");
                     }}
                     className="mt-6 text-2xl font-extrabold text-transparent cursor-pointer bg-clip-text bg-gradient-to-r from-black to-red-500 transition-all duration-300 hover:text-3xl hover:brightness-110"
                   >
