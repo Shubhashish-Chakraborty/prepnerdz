@@ -236,7 +236,7 @@ export const Navbar = () => {
                                         }`}
                                     >
                                         {[
-                                            { title: "Mid Term PYQ'S", description: "Previous year mid-term questions" },
+                                            // { title: "Mid Term PYQ'S", description: "Previous year mid-term questions" },
                                             { title: "End Sem PYQ'S", description: "Previous year end semester questions" },
                                         ].map((item, index) => (
                                             <div

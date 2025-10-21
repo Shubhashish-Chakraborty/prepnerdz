@@ -33,7 +33,7 @@ const features = [
     className: "bg-gradient-to-r from-blue-900 to-blue-700 border-blue-300 text-blue-100",
   },
   {
-    text: "RGPV Previous year papers (Mid-Sem & End-Sem)",
+    text: "RGPV Previous year papers (End-Sem)",
     icon: <BookClose className="size-6" />,
     className: "bg-gradient-to-r from-pink-900 to-pink-700 border-pink-300 text-pink-100",
   },
