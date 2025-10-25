@@ -76,7 +76,7 @@ const teamMembers = [
     github: "https://www.github.com/Shubhashish-Chakraborty",
     linkedin: "https://www.linkedin.com/in/Shubhashish-Chakraborty",
     name: "Shubhashish Chakraborty",
-    image: "/founders/shubh.png",
+    image: "/founders/shubh2.png",
     mail: "shubhashish147@gmail.com",
     role: "Founder & Developer",
   },
