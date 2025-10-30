@@ -22,7 +22,5 @@
     "apps/*",
     "packages/*"
   ],
-  "dependencies": {
-    "node": "^20.19.4"
-  }
+  
 }
