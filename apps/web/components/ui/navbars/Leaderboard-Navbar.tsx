@@ -46,8 +46,9 @@ export const Navbar = () => {
         checkSession();
     }, []);
 
+    // Debug log removed to avoid noisy logs in client bundle
     useEffect(() => {
-        console.log("Welcome")
+        // no-op placeholder for dropdown/auth side-effects
     }, [activeDropdown, isMobileMenuOpen, isMobileStudyMaterialOpen, isMobilePYQOpen, setIsAuthenticated, setAuthLoading])
 
     const closeAllDropdowns = () => {

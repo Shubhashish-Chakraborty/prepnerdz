@@ -149,8 +149,9 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
 
     const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
 
+    // Debug log removed to avoid client-side noise
     useEffect(() => {
-        console.log("Welcome to PrepNerdz!")
+        // no-op placeholder
     }, [totalCount])
 
     useEffect(() => {

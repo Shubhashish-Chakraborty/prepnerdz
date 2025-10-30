@@ -39,9 +39,10 @@ export const DashboardLanding = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
-    useEffect(() => {
-        console.log("Welcome to PrepNerdz!!")
-    }, [isAuthenticated, authLoading]); 
+  // Removed debug-only console.log from production bundle
+  useEffect(() => {
+    // no-op: kept hook in case future auth-dependent side-effects are added
+  }, [isAuthenticated, authLoading]); 
 
     // Checking authentication status
     useEffect(() => {

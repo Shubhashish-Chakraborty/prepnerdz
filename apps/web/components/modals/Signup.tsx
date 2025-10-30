@@ -91,7 +91,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                 formData
             );
 
-            console.log('Signup response:', response.data); // Debug log
+            // Debug log removed
 
             if (response.data.success) {
                 toast.success('OTP sent to your email!');
@@ -130,7 +130,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                 }
             );
 
-            console.log('Verification response:', response.data); // Debug log
+            // Debug log removed
 
             if (response.data.success) {
                 toast.success('Email verified successfully! Please login');
@@ -162,10 +162,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                 return;
             }
 
-            console.log('Sending verification request with:', {
-                email: formData.email,
-                contact: formData.contact
-            });
+            // Debug log removed
 
             const response = await axios.put(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/direct-otp-verification`,
@@ -181,7 +178,7 @@ export const SignupModal = ({ open, onClose, onSwitchToLogin }: SignupProps) => 
                 }
             );
 
-            console.log('Verification response:', response.data);
+            // Debug log removed
 
             if (response.data.success) {
                 toast.success('Email verified successfully! Please login');
