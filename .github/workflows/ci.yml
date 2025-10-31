@@ -1,0 +1,45 @@
+name: CI — lint, typecheck, build
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (turbo)
+        run: npm run lint --if-present
+
+      - name: Typecheck (turbo)
+        run: npm run check-types --if-present
+
+      - name: Build (turbo)
+        run: npm run build --if-present
+
+      - name: Upload workspace cache (optional)
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: workspace-build-log
+          path: |
+            ./**/dist/**
+            ./**/build/**
