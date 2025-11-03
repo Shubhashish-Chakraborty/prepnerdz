@@ -70,7 +70,7 @@ model Branch {
 
 model Semester {
   id        String    @id @default(cuid())
-  semNumber Int       @unique // 0, 3, 4  etc. (0 represents first year, (1 & 2 Sem) Common for all branches)
+  semNumber Int // 0 (only one zero), 3, 3.., 4, 4..  etc. (0 represents first year, (1 & 2 Sem) Common for all branches)
   branchId  String
   branch    Branch    @relation(fields: [branchId], references: [id])
   subjects  Subject[]
