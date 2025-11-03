@@ -1,25 +1,6 @@
 import { Request, Response } from 'express';
-import { z } from 'zod';
 import prisma from '../../db/prisma';
-
-// Zod validation schemas (assuming they are in a separate file)
-const attachmentSchema = z.object({
-    url: z.string().url(),
-    type: z.string(),
-});
-
-const createPostSchema = z.object({
-    title: z.string().min(5, 'Title must be at least 5 characters long'),
-    content: z.string().min(10, 'Content must be at least 10 characters long'),
-    isAnonymous: z.boolean().optional(),
-    tags: z.array(z.string()).optional(),
-    attachments: z.array(attachmentSchema).optional(),
-});
-
-const addReplySchema = z.object({
-    content: z.string().min(1, 'Reply content cannot be empty'),
-    attachments: z.array(attachmentSchema).optional(),
-});
+import { addReplySchema, createPostSchema } from '../../utils/nerdconnectZodschema';
 
 
 export const createPost = async (req: Request, res: Response) => {
