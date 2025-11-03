@@ -22,6 +22,7 @@ import { dataRouter } from './routes/dataRoutes';
 import { bookmarkRouter } from './routes/bookmarkRoutes';
 import { superAdminRouter } from './routes/superAdminRoutes';
 import { PostRouter } from './routes/nerdconnect/postRoutes';
+import { attachmentRouter } from './routes/nerdconnect/attachmentRoutes';
 
 const app = express();
 
@@ -88,6 +89,7 @@ app.use("/api/v1/db/data" , dataRouter);
 
 // NerdConnect Routes:
 app.use("/nerdconnect/post" , PostRouter);
+app.use("/nerdconnect/attachments" , attachmentRouter)
 
 app.get("/", (req, res) => {
     res.send(`
