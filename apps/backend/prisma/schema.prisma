@@ -80,8 +80,8 @@ model Semester {
 
 model Subject {
   id          String     @id @default(cuid())
-  subjectName String     @unique
-  subjectCode String     @unique
+  subjectName String
+  subjectCode String
   semesterId  String
   semester    Semester   @relation(fields: [semesterId], references: [id])
   resources   Resource[]
