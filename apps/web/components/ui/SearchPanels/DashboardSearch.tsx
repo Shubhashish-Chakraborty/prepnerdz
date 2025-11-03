@@ -240,7 +240,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
             // Then get semester ID
             const semesterResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
-                { params: { semNumber: semesterToUse } }
+                { params: { semNumber: semesterToUse, branchId: branchResponse.data.branchId} }
             )
 
             const type = typeMapping[activeNavItem]
@@ -292,7 +292,7 @@ export default function SearchPanel({ activeNavItem }: SearchPanelProps) {
 
             const semesterResponse = await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getmyid/semesterid`,
-                { params: { semNumber: semesterToUse } }
+                { params: { semNumber: semesterToUse, branchId: branchResponse.data.branchId } }
             )
 
             const type = typeMapping[activeNavItem]
