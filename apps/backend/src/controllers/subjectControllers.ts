@@ -18,15 +18,28 @@ export const addSubject = async (req: Request, res: Response) => {
 
 
         // Check if subject code already exists
-        const exists = await prisma.subject.findUnique({
+        
+        // Check if a subject with same code or name exists in this semester
+        const existingSubject = await prisma.subject.findFirst({
             where: {
-                subjectCode,
-                semesterId
+                semesterId,
+                OR: [
+                    { subjectCode: subjectCode },
+                    { subjectName: subjectName }
+                ]
             }
-        })
+        });
 
-        if (exists) {
-            res.status(400).json({ error: "Subject code must be unique" })
+        // const exists = await prisma.subject.findUnique({
+        //     where: {
+        //         subjectCode,
+        //         semesterId
+        //     }
+        // })
+
+        if (existingSubject) {
+            // res.status(400).json({ error: "Subject code must be unique" })
+            res.status(400).json({ error: "Subject with same name or code already exists in this semester" })
             return;
         }
 

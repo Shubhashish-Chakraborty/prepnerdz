@@ -42,7 +42,7 @@ export const getBranchId = async (req: Request, res: Response) => {
 
 export const getSemesterId = async (req: Request, res: Response) => {
     try {
-        const { semNumber } = req.query;
+        const { semNumber, branchId } = req.query;
 
         if (!semNumber || isNaN(Number(semNumber))) {
             res.status(400).json({
@@ -51,17 +51,31 @@ export const getSemesterId = async (req: Request, res: Response) => {
             return;
         }
 
+        if (!branchId) {
+            res.status(400).json({
+                message: "Query parameter 'branchId' is required."
+            });
+            return;
+        }
 
-        const semester = await prisma.semester.findUnique({
+        const semester = await prisma.semester.findFirst({
             where: {
-                semNumber: Number(semNumber)
+                semNumber: Number(semNumber),
+                branchId: branchId as string
             }
         });
+
+        // const semester = await prisma.semester.findUnique({
+        //     where: {
+        //         semNumber: Number(semNumber)
+        //     }
+        // });
 
         if (!semester) {
             res.status(404).json({
                 success: false,
-                message: `Semester Not Found by the name ${semNumber}`
+                message: `Semester not found for semNumber ${semNumber} in branch ${branchId}`
+                // message: `Semester Not Found by the name ${semNumber}`
             });
             return;
         }
