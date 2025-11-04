@@ -29,6 +29,19 @@ import FloatingFeatures from "../ui/cards/FloatingSimple";
 import { Question } from "@/icons/Question";
 import { Carousel } from "../carousel/LandingCarousle";
 import CountUp from "react-countup";
+import HeroTitle from "./HeroTitle";
+import HeroImage from "./HeroImage";
+import LogoLeft from "./LogoLeft";
+import LogoRight from "./Logoright";
+
+import PlatformImpactWrapper from "./platformimpact";
+import StudySmarterWithPrepnerdzWrapper from "./StudySmarterWithPrepnerdzWrapper";
+import AwesomeFeaturesSection from "./AwesomeFeaturesSection";
+import OurBlogs from "./OurBlogs";
+import DeveloperShowcase from "./Developers";
+import FooterCTA from "./FooterCTA";
+
+
 
 declare global {
   interface Navigator {
@@ -126,7 +139,7 @@ const features = [
   "Study Materials (Shivani Books, IMP Questions, Best Academic Notes, Lab Manual & etc.)",
 ];
 
-export const HomeLanding = () => {
+export const LandingPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
@@ -315,7 +328,7 @@ export const HomeLanding = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-mainBgColor font-special">
+    <div className="relative min-h-screen bg-mainBgColor font-special ">
       {/* Skip to content link for screen readers */}
       <a
         href="#main-content"
@@ -324,34 +337,16 @@ export const HomeLanding = () => {
         Skip to main content
       </a>
 
-      {/* Background Animated Circles */}
-      <div
-        className="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
-        aria-hidden="true"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 1 }}
-          className="absolute animate-pulse bottom-0 right-0 w-[300px] h-[300px] md:w-[600px] md:h-[600px] rounded-full bg-red-300/80 blur-[80px] md:blur-[150px]"
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1.2 }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="absolute animate-pulse top-0 left-0 w-[250px] h-[250px] md:w-[500px] md:h-[500px] rounded-full bg-purple-500/40 blur-[60px] md:blur-[120px]"
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 2.4 }}
-          transition={{ duration: 2, delay: 1 }}
-          className="absolute animate-pulse top-1/2 left-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-emerald-500/40 blur-[50px] md:blur-[100px] transform -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
-
       {/* Main container */}
       <div className="relative z-10">
-        <Navbar />
+        <div className="p-3">
+          <div className="bg-[url('https://images6.alphacoders.com/123/thumb-1920-1232063.jpg')] bg-cover bg-center bg-no-repeat rounded-4xl">
+            <Navbar />
+
+            <HeroTitle />
+            <HeroImage imageSrc="./Screenshot (500).png" />
+          </div>
+        </div>
 
         <div>
           <LoginModal
@@ -373,17 +368,35 @@ export const HomeLanding = () => {
           />
         </div>
 
-        {/* Main page content */}
-        <div
+        {/* Login Modal */}
+
+        <div className="mt-20">
+          <LogoLeft />
+        </div>
+        <div className="mt-20 mb-20">
+          <LogoRight />
+        </div>
+
+<StudySmarterWithPrepnerdzWrapper/>
+
+<PlatformImpactWrapper/>
+<AwesomeFeaturesSection/>
+<OurBlogs/>
+<DeveloperShowcase/>
+<FooterCTA/>
+
+
+ 
+        {/* <div
           className="container mx-auto px-4 sm:px-6 lg:px-8"
           ref={mainContentRef}
           id="main-content"
         >
           <div className="min-h-screen bg-gradient-to-br">
-            {/* Hero Section */}
+          
             <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-20">
               <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
-                {/* Left Column - Text Content */}
+               
                 <div className="space-y-6 animate-fade-in-up order-2 lg:order-1 w-full lg:w-1/2">
                   <div className="space-y-4">
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -408,7 +421,7 @@ export const HomeLanding = () => {
                     </p>
                   </div>
 
-                  {/* Action Buttons */}
+               
                   <div className="flex md:justify-start justify-center gap-4">
                     <div className="md:hidden block">
                       <Button
@@ -496,7 +509,7 @@ export const HomeLanding = () => {
                     />
                   </div>
 
-                  {/* Trust Indicators */}
+              
                   <div className="flex flex-wrap md:justify-start justify-center items-center gap-4 md:gap-6 pt-4">
                     <div className="flex items-center gap-2">
                       <Users className="size-5 md:size-6" aria-hidden="true" />
@@ -510,13 +523,13 @@ export const HomeLanding = () => {
                         aria-hidden="true"
                       />
                       <span className="text-sm text-gray-600">
-                        Verified Cwwwontent 
+                        Verified Cwwwontent
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Right Column - Search Box */}
+          
                 <div className="order-1 lg:order-2 w-full lg:w-1/2">
                   <Card className="p-4 md:p-6 shadow-xl border-0 backdrop-blur-sm">
                     <div className="space-y-4">
@@ -552,9 +565,9 @@ export const HomeLanding = () => {
                           </div>
                         </div>
 
-                        {/* Filter Dropdowns */}
+                  
                         <div className="grid grid-cols-2 gap-2 md:gap-4">
-                          {/* Semester Dropdown */}
+              
                           <div>
                             <label
                               htmlFor="semester-select"
@@ -577,7 +590,7 @@ export const HomeLanding = () => {
                             </select>
                           </div>
 
-                          {/* Resources Dropdown */}
+                    
                           <div>
                             <label
                               htmlFor="resource-type-select"
@@ -596,9 +609,7 @@ export const HomeLanding = () => {
                               <option value="SHIVANI_BOOKS">
                                 Shivani Books
                               </option>
-                              {/* <option value="MID_SEM_PAPER">
-                                Mid Sem Papers
-                              </option> */}
+                  
                               <option value="END_SEM_PAPER">
                                 End Sem Papers
                               </option>
@@ -621,13 +632,13 @@ export const HomeLanding = () => {
                           />
                         </div>
 
-                        {/* Results Section */}
+
                         {results.length > 0 && (
                           <div
                             className="bg-white p-4 md:p-6 rounded-xl shadow-md mt-4"
                             aria-live="polite"
                           >
-                            {/* Login Prompt */}
+                  
                             {hasSearched && results.length > 0 && hasMore && (
                               <div className="mt-4 p-3 md:p-4 bg-blue-50 rounded-lg border border-blue-200">
                                 <div className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4">
@@ -722,7 +733,7 @@ export const HomeLanding = () => {
                           </div>
                         )}
 
-                        {/* Empty State */}
+     
                         {hasSearched && results.length === 0 && !loading && (
                           <div
                             className="bg-white p-4 md:p-8 rounded-xl shadow-md text-center mt-4"
@@ -749,7 +760,7 @@ export const HomeLanding = () => {
               </div>
             </section>
 
-            {/* Features Section */}
+     
             <section
               id="features"
               className="py-12 md:py-16"
@@ -774,7 +785,7 @@ export const HomeLanding = () => {
                   </p>
                 </div>
 
-                {/* Desktop Grid */}
+     
                 <div
                   className="hidden md:flex flex-row flex-wrap gap-4 md:gap-6 lg:gap-10 items-center justify-center"
                   role="list"
@@ -789,7 +800,7 @@ export const HomeLanding = () => {
                   ))}
                 </div>
 
-                {/* Mobile Carousel */}
+
                 <div className="md:hidden">
                   <Carousel autoSlide={true} autoSlideInterval={2000}>
                     {featureItems.map((item, index) => (
@@ -805,7 +816,7 @@ export const HomeLanding = () => {
               </div>
             </section>
 
-            {/* How It Works Section */}
+
             <section
               id="how-it-works"
               ref={guideRef}
@@ -822,7 +833,8 @@ export const HomeLanding = () => {
                   </h2>
                 </div>
                 <div className="text-center mt-6 md:mt-8 text-black font-bold text-lg md:text-2xl mb-6 md:mb-10 animate-bounce">
-                  Watch this quick tutorial to begin using the platform effectively.
+                  Watch this quick tutorial to begin using the platform
+                  effectively.
                 </div>
                 <div className="flex justify-center">
                   <iframe
@@ -836,7 +848,7 @@ export const HomeLanding = () => {
               </div>
             </section>
 
-            {/* Team Section */}
+          
             <section
               id="team"
               className="py-12 md:py-16"
@@ -852,7 +864,7 @@ export const HomeLanding = () => {
                   </h2>
                 </div>
 
-                {/* Desktop Layout */}
+      
                 <div className="hidden md:block">
                   <div className="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 lg:space-x-40 mb-8">
                     <ThanksForVisit />
@@ -867,7 +879,6 @@ export const HomeLanding = () => {
                   </div>
                 </div>
 
-                {/* Mobile Carousel */}
                 <div className="md:hidden">
                   <Carousel autoSlide={true} autoSlideInterval={3000}>
                     {teamMembers.map((member, index) => (
@@ -878,8 +889,8 @@ export const HomeLanding = () => {
               </div>
             </section>
           </div>
-        </div>
-        <Footer />
+        </div> */}
+        {/* <Footer /> */}
       </div>
     </div>
   );

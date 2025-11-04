@@ -136,8 +136,8 @@ export default function RootLayout({
       <body
         className={`${saira.variable} ${specialGothic.variable} ${shareTech.variable} ${josefinSans.variable} font-saira antialiased`}
       >
-        <ConditionalFluidCursor/>
-        <ConditionalComingSoon/>
+     
+   
         {children}
         <AskNerd />
         <BackToTopButton />
