@@ -3,18 +3,18 @@ import React from 'react';
 
 const ComingSoonFeatures = () => {
     return (
-        <div className="bg-gradient-to-r from-gray-900 via-emerald-700 to-gray-900 text-center py-3 lg:px-4 w-full">
+        <div className="bg-white text-center  w-full">
             <Link href="/" passHref>
                 <div
-                    className="p-2 bg-gray-800/50 animate-bounce items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer group"
+                    className="p-1  items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer group"
                     role="alert"
                 >
-                    <span className="flex rounded-full bg-black uppercase px-2 py-1 text-xs font-bold mr-3 group-hover:bg-purple-400 transition-colors">
+                    <span className="flex rounded-full bg-black  px-2 py-1 text-xs  mr-3 group-hover:bg-purple-400 transition-colors">
                         Coming Soon
                     </span>
-                    <span className="font-bold mr-2 text-center md:text-left flex-auto group-hover:text-white transition-colors">
+                    <span className=" mr-2 text-center md:text-left flex-auto text-black ">
                         {/* GSSoC '25 is here! Track your contributions on the official PrepNerdz Leaderboard. */}
-                        🚀 Big things are coming! Get ready for NerdConnect and many more!
+                        Big things are coming! Get ready for NerdConnect and many more!
                     </span>
                     {/* <svg
                         className="fill-current opacity-75 h-4 w-4 group-hover:opacity-100 transition-opacity"

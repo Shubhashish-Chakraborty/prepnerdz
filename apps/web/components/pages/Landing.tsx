@@ -510,7 +510,7 @@ export const HomeLanding = () => {
                         aria-hidden="true"
                       />
                       <span className="text-sm text-gray-600">
-                        Verified Content
+                        Verified Cwwwontent 
                       </span>
                     </div>
                   </div>

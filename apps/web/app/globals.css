@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+body {
+  font-family: "FKGroteskSemiMonoTrial";
+}
+
+
+
+
+
+
+@font-face {
+  font-family: "PPEditorialNew";
+  src: url(../public/Fonts/PPEditorialNew-Ultralight-BF644b21500d0c0.otf);
+}
+
+@font-face {
+  font-family: "FKGroteskSemiMonoTrial";
+  src: url(../public/Fonts/FKGroteskSemiMonoTrial-Regular.otf);
+}
+  
 :root {
   --font-saira: "Saira", sans-serif;
   --font-special-gothic: "font-special-gothic";

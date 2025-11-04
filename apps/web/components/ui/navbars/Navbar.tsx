@@ -1,492 +1,285 @@
-"use client"
+"use client";
 
-import axios from "axios";
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Github } from "@/icons/Github"
-import { Down } from "@/icons/Down"
-import { MenuBars } from "@/icons/MenuBars"
-import { EnterDoor } from "@/icons/EnterDoor"
-import { Button } from "../buttons/Button"
-import { LoadingSpinner } from "@/icons/LoadingSpinner";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
+import { Github } from "@/icons/Github";
+import { MenuBars } from "@/icons/MenuBars";
 import { CloseCircle } from "@/icons/CloseCircle";
-import { LoginModal } from "@/components/modals/Login";
-import { SignupModal } from "@/components/modals/Signup";
+import { FaChevronDown } from "react-icons/fa";
+import { toast } from "react-hot-toast";
+import { useAuthSession } from "@/hooks/useAuthSession";
 
+/**
+ * Navbar component - responsive navigation bar with dropdowns and auth buttons.
+ *
+ * Features:
+ * - Desktop and mobile menu handling
+ * - Dropdown menus with click outside to close
+ * - Auth-aware buttons and routing
+ * - Toast notifications on link click when accessing protected resources
+ */
 export const Navbar = () => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-    const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
-    const [isMobileStudyMaterialOpen, setIsMobileStudyMaterialOpen] = useState(false)
-    const [isMobilePYQOpen, setIsMobilePYQOpen] = useState(false)
-    const dropdownRef = useRef<HTMLDivElement>(null)
-    const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const [isSignupOpen, setIsSignupOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [authLoading, setAuthLoading] = useState(true);
-    const router = useRouter();
+  const pathnameRaw = usePathname();
+  const pathname = pathnameRaw ?? ""; // Safe string fallback if null
+  const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Check if user is authenticated
-    useEffect(() => {
-        const checkSession = async () => {
-            setAuthLoading(true);
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, {
-                    withCredentials: true,
-                });
-                if (response.data.message.isAuthenticated) {
-                    setIsAuthenticated(true);
-                }
-            } catch (error) {
-                console.error("Session check failed:", error);
-                setIsAuthenticated(false);
-            } finally {
-                setAuthLoading(false);
-            }
-        };
-        checkSession();
-    }, []);
+  // Authentication state from custom hook
+  const { isAuthenticated, authLoading } = useAuthSession();
 
-    // Close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setActiveDropdown(null)
-            }
-        }
+  // State for mobile menu open/close
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside)
-        }
-    }, [])
+  // Tracks which dropdown is currently active/open
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-    // Close mobile menu when window is resized to desktop
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth >= 1024) {
-                setIsMobileMenuOpen(false)
-            }
-        }
+  // State setters for login/signup modal visibility (actual modal components not included here)
+  // We keep the setters because the UI calls setIsLoginOpen / setIsSignupOpen, but we don't
+  // need the state value in this file yet — so discard the value to avoid lint errors.
+  const [, setIsLoginOpen] = useState(false);
+  const [, setIsSignupOpen] = useState(false);
 
-        window.addEventListener("resize", handleResize)
-        return () => window.removeEventListener("resize", handleResize)
-    }, [])
-
-    const toggleDropdown = (dropdown: string) => {
-        setActiveDropdown(activeDropdown === dropdown ? null : dropdown)
-    }
-
-    const handleMouseEnter = (dropdown: string) => {
-        setHoveredDropdown(dropdown);
+  /**
+   * Close dropdown menu when clicking outside of it.
+   */
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setActiveDropdown(null);
+      }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-    const handleMouseLeave = () => {
-        setHoveredDropdown(null);
+  /**
+   * Automatically close mobile menu if window resized to desktop width.
+   */
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMobileMenuOpen(false);
+      }
     };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    const closeAllDropdowns = () => {
-        setActiveDropdown(null)
+  /**
+   * Toggle dropdown menu by key. Clicking same dropdown closes it.
+   * @param dropdown - dropdown identifier string
+   */
+  const toggleDropdown = (dropdown: string) => {
+    setActiveDropdown((prev) => (prev === dropdown ? null : dropdown));
+  };
+
+  /** Close all dropdown menus */
+  const closeAllDropdowns = () => setActiveDropdown(null);
+
+  /** Toggle mobile menu open/close */
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+
+  /**
+   * Handle clicking on study material or PYQ links:
+   * - If authenticated, navigate to dashboard and show success toast
+   * - Else open login modal and show error toast
+   */
+  const handleLinkClick = () => {
+    closeAllDropdowns();
+    if (isAuthenticated) {
+      router.push("/dashboard");
+      toast.success("Explore the resources here in Dashboard!");
+    } else {
+      setIsLoginOpen(true);
+      toast.error("You must log in to access the resources!");
     }
+  };
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen)
-    }
+  return (
+    <>
+      {/* Main Header */}
+      <header className="sticky top-[20px] z-50 w-full flex justify-center items-center">
+        <nav className="w-[80%] border border-white/20 bg-white/10 backdrop-blur-md shadow-lg rounded-full flex h-[1.5cm]">
+          {/* Logo Section */}
+          <div className="w-[15%] flex justify-center items-center">
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/prepnerdz-logo-zoomed.png"
+                alt="logo"
+                width={100}
+                height={100}
+                priority
+              />
+            </Link>
+          </div>
 
-    const closeMobileMenu = () => {
-        setIsMobileMenuOpen(false)
-        setIsMobileStudyMaterialOpen(false)
-        setIsMobilePYQOpen(false)
-    }
+          {/* Desktop Navigation Links */}
+          <div className="w-[65%] flex justify-start items-center border-l-2 border-white/20">
+            <div
+              className="hidden lg:flex lg:items-center lg:space-x-6 xl:space-x-8"
+              ref={dropdownRef}
+            >
+              <Link
+                href="/"
+                onClick={closeAllDropdowns}
+                className={`inline-flex h-9 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-base ${
+                  ["/about", "/contact-us"].includes(pathname)
+                    ? "text-black"
+                    : "text-white"
+                }`}
+              >
+                Home
+              </Link>
 
-    const handleLinkClick = () => {
-        closeAllDropdowns();
-        if (isAuthenticated) {
-            router.push('/dashboard');
-            toast.success("Explore the resources here in Dashboard!");
-        } else {
-            setIsLoginOpen(true);
-            toast.error("You must login to access the resources!");
-        }
-    };
+              <Link
+                href="/about"
+                onClick={closeAllDropdowns}
+                className="inline-flex h-9 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-base text-white"
+              >
+                About
+              </Link>
 
-    return (
-        <>
-            <header className="top-2 sm:top-4 z-50 w-full px-2 sm:px-4 md:sticky">
-                <div>
-                    <LoginModal
-                        open={isLoginOpen}
-                        onClose={() => setIsLoginOpen(false)}
-                        onSwitchToSignup={() => {
-                            setIsLoginOpen(false);
-                            setIsSignupOpen(true);
-                        }}
-                    />
-
-                    <SignupModal
-                        open={isSignupOpen}
-                        onClose={() => setIsSignupOpen(false)}
-                        onSwitchToLogin={() => {
-                            setIsSignupOpen(false);
-                            setIsLoginOpen(true);
-                        }}
-                    />
-                </div>
-
-                <nav className="mx-auto max-w-7xl rounded-xl sm:rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg">
-                    <div className="flex h-16 sm:h-20 items-center justify-between px-3 sm:px-6">
-                        {/* Logo */}
-                        <Link href={"/"} className="flex-shrink-0">
-                            <Image
-                                src={"/prepnerdz-logo-zoomed.png"}
-                                alt="logo"
-                                width={150}
-                                height={150}
-                                className="hover:scale-105 transition-scale duration-500"
-                            />
-                        </Link>
-
-                        {/* Desktop Navigation */}
-                        <div className="hidden lg:flex lg:items-center lg:space-x-6 xl:space-x-8" ref={dropdownRef}>
-                            <div className="flex items-center space-x-1 xl:space-x-2">
-                                <Link
-                                    href="/"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    onClick={closeAllDropdowns}
-                                >
-                                    <span className="hover:text-black  rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                        Home
-                                    </span>
-                                </Link>                                                                          
-
-                                <Link
-                                    href="/about"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    onClick={closeAllDropdowns}
-                                >
-                                    <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                        About
-                                    </span>
-                                </Link>
-
-                                {/* StudyMaterial Dropdown */}
-                                <div
-                                    className="relative"
-                                    onMouseEnter={() => handleMouseEnter("studymaterial")}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <button
-                                        onClick={() => toggleDropdown("studymaterial")}
-                                        className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    >
-                                        <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                            Study Material
-                                        </span>
-                                        <Down className="size-4 xl:size-5 ml-1" />
-                                    </button>
-                                    <div className={`absolute top-full left-0 w-[300px] rounded-xl border-1 border-black bg-white/95 backdrop-blur-lg shadow-2xl p-3 space-y-1 z-50 origin-top-left transition-all duration-200 ease-in-out
-                                        ${(activeDropdown === "studymaterial" || hoveredDropdown === "studymaterial")
-                                            ? 'transform opacity-100 scale-100'
-                                            : 'transform opacity-0 scale-95 pointer-events-none'
-                                        }`}
-                                    >
-                                        {[
-                                            { title: "Shivani PDFs", description: "Comprehensive study materials and notes" },
-                                            { title: "IMP Questions", description: "Important questions for exam preparation" },
-                                            { title: "IMP Topics", description: "Get the most important topics unit wise" },
-                                            { title: "Best Academic Notes", description: "High-quality academic notes and resources" },
-                                            { title: "Syllabus", description: "Step-by-step manual solutions" },
-                                            { title: "Lab Manual", description: "All Lab manual and there solutions" },
-                                        ].map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="block cursor-pointer border-2 border-white hover:border-blue-500 select-none space-y-1 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02]"
-                                                onClick={() => handleLinkClick()}
-                                            >
-                                                <div className="font-bold text-blue-700 text-center align-center tooltip relative inline-block">{item.title}
-                                                    <p className="line-clamp-2 text-sm text-black text-center align-center tooltiptext">{item.description}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* PYQ'S Dropdown */}
-                                <div
-                                    className="relative"
-                                    onMouseEnter={() => handleMouseEnter("pyqs")}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <button
-                                        onClick={() => toggleDropdown("pyqs")}
-                                        className="cursor-pointer inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    >
-                                        <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                            {"PYQ'S"}
-                                        </span>
-                                        <Down className="size-4 xl:size-5 ml-1" />
-                                    </button>
-                                    <div className={`absolute top-full left-0 w-[280px] rounded-xl border-1 border-black bg-white/95 backdrop-blur-lg shadow-2xl p-3 space-y-1 z-50 origin-top-left transition-all duration-200 ease-in-out
-                                        ${(activeDropdown === "pyqs" || hoveredDropdown === "pyqs")
-                                            ? 'transform opacity-100 scale-100'
-                                            : 'transform opacity-0 scale-95 pointer-events-none'
-                                        }`}
-                                    >
-                                        {[
-                                            // { title: "Mid Term PYQ'S", description: "Previous year mid-term questions" },
-                                            { title: "End Sem PYQ'S", description: "Previous year end semester questions" },
-                                        ].map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="block cursor-pointer border-2 border-white hover:border-blue-500 select-none space-y-1 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02]"
-                                                onClick={() => handleLinkClick()}
-                                            >
-                                                <div className="font-bold text-blue-700 text-center align-center tooltip">{item.title}
-                                                    <p className="line-clamp-2 text-sm text-black text-center align-center tooltiptext">{item.description}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <Link
-                                    href="/contact-us"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    onClick={closeAllDropdowns}
-                                >
-                                    <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                        Contact us
-                                    </span>
-                                </Link>
-
-                                <Link
-                                    href="/contributors"
-                                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-3 xl:px-4 py-2 text-base xl:text-lg font-medium text-gray-900 transition-colors hover:bg-white/20 hover:text-gray-900 focus:bg-white/20 focus:text-gray-900 focus:outline-none"
-                                    onClick={closeAllDropdowns}
-                                >
-                                    <span className="hover:text-black rounded-2xl p-1 transition-all duration-300 hover:scale-110">
-                                        Contributors
-                                    </span>
-                                </Link>
-                            </div>
+              {/* Study Material Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => toggleDropdown("studymaterial")}
+                  className="inline-flex h-9 items-center gap-2 rounded-md px-3 xl:px-4 py-2 text-base text-white cursor-pointer"
+                  aria-haspopup="true"
+                  aria-expanded={activeDropdown === "studymaterial"}
+                >
+                  Study Material <FaChevronDown />
+                </button>
+                {activeDropdown === "studymaterial" && (
+                  <div className="absolute top-full left-0 mt-3 w-[250px] rounded-lg border border-white/30 bg-white/80 backdrop-blur-md shadow-lg p-4 space-y-3 z-50 cursor-pointer">
+                    {[
+                      "Shivani PDFs",
+                      "IMP Questions",
+                      "IMP Topics",
+                      "Best Academic Notes",
+                      "Syllabus",
+                      "Lab Manual",
+                    ].map((title, idx) => (
+                      <div
+                        key={idx}
+                        onClick={handleLinkClick}
+                        className="cursor-pointer rounded-md p-1 bg-white/30 border border-white/10 backdrop-blur-md shadow-lg"
+                        role="menuitem"
+                        tabIndex={0}
+                      >
+                        <div className="ml-4 text-md font-medium text-black">
+                          {title}
                         </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-                        {/* Right side buttons */}
-                        <div className="hidden md:flex lg:items-center lg:space-x-3 xl:space-x-4">
-                            <Link
-                                href="https://github.com/Shubhashish-Chakraborty/prepnerdz"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex h-8 w-8 xl:h-9 xl:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-gray-900 transition-colors"
-                            >
-                                <Github className="size-8 hover:scale-110 transition-all duration-300" />
-                            </Link>
-                            {authLoading ? (
-                                <Button
-                                    text="Loading"
-                                    endIcon={<LoadingSpinner className="size-5" />}
-                                    colorVariant="yellow"
-                                    sizeVariant="medium"
-                                />
-                            ) : isAuthenticated ? (
-                                <Link href={"/dashboard"}>
-                                    <Button
-                                        text="Dashboard"
-                                        endIcon={<EnterDoor className="size-6" />}
-                                        sizeVariant="medium"
-                                        colorVariant="blue"
-                                    />
-                                </Link>
-                            ) : (
-                                <Button
-                                    text="Login"
-                                    endIcon={<EnterDoor className="size-6" />}
-                                    sizeVariant="medium"
-                                    colorVariant="yellow"
-                                    onClick={() => setIsLoginOpen(true)}
-                                />
-                            )}
+              {/* PYQs Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => toggleDropdown("pyqs")}
+                  className="inline-flex h-9 items-center gap-2 rounded-md px-3 xl:px-4 py-2 text-base text-white cursor-pointer"
+                  aria-haspopup="true"
+                  aria-expanded={activeDropdown === "pyqs"}
+                >
+                  PYQs <FaChevronDown />
+                </button>
+                {activeDropdown === "pyqs" && (
+                  <div className="absolute top-full left-0 mt-3 w-[250px] rounded-lg border border-white/30 bg-white/80 backdrop-blur-md shadow-lg p-4 space-y-3 z-50">
+                    {["Mid Term PYQs", "End Sem PYQs"].map((title, idx) => (
+                      <div
+                        key={idx}
+                        onClick={handleLinkClick}
+                        className="cursor-pointer  rounded-md p-1 bg-white/30 border border-white/10 backdrop-blur-md "
+                        role="menuitem"
+                        tabIndex={0}
+                      >
+                        <div className="ml-4 text-md font-medium text-black">
+                          {title}
                         </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-                        {/* Mobile menu button */}
-                        <div className="flex items-center space-x-2 md:space-x-3 lg:hidden">
-                            <Link
-                                href="https://github.com/Shubhashish-Chakraborty/prepnerdz"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-gray-900 transition-colors md:hidden"
-                            >
-                                <Github className="size-5" />
-                                <span className="sr-only">GitHub</span>
-                            </Link>
+              <Link
+                href="/contact"
+                onClick={closeAllDropdowns}
+                className="inline-flex h-9 items-center justify-center rounded-md px-3 xl:px-4 py-2 text-base text-white cursor-pointer"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
 
-                            <button
-                                onClick={toggleMobileMenu}
-                                className="inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-gray-900 transition-colors touch-manipulation"
-                                aria-label="Toggle menu"
-                            >
-                                {isMobileMenuOpen ? <CloseCircle className="size-5 sm:size-6" /> : <MenuBars className="size-5 sm:size-6" />}
-                            </button>
-                        </div>
-                    </div>
-                </nav>
-            </header>
+          {/* Authentication Buttons */}
+          <div className="w-[20%] flex justify-end items-center gap-4 mr-5">
+            <div className="hidden md:flex lg:items-center lg:space-x-3 xl:space-x-4">
+              {authLoading ? (
+                <button className="font-semibold text-white" disabled>
+                  Loading...
+                </button>
+              ) : isAuthenticated ? (
+                <Link href="/dashboard">
+                  <button className="bg-gradient-to-b from-[#1B1B1B] to-white/30 px-4 py-2 text-white rounded-2xl font-semibold text-md backdrop-blur-md cursor-pointer">
+                    Dashboard
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  onClick={() => setIsSignupOpen(true)}
+                  className="font-semibold text-white cursor-pointer"
+                >
+                  Sign up
+                </button>
+              )}
+            </div>
 
-            {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-40 lg:hidden">
-                    <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={closeMobileMenu} aria-hidden="true" />
-                    <div className="fixed right-0 top-0 h-full w-[280px] sm:w-[320px] bg-white/95 backdrop-blur-md border-l border-white/20 shadow-xl overflow-y-auto">
-                        <div className="flex flex-col p-4 sm:p-6 pt-16 sm:pt-20 space-y-3 sm:space-y-4">
-                            <Link
-                                href="/"
-                                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
-                                onClick={closeMobileMenu}
-                            >
-                                Home
-                            </Link>
+            <button
+              onClick={() => setIsLoginOpen(true)}
+              className="bg-gradient-to-b from-[#0059E7] to-white/30 px-4 py-2 text-white rounded-2xl font-semibold text-md backdrop-blur-md  cursor-pointer"
+            >
+              Sign in
+            </button>
+          </div>
 
-                            <Link
-                                href="/about"
-                                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
-                                onClick={closeMobileMenu}
-                            >
-                                About
-                            </Link>
+          {/* Mobile Menu Icons */}
+          <div className="flex h-16 sm:h-20 items-center justify-between px-3 sm:px-6 lg:hidden">
+            <Link
+              href="https://github.com/Shubhashish-Chakraborty/prepnerdz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+              aria-label="GitHub Repository"
+            >
+              <Github className="size-5" />
+            </Link>
+            <button
+              onClick={toggleMobileMenu}
+              className="inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <CloseCircle className="size-5 sm:size-6" />
+              ) : (
+                <MenuBars className="size-5 sm:size-6" />
+              )}
+            </button>
+          </div>
+        </nav>
+      </header>
 
-                            {/* Mobile StudyMaterial Dropdown */}
-                            <div>
-                                <button
-                                    onClick={() => setIsMobileStudyMaterialOpen(!isMobileStudyMaterialOpen)}
-                                    className="flex items-center justify-between w-full text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
-                                >
-                                    Study Material
-                                    <div
-                                        className={`transform transition-transform duration-200 ${isMobileStudyMaterialOpen ? "rotate-180" : ""}`}
-                                    >
-                                        <Down className="size-5" />
-                                    </div>
-                                </button>
-                                {isMobileStudyMaterialOpen && (
-                                    <div className="mt-2 space-y-1 pl-4 border-l-2 border-gray-200">
-                                        {[
-                                            { title: "Shivani PDFs" },
-                                            { title: "IMP Questions" },
-                                            { title: "IMP Topics" },
-                                            { title: "Best Academic Notes" },
-                                            { title: "Syllabus" },
-                                            { title: "Lab Manual" },
-                                        ].map((item, index) => (
-                                            <div
-                                                key={index}
-                                                className="block text-gray-700 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-50 touch-manipulation"
-                                                onClick={handleLinkClick}
-                                            >
-                                                {item.title}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+      {/* TODO: Mobile menu JSX here */}
+    </>
+  );
+};
 
-                            {/* Mobile PYQ'S Dropdown */}
-                            <div>
-                                <button
-                                    onClick={() => setIsMobilePYQOpen(!isMobilePYQOpen)}
-                                    className="flex items-center justify-between w-full text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
-                                >
-                                    {"PYQ'S"}
-                                    <div className={`transform transition-transform duration-200 ${isMobilePYQOpen ? "rotate-180" : ""}`}>
-                                        <Down className="size-5" />
-                                    </div>
-                                </button>
-                                {isMobilePYQOpen && (
-                                    <div className="mt-2 space-y-1 pl-4 border-l-2 border-gray-200">
-                                        <div
-                                            className="block text-gray-700 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-50 touch-manipulation"
-                                            onClick={handleLinkClick}
-                                        >
-                                            Mid Term {"PYQ'S"}
-                                        </div>
-                                        <div
-                                            className="block text-gray-700 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-50 touch-manipulation"
-                                            onClick={handleLinkClick}
-                                        >
-                                            End Sem {"PYQ'S"}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            <Link
-                                href="/contact-us"
-                                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
-                                onClick={closeMobileMenu}
-                            >
-                                Contact us
-                            </Link>
-
-                            <Link
-                                href="/contributors"
-                                className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors py-2 px-2 rounded-md hover:bg-gray-100 touch-manipulation"
-                                onClick={closeMobileMenu}
-                            >
-                                Contributors
-                            </Link>
-
-                            {/* Mobile Auth Section */}
-                            <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
-                                <div className="hidden md:flex items-center space-x-4">
-                                    <Link
-                                        href="https://github.com/Shubhashish-Chakraborty/prepnerdz"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-900 transition-colors"
-                                    >
-                                        <Github className="size-5" />
-                                        <span className="sr-only">GitHub</span>
-                                    </Link>
-                                </div>
-
-                                {authLoading ? (
-                                    <Button
-                                        text="Loading"
-                                        endIcon={<LoadingSpinner className="size-6" />}
-                                        sizeVariant="medium"
-                                        colorVariant="yellow"
-                                        onClick={() => setIsLoginOpen(true)}
-                                    />
-                                ) : isAuthenticated ? (
-                                    <Link href={"/dashboard"} className="w-full">
-
-                                        <Button
-                                            text="Dashboard"
-                                            endIcon={<EnterDoor className="size-6" />}
-                                            sizeVariant="medium"
-                                            colorVariant="blue"
-                                            onClick={() => setIsLoginOpen(true)}
-                                        />
-
-                                    </Link>
-                                ) : (
-                                    <Button
-                                        text="Login"
-                                        endIcon={<EnterDoor className="size-6" />}
-                                        sizeVariant="medium"
-                                        colorVariant="yellow"
-                                        onClick={() => setIsLoginOpen(true)}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </>
-    )
-}
-
-export default Navbar
+export default Navbar;
