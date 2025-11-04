@@ -56,19 +56,20 @@ export default function OurBlogs() {
 
   return (
     <div className="w-full px-4 md:px-16 py-20 bg-white text-[#0F1916]">
-      {/* Header */}
       <div className="flex justify-center">
         <h2 className="uppercase py-1 px-4 border-2 border-[#0F1916] text-xs rounded-3xl font-medium">
           our blogs
         </h2>
       </div>
 
-      <div  style={{ fontFamily: "PPEditorialNew" }}  className="text-center mt-5 space-y-2">
+      <div
+        style={{ fontFamily: "PPEditorialNew" }}
+        className="text-center mt-5 space-y-2"
+      >
         <h1 className="text-4xl md:text-8xl">The Latest Story From</h1>
         <h1 className="text-4xl md:text-8xl ">Our Blog</h1>
       </div>
 
-      {/* Blog Cards Grid */}
       <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {blogData.slice(0, 6).map((blog, index) => (
           <div key={index} className="w-full">
@@ -81,7 +82,10 @@ export default function OurBlogs() {
                 <span>{blog.date}</span>
                 <span>{blog.readTime}</span>
               </div>
-              <h3  style={{ fontFamily: "PPEditorialNew" }}  className="mt-5 text-2xl font-semibold line-clamp-3">
+              <h3
+                style={{ fontFamily: "PPEditorialNew" }}
+                className="mt-5 text-2xl font-semibold line-clamp-3"
+              >
                 {blog.title}
               </h3>
               <div className="border-t-2 mt-5 border-gray-300">
@@ -97,7 +101,6 @@ export default function OurBlogs() {
         ))}
       </div>
 
-      {/* CTA Button */}
       <div className="w-full flex justify-center mt-20">
         <button className="text-lg bg-[#81F97C] hover:bg-[#66e761] transition px-6 py-3 rounded-full font-semibold">
           See All Blogs

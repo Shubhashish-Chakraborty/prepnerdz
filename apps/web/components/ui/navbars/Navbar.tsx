@@ -35,9 +35,11 @@ export const Navbar = () => {
   // Tracks which dropdown is currently active/open
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  // State to control login/signup modal visibility (not implemented here)
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  // State setters for login/signup modal visibility (actual modal components not included here)
+  // We keep the setters because the UI calls setIsLoginOpen / setIsSignupOpen, but we don't
+  // need the state value in this file yet — so discard the value to avoid lint errors.
+  const [, setIsLoginOpen] = useState(false);
+  const [, setIsSignupOpen] = useState(false);
 
   /**
    * Close dropdown menu when clicking outside of it.
@@ -94,7 +96,7 @@ export const Navbar = () => {
       toast.success("Explore the resources here in Dashboard!");
     } else {
       setIsLoginOpen(true);
-      toast.error("You must login to access the resources!");
+      toast.error("You must log in to access the resources!");
     }
   };
 
@@ -179,18 +181,18 @@ export const Navbar = () => {
               </div>
 
               {/* PYQs Dropdown */}
-              <div className="relative  ">
+              <div className="relative">
                 <button
                   onClick={() => toggleDropdown("pyqs")}
                   className="inline-flex h-9 items-center gap-2 rounded-md px-3 xl:px-4 py-2 text-base text-white cursor-pointer"
                   aria-haspopup="true"
                   aria-expanded={activeDropdown === "pyqs"}
                 >
-                  PYQ's <FaChevronDown />
+                  PYQs <FaChevronDown />
                 </button>
                 {activeDropdown === "pyqs" && (
                   <div className="absolute top-full left-0 mt-3 w-[250px] rounded-lg border border-white/30 bg-white/80 backdrop-blur-md shadow-lg p-4 space-y-3 z-50">
-                    {["Mid Term PYQ'S", "End Sem PYQ'S"].map((title, idx) => (
+                    {["Mid Term PYQs", "End Sem PYQs"].map((title, idx) => (
                       <div
                         key={idx}
                         onClick={handleLinkClick}

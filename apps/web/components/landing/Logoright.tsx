@@ -83,9 +83,8 @@ export default function LogoRight() {
 
   return (
     <div className="relative w-full  overflow-hidden ">
-      {/* Fade shadow left */}
       <div className="absolute left-0 top-0 h-full w-16  z-10" />
-      {/* Fade shadow right */}
+
       <div className="absolute right-0 top-0 h-full w-16   z-10" />
 
       <div className="relative w-full overflow-hidden">
@@ -102,7 +101,7 @@ export default function LogoRight() {
               width={120}
               height={48}
               className="h-12 w-auto bg-transparent"
-              unoptimized // Remove this line if you want Next.js to optimize remote images and set up domains in next.config.js
+              unoptimized
             />
           ))}
         </div>

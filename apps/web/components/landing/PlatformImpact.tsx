@@ -1,9 +1,6 @@
 "use client";
 import React from "react";
 
-// ------------------
-// Types
-// ------------------
 type StatCard = {
   icon: string;
   color: string;
@@ -23,9 +20,6 @@ type PlatformImpactProps = {
   stats: StatCard[];
 };
 
-// ------------------
-// Component
-// ------------------
 const PlatformImpact: React.FC<PlatformImpactProps> = ({
   tag,
   headings,
@@ -34,31 +28,30 @@ const PlatformImpact: React.FC<PlatformImpactProps> = ({
 }) => {
   return (
     <div className="mt-20 w-full flex flex-col justify-center items-center text-[#0F1916]">
-      {/* Top Tag */}
       <div className="w-full flex justify-center items-center">
         <h1 className="uppercase py-1 px-4 border-2 border-[#0F1916] text-[12px] rounded-4xl font-medium">
           {tag}
         </h1>
       </div>
 
-      {/* Headings */}
       <div className="w-full flex flex-col justify-center items-center font-medium mt-5 space-y-3 text-center">
         {headings.map((line, i) => (
-          <h1  style={{ fontFamily: "PPEditorialNew" }}  key={i} className="text-5xl md:text-8xl">
+          <h1
+            style={{ fontFamily: "PPEditorialNew" }}
+            key={i}
+            className="text-5xl md:text-8xl"
+          >
             {line}
           </h1>
         ))}
       </div>
 
-      {/* Banner */}
       <div className="w-full flex justify-center items-center mt-10">
         <div className="py-2 px-6 bg-[#0F1916] text-xl rounded-4xl text-white flex justify-center items-center gap-2">
-          <img className="w-16" src={banner.imageUrl} alt="banner" />
           <span dangerouslySetInnerHTML={{ __html: banner.text }} />
         </div>
       </div>
 
-      {/* Stats Cards */}
       <div className="w-[60%] flex flex-wrap gap-5 justify-center items-center pt-10 pb-40">
         {stats.map((stat, i) => (
           <div
@@ -86,7 +79,6 @@ const PlatformImpact: React.FC<PlatformImpactProps> = ({
 };
 
 export default function PlatformImpactWrapper() {
-  // Example data
   const props: PlatformImpactProps = {
     tag: "platform impact",
     headings: ["Helping Students Achieve", "Academic Excellence"],

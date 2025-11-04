@@ -5,8 +5,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import BackToTopButton from "../components/ui/BackToTopButton";
 import AskNerd from "@/components/ui/AskNerd";
-import ConditionalFluidCursor from "@/components/ConditionalCompos/ConditionalFluidCursor";
-import ConditionalComingSoon from '@/components/ConditionalCompos/ConditionalComingSoon';
+
 
 // Root font - default
 const saira = Saira({

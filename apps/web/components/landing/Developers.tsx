@@ -1,11 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import React from "react";
-import { FaArrowRight, FaXTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa6";
+import {
+  FaArrowRight,
+  FaXTwitter,
+  FaLinkedinIn,
+  FaGithub,
+} from "react-icons/fa6";
 
-// ------------------
-// Type Definitions
-// ------------------
 type DeveloperCard = {
   type: "image" | "cta";
   imgUrl?: string;
@@ -16,9 +19,6 @@ type DeveloperCard = {
   githubUrl?: string;
 };
 
-// ------------------
-// Developer Data
-// ------------------
 const developerData: DeveloperCard[] = [
   {
     type: "image",
@@ -67,9 +67,6 @@ const developerData: DeveloperCard[] = [
   },
 ];
 
-// ------------------
-// Component
-// ------------------
 export default function DeveloperShowcase() {
   return (
     <div className="flex flex-col items-center w-full">
@@ -80,15 +77,12 @@ export default function DeveloperShowcase() {
         Developers
       </h1>
 
-      <div className="flex justify-center items-center w-full p-5 mt-16">
+      <div className="flex justify-center items-center w-full p-5 mt-16 gap-6">
         {developerData.map((dev, index) => {
           const commonClasses = `relative w-[20%] h-[8cm] border-4 border-black/20 overflow-hidden ${
             dev.rounded === "full" ? "rounded-full" : dev.rounded
           }`;
 
-          // ------------------
-          // IMAGE CARD
-          // ------------------
           if (dev.type === "image" && dev.imgUrl) {
             return (
               <div
@@ -96,13 +90,13 @@ export default function DeveloperShowcase() {
                 className={`${commonClasses} group`}
                 style={{ backgroundColor: dev.bgColor }}
               >
-                <img
+                <Image
                   src={dev.imgUrl}
                   alt=""
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
 
-                {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center items-center gap-5">
                   {dev.xUrl && (
                     <a
@@ -139,15 +133,15 @@ export default function DeveloperShowcase() {
             );
           }
 
-          // ------------------
-          // CTA CARD
-          // ------------------
           if (dev.type === "cta") {
             return (
               <div
                 key={index}
-                style={{ backgroundColor: dev.bgColor, fontFamily: "PPEditorialNew" }}
-                className={`bg-[#82F97C] ${commonClasses} flex flex-col justify-center items-center text-[#0F1916] `}
+                style={{
+                  backgroundColor: dev.bgColor,
+                  fontFamily: "PPEditorialNew",
+                }}
+                className={`${commonClasses} flex flex-col justify-center items-center text-[#0F1916]`}
               >
                 <h1 className="text-4xl text-center">You Can Become</h1>
                 <h1 className="text-4xl text-center">One Of Us</h1>

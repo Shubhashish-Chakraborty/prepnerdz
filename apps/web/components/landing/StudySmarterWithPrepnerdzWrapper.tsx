@@ -2,9 +2,6 @@
 import Image from "next/image";
 import React from "react";
 
-// ------------------
-// Type Definitions
-// ------------------
 type FeatureCard = {
   id: number;
   backgroundColor: string;
@@ -12,7 +9,7 @@ type FeatureCard = {
   tag: string;
   titleLines: string[];
   description: string;
-  imageUrl: string; // Dynamic image field (use paths from /public, e.g. "/img1.png")
+  imageUrl: string;
 };
 
 type PrepNerdzFeatureSectionProps = {
@@ -21,9 +18,6 @@ type PrepNerdzFeatureSectionProps = {
   features: FeatureCard[];
 };
 
-// ------------------
-// Component
-// ------------------
 const StudySmarterWithPrepnerdz: React.FC<PrepNerdzFeatureSectionProps> = ({
   tagline,
   mainHeadingLines,
@@ -31,14 +25,12 @@ const StudySmarterWithPrepnerdz: React.FC<PrepNerdzFeatureSectionProps> = ({
 }) => {
   return (
     <div className="w-full flex justify-center items-center flex-col text-[#0F1916] p-3">
-      {/* Header Tag */}
       <div className="w-full flex justify-center items-center">
         <h1 className="uppercase py-1 px-4 border-2 border-[#0F1916] text-[12px] rounded-[40px] font-medium">
           {tagline}
         </h1>
       </div>
 
-      {/* Main Headings */}
       <div className="w-full flex flex-col justify-center items-center font-medium mt-5 space-y-3 text-center">
         {mainHeadingLines.map((line, i) => (
           <h1
@@ -51,7 +43,6 @@ const StudySmarterWithPrepnerdz: React.FC<PrepNerdzFeatureSectionProps> = ({
         ))}
       </div>
 
-      {/* Feature Cards */}
       <div className="w-full flex flex-col justify-center items-center mt-20 gap-3">
         {features.map((feature, index) => {
           const isEven = index % 2 === 0;
@@ -62,7 +53,6 @@ const StudySmarterWithPrepnerdz: React.FC<PrepNerdzFeatureSectionProps> = ({
               className={`${feature.backgroundColor} w-full ${feature.height} rounded-[40px] p-10`}
             >
               <div className="w-full h-full flex flex-col md:flex-row mt-10">
-                {/* Image Section */}
                 <div
                   className={`w-full md:w-1/2 h-[14cm] md:h-[70vh] flex justify-center items-center p-10 ${
                     isEven ? "" : "md:order-2"
@@ -112,9 +102,6 @@ const StudySmarterWithPrepnerdz: React.FC<PrepNerdzFeatureSectionProps> = ({
   );
 };
 
-// ------------------
-// Default Export with Data
-// ------------------
 const featureSectionData: PrepNerdzFeatureSectionProps = {
   tagline: "study smarter with prepnerdz",
   mainHeadingLines: ["Over 1 Billion Students Helped", "And Counting"],
@@ -127,7 +114,7 @@ const featureSectionData: PrepNerdzFeatureSectionProps = {
       titleLines: ["Comprehensive", "Study Resources"],
       description:
         "Access previous year RGPV papers, Shivani books, lab manuals, important questions, and much more — all curated and organized in one place.",
-      imageUrl: "/img1.png", // put img1.png in your public/ folder
+      imageUrl: "/img1.png",
     },
     {
       id: 2,

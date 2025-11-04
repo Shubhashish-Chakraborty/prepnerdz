@@ -55,9 +55,12 @@ export default function FooterCTA() {
   return (
     <footer className="bg-white text-[#111111] w-full">
       <div className="p-16">
-        {/* CTA Section */}
+     
         <div className="bg-[#111111] rounded-[40px] p-16 flex flex-col md:flex-row justify-between items-center text-white mb-16 h-[7cm]">
-          <h2 style={{ fontFamily: "PPEditorialNew" }}  className="text-7xl font-medium mb-4 w-[20cm]">
+          <h2
+            style={{ fontFamily: "PPEditorialNew" }}
+            className="text-7xl font-medium mb-4 w-[20cm]"
+          >
             Ready to improve your <br className="md:hidden" />
             sales & conversions
           </h2>
@@ -65,17 +68,22 @@ export default function FooterCTA() {
             <button className="bg-white text-[#111111] rounded-full px-6 py-2 font-medium">
               Book Demo
             </button>
-            <button  style={{ fontFamily: "PPEditorialNew" }}  className="bg-[#82F97C] text-[#111111] rounded-full px-6 py-2 font-medium">
+            <button
+              style={{ fontFamily: "PPEditorialNew" }}
+              className="bg-[#82F97C] text-[#111111] rounded-full px-6 py-2 font-medium"
+            >
               Try Reelup — For Free!
             </button>
           </div>
         </div>
 
-        {/* Main FooterCTA Sections */}
+       
         <div className="flex justify-between items-start gap-8 text-3xl text-gray-700 flex-wrap">
           {footerSections.map((section, idx) => (
             <div key={idx}>
-              <h4 className="font-semibold mb-2 text-[#111111]">{section.heading}</h4>
+              <h4 className="font-semibold mb-2 text-[#111111]">
+                {section.heading}
+              </h4>
               <ul className="space-y-1 text-lg">
                 {section.links.map((item, i) =>
                   typeof item === "string" ? (
@@ -95,14 +103,9 @@ export default function FooterCTA() {
           ))}
         </div>
 
-        {/* Logo & Socials */}
+    
         <div className="mt-20 text-[#111111]">
           <div className="flex justify-start items-center gap-10">
-            <img
-              src="https://www.prepnerdz.tech/_next/image?url=%2Fprepnerdz-logo-zoomed.png&w=384&q=75"
-              alt="PrepNerdz Logo"
-              className="w-28"
-            />
             <div className="flex gap-3 text-2xl">
               {socialIcons.map((Icon, idx) => (
                 <Icon key={idx} />
@@ -111,7 +114,7 @@ export default function FooterCTA() {
           </div>
         </div>
 
-        {/* Bottom */}
+    
         <div className="text-md text-gray-500 mt-10 border-t">
           <div className="w-full flex flex-col md:flex-row justify-between items-center mt-5 gap-4">
             <h1>© 2025 Prepnerdz.Tech – All rights reserved.</h1>

@@ -1,8 +1,8 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 
-// Define the props type
-type New2Props = {
+type HeroImageProps = {
   imageSrc: string;
   altText?: string;
   widthClass?: string;
@@ -10,7 +10,7 @@ type New2Props = {
   containerClass?: string;
 };
 
-const HeroImage: React.FC<New2Props> = ({
+const HeroImage: React.FC<HeroImageProps> = ({
   imageSrc,
   altText = "Preview Image",
   widthClass = "w-[75vw]",
@@ -22,11 +22,18 @@ const HeroImage: React.FC<New2Props> = ({
       <section>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center">
-            <img
-              src={imageSrc}
-              alt={altText}
-              className={`${widthClass} ${heightClass} ${containerClass}`}
-            />
+            <div
+              className={`relative ${widthClass} ${heightClass} ${containerClass} overflow-hidden`}
+            >
+              <Image
+                src={imageSrc}
+                alt={altText}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 75vw"
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>
