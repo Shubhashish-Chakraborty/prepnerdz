@@ -31,12 +31,13 @@ model User {
   UserAddedAt         DateTime   @default(now())
   UserUpdatedAt       DateTime   @updatedAt
 
-  posts           Post[]         @relation("UserPosts")
-  replies         Reply[]        @relation("UserReplies")
-  votes           Vote[]
-  mentorProfile   MentorProfile?
-  reportsMade     Report[]       @relation("ReportsBy")
-  reportsReceived Report[]       @relation("ReportsAgainst")
+  posts             Post[]             @relation("UserPosts")
+  replies           Reply[]            @relation("UserReplies")
+  votes             Vote[]
+  mentorProfile     MentorProfile?
+  mentorApplication MentorApplication? @relation("MentorApplication")
+  reportsMade       Report[]           @relation("ReportsBy")
+  reportsReceived   Report[]           @relation("ReportsAgainst")
 }
 
 model Avatar {
@@ -140,16 +141,27 @@ model MentorProfile {
   user          User           @relation(fields: [userId], references: [id])
   userId        String         @unique
   category      MentorCategory // FACULTY, ALUMNI, SENIOR
-  bio           String?
+  bio           String?        @db.Text
   expertise     String[]
   hourlyRate    Float?
   rating        Float?         @default(0)
-  introVideoUrl String? // Optional intro video URL
-  linkedinUrl   String? // Optional social handle
-  twitterUrl    String? // Optional social handle
-  githubUrl     String? // Optional social handle
+  introVideoUrl String?
+  socials       Json? // { linkedin: "...", github: "...", website: "..." }
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+}
+
+model MentorApplication {
+  id        String                  @id @default(cuid())
+  user      User                    @relation("MentorApplication", fields: [userId], references: [id])
+  userId    String                  @unique
+  bio       String                  @db.Text
+  expertise String[]
+  category  MentorCategory
+  socials   Json?
+  status    MentorApplicationStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
 }
 
 model Post {
@@ -202,21 +214,23 @@ enum Role {
 }
 
 model Attachment {
-  id      String  @id @default(cuid())
-  url     String // URL from a service like Cloudinary
-  type    String // e.g., 'image/png', 'application/pdf'
-  postId  String?
-  post    Post?   @relation(fields: [postId], references: [id])
-  replyId String?
-  reply   Reply?  @relation(fields: [replyId], references: [id])
+  id        String   @id @default(cuid())
+  url       String // URL from a service like Cloudinary
+  type      String // e.g., 'image/png', 'application/pdf'
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id])
+  replyId   String?
+  reply     Reply?   @relation(fields: [replyId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Report {
   id             String   @id @default(cuid())
   reason         String
+  details        String?  @db.Text
   reporterId     String
   reporter       User     @relation("ReportsBy", fields: [reporterId], references: [id])
-  reportedUserId String
+  reportedUserId String // user/mentor samething for reports..
   reportedUser   User     @relation("ReportsAgainst", fields: [reportedUserId], references: [id])
   createdAt      DateTime @default(now())
 }
@@ -241,4 +255,10 @@ enum MentorCategory {
   FACULTY
   ALUMNI
   SENIOR
+}
+
+enum MentorApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

@@ -7,7 +7,7 @@ const ConditionalFluidCursor = () => {
     const pathname = usePathname();
 
     // Define the paths where you DON'T want the cursor
-    const disabledPaths = ['/code'];
+    const disabledPaths = ['/code' , '/apply-for-mentor'];
     const disabledPrefixes = ['/nerdconnect']; // any route starting with this
 
 

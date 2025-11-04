@@ -140,3 +140,111 @@ export const deleteUploadByAdmin = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Server error' });
     }
 }
+
+export const getMentorApplications = async (req: Request, res: Response) => {
+    try {
+        const applications = await prisma.mentorApplication.findMany({
+            where: { status: 'PENDING' },
+            include: {
+                user: {
+                    select: { id: true, username: true, email: true }
+                }
+            },
+            orderBy: { createdAt: 'asc' }
+        });
+        res.status(200).json(applications);
+    } catch (error) {
+        console.error("Error fetching mentor applications:", error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const reviewMentorApplication = async (req: Request, res: Response) => {
+    try {
+        const { appId } = req.params;
+        const { status } = req.body; // 'APPROVED' or 'REJECTED'
+
+        if (status !== 'APPROVED' && status !== 'REJECTED') {
+            res.status(400).json({ message: 'Invalid status' });
+            return;
+        }
+
+        const application = await prisma.mentorApplication.update({
+            where: { id: appId },
+            data: { status }
+        });
+
+        // If approved, create the mentor profile and update user role
+        if (status === 'APPROVED') {
+            // 1. Update User Role
+            await prisma.user.update({
+                where: { id: application.userId },
+                data: { role: 'MENTOR' }
+            });
+            // 2. Create MentorProfile
+            await prisma.mentorProfile.create({
+                data: {
+                    userId: application.userId,
+                    bio: application.bio,
+                    expertise: application.expertise,
+                    category: application.category,
+                    socials: application.socials || undefined,
+                }
+            });
+        }
+
+        res.status(200).json(application);
+    } catch (error) {
+        console.error("Error reviewing application:", error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const assignMentor = async (req: Request, res: Response) => {
+    try {
+        const { userId, bio, expertise } = req.body;
+
+        // 1. Update User Role
+        await prisma.user.update({
+            where: { id: userId },
+            data: { role: 'MENTOR' }
+        });
+
+        // 2. Create MentorProfile
+        const profile = await prisma.mentorProfile.create({
+            data: {
+                userId: userId,
+                bio: bio || 'Welcome!',
+                expertise: expertise || ['General'],
+                category: 'SENIOR', // Default
+            }
+        });
+
+        res.status(201).json(profile);
+    } catch (error) {
+        console.error("Error assigning mentor:", error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+export const unassignMentor = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.body;
+
+        // 1. Update User Role
+        await prisma.user.update({
+            where: { id: userId },
+            data: { role: 'STUDENT' }
+        });
+
+        // 2. Delete MentorProfile
+        await prisma.mentorProfile.delete({
+            where: { userId: userId }
+        });
+
+        res.status(200).json({ message: 'Mentor unassigned successfully' });
+    } catch (error) {
+        console.error("Error unassigning mentor:", error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};

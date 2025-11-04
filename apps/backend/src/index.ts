@@ -23,6 +23,8 @@ import { bookmarkRouter } from './routes/bookmarkRoutes';
 import { superAdminRouter } from './routes/superAdminRoutes';
 import { PostRouter } from './routes/nerdconnect/postRoutes';
 import { attachmentRouter } from './routes/nerdconnect/attachmentRoutes';
+import { mentorRouter } from './routes/nerdconnect/mentorRoutes';
+import { profileRouter } from './routes/userProfileRoutes';
 
 const app = express();
 
@@ -70,7 +72,7 @@ app.use("/api/v1/auth/user", UserRouter);
 app.use("/auth", OauthRouter);
 app.use("/api/v1/avatar", AvatarRouter);
 app.use("/api/v1/contact", ContactRouter);
-app.use("/api/v1/bookmark" , bookmarkRouter);
+app.use("/api/v1/bookmark", bookmarkRouter);
 
 // ADMIN API ENDPOINTS!!!
 app.use("/api/v1/course", courseRouter);
@@ -82,23 +84,28 @@ app.use("/api/v1/search", searchRouter);
 app.use("/api/v1/getmyid", getMyIdRouter);
 
 // Super Admin API ENDPOINTS!!!
-app.use("/superadmin" , superAdminRouter);
+app.use("/superadmin", superAdminRouter);
 
-// fetching data for admin work:
-app.use("/api/v1/db/data" , dataRouter);
-
+// fetching data for some work:
+app.use("/api/v1/db/data", dataRouter);
+app.use("/" , profileRouter);
 // NerdConnect Routes:
-app.use("/nerdconnect/post" , PostRouter);
-app.use("/nerdconnect/attachments" , attachmentRouter)
+app.use("/nerdconnect/post", PostRouter);
+app.use("/nerdconnect/attachments", attachmentRouter);
+
+app.use("/nerdconnect/mentor", mentorRouter);
 
 app.get("/", (req, res) => {
     res.send(`
         <h1 style="text-align: center;">PrepNerdz's Server is up and running!!</h1>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="https://prepnerdz.tech"> Contiue to website!! </a>
+        </div>
     `)
 })
 
 app.get("/users", async (req, res) => {
-    // // can also pass conditions like:
     // const users = await prisma.user.count({
     //     where: {
     //         isActive: true
