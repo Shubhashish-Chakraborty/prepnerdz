@@ -31,6 +31,9 @@ model User {
   UserAddedAt         DateTime   @default(now())
   UserUpdatedAt       DateTime   @updatedAt
 
+  bio     String? @db.Text
+  socials Json? // { linkedin: "...", github: "...", website: "..." }
+
   posts             Post[]             @relation("UserPosts")
   replies           Reply[]            @relation("UserReplies")
   votes             Vote[]

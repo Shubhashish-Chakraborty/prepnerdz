@@ -10,7 +10,11 @@ export const getUserProfile = async (req: Request, res: Response) => {
             select: {
                 id: true,
                 username: true,
+                email: true,
+                contactNumber: true,
                 role: true,
+                bio: true,
+                socials: true,
                 UserAddedAt: true,
                 avatar: { select: { url: true } },
                 _count: {
@@ -41,6 +45,7 @@ export const getMentorProfile = async (req: Request, res: Response) => {
             select: {
                 id: true,
                 username: true,
+                email: true,
                 UserAddedAt: true,
                 avatar: { select: { url: true } },
                 mentorProfile: {
@@ -61,7 +66,7 @@ export const getMentorProfile = async (req: Request, res: Response) => {
             res.status(404).json({ message: 'Mentor not found' });
             return;
         }
-        
+
         // Combine user and profile info
         const mentorProfileData = {
             user: {
@@ -79,3 +84,46 @@ export const getMentorProfile = async (req: Request, res: Response) => {
     }
 };
 
+export const updateUserProfile = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user.id; // From UserAuth middleware
+        const { username, contactNumber, bio, socials } = req.body;
+
+        // 1. Check for username conflict if username is being changed
+        if (username) {
+            const existingUser = await prisma.user.findUnique({
+                where: { username }
+            });
+            // If a user exists with that username AND it's not the current user
+            if (existingUser && existingUser.id !== userId) {
+                res.status(400).json({ message: "Username is already taken." });
+                return;
+            }
+        }
+
+        // 2. Update the user
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                username: username,
+                contactNumber: contactNumber,
+                bio: bio,
+                socials: socials,
+                // Do NOT allow editing email or role here
+            },
+            select: {
+                id: true,
+                username: true,
+                contactNumber: true,
+                bio: true,
+                socials: true
+            }
+        });
+
+        res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+
+    } catch (error) {
+        console.error("Error updating user profile:", error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
