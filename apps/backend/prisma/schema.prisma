@@ -34,6 +34,9 @@ model User {
   bio     String? @db.Text
   socials Json? // { linkedin: "...", github: "...", website: "..." }
 
+  following  Follows[] @relation("Following")
+  followedBy Follows[] @relation("FollowedBy")
+
   posts             Post[]             @relation("UserPosts")
   replies           Reply[]            @relation("UserReplies")
   votes             Vote[]
@@ -41,6 +44,16 @@ model User {
   mentorApplication MentorApplication? @relation("MentorApplication")
   reportsMade       Report[]           @relation("ReportsBy")
   reportsReceived   Report[]           @relation("ReportsAgainst")
+}
+
+model Follows {
+  followerId  String
+  follower    User   @relation("Following", fields: [followerId], references: [id])
+  followingId String
+  following   User   @relation("FollowedBy", fields: [followingId], references: [id])
+
+  @@id([followerId, followingId]) // Creates a composite primary key
+  @@unique([followerId, followingId])
 }
 
 model Avatar {

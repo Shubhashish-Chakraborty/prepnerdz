@@ -187,6 +187,10 @@ export default function Header({ userName, setIsSidebarOpen }: HeaderProps) {
                       <Home className="mr-4 size-5 text-gray-600" />
                       <span className="font-medium">Home</span>
                     </button>
+                    <button onClick={() => router.push(`/u/${username}`)} className="w-full flex items-center px-6 py-3 hover:bg-cyan-50 transition-colors duration-200">
+                      <User className="mr-4 size-5 text-gray-600" />
+                      <span className="font-medium">My Profile</span>
+                    </button>
                     <button onClick={() => router.push("/mybookmarks")} className="w-full flex items-center px-6 py-3 hover:bg-gray-50 transition-colors duration-200">
                       <Bookmark className="mr-4 size-5 text-gray-600" />
                       <span className="font-medium">My Bookmarks</span>

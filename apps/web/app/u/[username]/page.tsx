@@ -2,7 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '@/components/ui/navbars/Navbar';
+
+// --- Placeholder Navbar ---
+const Navbar = () => (
+    <nav className="w-full bg-white shadow-md h-16 flex items-center px-8">
+        <a href="/" className="font-bold text-xl text-blue-600">PrepNerdz</a>
+    </nav>
+);
 
 // --- Type Definitions ---
 interface UserProfile {
@@ -23,7 +29,10 @@ interface UserProfile {
         uploads: number;
         posts: number;
         replies: number;
-    }
+        following: number; // People this user follows
+        followedBy: number; // People who follow this user
+    };
+    isFollowing: boolean; // Is the session user following this profile?
 }
 
 interface SessionUser {
@@ -35,7 +44,7 @@ interface SessionUser {
 // --- Socials Display Component ---
 const SocialLinks = ({ socials }: { socials: UserProfile['socials'] }) => {
     if (!socials || (socials.linkedin === "" && socials.github === "" && socials.website === "")) {
-        return <p className="text-sm text-gray-500 mt-4">No social links provided.</p>;
+        return null;
     }
 
     return (
@@ -65,7 +74,7 @@ const EditUserModal = ({ profile, onClose, onUpdateSuccess }: { profile: UserPro
     const [contactNumber, setContactNumber] = useState(profile.contactNumber || '');
     const [bio, setBio] = useState(profile.bio || '');
     const [socials, setSocials] = useState(profile.socials || { linkedin: '', github: '', website: '' });
-    
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -76,10 +85,10 @@ const EditUserModal = ({ profile, onClose, onUpdateSuccess }: { profile: UserPro
         try {
             const { data } = await axios.patch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/update`,
-                { username, contactNumber, bio, socials }, // Send all fields
+                { username, contactNumber, bio, socials },
                 { withCredentials: true }
             );
-            onUpdateSuccess(data.user); // Pass updated user data back
+            onUpdateSuccess(data.user);
             onClose();
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to update profile.');
@@ -136,8 +145,8 @@ const EditUserModal = ({ profile, onClose, onUpdateSuccess }: { profile: UserPro
                         <input
                             type="url"
                             id="linkedin"
-                            value={socials.linkedin || ''}
-                            onChange={(e) => setSocials(s => ({...s, linkedin: e.target.value}))}
+                            value={socials?.linkedin || ''}
+                            onChange={(e) => setSocials(s => ({ ...s, linkedin: e.target.value }))}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                             placeholder="https://www.linkedin.com/in/..."
                         />
@@ -147,8 +156,8 @@ const EditUserModal = ({ profile, onClose, onUpdateSuccess }: { profile: UserPro
                         <input
                             type="url"
                             id="github"
-                            value={socials.github || ''}
-                            onChange={(e) => setSocials(s => ({...s, github: e.target.value}))}
+                            value={socials?.github || ''}
+                            onChange={(e) => setSocials(s => ({ ...s, github: e.target.value }))}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                             placeholder="https://github.com/..."
                         />
@@ -158,13 +167,13 @@ const EditUserModal = ({ profile, onClose, onUpdateSuccess }: { profile: UserPro
                         <input
                             type="url"
                             id="website"
-                            value={socials.website || ''}
-                            onChange={(e) => setSocials(s => ({...s, website: e.target.value}))}
+                            value={socials?.website || ''}
+                            onChange={(e) => setSocials(s => ({ ...s, website: e.target.value }))}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                             placeholder="https://my-portfolio.com"
                         />
                     </div>
-                    
+
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                 </form>
                 <div className="flex justify-end space-x-2 mt-6 pt-4 border-t">
@@ -189,6 +198,7 @@ export default function UserProfilePage() {
     const [error, setError] = useState('');
     const [username, setUsername] = useState('');
     const [showEditModal, setShowEditModal] = useState(false);
+    const [followLoading, setFollowLoading] = useState(false);
 
     // 1. Get username from URL
     useEffect(() => {
@@ -209,13 +219,13 @@ export default function UserProfilePage() {
                 setLoading(true);
                 try {
                     // Fetch profile
-                    const profileRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${username}`);
+                    const profileRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/${username}`, { withCredentials: true });
                     setProfile(profileRes.data);
 
                     // Fetch session user
                     try {
-                         const sessionRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, { withCredentials: true });
-                         setSessionUser(sessionRes.data?.message?.user);
+                        const sessionRes = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/user/session`, { withCredentials: true });
+                        setSessionUser(sessionRes.data?.message?.user);
                     } catch (sessionErr) {
                         console.log("User not logged in"); // Not an error
                     }
@@ -231,17 +241,71 @@ export default function UserProfilePage() {
         }
     }, [username]);
 
+    const handleToggleFollow = async () => {
+        if (!sessionUser) {
+            alert("Please log in to follow users.");
+            return;
+        }
+        if (!profile || followLoading) return;
+
+        setFollowLoading(true);
+
+        // Optimistic Update
+        setProfile(prevProfile => {
+            if (!prevProfile) return null;
+            const newFollowCount = prevProfile.isFollowing
+                ? prevProfile._count.followedBy - 1
+                : prevProfile._count.followedBy + 1;
+            return {
+                ...prevProfile,
+                isFollowing: !prevProfile.isFollowing,
+                _count: {
+                    ...prevProfile._count,
+                    followedBy: newFollowCount
+                }
+            };
+        });
+
+        try {
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/follow/${profile.id}`,
+                {}, // Empty body
+                { withCredentials: true }
+            );
+        } catch (err) {
+            console.error("Failed to toggle follow", err);
+            // Revert optimistic update on failure
+            setProfile(prevProfile => {
+                if (!prevProfile) return null;
+                const originalFollowCount = prevProfile.isFollowing
+                    ? prevProfile._count.followedBy - 1
+                    : prevProfile._count.followedBy + 1;
+                return {
+                    ...prevProfile,
+                    isFollowing: !prevProfile.isFollowing,
+                    _count: {
+                        ...prevProfile._count,
+                        followedBy: originalFollowCount
+                    }
+                };
+            });
+            alert("Failed to update follow status. Please try again.");
+        } finally {
+            setFollowLoading(false);
+        }
+    };
+
     // Check if the logged-in user is viewing their own profile
     const isOwnProfile = sessionUser && profile && sessionUser.id === profile.id;
 
-    const handleUpdateSuccess = (updatedData: { username: string, contactNumber?: string, bio?: string, socials?: any }) => {
+    const handleUpdateSuccess = (updatedData: any) => {
         if (profile) {
             setProfile({
                 ...profile,
-                username: updatedData.username,
-                contactNumber: updatedData.contactNumber,
-                bio: updatedData.bio,
-                socials: updatedData.socials
+                ...updatedData,
+                // Ensure _count and isFollowing are preserved
+                _count: profile._count,
+                isFollowing: profile.isFollowing
             });
             // If username changed, redirect to new URL
             if (updatedData.username !== username) {
@@ -255,9 +319,9 @@ export default function UserProfilePage() {
     }
 
     if (error || !profile) {
-        return <div className="bg-gray-50 min-h-screen"><Navbar /><div className="p-8 text-red-500">{error}</div></div>;
+        return <div className="bg-gray-50 min-h-screen"><Navbar /><div className="p-8 text-red-500">{error || 'Profile not found.'}</div></div>;
     }
-    
+
     const avatarUrl = profile.avatar.length > 0 ? profile.avatar[0].url : `https://api.dicebear.com/8.x/initials/png?seed=${encodeURIComponent(profile.username)}&chars=2`;
 
     return (
@@ -279,26 +343,52 @@ export default function UserProfilePage() {
                             alt={profile.username}
                             className="w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg object-cover"
                         />
-                        <div className="md:ml-8 mt-6 md:mt-0 text-center md:text-left">
+                        <div className="md:ml-8 mt-6 md:mt-0 text-center md:text-left w-full">
                             <div className="flex items-center justify-center md:justify-start space-x-3">
                                 <h1 className="text-3xl font-bold text-gray-800">{profile.username}</h1>
-                                {isOwnProfile && (
-                                    <button onClick={() => setShowEditModal(true)} title="Edit Profile" className="text-gray-500 hover:text-blue-600">
-                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828zM3 17a2 2 0 012-2h11a1 1 0 110 2H5a2 2 0 01-2-2z"></path></svg>
-                                    </button>
-                                )}
                             </div>
-                            <span className={`px-3 py-1 rounded-full text-sm font-semibold mt-2 inline-block ${
-                                profile.role === "ADMIN" ? "bg-purple-100 text-purple-700" :
+                            <span className={`px-3 py-1 rounded-full text-sm font-semibold mt-2 inline-block ${profile.role === "ADMIN" ? "bg-purple-100 text-purple-700" :
                                 profile.role === "MENTOR" ? "bg-blue-100 text-blue-700" : "bg-green-100 text-green-700"
-                            }`}>
+                                }`}>
                                 {profile.role}
                             </span>
                             {/* --- PUBLIC SOCIALS DISPLAY --- */}
                             <SocialLinks socials={profile.socials} />
+
+                            {/* --- FOLLOW/EDIT BUTTON LOGIC --- */}
+                            <div className="mt-6 flex flex-col md:flex-row items-center justify-center md:justify-start gap-4">
+                                {isOwnProfile ? (
+                                    <button onClick={() => setShowEditModal(true)} className="w-full md:w-auto px-6 py-2 font-semibold bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                                        Edit Profile
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handleToggleFollow}
+                                        disabled={followLoading || !sessionUser}
+                                        className={`w-full md:w-auto px-6 py-2 font-semibold rounded-md transition-all ${profile.isFollowing
+                                            ? 'bg-white text-gray-800 border border-gray-300 hover:bg-gray-100'
+                                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                                            } ${!sessionUser ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    >
+                                        {profile.isFollowing ? 'Following' : 'Follow'}
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
-                    
+
+                    {/* --- FOLLOW STATS --- */}
+                    <div className="flex justify-center md:justify-start md:pl-40 mt-6 space-x-6">
+                        <div className="text-center">
+                            <p className="text-xl font-bold">{profile._count.followedBy}</p>
+                            <p className="text-sm text-gray-500">Followers</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-xl font-bold">{profile._count.following}</p>
+                            <p className="text-sm text-gray-500">Following</p>
+                        </div>
+                    </div>
+
                     {/* --- PUBLIC BIO SECTION --- */}
                     <div className="mt-8">
                         <h2 className="text-xl font-bold text-gray-800 mb-2">About Me</h2>
@@ -311,7 +401,7 @@ export default function UserProfilePage() {
 
                     {/* --- PUBLIC CONTACT (if provided) --- */}
                     {profile.contactNumber && profile.contactNumber !== "NOT_PROVIDED" && (
-                         <div className="mb-6">
+                        <div className="mb-6">
                             <h3 className="text-lg font-semibold text-gray-700">Contact</h3>
                             <p className="text-gray-600">{profile.contactNumber}</p>
                         </div>
@@ -339,4 +429,3 @@ export default function UserProfilePage() {
         </div>
     );
 }
-

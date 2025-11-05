@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { getMentorProfile, getUserProfile, updateUserProfile } from "../controllers/userProfileControllers";
 import { UserAuth } from "../middlewares/userAuthentication";
+import { getPublicMentorProfile, getPublicUserProfile, searchProfiles, toggleFollowUser, updateUserProfile } from "../controllers/userProfileControllers";
 
 export const profileRouter = Router();
 
-// Public routes, no auth required
-profileRouter.get('/user/:username', getUserProfile);
-profileRouter.get('/mentor/:username', getMentorProfile);
+
+profileRouter.get('/profile/search', searchProfiles);
+profileRouter.post('/profile/follow/:followingId', UserAuth, toggleFollowUser);
+
+profileRouter.get('/user/:username', UserAuth, getPublicUserProfile);
+profileRouter.get('/mentor/:username', UserAuth, getPublicMentorProfile);
 
 profileRouter.patch('/user/update', UserAuth, updateUserProfile);
