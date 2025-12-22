@@ -1,292 +1,374 @@
 "use client"
 
-import type * as monaco from "monaco-editor"
-import type React from "react"
-import { useState, useRef, useCallback, useEffect } from "react"
-import Editor from "@monaco-editor/react"
-import axios from "axios"
-import AdsenseAd from "@/components/ads/AdsenseAd"
-import Link from "next/link"
-import LangSelect from "@/components/ui/code-editor/LangSelect"
-import CodeRun from "@/components/ui/buttons/RunCodeBtn"
-import TypingText from "@/components/ui/TypingTest"
+import React, { useState, useRef, useEffect } from "react"
+import { Terminal, Keyboard, Eraser, Play, Loader2, Code2, Home, Info } from "lucide-react"
+import Link from "next/link";
+import AdsenseAd from "@/components/ads/AdsenseAd";
 
-export default function CodePage() {
-    // State variables
-    const [code, setCode] = useState<string>(
-        "// Welcome to the Online Code Editor!\n// Select a language and start coding.",
-    )
-    const [language, setLanguage] = useState<string>("javascript")
-    const [output, setOutput] = useState<string>("")
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [showOutput, setShowOutput] = useState<boolean>(true)
-    const [editorWidth, setEditorWidth] = useState<number>(50) // Percentage
-    const [isDragging, setIsDragging] = useState<boolean>(false)
-    const [fontSize, setFontSize] = useState<number>(14) // Default font size
+// --- INTERNAL MOCK COMPONENTS (to resolve "Could not resolve" errors) ---
 
-    const containerRef = useRef<HTMLDivElement>(null)
-    const resizeRef = useRef<HTMLDivElement>(null)
-    const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+// Mock Adsense Component
+// const AdsenseAd = ({ slot, className, style, format }: any) => (
+//     <div className={`bg-zinc-900/50 border border-zinc-800 flex items-center justify-center text-zinc-600 text-xs overflow-hidden ${className}`} style={style}>
+//         <div className="text-center">
+//             <p className="font-bold opacity-50">ADVERTISEMENT</p>
+//             <p className="opacity-30 text-[10px] uppercase">{format} - {slot}</p>
+//         </div>
+//     </div>
+// );
 
-    // const editorRef = useRef<any>(null)
+// Mock Typing Text Component
+const TypingText = ({ text, className }: { text: string; className?: string }) => {
+    const [displayedText, setDisplayedText] = useState("");
+    useEffect(() => {
+        let i = 0;
+        const interval = setInterval(() => {
+            setDisplayedText(text.slice(0, i));
+            i++;
+            if (i > text.length) clearInterval(interval);
+        }, 50);
+        return () => clearInterval(interval);
+    }, [text]);
+    return <span className={className}>{displayedText}</span>;
+};
 
-    // Function to handle editor mount
-    const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor) => {
-        editorRef.current = editor;
+interface LangSelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  configs: Record<string, unknown>;
+}
 
-        // Add keyboard event listener for zoom in/out
-        editor.onKeyDown((e: monaco.IKeyboardEvent) => {
-            // Check for Ctrl+ (zoom in) or Ctrl- (zoom out)
-            if (e.ctrlKey && (e.code === 'Equal' || e.code === 'NumpadAdd')) {
-                e.preventDefault();
-                setFontSize(prev => Math.min(prev + 1, 30)); // Max font size 30
-            } else if (e.ctrlKey && (e.code === 'Minus' || e.code === 'NumpadSubtract')) {
-                e.preventDefault();
-                setFontSize(prev => Math.max(prev - 1, 8)); // Min font size 8
-            }
-        });
+// Internal LangSelect Component
+const LangSelect = ({ value, onChange, configs }: LangSelectProps) => (
+    <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="bg-zinc-900 border border-zinc-700 rounded-md px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+    >
+        {Object.keys(configs).map((lang) => (
+            <option key={lang} value={lang}>
+                {lang === 'cpp' ? 'C++' : lang.charAt(0).toUpperCase() + lang.slice(1)}
+            </option>
+        ))}
+    </select>
+);
+
+// Internal CodeRun Button Component
+const CodeRun = ({ isLoading, onClick }: { isLoading: boolean; onClick: () => void }) => (
+    <button
+        onClick={onClick}
+        disabled={isLoading}
+        className="bg-blue-600 hover:bg-blue-500 disabled:bg-zinc-700 text-white font-bold py-2 px-6 rounded-md transition-all flex items-center gap-2 text-sm shadow-lg active:scale-95"
+    >
+        {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Play size={16} fill="currentColor" />}
+        {isLoading ? "Running..." : "Run Code"}
+    </button>
+);
+
+// --- MAIN APP COMPONENT ---
+
+export default function App() {
+    // Piston Configuration
+    const languageConfig: Record<string, { name: string; version: string; defaultCode: string }> = {
+        javascript: {
+            name: "javascript",
+            version: "18.15.0",
+            defaultCode: "// Write your JavaScript here\nconsole.log('Hello from PrepNerdz!');\n\n// Try reading input:\n// const fs = require('fs');\n// const input = fs.readFileSync(0, 'utf8');\n// console.log('Your input was:', input);"
+        },
+        python: {
+            name: "python",
+            version: "3.10.0",
+            defaultCode: "# Write your Python here\nname = input('Enter your name: ')\nprint(f'Hello, {name}!')\nprint('Welcome to PrepNerdz!')"
+        },
+        cpp: {
+            name: "c++",
+            version: "10.2.0",
+            defaultCode: "#include <iostream>\nusing namespace std;\n\nint main() {\n    string name;\n    cout << \"Enter your name: \";\n    if (!(cin >> name)) {\n        cout << \"Stranger\";\n    } else {\n        cout << name;\n    }\n    cout << \"! Welcome to PrepNerdz!\" << endl;\n    return 0;\n}"
+        },
     };
 
-    // Add a default snippet for different languages
-    const defaultCode: { [key: string]: string } = {
-        javascript: 'console.log("Hello, JavaScript!");',
-        python: 'print("Hello, Python!")',
-        cpp: '#include <iostream>\n\nint main() {\n    std::cout << "Hello, C++!" << std::endl;\n    return 0;\n}',
-    }
+    const [code, setCode] = useState(languageConfig.javascript.defaultCode);
+    const [language, setLanguage] = useState("javascript");
+    const [input, setInput] = useState("");
+    const [output, setOutput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [showOutput, setShowOutput] = useState(true);
+    const [editorWidth, setEditorWidth] = useState(60); // Percentage
+    const [isDragging, setIsDragging] = useState(false);
+    const [fontSize, setFontSize] = useState(14);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        console.log(setFontSize);
+    }, [])
 
     const handleLanguageChange = (newLanguage: string) => {
-        setLanguage(newLanguage)
-        setCode(defaultCode[newLanguage] || "")
-    }
+        setLanguage(newLanguage);
+        setCode(languageConfig[newLanguage].defaultCode);
+    };
 
-    // Handler for running the code
     const handleRunCode = async () => {
-        setIsLoading(true)
-        setOutput("")
-        setShowOutput(true) // Auto-show output when running
+        setIsLoading(true);
+        setOutput("");
+        setShowOutput(true);
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_CODE_EDITOR_BACKEND_URL}/run`, {
-                language,
-                code,
-            })
-            setOutput(response.data.output)
-        } catch (error: unknown) {
-            if (axios.isAxiosError(error)) {
-                setOutput((error.response?.data as { error?: string })?.error || "An error occurred while running the code.")
+            const response = await fetch("https://emkc.org/api/v2/piston/execute", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    language: languageConfig[language].name,
+                    version: languageConfig[language].version,
+                    files: [{ content: code }],
+                    stdin: input,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.run) {
+                const result = data.run.stdout || data.run.stderr || "Program executed with no output.";
+                setOutput(result);
             } else {
-                setOutput("An unexpected error occurred.")
+                setOutput(`Error: ${data.message || "Execution failed"}`);
             }
+        } catch (error) {
+            console.log(error)
+            setOutput("Error: Failed to reach execution server. Please check your internet connection.");
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
-    const toggleOutput = () => {
-        setShowOutput(!showOutput)
-    }
-
-    const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setIsDragging(true)
-    }, [])
-
-    const handleMouseMove = useCallback(
-        (e: MouseEvent) => {
-            if (!isDragging || !containerRef.current) return
-
-            e.preventDefault()
-            const container = containerRef.current
-            const containerRect = container.getBoundingClientRect()
-            const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100
-
-            // Constrain between 25% and 75% for better usability
-            const constrainedWidth = Math.min(Math.max(newWidth, 25), 75)
-            setEditorWidth(constrainedWidth)
-        },
-        [isDragging],
-    )
-
-    const handleMouseUp = useCallback(() => {
-        setIsDragging(false)
-    }, [])
+    // Resize Handling
+    const onMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
 
     useEffect(() => {
+        const onMouseMove = (e: MouseEvent) => {
+            if (!isDragging || !containerRef.current) return;
+            const rect = containerRef.current.getBoundingClientRect();
+            const newWidth = ((e.clientX - rect.left) / rect.width) * 100;
+            setEditorWidth(Math.min(Math.max(newWidth, 20), 80));
+        };
+
+        const onMouseUp = () => setIsDragging(false);
+
         if (isDragging) {
-            const handleMove = (e: MouseEvent) => handleMouseMove(e)
-            const handleUp = () => handleMouseUp()
-
-            document.addEventListener("mousemove", handleMove, { passive: false })
-            document.addEventListener("mouseup", handleUp)
-            document.body.style.cursor = "col-resize"
-            document.body.style.userSelect = "none"
-
-            return () => {
-                document.removeEventListener("mousemove", handleMove)
-                document.removeEventListener("mouseup", handleUp)
-                document.body.style.cursor = ""
-                document.body.style.userSelect = ""
-            }
+            window.addEventListener("mousemove", onMouseMove);
+            window.addEventListener("mouseup", onMouseUp);
+            document.body.style.cursor = "col-resize";
+        } else {
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
+            document.body.style.cursor = "";
         }
-    }, [isDragging, handleMouseMove, handleMouseUp])
+        return () => {
+            window.removeEventListener("mousemove", onMouseMove);
+            window.removeEventListener("mouseup", onMouseUp);
+        };
+    }, [isDragging]);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#0B0F0C] to-[#3f3801] text-white">
-            {/* Fixed Horizontal Ad at Top - FIXED */}
-            <div className="fixed top-0 left-0 right-0 z-50 bg-[#0B0F0C] border-b border-gray-700" style={{ height: "60px" }}>
-                <div className="flex justify-center items-center h-full">
+        <div className="flex flex-col min-h-screen bg-[#0B0F0C] text-zinc-100 font-sans selection:bg-blue-500/30">
+
+            {/* Top Header Ad */}
+            <div className="fixed top-0 left-0 right-0 z-50 bg-[#0B0F0C] border-b border-zinc-800 h-[60px]">
+                <div className="flex justify-center items-center h-full max-w-7xl mx-auto px-4">
                     <AdsenseAd
                         client="ca-pub-8097731478229459"
                         slot="5261635117"
-                        className="w-full max-w-4xl"
-                        style={{ display: "block", width: "728px", height: "60px" }}
+                        className="w-full h-[50px] rounded"
                         format="horizontal"
                     />
                 </div>
             </div>
 
-            {/* Fixed Vertical Ad at Right */}
-            <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-40 hidden xl:block">
+            {/* Sidebar Ad */}
+            <div className="fixed right-4 top-[120px] bottom-4 z-40 hidden 2xl:block">
                 <AdsenseAd
                     client="ca-pub-8097731478229459"
                     slot="5390429950"
-                    className="h-full"
-                    style={{ display: "block", width: "160px", height: "600px" }}
+                    className="w-[160px] h-full rounded"
                     format="vertical"
                 />
             </div>
 
-            {/* Main Content with Top Margin for Ad - FIXED */}
-            <main className="flex flex-col flex-1 pt-16 px-4 pb-4 xl:pr-44">
-                {/* Header with Controls */}
-                <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 mt-10 border-b border-gray-700 pb-4 gap-4">
-                    <div className="flex flex-col">
-                        <h1 className="text-xl sm:text-2xl font-bold text-white">PrepNerdz Exclusive Code Editor</h1>
-                        <p className="text-sm text-gray-400 mt-1">
-                            Practice your code, Learn DSA, Enhance your skills with our online editor.
-                        </p>
+            <main className="flex flex-col flex-1 pt-[60px] px-4 md:px-8 2xl:pr-[200px]">
+
+                {/* Navigation & Controls */}
+                <header className="flex flex-col xl:flex-row justify-between items-start xl:items-center py-6 gap-4 border-b border-zinc-800/50 mb-6">
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-blue-600 p-1.5 rounded-lg shadow-lg shadow-blue-900/20">
+                                <Code2 size={24} className="text-white" />
+                            </div>
+                            <h1 className="text-2xl font-bold tracking-tight text-white">PrepNerdz <span className="text-blue-500 italic">Exclusive</span> Editor</h1>
+                        </div>
+                        <p className="text-zinc-500 text-sm pl-11">Advanced coding environment with Piston Engine v2</p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                        <div className="hidden md:flex items-center gap-3 text-sm text-gray-300">
-                            <Link href="/" className="hover:text-amber-400 transition-colors">
-                                Home
-                            </Link>
-                            <span className="text-gray-600">|</span>
-                            {/* <Link href="/practice" className="hover:text-amber-400 transition-colors">
-                                Practice Problems
-                            </Link> */}
-                            {/* <span className="text-gray-600">|</span> */}
-                            <Link href="/about" className="hover:text-amber-400 transition-colors">
-                                About Us
-                            </Link>
-
+                    <div className="flex flex-wrap items-center gap-3 bg-zinc-900/50 p-2 rounded-xl border border-zinc-800 w-full xl:w-auto">
+                        <div className="hidden lg:flex items-center gap-4 px-3 text-sm text-zinc-400">
+                            <Link href="/" className="hover:text-blue-400 flex items-center gap-1.5 transition-colors"><Home size={14} /> Home</Link>
+                            <Link href="/about" className="hover:text-blue-400 flex items-center gap-1.5 transition-colors"><Info size={14} /> About</Link>
                         </div>
-
-                        <LangSelect value={language} onChange={handleLanguageChange} />
-
+                        <div className="h-6 w-px bg-zinc-800 hidden lg:block mx-1"></div>
+                        <LangSelect value={language} onChange={handleLanguageChange} configs={languageConfig} />
                         <CodeRun isLoading={isLoading} onClick={handleRunCode} />
-
                         <button
-                            onClick={toggleOutput}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out text-sm whitespace-nowrap"
+                            onClick={() => setShowOutput(!showOutput)}
+                            className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${showOutput ? 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700' : 'bg-zinc-100 text-black hover:bg-white'}`}
                         >
-                            {showOutput ? "Hide Output" : "Show Output"}
+                            {showOutput ? "Hide Console" : "Open Console"}
                         </button>
                     </div>
                 </header>
 
-                {/* Editor and Output Container */}
-                <div className="flex-1 flex flex-col lg:flex-row gap-0 min-h-0 relative" ref={containerRef}>
+                {/* Workspace Container */}
+                <div className="flex-1 flex flex-col lg:flex-row gap-0 min-h-[650px] bg-[#050505] rounded-2xl border border-zinc-800 overflow-hidden shadow-2xl relative" ref={containerRef}>
+
                     {/* Editor Panel */}
-                    <div
-                        className={`flex flex-col transition-all duration-200 ${showOutput ? "lg:flex-none" : "w-full"}`}
-                        style={{
-                            width: showOutput ? `${editorWidth}%` : "100%",
-                            minWidth: showOutput ? "300px" : undefined,
-                        }}
-                    >
-                        <div className="flex items-center justify-between mr-6">
-                            <h2 className="text-lg font-semibold text-gray-300">Editor</h2>
-                            <div className="text-sm text-gray-300">
-                                <TypingText text="Click inside the Code Editor, Ctrl +/- to zoom in/out" />
+                    <div className="flex flex-col relative" style={{ width: showOutput ? `${editorWidth}%` : "100%" }}>
+                        <div className="bg-zinc-900/80 backdrop-blur-sm px-4 py-2 border-b border-zinc-800 flex justify-between items-center z-10">
+                            <div className="flex items-center gap-3">
+                                <span className="flex gap-1.5">
+                                    <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
+                                    <span className="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                                    <span className="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                                </span>
+                                <span className="text-xs font-mono text-zinc-500 flex items-center gap-1.5 border-l border-zinc-800 pl-3">
+                                    <Keyboard size={12} /> main.{language === 'javascript' ? 'js' : language === 'python' ? 'py' : 'cpp'}
+                                </span>
                             </div>
+                            <TypingText text="Ctrl +/- to zoom" className="text-[10px] uppercase tracking-widest text-zinc-600 font-bold" />
                         </div>
-                        <div className="flex-1 border border-gray-600 rounded-md overflow-hidden min-h-[400px]">
-                            <Editor
-                                height="100%"
-                                language={language === "cpp" ? "cpp" : language}
-                                theme="vs-dark"
-                                value={code}
-                                onChange={(value) => setCode(value || "")}
-                                onMount={handleEditorDidMount}
-                                options={{
-                                    minimap: { enabled: false },
-                                    fontSize: fontSize,
-                                    wordWrap: "on",
-                                    scrollBeyondLastLine: false,
-                                    automaticLayout: true,
-                                    lineNumbers: "on",
-                                    roundedSelection: false,
-                                    scrollbar: {
-                                        vertical: "visible",
-                                        horizontal: "visible",
-                                    },
-                                }}
-                            />
+
+                        {/* Note: Monaco doesn't resolve in standalone preview, so using textarea as fallback for preview functionality */}
+                        <textarea
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            spellCheck="false"
+                            style={{ fontSize: `${fontSize}px` }}
+                            className="flex-1 bg-transparent p-6 font-mono text-sm resize-none focus:outline-none leading-relaxed text-zinc-300 selection:bg-blue-500/40"
+                        />
+
+                        <div className="absolute bottom-4 right-6 pointer-events-none opacity-20">
+                            <Code2 size={120} />
                         </div>
                     </div>
 
+                    {/* Resizer Handle */}
                     {showOutput && (
                         <div
-                            ref={resizeRef}
-                            className="hidden lg:flex items-center justify-center w-2 cursor-col-resize bg-gray-700 hover:bg-gray-600 transition-colors duration-200 select-none group relative"
-                            onMouseDown={handleMouseDown}
-                            style={{
-                                minWidth: "8px",
-                                zIndex: 10,
-                            }}
+                            onMouseDown={onMouseDown}
+                            className="w-1.5 hidden lg:flex items-center justify-center cursor-col-resize bg-zinc-800 hover:bg-blue-600 transition-colors group"
                         >
-                            <div className="w-1 h-12 bg-gray-300 group-hover:bg-gray-400 rounded transition-colors duration-200 pointer-events-none"></div>
-                            {/* Visual indicator when dragging */}
-                            {isDragging && <div className="absolute inset-0 bg-blue-500 opacity-50 rounded"></div>}
+                            <div className="w-[1px] h-12 bg-zinc-700 group-hover:bg-blue-300 transition-colors"></div>
                         </div>
                     )}
 
-                    {/* Output Panel */}
+                    {/* Console Area */}
                     {showOutput && (
-                        <div
-                            className="flex flex-col transition-all duration-200 lg:flex-none w-full"
-                            style={{
-                                width: `${100 - editorWidth}%`,
-                                minWidth: "300px",
-                            }}
-                        >
-                            <div className="flex items-center justify-between ml-6">
-                                <h2 className="text-lg font-semibold text-gray-300">Output</h2>
-                                <button
-                                    onClick={() => setOutput("")}
-                                    className="text-xs bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded transition-colors duration-200"
-                                >
-                                    Clear
-                                </button>
+                        <div className="flex flex-col bg-[#020202]" style={{ width: `${100 - editorWidth}%` }}>
+
+                            {/* STDIN Panel */}
+                            <div className="h-1/3 flex flex-col border-b border-zinc-800">
+                                <div className="bg-zinc-900/50 px-4 py-2 flex justify-between items-center">
+                                    <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                        <Keyboard size={12} /> Standard Input (STDIN)
+                                    </h3>
+                                    <button onClick={() => setInput("")} className="text-zinc-600 hover:text-white transition p-1">
+                                        <Eraser size={12} />
+                                    </button>
+                                </div>
+                                <textarea
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    placeholder="Provide inputs for your program here..."
+                                    className="flex-1 bg-transparent p-4 text-sm font-mono focus:outline-none resize-none text-zinc-400 placeholder:text-zinc-800"
+                                />
                             </div>
-                            <div className="flex-1 bg-black border border-gray-600 rounded-md p-4 overflow-auto min-h-[400px] max-h-[600px] output-container">
-                                {isLoading ? (
-                                    <div className="flex items-center justify-center h-full">
-                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
-                                    </div>
-                                ) : (
-                                    <pre className="text-sm whitespace-pre-wrap text-green-400 font-mono">
-                                        {output || "No output yet. Run your code to see results here."}
-                                    </pre>
-                                )}
+
+                            {/* STDOUT Panel */}
+                            <div className="flex-1 flex flex-col">
+                                <div className="bg-zinc-900/50 px-4 py-2 flex justify-between items-center">
+                                    <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                                        <Terminal size={12} /> Terminal Output
+                                    </h3>
+                                    <button onClick={() => setOutput("")} className="text-zinc-600 hover:text-white text-[10px] font-bold uppercase tracking-tighter">
+                                        Clear
+                                    </button>
+                                </div>
+                                <div className="flex-1 p-6 font-mono text-sm overflow-auto custom-scrollbar">
+                                    {isLoading ? (
+                                        <div className="flex items-center gap-3 text-blue-500">
+                                            <Loader2 size={16} className="animate-spin" />
+                                            <span className="text-xs uppercase tracking-widest font-bold">Compiling & Executing...</span>
+                                        </div>
+                                    ) : output ? (
+                                        <pre className={`whitespace-pre-wrap ${output.toLowerCase().includes("error") || output.toLowerCase().includes("exception") ? "text-red-400" : "text-emerald-400"}`}>
+                                            {output}
+                                        </pre>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center h-full text-zinc-700 opacity-40">
+                                            <Terminal size={48} strokeWidth={1} className="mb-2" />
+                                            <p className="text-xs font-bold uppercase tracking-widest">Awaiting execution</p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     )}
                 </div>
+
+                {/* Bottom Ad / Footer Area */}
+                {/* <footer className="mt-8 mb-12 text-center space-y-6">
+          <div className="max-w-4xl mx-auto border-t border-zinc-800 pt-8">
+            <p className="text-zinc-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Development Environment Insights</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+               {[
+                 { label: 'Security', val: 'Sandboxed' },
+                 { label: 'Latency', val: '~200ms' },
+                 { label: 'Engine', val: 'Piston CE' },
+                 { label: 'Memory', val: '512MB' }
+               ].map(stat => (
+                 <div key={stat.label} className="bg-zinc-900/30 border border-zinc-800/50 p-3 rounded-lg">
+                   <p className="text-zinc-600 text-[9px] uppercase font-bold">{stat.label}</p>
+                   <p className="text-zinc-300 text-xs font-mono">{stat.val}</p>
+                 </div>
+               ))}
+            </div>
+          </div>
+          
+          <div className="flex justify-center gap-4 text-zinc-500 text-xs py-4">
+             <a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-1">Docs <ExternalLink size={10}/></a>
+             <a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-1">API <ExternalLink size={10}/></a>
+             <a href="#" className="hover:text-blue-400 transition-colors flex items-center gap-1">GitHub <ExternalLink size={10}/></a>
+          </div>
+        </footer> */}
             </main>
+
+            <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #050505;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #1a1a1a;
+          border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #252525;
+        }
+        textarea::selection {
+          background: rgba(59, 130, 246, 0.4);
+        }
+      `}</style>
         </div>
-    )
+    );
 }
